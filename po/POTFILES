@@ -1,0 +1,6 @@
+data/dev.qwery.AddWater.desktop.in
+data/dev.qwery.AddWater.metainfo.xml.in
+data/dev.qwery.AddWater.gschema.xml
+src/main.py
+src/window.py
+src/window.ui

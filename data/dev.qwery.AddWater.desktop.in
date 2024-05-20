@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=addwater
+Exec=addwater
+Icon=dev.qwery.AddWater
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
