@@ -25,11 +25,13 @@ configure_file(
   install_dir: get_option('bindir'),
   install_mode: 'r-xr-xr-x'
 )
+install_subdir('pages', install_dir: moduledir)
 
 addwater_sources = [
   '__init__.py',
   'main.py',
   'window.py',
+  'pages/thunderbird_page.py'
 ]
 
 install_data(addwater_sources, install_dir: moduledir)

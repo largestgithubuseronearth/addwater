@@ -17,14 +17,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Adw
-from gi.repository import Gtk
+from gi.repository import Adw, Gtk, GLib, Gio
+
+from .pages.thunderbird_page import ThunderbirdPage
+# from .pages.firefox_page import FirefoxPage
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddwaterWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'AddwaterWindow'
 
-    label = Gtk.Template.Child()
+    toast_overlay = Gtk.Template.Child()
+    change_confirm_bar = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+
+

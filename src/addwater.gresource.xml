@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/dev/qwery/AddWater">
-    <file preprocess="xml-stripblanks">gtk/window.ui</file>
-    <file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
-  </gresource>
+	<gresource prefix="/dev/qwery/AddWater">
+		<file preprocess="xml-stripblanks">gtk/window.ui</file>
+		<file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
+		<file preprocess="xml-stripblanks">gtk/firefox-page.ui</file>
+		<file preprocess="xml-stripblanks">gtk/thunderbird-page.ui</file>
+	</gresource>
+
+	<gresource prefix="dev/qwery/AddWater/icons/scalable/actions">
+		<!-- TODO Fix these icons' styling! -->
+		<file preprocess="xml-stripblanks" alias="checkmark-symbolic.svg">../data/icons/hicolor/scalable/actions/checkmark-symbolic.svg</file>
+		<file preprocess="xml-stripblanks" alias="info-outline-symbolic.svg">../data/icons/hicolor/scalable/actions/info-outline-symbolic.svg</file>
+		<file preprocess="xml-stripblanks" alias="cross-small-symbolic.svg">../data/icons/hicolor/scalable/actions/cross-small-symbolic.svg</file>
+		<file preprocess="xml-stripblanks" alias="cross-large-symbolic.svg">../data/icons/hicolor/scalable/actions/cross-large-symbolic.svg</file>
+		<file preprocess="xml-stripblanks" alias="firefox-symbolic.svg">../data/icons/hicolor/scalable/actions/firefox-symbolic.svg</file>
+		<!-- TODO Add thunderbird symbolic icon -->
+	</gresource>
 </gresources>
