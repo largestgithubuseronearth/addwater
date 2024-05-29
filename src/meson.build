@@ -26,12 +26,14 @@ configure_file(
   install_mode: 'r-xr-xr-x'
 )
 install_subdir('pages', install_dir: moduledir)
+install_subdir('utils', install_dir: moduledir)
 
 addwater_sources = [
   '__init__.py',
   'main.py',
   'window.py',
-  'pages/thunderbird_page.py'
+  'pages/firefox_page.py',
+  'utils/online.py'
 ]
 
 install_data(addwater_sources, install_dir: moduledir)

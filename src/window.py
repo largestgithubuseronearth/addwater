@@ -17,10 +17,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Adw, Gtk, GLib, Gio
-
-from .pages.thunderbird_page import ThunderbirdPage
-# from .pages.firefox_page import FirefoxPage
+from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
+from .utils.online import check_for_updates
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddwaterWindow(Adw.ApplicationWindow):
@@ -31,6 +29,9 @@ class AddwaterWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # TODO How to store user changes into a transaction that are only applied after they confirm?
+
+
 
 
 

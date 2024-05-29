@@ -7,11 +7,16 @@
 		<property name="default-height">700</property>
 		<property name="resizable">False</property>
 		<property name="title">Add Water</property>
+		<style>
+			<class name="devel"/>
+		</style>
 		<property name="content">
 
 		<object class="AdwToastOverlay" id="toast_overlay">
 			<child>
 				<object class="AdwToolbarView">
+
+						<!-- HEADER BAR -->
 					<child type="top">
 						<object class="AdwHeaderBar" id="header_bar">
 							<property name="title-widget">
@@ -31,10 +36,13 @@
 						</object>
 					</child>
 
+					<!-- CHANGE CONFIRMATION BAR -->
 					<child type="bottom">
 						<!-- TODO build this later -->
 						<!-- TODO only show this bar when the user has queued some changes -->
+						<!-- TODO build these button actions in code -->
 						<object class="GtkActionBar" id="change_confirm_bar">
+							<property name="visible">False</property>
 							<child type="start">
 								<object class="GtkLabel">
 									<property name="label">Confirm your changes?</property>
@@ -47,7 +55,7 @@
 								<object class="GtkButton">
 									<property name="icon-name">info-outline-symbolic</property>
 									<property name="tooltip-text">Review Changes</property>
-									<!-- <property name="action-name">win.open-change-summary</property> -->
+									<property name="action-name">win.open-change-summary</property>
 								</object>
 							</child>
 
@@ -55,7 +63,7 @@
 								<object class="GtkButton">
 									<property name="icon-name">cross-small-symbolic</property>
 									<property name="tooltip-text">Cancel</property>
-									<!-- <property name="action-name">app.clear-changes</property> -->
+									<property name="action-name">app.clear-changes</property>
 									<style>
 										<class name="raised"/>
 									</style>
@@ -65,7 +73,7 @@
 								<object class="GtkButton">
 									<property name="icon-name">checkmark-symbolic</property>
 									<property name="tooltip-text">Apply</property>
-									<!-- <property name="action-name">app.apply-changes</property> -->
+									<property name="action-name">app.apply-changes</property>
 									<style>
 										<class name="suggested-action"/>
 									</style>
@@ -79,17 +87,33 @@
 
 					</child>
 
+				<!-- WINDOW CONTENT -->
 				<property name="content">
 					<object class="AdwViewStack" id="view_stack">
-						<!-- TODO import these pages -->
+						<!-- TODO TEMP Remove once pages are working properly -->
 						<!-- <child> -->
-						<!-- 	<object class="FirefoxConfigPage" id="firefox_page"> -->
+						<!-- 	<object class="AdwViewStackPage"> -->
+						<!-- 		<property name="name">temp</property> -->
+						<!-- 		<property name="title">Firefox</property> -->
+						<!-- 		<property name="icon-name">firefox-symbolic</property> -->
+						<!-- 		<property name="child"> -->
+						<!-- 			<object class="GtkLabel"> -->
+						<!-- 				<property name="label">weed</property> -->
+						<!-- 			</object> -->
+						<!-- 		</property> -->
+						<!-- 	</object> -->
+						<!-- </child> -->
+
+						<!-- TODO import these pages. Is it a bug that you can't template viewstackpages? -->
+						<!-- <child> -->
+						<!-- 	<object class="FirefoxPage" id="firefox_page"> -->
 						<!-- 	</object> -->
 						<!-- </child> -->
 						<!-- <child> -->
-						<!-- 	<object class="ThunderbirdConfigPage" id="thunderbird_page"> -->
+						<!-- 	<object class="ThunderbirdPage" id="thunderbird_page"> -->
 						<!-- 	</object> -->
 						<!-- </child> -->
+
 					</object>
 				</property>
 

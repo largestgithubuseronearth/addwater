@@ -37,6 +37,9 @@ class AddwaterApplication(Adw.Application):
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
 
+        print("ADD WATER — GNOME theme installer for Firefox and Thunderbird")
+        print(f"GTK: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}")
+        print(f"ADW: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}")
 
     def do_activate(self):
         """Called when the application is activated.

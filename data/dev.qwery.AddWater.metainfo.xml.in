@@ -4,6 +4,7 @@
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
 	<description>
-	  <p>No description</p>
+		<!-- TODO -->
+	  <p>A simple installer and updater for the GNOME theme for Firefox and Thunderbird</p>
 	</description>
 </component>
