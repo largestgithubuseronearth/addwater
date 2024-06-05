@@ -2,4 +2,42 @@
 <schemalist gettext-domain="addwater">
 	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater/">
 	</schema>
+
+	<schema id="dev.qwery.AddWater.Theme.Firefox" path="/dev/qwery/AddWater/Theme/Firefox/">
+		<!-- Tab Positioning -->
+		<key name="hideSingleTab" type="b">
+			<default>False</default>
+		</key>
+		<key name="normalWidthTabs" type="b">
+			<default>False</default>
+		</key>
+		<key name="swapTabClose" type="b">
+			<default>False</default>
+		</key>
+		<key name="bookmarksToolbarUnderTabs" type="b">
+			<default>False</default>
+		</key>
+		<key name="tabsAsHeaderbar" type="b">
+			<default>False</default>
+		</key>
+
+		<!-- Tab Behavior -->
+		<key name="activeTabContrast" type="b">
+			<default>False</default>
+		</key>
+		<key name="closeOnlySelectedTabs" type="b">
+			<default>False</default>
+		</key>
+		<key name="symbolicTabIcons" type="b">
+			<default>False</default>
+		</key>
+
+		<!-- Styling -->
+		<key name="hideWebrtcIndicator" type="b">
+			<default>False</default>
+		</key>
+	</schema>
+
+	<schema id="dev.qwery.AddWater.Theme.Firefox" path="/dev/qwery/AddWater/Theme/Thunderbird/">
+	</schema>
 </schemalist>

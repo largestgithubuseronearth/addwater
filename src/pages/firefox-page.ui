@@ -1,12 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-	<template class="FirefoxPage" parent="AdwViewStackPage">
-		<property name="name">Firefox</property>
-		<property name="title">Firefox</property>
-		<property name="icon-name">firefox-symbolic</property>
+	<template class="FirefoxPage" parent="AdwBin">
 		<property name="child">
-			<object class="GtkLabel">
-				<property name="label">Firefox :)</property>
+			<object class="GtkScrolledWindow">
+				<property name="hexpand">False</property>
+				<property name="vexpand">False</property>
+				<property name="margin-start">10</property>
+				<property name="margin-end">10</property>
+				<child>
+					<object class="AdwPreferencesPage">
+						<child>
+						</child>
+						<child>
+							<object class="AdwPreferencesGroup">
+								<child>
+									<object class="AdwSwitchRow">
+										<property name="title">Enable Theme</property>
+									</object>
+								</child>
+							</object>
+						</child>
+						<child>
+							<object class="AdwPreferencesGroup" id="tab_group_options">
+								<property name="title">Tab Grouping</property>
+								<child>
+									<object class="AdwSwitchRow">
+										<property name="title">Hide Single Tab</property>
+										<property name="tooltip-text">Hide the tab bar when only one tab is open</property>
+									</object>
+								</child>
+							</object>
+						</child>
+						<child>
+							<object class="AdwPreferencesGroup" id="experimental_options">
+								<property name="title">Experimental Features</property>
+								<child>
+									<object class="AdwSwitchRow">
+										<property name="title">Use System Icons</property>
+									</object>
+								</child>
+							</object>
+						</child>
+
+					</object>
+				</child>
 			</object>
 		</property>
 	</template>

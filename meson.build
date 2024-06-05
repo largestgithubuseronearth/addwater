@@ -6,7 +6,6 @@ project('addwater',
 
 i18n = import('i18n')
 gnome = import('gnome')
-python = import('python')
 
 
 

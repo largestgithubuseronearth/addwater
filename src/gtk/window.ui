@@ -21,7 +21,7 @@
 						<object class="AdwHeaderBar" id="header_bar">
 							<property name="title-widget">
 								<object class="AdwViewSwitcher" id="main_page_switcher">
-									<property name="stack">view_stack</property>
+									<property name="stack">main_view_stack</property>
 									<property name="policy">wide</property>
 								</object>
 							</property>
@@ -42,7 +42,7 @@
 						<!-- TODO only show this bar when the user has queued some changes -->
 						<!-- TODO build these button actions in code -->
 						<object class="GtkActionBar" id="change_confirm_bar">
-							<property name="visible">False</property>
+							<property name="visible">True</property>
 							<child type="start">
 								<object class="GtkLabel">
 									<property name="label">Confirm your changes?</property>
@@ -89,31 +89,28 @@
 
 				<!-- WINDOW CONTENT -->
 				<property name="content">
-					<object class="AdwViewStack" id="view_stack">
-						<!-- TODO TEMP Remove once pages are working properly -->
-						<!-- <child> -->
-						<!-- 	<object class="AdwViewStackPage"> -->
-						<!-- 		<property name="name">temp</property> -->
-						<!-- 		<property name="title">Firefox</property> -->
-						<!-- 		<property name="icon-name">firefox-symbolic</property> -->
-						<!-- 		<property name="child"> -->
-						<!-- 			<object class="GtkLabel"> -->
-						<!-- 				<property name="label">weed</property> -->
-						<!-- 			</object> -->
-						<!-- 		</property> -->
-						<!-- 	</object> -->
-						<!-- </child> -->
-
-						<!-- TODO import these pages. Is it a bug that you can't template viewstackpages? -->
-						<!-- <child> -->
-						<!-- 	<object class="FirefoxPage" id="firefox_page"> -->
-						<!-- 	</object> -->
-						<!-- </child> -->
-						<!-- <child> -->
-						<!-- 	<object class="ThunderbirdPage" id="thunderbird_page"> -->
-						<!-- 	</object> -->
-						<!-- </child> -->
-
+					<object class="AdwViewStack" id="main_view_stack">
+						<child>
+							<object class="AdwViewStackPage">
+								<property name="name">Firefox</property>
+								<property name="title">Firefox</property>
+								<property name="icon-name">globe-symbolic</property>
+								<property name="child">
+									<object class="FirefoxPage" id="firefox_page"/>
+								</property>
+							</object>
+						</child>
+						<child>
+							<object class="AdwViewStackPage">
+								<property name="name">Thunderbird</property>
+								<property name="title">Thunderbird</property>
+								<property name="icon-name">mail-symbolic</property>
+									<!-- TODO Make Thunderbird page -->
+								<property name="child">
+									<object class="ThunderbirdPage" id="thunderbird_page"/>
+								</property>
+							</object>
+						</child>
 					</object>
 				</property>
 

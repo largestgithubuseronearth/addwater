@@ -19,6 +19,8 @@
 
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .utils.online import check_for_updates
+from .pages.firefox_page import FirefoxPage
+from .pages.thunderbird_page import ThunderbirdPage
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddwaterWindow(Adw.ApplicationWindow):
@@ -26,6 +28,9 @@ class AddwaterWindow(Adw.ApplicationWindow):
 
     toast_overlay = Gtk.Template.Child()
     change_confirm_bar = Gtk.Template.Child()
+
+    firefox_page = Gtk.Template.Child()
+    thunderbird_page = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

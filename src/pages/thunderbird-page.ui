@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+	<!-- TODO Create thunder page ui -->
+	<template class="ThunderbirdPage" parent="AdwBin">
+		<property name="child">
+			<object class="GtkScrolledWindow">
+				<child>
+					<object class="GtkLabel">
+						<property name="label">thunderbird todo</property>
+					</object>
+				</child>
+			</object>
+		</property>
+	</template>
+</interface>

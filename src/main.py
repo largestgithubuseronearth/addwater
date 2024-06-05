@@ -37,9 +37,11 @@ class AddwaterApplication(Adw.Application):
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
 
+        print("-------------------------")
         print("ADD WATER — GNOME theme installer for Firefox and Thunderbird")
         print(f"GTK: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}")
         print(f"ADW: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}")
+        print("-------------------------")
 
     def do_activate(self):
         """Called when the application is activated.
@@ -54,8 +56,9 @@ class AddwaterApplication(Adw.Application):
 
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
+        # TODO Must redo AboutWindow info to give credit to theme dev
         about = Adw.AboutWindow(transient_for=self.props.active_window,
-                                application_name='addwater',
+                                application_name='AddWater',
                                 application_icon='dev.qwery.AddWater',
                                 developer_name='Claire',
                                 version='0.1.0',

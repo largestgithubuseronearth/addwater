@@ -33,6 +33,7 @@ addwater_sources = [
   'main.py',
   'window.py',
   'pages/firefox_page.py',
+  'pages/thunderbird_page.py',
   'utils/online.py'
 ]
 

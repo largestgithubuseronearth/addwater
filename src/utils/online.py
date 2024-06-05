@@ -10,7 +10,6 @@ theme_urls = {
 from datetime import datetime, timezone
 from gi.repository import GLib
 import json
-# FIXME No module named 'requests'. How to import PIP modules?
 import requests
 
 def check_for_updates(app):
@@ -20,6 +19,7 @@ def check_for_updates(app):
         check_url = theme_urls[app]
     except KeyError as err:
         print(f"Checking for updates FAILED: Invalid app [{app}]")
+        return
 
     # TODO improve this request to follow github api specification
     latest_release = requests.get((check_url)).json()[0]
@@ -28,6 +28,7 @@ def check_for_updates(app):
 
 
     # current = TODO make file in user data directory
+    print("USER DATA: ", GLib.get_user_data_dir())
     #TODO Ensure this goes to the valid flatpak directory NOT user local directory. Will likely work when run in Builder.
     # with open(file=(GLib.get_user_data_dir() + "/current_release.json"), mode="+") as file:
 
@@ -43,13 +44,3 @@ def check_for_updates(app):
 
 def download_latest():
     pass
-
-
-# DEBUG
-def main():
-    check_for_updates(app="firefox")
-    download_latest()
-
-
-
-main()
