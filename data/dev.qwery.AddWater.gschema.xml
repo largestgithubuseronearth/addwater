@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="addwater">
-	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater/">
+	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater">
+		<key name="dummy" type="i">
+			<default>False</default>
+		</key>
+
 	</schema>
 
-	<schema id="dev.qwery.AddWater.Theme.Firefox" path="/dev/qwery/AddWater/Theme/Firefox/">
+	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox">
+		<!-- General -->
+		<key name="theme-enabled" type="b">
+			<default>False</default>
+		</key>
+		z<key name="selected-profile" type="s">
+			<!-- TODO Is this proper syntax for string? -->
+			<default>All</default>
+		</key>
+
 		<!-- Tab Positioning -->
 		<key name="hideSingleTab" type="b">
 			<default>False</default>
@@ -23,14 +36,13 @@
 
 		<!-- Tab Behavior -->
 		<key name="activeTabContrast" type="b">
-			<default>False</default>
 		</key>
 		<key name="closeOnlySelectedTabs" type="b">
 			<default>False</default>
 		</key>
 		<key name="symbolicTabIcons" type="b">
 			<default>False</default>
-		</key>
+		</key>/
 
 		<!-- Styling -->
 		<key name="hideWebrtcIndicator" type="b">
@@ -38,6 +50,6 @@
 		</key>
 	</schema>
 
-	<schema id="dev.qwery.AddWater.Theme.Firefox" path="/dev/qwery/AddWater/Theme/Thunderbird/">
+	<schema path="/dev/qwery/AddWater/Thunderbird" id="dev.qwery.AddWater.Thunderbird">
 	</schema>
 </schemalist>

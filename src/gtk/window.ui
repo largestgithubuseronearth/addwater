@@ -100,17 +100,18 @@
 								</property>
 							</object>
 						</child>
-						<child>
-							<object class="AdwViewStackPage">
-								<property name="name">Thunderbird</property>
-								<property name="title">Thunderbird</property>
-								<property name="icon-name">mail-symbolic</property>
+						<!-- TODO Make Thunderbird page after finishing firefox -->
+						<!-- <child> -->
+						<!-- 	<object class="AdwViewStackPage"> -->
+						<!-- 		<property name="name">Thunderbird</property> -->
+						<!-- 		<property name="title">Thunderbird</property> -->
+						<!-- 		<property name="icon-name">mail-symbolic</property> -->
 									<!-- TODO Make Thunderbird page -->
-								<property name="child">
-									<object class="ThunderbirdPage" id="thunderbird_page"/>
-								</property>
-							</object>
-						</child>
+						<!-- 		<property name="child"> -->
+						<!-- 			<object class="ThunderbirdPage" id="thunderbird_page"/> -->
+						<!-- 		</property> -->
+						<!-- 	</object> -->
+						<!-- </child> -->
 					</object>
 				</property>
 
@@ -123,10 +124,11 @@
 
 	<menu id="primary_menu">
 		<section>
-			<item>
-				<attribute name="label" translatable="yes">_Preferences</attribute>
-				<attribute name="action">app.preferences</attribute>
-			</item>
+			<!-- TODO Will my app have its own preferences? -->
+			<!-- <item> -->
+			<!-- 	<attribute name="label" translatable="yes">_Preferences</attribute> -->
+			<!-- 	<attribute name="action">app.preferences</attribute> -->
+			<!-- </item> -->
 			<item>
 				<attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
 				<attribute name="action">win.show-help-overlay</attribute>
@@ -137,6 +139,5 @@
 			</item>
 		</section>
 	</menu>
-
 </interface>
 

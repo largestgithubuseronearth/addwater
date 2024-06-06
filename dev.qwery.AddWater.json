@@ -42,8 +42,8 @@
 	{
 		    "name" : "addwater",
 		    "builddir" : true,
-		"buildsystem" : "meson",
-		"sources" : [
+		    "buildsystem" : "meson",
+		    "sources" : [
 			{
 			    "type" : "git",
 			    "url" : "file:///var/home/qwery/Projects/dev/gnome/fireaddwater"

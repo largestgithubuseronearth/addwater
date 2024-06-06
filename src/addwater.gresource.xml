@@ -5,7 +5,6 @@
 		<file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
 
 		<file preprocess="xml-stripblanks">pages/firefox-page.ui</file>
-		<file preprocess="xml-stripblanks">pages/thunderbird-page.ui</file>
 	</gresource>
 
 	<gresource prefix="dev/qwery/AddWater/icons/scalable/actions">
@@ -16,6 +15,5 @@
 		<file preprocess="xml-stripblanks" alias="globe-symbolic.svg">../data/icons/hicolor/scalable/actions/globe-symbolic.svg</file>
 		<file preprocess="xml-stripblanks" alias="info-outline-symbolic.svg">../data/icons/hicolor/scalable/actions/info-outline-symbolic.svg</file>
 		<file preprocess="xml-stripblanks" alias="mail-symbolic.svg">../data/icons/hicolor/scalable/actions/mail-symbolic.svg</file>
-		<!-- TODO Add thunderbird symbolic icon -->
 	</gresource>
 </gresources>

@@ -21,3 +21,5 @@ IDEAS:
 * Add run in background to permissions
 * Is is okay to remove ipc permission? Doesn't seem necessary but idk.
 * Where does $FLATPAK_DEST go to?
+
+<!-- TODO Add profiles support -->

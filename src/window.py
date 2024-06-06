@@ -1,4 +1,5 @@
 # window.py
+# TODO How to store user changes into a transaction that are only applied after they confirm?
 #
 # Copyright 2024 Claire
 #
@@ -18,9 +19,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
-from .utils.online import check_for_updates
+from .utils import online
 from .pages.firefox_page import FirefoxPage
-from .pages.thunderbird_page import ThunderbirdPage
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddwaterWindow(Adw.ApplicationWindow):
@@ -30,13 +30,10 @@ class AddwaterWindow(Adw.ApplicationWindow):
     change_confirm_bar = Gtk.Template.Child()
 
     firefox_page = Gtk.Template.Child()
-    thunderbird_page = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # TODO How to store user changes into a transaction that are only applied after they confirm?
 
-
-
-
+        # FIXME "setting schema not installed"
+        # self.settings = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
 

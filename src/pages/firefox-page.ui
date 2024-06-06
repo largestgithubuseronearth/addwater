@@ -13,16 +13,25 @@
 						</child>
 						<child>
 							<object class="AdwPreferencesGroup">
+								<property name="title">General</property>
 								<child>
 									<object class="AdwSwitchRow">
 										<property name="title">Enable Theme</property>
 									</object>
 								</child>
+								<child>
+									<!-- TODO build this dynamically from user's profile list ini -->
+									<object class="AdwComboRow">
+										<property name="title">Profile Switcher TODO</property>
+										<!-- <property name="model">INSERT MENU ID HERE</property> -->
+									</object>
+								</child>
+								<!-- TODO Add "check for updates" button in this section-->
 							</object>
 						</child>
 						<child>
 							<object class="AdwPreferencesGroup" id="tab_group_options">
-								<property name="title">Tab Grouping</property>
+								<property name="title">Tab Position</property>
 								<child>
 									<object class="AdwSwitchRow">
 										<property name="title">Hide Single Tab</property>
@@ -47,4 +56,6 @@
 			</object>
 		</property>
 	</template>
+
+
 </interface>
