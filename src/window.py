@@ -34,6 +34,6 @@ class AddwaterWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # FIXME "setting schema not installed"
-        # self.settings = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
+        self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
+
 

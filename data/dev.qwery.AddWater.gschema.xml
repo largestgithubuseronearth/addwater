@@ -1,55 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="addwater">
-	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater">
-		<key name="dummy" type="i">
-			<default>False</default>
-		</key>
-
+	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater/">
 	</schema>
 
-	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox">
+	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox/">
 		<!-- General -->
 		<key name="theme-enabled" type="b">
-			<default>False</default>
+			<default>false</default>
 		</key>
-		z<key name="selected-profile" type="s">
-			<!-- TODO Is this proper syntax for string? -->
-			<default>All</default>
+		<key name="selected-profile" type="s">
+			<default>"Weed"</default>
 		</key>
 
 		<!-- Tab Positioning -->
-		<key name="hideSingleTab" type="b">
-			<default>False</default>
+		<key name="hide-single-tab" type="b">
+			<default>false</default>
 		</key>
-		<key name="normalWidthTabs" type="b">
-			<default>False</default>
+		<key name="normal-width-tabs" type="b">
+			<default>false</default>
 		</key>
-		<key name="swapTabClose" type="b">
-			<default>False</default>
+		<key name="swap-tab-close" type="b">
+			<default>false</default>
 		</key>
-		<key name="bookmarksToolbarUnderTabs" type="b">
-			<default>False</default>
+		<key name="bookmarks-toolbar-under-tabs" type="b">
+			<default>false</default>
 		</key>
-		<key name="tabsAsHeaderbar" type="b">
-			<default>False</default>
+		<key name="tabs-as-headerbar" type="b">
+			<default>false</default>
 		</key>
 
 		<!-- Tab Behavior -->
-		<key name="activeTabContrast" type="b">
+		<key name="active-tab-contrast" type="b">
+			 <default>false</default>
 		</key>
-		<key name="closeOnlySelectedTabs" type="b">
-			<default>False</default>
+		<key name="close-only-selected-tabs" type="b">
+			<default>false</default>
 		</key>
-		<key name="symbolicTabIcons" type="b">
-			<default>False</default>
-		</key>/
+		<key name="symbolic-tab-icons" type="b">
+			<default>false</default>
+		</key>
 
 		<!-- Styling -->
-		<key name="hideWebrtcIndicator" type="b">
-			<default>False</default>
+		<key name="hide-webrtc-indicator" type="b">
+			<default>false</default>
+		</key>
+
+		<!-- Unstable -->
+		<key name="system-icons" type="b">
+			<default>false</default>
+		</key>
+		<key name="drag-window-headerbar-buttons" type="b">
+			<default>false</default>
 		</key>
 	</schema>
 
-	<schema path="/dev/qwery/AddWater/Thunderbird" id="dev.qwery.AddWater.Thunderbird">
+	<schema path="/dev/qwery/AddWater/Thunderbird/" id="dev.qwery.AddWater.Thunderbird">
 	</schema>
 </schemalist>
