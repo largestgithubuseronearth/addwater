@@ -21,9 +21,9 @@
 								</child>
 								<child>
 									<!-- TODO build this dynamically from user's profile list ini -->
-									<object class="AdwComboRow">
+									<object class="AdwComboRow" id="profile_switcher">
 										<property name="title">Profile Switcher TODO</property>
-										<!-- <property name="model">INSERT MENU ID HERE</property> -->
+										<property name="model">profile_list</property>
 									</object>
 								</child>
 								<!-- TODO Add "check for updates" button in this section-->
@@ -56,6 +56,12 @@
 			</object>
 		</property>
 	</template>
+
+	<object class="GtkStringList" id="profile_list">
+		<items>
+		</items>
+	</object>
+
 
 
 </interface>

@@ -11,7 +11,7 @@
 		"--device=dri",
 		"--socket=wayland",
 
-		"--filesystem=~/.mozilla/:rw",
+		"--filesystem=~/.mozilla/firefox/:rw",
 		"--filesystem=~/.var/app/org.mozilla.Thunderbird:rw",
 		"--filesystem=~/.var/app/org.mozilla.Firefox:rw"
 	],

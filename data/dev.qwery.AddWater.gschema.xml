@@ -7,50 +7,83 @@
 		<!-- General -->
 		<key name="theme-enabled" type="b">
 			<default>false</default>
+			<summary>Enable Theme</summary>
+			<description>Enable or disable the GNOME for Firefox theme</description>
+
 		</key>
 		<key name="selected-profile" type="s">
 			<default>"Weed"</default>
+			<summary>Profile</summary>
+			<description>Which Firefox profile to apply your changes to</description>
 		</key>
 
 		<!-- Tab Positioning -->
 		<key name="hide-single-tab" type="b">
 			<default>false</default>
+			<summary>Hide Single Tab</summary>
+			<description>Hide the tab bar when only one tab is open</description>
 		</key>
 		<key name="normal-width-tabs" type="b">
 			<default>false</default>
+			<summary>Normal Width Tabs</summary>
+			<description>Use the same tab width as default Firefox</description>
 		</key>
 		<key name="swap-tab-close" type="b">
 			<default>false</default>
+			<summary>Swap Tab Close Button</summary>
+			<description></description>
 		</key>
 		<key name="bookmarks-toolbar-under-tabs" type="b">
 			<default>false</default>
+			<summary>Bookmarks Toolbar Under Tabs</summary>
+			<description>Move the Bookmarks toolbar underneath tabs bar</description>
 		</key>
 		<key name="tabs-as-headerbar" type="b">
 			<default>false</default>
+			<summary>Tabs as Headerbar</summary>
+			<description>Place the tabs on the top of the window, and use the tabs bar to hold the window controls, like Firefox's standard tab bar
+
+				NOTE: Enabling with "Hide Single Tab" will replace the single tab with a title bar
+			</description>
 		</key>
 
 		<!-- Tab Behavior -->
 		<key name="active-tab-contrast" type="b">
 			 <default>false</default>
+			<summary>Active Tab Contrast</summary>
+			<description>Add more contrast to the active tab</description>
 		</key>
 		<key name="close-only-selected-tabs" type="b">
 			<default>false</default>
+			<summary>Close Only Selected Tab</summary>
+			<description>Only show the close button on the selected tab</description>
 		</key>
 		<key name="symbolic-tab-icons" type="b">
 			<default>false</default>
+			<summary>Symbolic Tab Icons</summary>
+			<description>Make all tab icons look kinda like symbolic icons</description>
 		</key>
 
 		<!-- Styling -->
 		<key name="hide-webrtc-indicator" type="b">
 			<default>false</default>
+			<summary>Hide WebRTC Indicator</summary>
+			<description>Hide redundant WebRTC indicator since GNOME provides their own privacy icons in the top right</description>
 		</key>
 
 		<!-- Unstable -->
+		<!-- TODO Should I even include unstable options? -->
 		<key name="system-icons" type="b">
 			<default>false</default>
+			<summary></summary>
+			<description></description>
+
 		</key>
 		<key name="drag-window-headerbar-buttons" type="b">
 			<default>false</default>
+			<summary></summary>
+			<description></description>
+
 		</key>
 	</schema>
 

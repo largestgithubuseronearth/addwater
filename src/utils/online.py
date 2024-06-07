@@ -48,4 +48,5 @@ def check_for_updates(app):
 
 def download_latest():
     # TODO how to make this asynchronous? Is that even worthwhile?
+    # TODO When downloading, save the new release json file to data dir
     pass
