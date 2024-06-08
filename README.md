@@ -28,3 +28,5 @@ IDEAS:
 * Allow user-specified path for Firefox
 * Allow user to remove the theme from all profiles inside their firefox directory
 * Bool to show unstable and buggy features in options list
+
+<!-- TODO implement logging to a file -->

@@ -17,8 +17,8 @@ class FirefoxPage(Adw.Bin):
 
     def __init__(self):
         print("firefox")
-        self.settings_firefox = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
         # TODO read gsettings and set all preferences accordingly. Store this info in a dict.
+        self.settings_firefox = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
 
         self.profiles = find_profiles(moz_path=(GLib.get_user_data_dir() + "/temp/"))
         for each in self.profiles:

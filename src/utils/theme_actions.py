@@ -8,4 +8,4 @@ def install_firefox_theme(firefox_path):
 
 def uninstall_firefox_theme(firefox_path):
     # TODO delete chrome folder
-    # TODO remove all prefs in user.js or set all that begin with "gnomeTheme." to false
+    # TODO remove all prefs in user.js with " gnomeTheme" or set all false

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="addwater">
 	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater/">
+		<key name="base-theme-downloaded" type="b">
+			<default>false</default>
+		</key>
 	</schema>
 
 	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox/">
+		<!-- TODO Is there a way to pull all keys from a schema in code to be able to iterate over them? -->
 		<!-- General -->
 		<key name="theme-enabled" type="b">
 			<default>false</default>
@@ -72,7 +76,7 @@
 		</key>
 
 		<!-- Unstable -->
-		<!-- TODO Should I even include unstable options? -->
+		<!-- TODO Should I even include unstable options?-->
 		<key name="system-icons" type="b">
 			<default>false</default>
 			<summary></summary>

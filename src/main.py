@@ -19,6 +19,7 @@
 
 import sys
 import gi
+from .utils import paths
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
@@ -42,6 +43,8 @@ class AddwaterApplication(Adw.Application):
         print(f"GTK: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}")
         print(f"ADW: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}")
         print("-------------------------")
+        paths.init_paths()
+
 
     def do_activate(self):
         """Called when the application is activated.

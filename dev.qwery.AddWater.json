@@ -12,8 +12,8 @@
 		"--socket=wayland",
 
 		"--filesystem=~/.mozilla/firefox/:rw",
-		"--filesystem=~/.var/app/org.mozilla.Thunderbird:rw",
-		"--filesystem=~/.var/app/org.mozilla.Firefox:rw"
+		"--filesystem=~/.var/app/org.mozilla.Thunderbird/.thunderbird/:rw",
+		"--filesystem=~/.var/app/org.mozilla.Firefox/.mozilla/firefox/:rw"
 	],
 	"cleanup" : [
 		"/include",

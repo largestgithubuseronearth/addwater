@@ -21,6 +21,7 @@
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .utils import online
 from .pages.firefox_page import FirefoxPage
+import logging
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddwaterWindow(Adw.ApplicationWindow):
@@ -35,5 +36,7 @@ class AddwaterWindow(Adw.ApplicationWindow):
         super().__init__(**kwargs)
 
         self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
+        log = logging.getLogger(__name__)
+        online.check_for_updates(app="firefox")
 
 

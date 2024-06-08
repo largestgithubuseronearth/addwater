@@ -22,8 +22,9 @@
 								<child>
 									<!-- TODO build this dynamically from user's profile list ini -->
 									<object class="AdwComboRow" id="profile_switcher">
-										<property name="title">Profile Switcher TODO</property>
+										<property name="title">Profile</property>
 										<property name="model">profile_list</property>
+										<property name="tooltip-text">Select which user profile to install to</property>
 									</object>
 								</child>
 								<!-- TODO Add "check for updates" button in this section-->
