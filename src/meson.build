@@ -35,7 +35,9 @@ addwater_sources = [
   'pages/firefox_page.py',
   'utils/online.py',
   'utils/profiles.py',
-  'utils/paths.py'
+  'utils/paths.py',
+  'utils/logs.py',
+  'utils/install_firefox.py'
 ]
 
 install_data(addwater_sources, install_dir: moduledir)

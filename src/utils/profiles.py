@@ -1,12 +1,15 @@
 # profiles.py
 # Returns a list of profile names for the app path specified.
-# TODO Find where snaps and flatpak store the profiles ini
 # TODO Make this work for both firefox and thunderbird
 # TODO is this correct to read the default profile from install.ini` or should I read it from profiles.ini?
 
 
 from configparser import ConfigParser
 from gi.repository import GLib
+
+# TODO find_installs()
+def find_installs():
+    pass
 
 
 # Note: First profile in returned list MUST ALWAYS be the user's default/preferred profile

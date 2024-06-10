@@ -24,9 +24,11 @@ IDEAS:
 <!-- TODO Add python module configparser to flatpak install manifest? -->
 
 <!-- TODO Add profiles support -->
+<!-- TODO Add multiple install support -->
+
 <!-- TODO build preferences window for advanced users -->
 * Allow user-specified path for Firefox
 * Allow user to remove the theme from all profiles inside their firefox directory
 * Bool to show unstable and buggy features in options list
 
-<!-- TODO implement logging to a file -->
+<!-- TODO write .desktop file -->

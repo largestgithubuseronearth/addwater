@@ -17,7 +17,7 @@ theme_urls = {
             "thunderbird": "https://api.github.com/repos/rafaelmardojai/thunderbird-gnome-theme/releases"
 }
 
-DL_CACHE = paths.CACHE_DOWNLOADS
+DL_CACHE = paths.APP_CACHE
 
 def check_for_updates(app):
     try:

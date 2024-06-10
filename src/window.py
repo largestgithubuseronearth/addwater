@@ -20,6 +20,7 @@
 
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .utils import online
+from .utils import paths
 from .pages.firefox_page import FirefoxPage
 import logging
 
@@ -36,7 +37,6 @@ class AddwaterWindow(Adw.ApplicationWindow):
         super().__init__(**kwargs)
 
         self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
-        log = logging.getLogger(__name__)
-        online.check_for_updates(app="firefox")
+
 
 

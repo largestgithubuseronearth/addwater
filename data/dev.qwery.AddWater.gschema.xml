@@ -76,7 +76,7 @@
 		</key>
 
 		<!-- Unstable -->
-		<!-- TODO Should I even include unstable options?-->
+		<!-- TODO Should I even include unstable options? Maybe in preferences have an advanced user setting-->
 		<key name="system-icons" type="b">
 			<default>false</default>
 			<summary></summary>

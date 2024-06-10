@@ -19,14 +19,18 @@
 
 import sys
 import gi
-from .utils import paths
+
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
-
 from gi.repository import Gtk, Gio, Adw, Gdk
+
 from .window import AddwaterWindow
 
+from .utils.logs import logging, init_logs
+from .utils import paths
+
+LOGGER = logging.getLogger(__name__)
 
 class AddwaterApplication(Adw.Application):
     """The main application singleton class."""
@@ -43,6 +47,7 @@ class AddwaterApplication(Adw.Application):
         print(f"GTK: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}")
         print(f"ADW: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}")
         print("-------------------------")
+        init_logs()
         paths.init_paths()
 
 
@@ -60,6 +65,7 @@ class AddwaterApplication(Adw.Application):
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
         # TODO Must redo AboutWindow info to give credit to theme dev
+        # info.py.in seems like a good model for how to do this. But requires meson tinkering
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='AddWater',
                                 application_icon='dev.qwery.AddWater',

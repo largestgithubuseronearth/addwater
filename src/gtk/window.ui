@@ -38,9 +38,9 @@
 
 					<!-- CHANGE CONFIRMATION BAR -->
 					<child type="bottom">
-						<!-- TODO build this later -->
-						<!-- TODO only show this bar when the user has queued some changes -->
-						<!-- TODO build these button actions in code -->
+						<!-- TODO build "change transaction toolbar" later -->
+						<!-- only show this bar when the user has queued some changes -->
+						<!-- build these button actions in code -->
 						<object class="GtkActionBar" id="change_confirm_bar">
 							<property name="visible">True</property>
 							<child type="start">
