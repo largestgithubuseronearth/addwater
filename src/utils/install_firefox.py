@@ -1,5 +1,7 @@
 # theme_actions.py
 # TODO make sure these commands work regardless of shell user has
+# TODO use fnmatch or glob module to find the inner folder of the theme which is randomized
+#   ALTERNATIVE: Find way to list what dirs are in the release folder and just automatically pick the first and only one.
 
 import subprocess
 import os
@@ -11,23 +13,27 @@ from .logs import logging
 
 log = logging.getLogger(__name__)
 
-DL_CACHE = paths.APP_CACHE
+DL_CACHE = paths.DOWNLOAD_DIR
 
 def install_firefox(firefox_path, profile, version):
-    if not extract_release(app="firefox", version=version):
-        log.error("Installation cancelled")
+    extract_dir = extract_release(app="firefox", version=version)
+    if extract_dir is None:
+        log.error("Extraction failed. Installation cancelled")
         return False
 
     profile_arg = "-p"
     if profile is None:
         profile_arg = ""
         profile = ""
+    # TODO This is all temporary toying
+    p = os.scandir(path=extract_dir)
+    print("WEEEEEEEEEED:   ", p)
+    script_path = DL_CACHE + extract_dir + p + "scripts/" + "install.sh"
+    # Preview of the final command
+    print("." + script_path, profile_arg, profile, "-f", firefox_path)
 
     # TODO MAKE SURE THIS COMMAND IS 100% SAFE BEFORE RUNNING
-    # script_path = DL_CACHE + "extracted/" + "scripts/" + "install.sh"
-    # print("weed: ", script_path)
-    # print(f"./{script_path} {profile_arg} {profile} -f {firefox_path}")
-    # r = subprocess.run(["." + script_path, profile_arg, profile, -f, firefox_path],
+    # r = subprocess.run(["." + script_path, profile_arg, profile, "-f", firefox_path],
                          # capture_output=True)
 
 
@@ -44,15 +50,15 @@ def extract_release(app, version):
 
     if os.path.exists(extract_dir):
         log.info(f"{name} already extracted. Skipping.")
-        return True
+        return extract_dir
 
     if not os.path.exists(zipfile):
         log.error(f"Release zip doesn't exist: {zipfile}")
-        return False
+        return None
 
     with tarfile.open(zipfile) as tar:
         tar.extractall(path=extract_dir,
                         filter="data")
 
     log.info(f"{name} tarball extracted successfully.")
-    return True
+    return extract_dir

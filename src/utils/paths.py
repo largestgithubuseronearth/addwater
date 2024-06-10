@@ -1,12 +1,14 @@
 # paths.py
+# This module owns all app paths and must be used when referring to general paths like config or firefox paths
+# TODO joining paths like strings is not compliant for non-unix systems. Replace all instances with os.path.join()
 
 import os.path
 from .logs import logging
 from gi.repository import GLib
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
-# PATHS AVAILABLE TO MY APP
+# APP PATHS
 XDG_CACHE_DIR = GLib.get_user_cache_dir()
 XDG_DATA_DIR = GLib.get_user_data_dir()
 XDG_CONFIG_DIR = GLib.get_user_config_dir()
@@ -15,23 +17,26 @@ APP_CACHE = XDG_CACHE_DIR + "/add-water/"
 APP_CONFIG = XDG_CONFIG_DIR + "/add-water/"
 APP_DATA = XDG_DATA_DIR + "/add-water/"
 
+DOWNLOAD_DIR = APP_CACHE + "downloads/"
+LOG_DIR = APP_CACHE + "logs/"
+
 # FIREFOX PATHS
-FIREFOX_BASE = "~/.mozilla/firefox"
+FIREFOX_BASE = "~/.mozilla/firefox/"
 FIREFOX_FLATPAK = "~/.var/app/org.mozilla.Firefox/.mozilla/firefox/"
 # TODO is this snap dir still correct?
 FIREFOX_SNAP = "~/snap/firefox/common/.mozilla/firefox/"
 
-def init_paths():
-    paths = [APP_CACHE]
-
+# FIXME this will not log entries on the first run of the app because LOG_DIR hasn't been created yet.
+def init_paths(paths=None):
+    paths = [APP_CACHE, DOWNLOAD_DIR, LOG_DIR]
     for each in paths:
         try:
             os.mkdir(path=each)
-            logger.info(f"{each} directory created.")
+            log.info(f"{each} directory created.")
         except FileExistsError as err:
-            logger.info(f"{each} already exists. Skipped.")
+            log.info(f"{each} already exists. Skipped.")
         except FileNotFoundError as err:
-            logger.error("Couldn't find parent dir when initializing dirs ::", err)
+            log.error("Couldn't find parent dir when initializing dirs ::", err)
             return
 
-    logger.info("All paths initialized.")
+    log.info("All paths initialized.")

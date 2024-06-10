@@ -30,7 +30,7 @@ from .window import AddwaterWindow
 from .utils.logs import logging, init_logs
 from .utils import paths
 
-LOGGER = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 class AddwaterApplication(Adw.Application):
     """The main application singleton class."""

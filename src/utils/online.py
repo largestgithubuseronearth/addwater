@@ -8,32 +8,34 @@
 from datetime import datetime, timezone
 from gi.repository import GLib
 from . import paths
+import logging
 import json
 import requests
 
+log = logging.getLogger(__name__)
 
 theme_urls = {
             "firefox": "https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases",
             "thunderbird": "https://api.github.com/repos/rafaelmardojai/thunderbird-gnome-theme/releases"
 }
 
-DL_CACHE = paths.APP_CACHE
+DL_CACHE = paths.DOWNLOAD_DIR
 
 def check_for_updates(app):
     try:
         check_url = theme_urls[app]
     except KeyError as err:
-        print(f"Checking for updates FAILED: Invalid app [{app}]")
+        log.error(f"Checking for updates FAILED: Invalid app [{app}]")
         return
 
 
-    # TODO are these error types correctly syntaxed?
+    # TODO are these request error types correctly syntaxed?
     try:
         latest_release = requests.get((check_url)).json()[0]
     except JSONDecodeError as err:
-        print("JSON decoding of response failed")
+        log.error("JSON decoding of response failed")
     except RequestException as err:
-        print("Connection failed", err)
+        log.error("Connection failed", err)
 
     new_version = int(latest_release["tag_name"].lstrip("v"))
     new_time = datetime.fromisoformat(latest_release["published_at"])
@@ -43,9 +45,9 @@ def check_for_updates(app):
             file = json.load(file)
             current_version = int(file["tag_name"].lstrip("v"))
             current_time = datetime.fromisoformat(file["published_at"])
-    # TODO How to raise explicit error if file doesn't exist?
+    # TODO How to raise explicit error if file doesn't exist? FileNotFoundError?
     except:
-        print("No json details to compare new release to current. Writing new file for this latest release.")
+        log.info("No json details to compare new release to current. Writing new file for this latest release.")
         download_release(release_json=latest_release,
                         app=app,
                         version=new_version
@@ -53,13 +55,13 @@ def check_for_updates(app):
         return
 
     if (new_version > current_version and new_time > current_time):
-        print("Update available")
+        log.info("Update available. Downloading latest...")
         download_release(release_json=latest_release,
                         app=app,
                         version=new_version)
         return True
     else:
-        print("No update available")
+        log.info("No update available")
         return False
 
 
@@ -71,9 +73,9 @@ def download_release(release_json, app, version):
 
     response = requests.get(release_json["tarball_url"])
     if response.status_code == 200:
-        print("Github download is good!")
+        log.info("Github download is good!")
         with open(file=(DL_CACHE + f"{app}-{version}.tar.gz"), mode="wb") as file:
             file.write(response.content)
     else:
-        print(f"Github download request gave bad response [{response.status_code}]")
+        log.error(f"Github download request gave bad response [{response.status_code}]")
 

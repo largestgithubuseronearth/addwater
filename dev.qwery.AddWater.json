@@ -15,7 +15,7 @@
 		"--filesystem=~/.var/app/org.mozilla.Thunderbird/.thunderbird/:rw",
 		"--filesystem=~/.var/app/org.mozilla.Firefox/.mozilla/firefox/:rw",
 		"--filesystem=~/.librewolf:rw",
-		"--filesystem=~/.var/app/io.gitlab.librewolf-community/.librewolf:rw",
+		"--filesystem=~/.var/app/io.gitlab.librewolf-community/.librewolf:rw"
 	],
 	"cleanup" : [
 		"/include",
