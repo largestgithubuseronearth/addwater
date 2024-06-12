@@ -19,8 +19,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
-from .utils import online
-from .utils import paths
 from .pages.firefox_page import FirefoxPage
 import logging
 

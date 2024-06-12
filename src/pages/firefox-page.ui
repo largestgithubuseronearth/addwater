@@ -23,7 +23,7 @@
 									<!-- TODO build this dynamically from user's profile list ini -->
 									<object class="AdwComboRow" id="profile_switcher">
 										<property name="title">Profile</property>
-										<property name="model">profile_list</property>
+										<property name="model">profile_switcher_list</property>
 										<property name="tooltip-text">Select which user profile to install to</property>
 									</object>
 								</child>
@@ -58,7 +58,7 @@
 		</property>
 	</template>
 
-	<object class="GtkStringList" id="profile_list">
+	<object class="GtkStringList" id="profile_switcher_list">
 		<items>
 		</items>
 	</object>

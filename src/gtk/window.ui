@@ -124,11 +124,10 @@
 
 	<menu id="primary_menu">
 		<section>
-			<!-- TODO Will my app have its own preferences? -->
-			<!-- <item> -->
-			<!-- 	<attribute name="label" translatable="yes">_Preferences</attribute> -->
-			<!-- 	<attribute name="action">app.preferences</attribute> -->
-			<!-- </item> -->
+			<item>
+				<attribute name="label" translatable="yes">_TODO Preferences</attribute>
+				<attribute name="action">app.preferences</attribute>
+			</item>
 			<item>
 				<attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
 				<attribute name="action">win.show-help-overlay</attribute>

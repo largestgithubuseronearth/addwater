@@ -7,7 +7,6 @@
 	</schema>
 
 	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox/">
-		<!-- TODO Is there a way to pull all keys from a schema in code to be able to iterate over them? -->
 		<!-- General -->
 		<key name="theme-enabled" type="b">
 			<default>false</default>

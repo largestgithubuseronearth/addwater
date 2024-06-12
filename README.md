@@ -32,3 +32,4 @@ IDEAS:
 * Bool to show unstable and buggy features in options list
 
 <!-- TODO write .desktop file -->
+<!-- TODO write requirements.txt -->

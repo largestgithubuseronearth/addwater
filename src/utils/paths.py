@@ -13,17 +13,20 @@ XDG_CACHE_DIR = GLib.get_user_cache_dir()
 XDG_DATA_DIR = GLib.get_user_data_dir()
 XDG_CONFIG_DIR = GLib.get_user_config_dir()
 
-APP_CACHE = XDG_CACHE_DIR + "/add-water/"
-APP_CONFIG = XDG_CONFIG_DIR + "/add-water/"
-APP_DATA = XDG_DATA_DIR + "/add-water/"
+# TODO test all usecases for this to make sure this didn't break anything
+# TODO do I need to finish every path with a / ? Or will it work automatically when it gets joined again
+APP_CACHE = os.path.join(XDG_CACHE_DIR, "add-water")
+APP_CONFIG = os.path.join(XDG_CONFIG_DIR, "add-water")
+APP_DATA = os.path.join(XDG_DATA_DIR, "add-water")
 
-DOWNLOAD_DIR = APP_CACHE + "downloads/"
-LOG_DIR = APP_CACHE + "logs/"
+DOWNLOAD_DIR = os.path.join(APP_CACHE, "downloads/")
+LOG_DIR = os.path.join(APP_CACHE, "logs/")
+
 
 # FIREFOX PATHS
-FIREFOX_BASE = "~/.mozilla/firefox/"
-FIREFOX_FLATPAK = "~/.var/app/org.mozilla.Firefox/.mozilla/firefox/"
-# TODO is this snap dir still correct?
+FIREFOX_BASE = os.path.expanduser("~/.mozilla/firefox/")
+FIREFOX_FLATPAK = os.path.expanduser("~/.var/app/org.mozilla.Firefox/.mozilla/firefox/")
+# TODO is this snap dir correct?
 FIREFOX_SNAP = "~/snap/firefox/common/.mozilla/firefox/"
 
 # FIXME this will not log entries on the first run of the app because LOG_DIR hasn't been created yet.

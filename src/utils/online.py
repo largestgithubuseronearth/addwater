@@ -1,6 +1,5 @@
 # online.py
 # TODO Ensure requests follow github api specifications for params and headers. Don't upset Github!
-# TODO Should I skip saving the json file and just write the current theme version into gsettings?
 
 # This is for functions that connect to the internet
 
@@ -10,6 +9,7 @@ from gi.repository import GLib
 from . import paths
 import logging
 import json
+import os.path
 import requests
 
 log = logging.getLogger(__name__)
@@ -41,7 +41,8 @@ def check_for_updates(app):
     new_time = datetime.fromisoformat(latest_release["published_at"])
 
     try:
-        with open(file=(DL_CACHE + f"/{app}_latest.json"), mode="r", encoding="utf-8") as file:
+        p = os.path.join(DL_CACHE, f"{app}_latest.json")
+        with open(file=p, mode="r", encoding="utf-8") as file:
             file = json.load(file)
             current_version = int(file["tag_name"].lstrip("v"))
             current_time = datetime.fromisoformat(file["published_at"])
@@ -56,10 +57,9 @@ def check_for_updates(app):
 
     if (new_version > current_version and new_time > current_time):
         log.info("Update available. Downloading latest...")
-        download_release(release_json=latest_release,
-                        app=app,
-                        version=new_version)
-        return True
+        return download_release(release_json=latest_release
+                                ,app=app,
+                                version=new_version)
     else:
         log.info("No update available")
         return False
@@ -71,11 +71,15 @@ def download_release(release_json, app, version):
     with open(file=(DL_CACHE + f"{app}_latest.json"), mode="w", encoding="utf-8") as file:
         file.write(json.dumps(release_json))
 
-    response = requests.get(release_json["tarball_url"])
-    if response.status_code == 200:
-        log.info("Github download is good!")
-        with open(file=(DL_CACHE + f"{app}-{version}.tar.gz"), mode="wb") as file:
-            file.write(response.content)
-    else:
+    response = requests.get(release_json["tarball_url"]) # ASYNC use stream flag
+    if response.status_code != 200:
         log.error(f"Github download request gave bad response [{response.status_code}]")
+        return False
+
+    p = os.path.join(DL_CACHE, f"{app}-{version}.tar.gz")
+    with open(file=p, mode="wb") as file:
+        file.write(response.content)
+
+    log.info("Github download is good!")
+    return True
 

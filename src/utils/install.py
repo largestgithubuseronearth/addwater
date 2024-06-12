@@ -1,7 +1,5 @@
 # theme_actions.py
 # TODO make sure these commands work regardless of shell user has
-# TODO use fnmatch or glob module to find the inner folder of the theme which is randomized
-#   ALTERNATIVE: Find way to list what dirs are in the release folder and just automatically pick the first and only one.
 
 import subprocess
 import os
@@ -25,17 +23,28 @@ def install_firefox(firefox_path, profile, version):
     if profile is None:
         profile_arg = ""
         profile = ""
-    # TODO This is all temporary toying
-    p = os.scandir(path=extract_dir)
-    print("WEEEEEEEEEED:   ", p)
-    script_path = DL_CACHE + extract_dir + p + "scripts/" + "install.sh"
+
+    with os.scandir(path=extract_dir) as scan:
+        for each in scan:
+            if each.name.startswith("rafaelmardojai-firefox-gnome-theme"):
+                p = each.name
+    script_path = os.path.join(extract_dir, p, "scripts", "install.sh")
+
     # Preview of the final command
-    print("." + script_path, profile_arg, profile, "-f", firefox_path)
+    try:
+        print(script_path, profile_arg, profile, "-f", firefox_path)
+        r = subprocess.run([script_path, profile_arg, profile, "-f", firefox_path],
+                             capture_output=True,
+                             check=True)
+    except CalledProcessError as err:
+        print("Install Firefox Failed")
+        log.critical(f"Install CMD failed ;; Return={r.returncode} ;; Full command: {r.args}")
+        return False
 
-    # TODO MAKE SURE THIS COMMAND IS 100% SAFE BEFORE RUNNING
-    # r = subprocess.run(["." + script_path, profile_arg, profile, "-f", firefox_path],
-                         # capture_output=True)
-
+    log.info(f"Installed Firefox successfully. Return={r.returncode}")
+    print(f"Installed Firefox successfully. Return={r.returncode}")
+    print(r.stdout)
+    return True
 
 def uninstall_firefox_theme(firefox_path):
     pass
@@ -45,8 +54,8 @@ def uninstall_firefox_theme(firefox_path):
 
 def extract_release(app, version):
     name = f"{app}-{version}"
-    zipfile = DL_CACHE + f"{name}.tar.gz"
-    extract_dir = DL_CACHE + f"{name}-extracted/"
+    zipfile = os.path.join(DL_CACHE, f"{name}.tar.gz")
+    extract_dir = os.path.join(DL_CACHE, f"{name}-extracted/")
 
     if os.path.exists(extract_dir):
         log.info(f"{name} already extracted. Skipping.")
