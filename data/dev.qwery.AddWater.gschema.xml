@@ -5,7 +5,7 @@
 			<default>false</default>
 		</key>
 		<key name="firefox-path" type="s">
-			<default>~/.mozilla/firefox/</default>
+			<default>"~/.mozilla/firefox/"</default>
 		</key>
 		<key name="show-unstable-features" type="b">
 			<default>false</default>
@@ -83,7 +83,7 @@
 		</key>
 
 		<!-- Unstable -->
-		<!-- TODO Should I even include unstable options? Maybe in preferences have an advanced user setting-->
+		<!-- TODO Should I even include unstable options? Maybe in preferences have an advanced user setting -->
 		<key name="system-icons" type="b">
 			<default>false</default>
 			<summary></summary>
@@ -94,7 +94,6 @@
 			<default>false</default>
 			<summary></summary>
 			<description></description>
-
 		</key>
 	</schema>
 

@@ -76,7 +76,7 @@
 		    "sha256": "d0fbc665a4fd410e454630bcf5168dce62e147a98512647ed48b0a6b556986e3"
 		}
 	    ]
-	}
+	},
 	{
 		    "name" : "addwater",
 		    "builddir" : true,
