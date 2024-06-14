@@ -3,6 +3,7 @@
 	<gresource prefix="/dev/qwery/AddWater">
 		<file preprocess="xml-stripblanks">gtk/window.ui</file>
 		<file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
+		<file preprocess="xml-stripblanks">gtk/preferences.ui</file>
 
 		<file preprocess="xml-stripblanks">pages/firefox-page.ui</file>
 	</gresource>

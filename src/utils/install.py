@@ -33,17 +33,16 @@ def install_firefox(firefox_path, profile, version):
     # Preview of the final command
     try:
         print(script_path, profile_arg, profile, "-f", firefox_path)
-        r = subprocess.run([script_path, profile_arg, profile, "-f", firefox_path],
-                             capture_output=True,
-                             check=True)
+        subprocess.run([script_path, profile_arg, profile, "-f", firefox_path],
+                        capture_output=True,
+                        check=True)
     except CalledProcessError as err:
         print("Install Firefox Failed")
-        log.critical(f"Install CMD failed ;; Return={r.returncode} ;; Full command: {r.args}")
+        log.critical(f"Install CMD failed ;; Return={err.returncode} ;; Full command: {err.args}")
         return False
 
-    log.info(f"Installed Firefox successfully. Return={r.returncode}")
-    print(f"Installed Firefox successfully. Return={r.returncode}")
-    print(r.stdout)
+    log.info(f"Installed Firefox successfully.")
+    print(f"Installed Firefox successfully.")
     return True
 
 def uninstall_firefox_theme(firefox_path):
