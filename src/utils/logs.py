@@ -1,6 +1,7 @@
 # logs.py
 
 import logging
+import os.path
 from gi.repository import Gtk, Adw
 from . import paths
 
@@ -8,7 +9,7 @@ log = logging.getLogger(__name__)
 # TODO include datetime into logs
 def init_logs():
     try:
-        LOGFILE = paths.LOG_DIR + "add-water.log"
+        LOGFILE = os.path.join(paths.LOG_DIR, "add-water.log")
         logging.basicConfig(filename=LOGFILE,
                             filemode="w",
                             level=logging.DEBUG)

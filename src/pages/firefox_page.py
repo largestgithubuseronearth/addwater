@@ -10,6 +10,19 @@ from ..utils import online
 import logging
 log = logging.getLogger(__name__)
 
+# TEMP move to another module and import
+gsettings_keys = [
+    "hide-single-tab",
+    "normal-width-tabs",
+    "swap-tab-close",
+    "bookmarks-toolbar-under-tabs",
+    "tabs-as-headerbar",
+    "active-tab-contrast",
+    "close-only-selected-tabs",
+    "symbolic-tab-icons",
+    "hide-webrtc-indicator"
+]
+
 
 @Gtk.Template(resource_path="/dev/qwery/AddWater/pages/firefox-page.ui")
 class FirefoxPage(Adw.Bin):
@@ -31,6 +44,8 @@ class FirefoxPage(Adw.Bin):
     def __init__(self):
         # TODO read schema's keys and set all preferences accordingly. Store this info in a dict.
         self.settings_firefox = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
+        self.settings_firefox.delay()
+        self.init_prefs()
 
         # TODO Find firefox installation folder
 
@@ -42,6 +57,15 @@ class FirefoxPage(Adw.Bin):
 
         # online.check_for_updates(app="firefox")
 
+    def init_prefs(self):
+
+        pass
+
+
+    def apply_changes(self):
+        # TODO use self.settings_firefox.apply() to apply all stored changes
+        # TODO can I still bind the switches to the keys and have it work before applying?
+        pass
 
     def begin_install(self):
 

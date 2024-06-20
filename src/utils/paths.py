@@ -19,8 +19,8 @@ APP_CACHE = os.path.join(XDG_CACHE_DIR, "add-water")
 APP_CONFIG = os.path.join(XDG_CONFIG_DIR, "add-water")
 APP_DATA = os.path.join(XDG_DATA_DIR, "add-water")
 
-DOWNLOAD_DIR = os.path.join(APP_CACHE, "downloads/")
-LOG_DIR = os.path.join(APP_CACHE, "logs/")
+DOWNLOAD_DIR = os.path.join(APP_CACHE, "downloads")
+LOG_DIR = os.path.join(APP_CACHE, "logs")
 
 
 # FIREFOX PATHS

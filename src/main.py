@@ -26,6 +26,7 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Gio, Adw, Gdk
 
 from .window import AddwaterWindow
+from .preferences import AddWaterPreferences
 
 from .utils.logs import logging, init_logs
 from .utils import paths
@@ -38,9 +39,9 @@ class AddwaterApplication(Adw.Application):
     def __init__(self):
         super().__init__(application_id='dev.qwery.AddWater',
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
-        self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
+        self.create_action('quit', lambda *_: self.quit(), ['<primary>q', '<primary>w'])
         self.create_action('about', self.on_about_action)
-        self.create_action('preferences', self.on_preferences_action)
+        self.create_action('preferences', self.on_preferences_action, ['<Ctrl>comma'])
 
         print("-------------------------")
         print("ADD WATER — GNOME theme installer for Firefox and Thunderbird")
@@ -77,6 +78,8 @@ class AddwaterApplication(Adw.Application):
 
     def on_preferences_action(self, widget, _):
         """Callback for the app.preferences action."""
+        pref = AddWaterPreferences()
+        pref.present()
         print('app.preferences action activated')
 
     def create_action(self, name, callback, shortcuts=None):

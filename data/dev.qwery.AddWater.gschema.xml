@@ -42,7 +42,7 @@
 		<key name="swap-tab-close" type="b">
 			<default>false</default>
 			<summary>Swap Tab Close Button</summary>
-			<description></description>
+			<description>Prevent Tab Close button from following the position of the window controls</description>
 		</key>
 		<key name="bookmarks-toolbar-under-tabs" type="b">
 			<default>false</default>

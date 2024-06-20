@@ -37,6 +37,7 @@
 					</child>
 
 					<!-- CHANGE CONFIRMATION BAR -->
+					<!-- TODO Move this into the page class so there is a separate one between Firefox and Thunderbird -->
 					<child type="bottom">
 						<!-- TODO build "change transaction toolbar" later -->
 						<!-- only show this bar when the user has queued some changes -->

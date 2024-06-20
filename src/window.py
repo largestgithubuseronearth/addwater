@@ -1,5 +1,4 @@
 # window.py
-# TODO How to store user changes into a transaction that are only applied after they confirm?
 #
 # Copyright 2024 Claire
 #

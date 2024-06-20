@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 	<template class="AddWaterPreferences" parent="AdwPreferencesDialog">
+		<child>
+			<object class="AdwPreferencesPage" id="firefox_pref_page">
+				<property name="title">Firefox</property>
+				<property name="icon-name">globe-symbolic</property>
+				<child>
+					<object class="AdwPreferencesGroup">
+						<property name="title">Install Location</property>
 
+						<child>
+							<object class="AdwComboRow">
+								<property name="title">Firefox Directory</property>
+								<property name="model">
+									<object class="GtkStringList">
+										<items>
+											<item>Base</item>
+											<item>Flatpak</item>
+											<item>Snap</item>
+											<item>Librewolf Base</item>
+											<item>Librewolf Flatpak</item>
+											<item>Other</item>
+										</items>
+									</object>
+								</property>
+							</object>
+						</child>
+						<child>
+							<object class="AdwEntryRow">
+								<property name="title">Custom Directory (where profiles.ini is stored)</property>
+							</object>
+						</child>
+						<child>
+							<object class="AdwActionRow">
+								<property name="title">SPAGHETITI</property>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		<child>
+			<!-- TODO Thunderbird app preferences-->
+			<object class="AdwPreferencesPage" id="thunderbird_pref_page">
+				<property name="title">Thunderbird</property>
+				<property name="icon-name">mail-symbolic</property>
+			</object>
+		</child>
 	</template>
 </interface>

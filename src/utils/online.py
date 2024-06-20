@@ -67,8 +67,8 @@ def check_for_updates(app):
 
 # TODO how to make download asynchronous? Is that even worthwhile?
 def download_release(release_json, app, version):
-
-    with open(file=(DL_CACHE + f"{app}_latest.json"), mode="w", encoding="utf-8") as file:
+    new_json = os.path.join(DL_CACHE, f"{app}_latest.json")
+    with open(file=(new_json), mode="w", encoding="utf-8") as file:
         file.write(json.dumps(release_json))
 
     response = requests.get(release_json["tarball_url"]) # ASYNC use stream flag
