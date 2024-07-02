@@ -70,10 +70,13 @@ class AddwaterApplication(Adw.Application):
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='AddWater',
                                 application_icon='dev.qwery.AddWater',
-                                developer_name='Claire',
+                                developer_name='qwery',
                                 version='0.1.0',
                                 developers=['Claire'],
-                                copyright='© 2024 Claire')
+                                copyright='© 2024 Qwery')
+        about.add_credit_section(
+            name="Theme Created by",
+            people=["Rafael Mardojai CM https://www.mardojai.com/"])
         about.present()
 
     def on_preferences_action(self, widget, _):

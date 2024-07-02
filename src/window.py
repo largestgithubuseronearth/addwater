@@ -17,16 +17,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import logging
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .pages.firefox_page import FirefoxPage
-import logging
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddwaterWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'AddwaterWindow'
 
     toast_overlay = Gtk.Template.Child()
-    change_confirm_bar = Gtk.Template.Child()
 
     firefox_page = Gtk.Template.Child()
 

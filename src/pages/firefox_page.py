@@ -1,74 +1,99 @@
 # firefox_page.py
+# TODO once this is working properly turn this class into a generic parent class and spin off Firefox and Thunderbird Pages into their own subclasses
 
+import logging, json
 from gi.repository import Gtk, Adw, Gio, GLib
-
-from ..utils.profiles import find_profiles
+from .firefox_prefs import final
+from ..utils.profiles import find_profiles, find_install
 from ..utils import install
 from ..utils import paths
 from ..utils import online
 
-import logging
 log = logging.getLogger(__name__)
-
-# TEMP move to another module and import
-gsettings_keys = [
-    "hide-single-tab",
-    "normal-width-tabs",
-    "swap-tab-close",
-    "bookmarks-toolbar-under-tabs",
-    "tabs-as-headerbar",
-    "active-tab-contrast",
-    "close-only-selected-tabs",
-    "symbolic-tab-icons",
-    "hide-webrtc-indicator"
-]
 
 
 @Gtk.Template(resource_path="/dev/qwery/AddWater/pages/firefox-page.ui")
 class FirefoxPage(Adw.Bin):
+    """Firefox ViewStackPage. Must be converted into a generalized """
     __gtype_name__ = "FirefoxPage"
+
     # Firefox Attributes
-    # TODO find dir automatically. Simply check if folder exists?
-    firefox_dir = paths.FIREFOX_BASE
-    firefox_profile = None
-    firefox_version = None
+    install_dir = find_install()
+    selected_profile = None
+    current_theme_version = None
+    desired_theme_version = None
 
 
     transaction = {}
-    all_settings = ["gnomeTheme.hideSingleTab"]
 
     # Widget controls
-    profile_switcher_list = Gtk.Template.Child()
-    profile_switcher = Gtk.Template.Child()
+    preferences_page = Gtk.Template.Child()
+    profile_list = Gtk.Template.Child()
+
+     # = Gtk.Template.Child()
 
     def __init__(self):
-        # TODO read schema's keys and set all preferences accordingly. Store this info in a dict.
-        self.settings_firefox = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
-        self.settings_firefox.delay()
+        self.settings = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
+        self.settings.delay()
         self.init_prefs()
 
-        # TODO Find firefox installation folder
+        print(json.dumps(final, indent=2))
+        for each in final:
+            print(each["group_name"])
+            for option in each["options"]:
+                print(option)
+            print("\n\n\n")
 
 
-        self.profiles = find_profiles(moz_path=self.firefox_dir)
+        self.profiles = find_profiles(moz_path=self.install_dir)
         for each in self.profiles:
-            self.profile_switcher_list.append(each["name"])
+            self.profile_list.append(each["name"])
 
 
-        # online.check_for_updates(app="firefox")
+        # Apply Changes action
+        # TODO Should this be None? What does the parameter refer to?
+        self.install_action(
+            "water.apply-changes",
+            None,
+            self.apply_changes
+            )
+
+
+        online.check_for_updates(app="firefox")
 
     def init_prefs(self):
+    # TODO Add Unstable features
+        for each in final:
+            group = Adw.PreferencesGroup(title=each["group_name"])
 
-        pass
+            for option in each["options"]:
+                button = Adw.SwitchRow(
+                    title=option["summary"],
+                    tooltip_text=option["description"]
+                )
+                self.settings.bind(
+                    option["key"],
+                    button,
+                    ""
+                )
+                # TODO bind buttons to the gschema keys
+                group.add(button)
+            self.preferences_page.add(group)
 
 
-    def apply_changes(self):
+    def apply_changes(self, one, two, three):
+        print(one)
+        print(two)
+        print(three)
         # TODO use self.settings_firefox.apply() to apply all stored changes
         # TODO can I still bind the switches to the keys and have it work before applying?
         pass
 
+    def add_change(self, switch, state):
+        pass
+
     def begin_install(self):
 
-        install.install_firefox(firefox_path=self.firefox_dir,
-                        profile=self.firefox_profile,
-                        version=self.firefox_version)
+        install.install_firefox(firefox_path=self.install_dir,
+                        profile=self.selected_profile,
+                        version=self.desired_theme_version)

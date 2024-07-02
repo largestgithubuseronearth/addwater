@@ -1,5 +1,6 @@
 #preferences.py
 # TODO make pref window close on Ctrl+W and allow close app with Ctrl+Q
+# TODO add option to show experimental unstable features
 # FIXME [Widget of type “AddWaterPreferences” already has an accessible role of type “GTK_ACCESSIBLE_ROLE_GENERIC”]
 
 

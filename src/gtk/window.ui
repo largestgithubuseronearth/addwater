@@ -36,57 +36,6 @@
 						</object>
 					</child>
 
-					<!-- CHANGE CONFIRMATION BAR -->
-					<!-- TODO Move this into the page class so there is a separate one between Firefox and Thunderbird -->
-					<child type="bottom">
-						<!-- TODO build "change transaction toolbar" later -->
-						<!-- only show this bar when the user has queued some changes -->
-						<!-- build these button actions in code -->
-						<object class="GtkActionBar" id="change_confirm_bar">
-							<property name="visible">True</property>
-							<child type="start">
-								<object class="GtkLabel">
-									<property name="label">Confirm your changes?</property>
-									<style>
-										<class name="heading"/>
-									</style>
-								</object>
-							</child>
-							<child type="start">
-								<object class="GtkButton">
-									<property name="icon-name">info-outline-symbolic</property>
-									<property name="tooltip-text">Review Changes</property>
-									<property name="action-name">win.open-change-summary</property>
-								</object>
-							</child>
-
-							<child type="end">
-								<object class="GtkButton">
-									<property name="icon-name">cross-small-symbolic</property>
-									<property name="tooltip-text">Cancel</property>
-									<property name="action-name">app.clear-changes</property>
-									<style>
-										<class name="raised"/>
-									</style>
-								</object>
-							</child>
-							<child type="end">
-								<object class="GtkButton">
-									<property name="icon-name">checkmark-symbolic</property>
-									<property name="tooltip-text">Apply</property>
-									<property name="action-name">app.apply-changes</property>
-									<style>
-										<class name="suggested-action"/>
-									</style>
-								</object>
-							</child>
-
-							<style>
-								<class name="toolbar"/>
-							</style>
-						</object>
-
-					</child>
 
 				<!-- WINDOW CONTENT -->
 				<property name="content">
@@ -126,7 +75,7 @@
 	<menu id="primary_menu">
 		<section>
 			<item>
-				<attribute name="label" translatable="yes">_TODO Preferences</attribute>
+				<attribute name="label" translatable="yes">_Preferences</attribute>
 				<attribute name="action">app.preferences</attribute>
 			</item>
 			<item>

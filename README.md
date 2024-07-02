@@ -12,18 +12,13 @@ NEXT FEATURES:
 * Customize the theme preferences within this app
 * Thunderbird support
 
-IDEAS:
-* Is it reasonable to support the vscode gnome theme?
-* Is it reasonable to support multiple Firefox installs? 
 
 <!-- TODO Configure flatpak manifest properly -->
 * Ensure flatpak manifest permissions are correct
-* Add run in background to permissions
+* Allow permission to run in background to permissions
 * Is is okay to remove ipc permission? Doesn't seem necessary but idk.
 * Where does $FLATPAK_DEST go to?
-<!-- TODO Add python module configparser to flatpak install manifest? -->
 
-<!-- TODO Add profiles support -->
 <!-- TODO Add multiple install support -->
 
 <!-- TODO build preferences window for advanced users -->

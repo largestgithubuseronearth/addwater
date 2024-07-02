@@ -45,7 +45,7 @@ def install_firefox(firefox_path, profile, version):
     print(f"Installed Firefox successfully.")
     return True
 
-def uninstall_firefox_theme(firefox_path):
+def uninstall_firefox_theme(firefox_path, profile):
     pass
     # TODO delete chrome folder
     # TODO remove all prefs in user.js with " gnomeTheme" or set all false

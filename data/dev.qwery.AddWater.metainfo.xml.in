@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO Write this metadata stuff-->
 <component type="desktop">
 	<id>dev.qwery.AddWater.desktop</id>
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
+
+	<name>AddWater</name>
+	<summary></summary>
 	<description>
-		<!-- TODO Write this metadata stuff-->
 	  <p>A simple installer and updater for the GNOME theme for Firefox and Thunderbird</p>
 	</description>
+
+	<categories>
+		<category>GTK</category>
+		<category>GNOME</category>
+		<category>Utility</category>
+	</categories>
+
+	<requires>
+		<internet>always</internet>
+	</requires>
+	<developer id="dev.qwery">
+		<name>qwery</name>
+	</developer>
 </component>

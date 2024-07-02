@@ -27,7 +27,8 @@ LOG_DIR = os.path.join(APP_CACHE, "logs")
 FIREFOX_BASE = os.path.expanduser("~/.mozilla/firefox/")
 FIREFOX_FLATPAK = os.path.expanduser("~/.var/app/org.mozilla.Firefox/.mozilla/firefox/")
 # TODO is this snap dir correct?
-FIREFOX_SNAP = "~/snap/firefox/common/.mozilla/firefox/"
+FIREFOX_SNAP = os.path.expanduser("~/snap/firefox/common/.mozilla/firefox/")
+# TODO Make this into a list to iterate over?
 
 # FIXME this will not log entries on the first run of the app because LOG_DIR hasn't been created yet.
 def init_paths(paths=None):

@@ -5,19 +5,44 @@
 # TODO test this entire module again
 
 
+import os.path
+import logging
 from configparser import ConfigParser
 from gi.repository import GLib, Gio
-import logging
-import os.path
+from . import paths
+
 log = logging.getLogger(__name__)
 
-# TODO find_installs()
-def find_installs():
-    pass
+def find_install():
+    """Iterates over all common Firefox config directories and returns which one exists.
+
+    SUPPORTS: Only Firefox
+    """
+    path_list = [
+        paths.FIREFOX_BASE,
+        paths.FIREFOX_SNAP,
+        paths.FIREFOX_FLATPAK
+    ]
+    for each in path_list:
+        if os.path.exists(each):
+            return each
+
+    return None
 
 
 # Note: First profile in returned list MUST ALWAYS be the user's default/preferred profile
 def find_profiles(moz_path):
+    """Reads the app configuration files to adds all of them in a list.
+    SUPPORTS: Firefox, Thunderbird
+
+    ARGS:
+    moz_path : The path to where the app stores its profiles and the profiles.ini files
+
+    RETURN:
+    A list of dicts with all profiles. Each dict includes the full ID of the profile, and a display name to present in the UI without the randomized prefix string.
+    The first in the list is always the user's selected default profile.
+
+    """
     install_file = os.path.join(moz_path, "installs.ini")
     profiles_file = os.path.join(moz_path, "profiles.ini")
 
@@ -27,11 +52,10 @@ def find_profiles(moz_path):
 
     try:
         # Preferred
-        # TODO does this check actually make sense?
         if len(cfg.read(install_file)) == 0:
             raise FileNotFoundError(install_file)
 
-        # TODO allow for multiple default profiles with for each loop
+        # TODO Test that this works with multiple default profiles
         for each in cfg.sections():
             default_profile = cfg[each]["Default"]
             defaults.append(default_profile)

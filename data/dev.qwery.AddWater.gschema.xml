@@ -81,6 +81,17 @@
 			<summary>Hide WebRTC Indicator</summary>
 			<description>Hide redundant WebRTC indicator since GNOME provides their own privacy icons in the top right</description>
 		</key>
+		<key name="no-themed-icons" type="b">
+			<default>false</default>
+			<summary>No Themed Icons</summary>
+			<description>Use Firefox's default icons instead of themed Adwaita icons</description>
+		</key>
+		<!-- TODO reword this key description -->
+		<key name="oled-black" type="b">
+			<default>false</default>
+			<summary>True Black Theme</summary>
+			<description>Change dark theme into an OLED black variant</description>
+		</key>
 
 		<!-- Unstable -->
 		<!-- TODO Should I even include unstable options? Maybe in preferences have an advanced user setting -->
