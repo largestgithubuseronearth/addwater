@@ -74,7 +74,9 @@ class FirefoxPage(Adw.Bin):
                 self.settings.bind(
                     option["key"],
                     button,
-                    ""
+                    "active",
+                    # TODO should I use GET flag instead to grab the setting first?
+                    Gio.SettingsBindFlags.DEFAULT
                 )
                 # TODO bind buttons to the gschema keys
                 group.add(button)
@@ -85,9 +87,9 @@ class FirefoxPage(Adw.Bin):
         print(one)
         print(two)
         print(three)
+        self.settings.apply()
         # TODO use self.settings_firefox.apply() to apply all stored changes
         # TODO can I still bind the switches to the keys and have it work before applying?
-        pass
 
     def add_change(self, switch, state):
         pass
