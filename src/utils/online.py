@@ -5,7 +5,7 @@
 
 
 from datetime import datetime, timezone
-from gi.repository import GLib
+from gi.repository import GLib, Gio
 from . import paths
 import logging
 import json
@@ -23,7 +23,17 @@ theme_urls = {
 DL_CACHE = paths.DOWNLOAD_DIR
 
 def check_for_updates(app):
+    """Check theme github for new releases
+
+    Args:
+    app = String, the proper name of the app. e.g. "firefox", "thunderbird"
+
+    Returns:
+        None = No new release to update to
+        Int = Next release version to update to
+    """
     try:
+        app = app.lower()
         check_url = theme_urls[app]
     except KeyError as err:
         log.error(f"Checking for updates FAILED: Invalid app [{app}]")
@@ -40,40 +50,27 @@ def check_for_updates(app):
         log.error("Connection failed", err)
         return False
 
-    new_version = int(latest_release["tag_name"].lstrip("v"))
-    new_time = datetime.fromisoformat(latest_release["published_at"])
+    update_version = int(latest_release["tag_name"].lstrip("v"))
 
-    try:
-        p = os.path.join(DL_CACHE, f"{app}_latest.json")
-        with open(file=p, mode="r", encoding="utf-8") as file:
-            file = json.load(file)
-            current_version = int(file["tag_name"].lstrip("v"))
-            current_time = datetime.fromisoformat(file["published_at"])
-    except FileNotFoundError:
-        log.info("No json details to compare new release to current. Writing new file for this latest release.")
-        download_release(release_json=latest_release,
-                        app=app,
-                        version=new_version
-                        )
-        return
-
-    if (new_version > current_version and new_time > current_time):
-        log.info("Update available. Downloading latest...")
-        return download_release(release_json=latest_release
-                                ,app=app,
-                                version=new_version)
+    installed_version = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox").get_int("installed-version")
+    if update_version > installed_version:
+        log.info(f"Update available ({installed_version} → {update_version}). Downloading now...")
+        download_release(
+            tarball_url=latest_release["tarball_url"],
+            app=app,
+            version=update_version
+        )
     else:
-        log.info("No update available")
-        return None
+        log.info("No update available.")
+
+    return update_version
+
+
 
 
 # TODO how to make download asynchronous? Is that even worthwhile?
-def download_release(release_json, app, version):
-    new_json = os.path.join(DL_CACHE, f"{app}_latest.json")
-    with open(file=(new_json), mode="w", encoding="utf-8") as file:
-        file.write(json.dumps(release_json))
-
-    response = requests.get(release_json["tarball_url"]) # ASYNC use stream flag
+def download_release(tarball_url, app, version):
+    response = requests.get(tarball_url) # ASYNC use stream flag
     if response.status_code != 200:
         log.error(f"Github download request gave bad response [{response.status_code}]")
         return False

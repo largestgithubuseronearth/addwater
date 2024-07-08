@@ -31,7 +31,7 @@ FIREFOX_SNAP = os.path.expanduser("~/snap/firefox/common/.mozilla/firefox/")
 # TODO Make this into a list to iterate over?
 
 # FIXME this will not log entries on the first run of the app because LOG_DIR hasn't been created yet.
-def init_paths(paths=None):
+def init_paths():
     paths = [APP_CACHE, DOWNLOAD_DIR, LOG_DIR]
     for each in paths:
         try:

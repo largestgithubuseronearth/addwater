@@ -13,7 +13,7 @@ from . import paths
 
 log = logging.getLogger(__name__)
 
-def find_install():
+def find_firefox_path():
     """Iterates over all common Firefox config directories and returns which one exists.
 
     SUPPORTS: Only Firefox

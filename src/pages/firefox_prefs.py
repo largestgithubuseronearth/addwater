@@ -1,60 +1,6 @@
-# this is a temp module to easily write the json(?) file for the optional features of the firefox theme
-# TODO import into firefox_page for ease of use and to abstract out of that module
 # TODO is there a simpler way to do this? .in files?
 
-import json
-from caseconverter import camelcase, kebabcase
-
-gsettings_keys = [
-    "hide-single-tab",
-    "normal-width-tabs",
-    "swap-tab-close",
-    "bookmarks-toolbar-under-tabs",
-    "tabs-as-headerbar",
-    "active-tab-contrast",
-    "close-only-selected-tabs",
-    "symbolic-tab-icons",
-    "hide-webrtc-indicator"
-]
-
-names = [
-    "Hide Single Tab",
-    "Normal Width Tabs",
-    "Swap Tab Close Button",
-    "Bookmarks Toolbar Under Tabs",
-    "Tabs as Headerbar",
-    "Active Tab Contrast",
-    "Close Only Selected Tabs",
-    "Symbolic Tab Icons",
-    "Hide WebRTC Indicator"
-]
-
-descriptions = [
-    "Hide the tab bar when only one tab is open",
-    "Use the same tab width as default Firefox",
-    "Prevent Tab Close button from following the position of the window controls",
-    "Move the Bookmarks toolbar underneath tabs bar",
-    "Place the tabs on the top of the window, and use the tabs bar to hold the window controls, like Firefox's standard tab bar.\n\nNOTE: Enabling with \"Hide Single Tab\" will replace the single tab with a title bar",
-    "Add more contrast to the active tab",
-    "Show the close button only on the selected tab",
-    "Make all tab icons look similar to symbolic icons",
-    "Hide redundant WebRTC indicator since GNOME provides their own privacy icons in the top right",
-]
-
-
-newlist = []
-
-
-for i in range(len(gsettings_keys)):
-    newdict = { "key" : gsettings_keys[i],
-                "js_key" : camelcase(gsettings_keys[i]),
-                "summary" : names[i],
-                "description" : descriptions[i]}
-    newlist.append(newdict)
-
-print(json.dumps(newlist, indent=2))
-
-final = [
+FIREFOX_OPTIONS = [
     {
     "group_name": "Tab Position",
     "options": [

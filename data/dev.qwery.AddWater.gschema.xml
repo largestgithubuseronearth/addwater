@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="addwater">
 	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater/">
-		<key name="base-theme-downloaded" type="b">
-			<default>false</default>
-		</key>
 		<key name="firefox-path" type="s">
 			<default>"~/.mozilla/firefox/"</default>
+		</key>
+		<key name="thunderbird-path" type="s">
+			<default>""</default>
 		</key>
 		<key name="show-unstable-features" type="b">
 			<default>false</default>
@@ -15,6 +15,10 @@
 	</schema>
 
 	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox/">
+		<key name="installed-version" type="i">
+			<default>0</default>
+		</key>
+
 		<!-- General -->
 		<key name="theme-enabled" type="b">
 			<default>false</default>
@@ -103,7 +107,7 @@
 		</key>
 		<key name="drag-window-headerbar-buttons" type="b">
 			<default>false</default>
-			<summary></summary>
+			<summary>Drag Window From Headerbar Button</summary>
 			<description></description>
 		</key>
 	</schema>

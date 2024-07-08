@@ -6,6 +6,7 @@ import os
 import os.path
 import tarfile
 
+from gi.repository import Gio
 from . import paths
 from .logs import logging
 
@@ -14,6 +15,14 @@ log = logging.getLogger(__name__)
 DL_CACHE = paths.DOWNLOAD_DIR
 
 def install_firefox(firefox_path, profile, version):
+    """Installs Firefox theme from a downloaded release
+
+    Args
+
+    firefox_path: String, Full OS path to folder that stores all user profiles. e.g. /var/home/myname/.mozilla/firefox/\n
+    profile: String, Full profile id which includes the random string prefix.\n
+    version: int, Theme version to install. May be allowed to be changed in the future.\n
+    """
     extract_dir = extract_release(app="firefox", version=version)
     if extract_dir is None:
         log.error("Extraction failed. Installation cancelled")
@@ -24,15 +33,19 @@ def install_firefox(firefox_path, profile, version):
         profile_arg = ""
         profile = ""
 
+    # Must rename the inner folder to "firefox-gnome-theme" for the provided script to work. Otherwise the theme won't show properly
     with os.scandir(path=extract_dir) as scan:
         for each in scan:
             if each.name.startswith("rafaelmardojai-firefox-gnome-theme"):
-                p = each.name
-    script_path = os.path.join(extract_dir, p, "scripts", "install.sh")
+                old = os.path.join(extract_dir, each.name)
+                new = os.path.join(extract_dir, "firefox-gnome-theme")
+                os.rename(old, new)
 
-    # Preview of the final command
+    script_path = os.path.join(extract_dir, "firefox-gnome-theme", "scripts", "install.sh")
+
+    # TODO Make my own installation script to replace the theme dev's provided bash script. Should be simple to extract the files and add lines to the user.js and css files.
     try:
-        print(script_path, profile_arg, profile, "-f", firefox_path)
+        log.info(f"Command run to install:  \n", script_path, profile_arg, profile, "-f", firefox_path)
         subprocess.run([script_path, profile_arg, profile, "-f", firefox_path],
                         capture_output=True,
                         check=True)
@@ -43,12 +56,7 @@ def install_firefox(firefox_path, profile, version):
 
     log.info(f"Installed Firefox successfully.")
     print(f"Installed Firefox successfully.")
-    return True
-
-def uninstall_firefox_theme(firefox_path, profile):
-    pass
-    # TODO delete chrome folder
-    # TODO remove all prefs in user.js with " gnomeTheme" or set all false
+    Gio.Settings(schema_id="dev.qwery.AddWater.Firefox").set_int("installed-version", version)
 
 
 def extract_release(app, version):

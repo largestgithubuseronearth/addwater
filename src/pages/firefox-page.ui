@@ -1,96 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 	<template class="FirefoxPage" parent="AdwBin">
+		<!-- TODO make bottom page margin greater and add shadow to show you're at the end of the list -->
 		<property name="child">
-			<object class="AdwToolbarView">
+			<object class="AdwToastOverlay" id="toast_overlay">
+				<child>
 
-				<!-- Change Confirmation Bar -->
-				<child type="bottom">
-					<object class="GtkActionBar" id="change_confirm_bar">
-						<property name="visible">True</property>
-						<child type="start">
-							<object class="GtkLabel">
-								<property name="label">Confirm your changes?</property>
-								<style>
-									<class name="heading"/>
-								</style>
-							</object>
-						</child>
-						<child type="start">
-							<object class="GtkButton">
-								<property name="icon-name">info-outline-symbolic</property>
-								<property name="tooltip-text">Review Changes</property>
-								<property name="action-name">firefox.open-change-summary</property>
-							</object>
-						</child>
+					<object class="AdwToolbarView">
 
-						<child type="end">
-							<object class="GtkButton">
-								<property name="icon-name">cross-small-symbolic</property>
-								<property name="tooltip-text">Discard</property>
-								<property name="action-name">firefox.clear-changes</property>
-								<style>
-									<class name="raised"/>
-								</style>
-							</object>
-						</child>
-						<child type="end">
-							<object class="GtkButton">
-								<property name="icon-name">checkmark-symbolic</property>
-								<property name="tooltip-text">Apply</property>
-								<property name="action-name">water.apply-changes</property>
-								<style>
-									<class name="suggested-action"/>
-								</style>
-							</object>
-						</child>
-						<style>
-							<class name="toolbar"/>
-						</style>
-					</object>
-				</child>
-
-				<!-- Main Content -->
-				<property name="content">
-					<object class="GtkScrolledWindow">
-						<property name="hexpand">False</property>
-						<property name="vexpand">False</property>
-						<property name="margin-start">10</property>
-						<property name="margin-end">10</property>
-						<child>
-							<object class="AdwPreferencesPage" id="preferences_page">
-								<!-- General -->
-								<child>
-									<object class="AdwPreferencesGroup">
-										<property name="title">General</property>
-										<child>
-											<object class="AdwSwitchRow">
-												<property name="title">Enable Theme</property>
-											</object>
-										</child>
-										<child>
-											<object class="AdwComboRow" id="profile_switcher">
-												<property name="title">Profile</property>
-												<property name="model">
-													<object class="GtkStringList" id="profile_list">
-														<items></items>
-													</object>
-												</property>
-												<property name="tooltip-text">Select which user profile to install to</property>
-											</object>
-										</child>
+						<!-- Change Confirmation Bar -->
+						<child type="bottom">
+							<!-- TODO animate this apply bar to be a smooth popup -->
+							<object class="GtkActionBar" id="change_confirm_bar">
+								<child type="start">
+									<object class="GtkLabel">
+										<property name="label">Confirm your changes?</property>
+										<style>
+											<class name="heading"/>
+										</style>
+									</object>
+								</child>
+								<child type="start">
+									<object class="GtkButton">
+										<property name="icon-name">info-outline-symbolic</property>
+										<property name="tooltip-text">Review Changes</property>
+										<property name="action-name">firefox.open-change-summary</property>
 									</object>
 								</child>
 
-								<!-- <child> -->
-								<!-- 	<object class="AdwPreferencesGroup" id="experimental_options"> -->
-								<!-- 		<property name="title">Experimental Features</property> -->
-								<!-- 	</object> -->
-								<!-- </child> -->
+								<child type="end">
+									<object class="GtkButton">
+										<property name="icon-name">cross-small-symbolic</property>
+										<property name="tooltip-text">Discard</property>
+										<property name="action-name">water.discard-changes</property>
+										<style>
+											<class name="raised"/>
+										</style>
+									</object>
+								</child>
+								<child type="end">
+									<object class="GtkButton">
+										<property name="icon-name">checkmark-symbolic</property>
+										<property name="tooltip-text">Apply</property>
+										<property name="action-name">water.apply-changes</property>
+										<style>
+											<class name="suggested-action"/>
+										</style>
+									</object>
+								</child>
+								<style>
+									<class name="toolbar"/>
+								</style>
 							</object>
 						</child>
+
+						<!-- Main Content -->
+						<property name="content">
+							<object class="GtkScrolledWindow">
+								<property name="hexpand">False</property>
+								<property name="vexpand">False</property>
+								<property name="margin-start">10</property>
+								<property name="margin-end">10</property>
+								<child>
+									<object class="AdwPreferencesPage" id="preferences_page">
+										<!-- TODO add icons to the groups -->
+										<!-- General -->
+										<child>
+											<object class="AdwPreferencesGroup">
+												<!-- TODO Add more prominence to this page -->
+												<property name="title">General</property>
+												<child>
+													<object class="AdwSwitchRow" id="enable_button">
+														<property name="title">Enable Theme</property>
+													</object>
+												</child>
+												<child>
+													<object class="AdwComboRow" id="profile_switcher">
+														<property name="title">Profile</property>
+														<property name="model">
+															<object class="GtkStringList" id="profile_list">
+																<items></items>
+															</object>
+														</property>
+														<property name="tooltip-text">Select which user profile to install to</property>
+													</object>
+												</child>
+											</object>
+										</child>
+
+										<!-- <child> -->
+										<!-- 	<object class="AdwPreferencesGroup" id="experimental_options"> -->
+										<!-- 		<property name="title">Experimental Features</property> -->
+										<!-- 	</object> -->
+										<!-- </child> -->
+									</object>
+								</child>
+							</object>
+						</property>
 					</object>
-				</property>
+
+				</child>
 			</object>
 		</property>
 	</template>
