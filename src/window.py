@@ -23,7 +23,6 @@ from .pages.firefox_page import FirefoxPage
 from .utils.profiles import find_firefox_path
 from .utils import logs
 
-# FIXME This won't log correctly
 log = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
@@ -52,8 +51,4 @@ class AddwaterWindow(Adw.ApplicationWindow):
             title="Firefox",
             icon_name="globe-symbolic"
         )
-
-
-
-
 

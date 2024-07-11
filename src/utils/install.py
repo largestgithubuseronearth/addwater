@@ -1,5 +1,4 @@
 # theme_actions.py
-# TODO make sure these commands work regardless of shell user has
 
 import subprocess
 import os
@@ -45,7 +44,7 @@ def install_firefox(firefox_path, profile, version):
 
     # TODO Make my own installation script to replace the theme dev's provided bash script. Should be simple to extract the files and add lines to the user.js and css files.
     try:
-        log.info(f"Command run to install:  \n", script_path, profile_arg, profile, "-f", firefox_path)
+        print(f"Command run to install:  \n", script_path, profile_arg, profile, "-f", firefox_path)
         subprocess.run([script_path, profile_arg, profile, "-f", firefox_path],
                         capture_output=True,
                         check=True)

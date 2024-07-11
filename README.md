@@ -28,3 +28,5 @@ NEXT FEATURES:
 
 <!-- TODO write .desktop file -->
 <!-- TODO write requirements.txt -->
+<!-- TODO Write docstrings for the classes and methods -->
+<!-- TODO Write unit tests for the majority of the app, especially critical sections where data loss may occur -->

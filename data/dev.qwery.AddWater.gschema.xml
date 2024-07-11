@@ -93,7 +93,7 @@
 		<!-- TODO reword this key description -->
 		<key name="oled-black" type="b">
 			<default>false</default>
-			<summary>True Black Theme</summary>
+			<summary>True Black Dark Theme</summary>
 			<description>Change dark theme into an OLED black variant</description>
 		</key>
 
@@ -113,5 +113,24 @@
 	</schema>
 
 	<schema path="/dev/qwery/AddWater/Thunderbird/" id="dev.qwery.AddWater.Thunderbird">
+		<key name="installed-version" type="i">
+			<default>0</default>
+		</key>
+
+		<!-- GENERAL -->
+		<key name="theme-enabled" type="b">
+			<default>false</default>
+		</key>
+
+		<!-- TABS -->
+		<key name="hide-tabbar" type="b">
+			<default>false</default>
+		</key>
+		<key name="normal-width-tabs" type="b">
+			<default>false</default>
+		</key>
+		<key name="active-tab-contrast" type="b">
+			<default>false</default>
+		</key>
 	</schema>
 </schemalist>

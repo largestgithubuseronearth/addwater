@@ -20,8 +20,9 @@ def find_firefox_path():
     """
     path_list = [
         paths.FIREFOX_BASE,
-        paths.FIREFOX_SNAP,
-        paths.FIREFOX_FLATPAK
+        paths.FIREFOX_FLATPAK,
+        paths.FIREFOX_FLATPAK_WRONG,
+        paths.FIREFOX_SNAP
     ]
     for each in path_list:
         if os.path.exists(each):

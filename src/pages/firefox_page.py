@@ -1,5 +1,6 @@
 # firefox_page.py
 # TODO once this is working properly turn this class into a generic parent class and spin off Firefox and Thunderbird Pages into their own subclasses
+# TODO make firefox_path and profile_path class properties that can be edited easily
 
 import logging, json, os.path, shutil
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
@@ -12,10 +13,10 @@ from ..utils import online
 log = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path="/dev/qwery/AddWater/pages/firefox-page.ui")
+@Gtk.Template(resource_path="/dev/qwery/AddWater/pages/addwater-page.ui")
 class FirefoxPage(Adw.Bin):
     """Firefox ViewStackPage. Must be converted into a generalized class for both Firefox and Thunderbird"""
-    __gtype_name__ = "FirefoxPage"
+    __gtype_name__ = "AddwaterPage"
 
     # Firefox Attributes
 
@@ -39,7 +40,7 @@ class FirefoxPage(Adw.Bin):
             print("FIREFOX_PATH not found")
             pass
             # TODO Show a status page that asks user to set the firefox-path manually and to check Firefox flatpak permissions..
-        self.init_prefs()
+        self.init_prefs(FIREFOX_OPTIONS)
 
         # Change Confirmation bar
         # TODO Should parameter be None? What does the parameter refer to?
@@ -85,7 +86,8 @@ class FirefoxPage(Adw.Bin):
         )
 
 
-    def init_prefs(self):
+    def init_prefs(self, OPTIONS_LIST):
+        # TODO When a button is switched from its previous position, add a dot next to the switch to show it's been changed. Set all to hidden when settings are applied.
         # App options
         self.settings.bind(
             "theme-enabled",
@@ -95,7 +97,7 @@ class FirefoxPage(Adw.Bin):
         )
 
         # Theme options
-        for each in FIREFOX_OPTIONS:
+        for each in OPTIONS_LIST:
             group = Adw.PreferencesGroup(title=each["group_name"])
 
             for option in each["options"]:
@@ -131,65 +133,11 @@ class FirefoxPage(Adw.Bin):
                 profile_id = each["id"]
                 break
 
-        user_js = os.path.join(self.firefox_path, profile_id, "user.js")
-
         # TODO Turn the install and uninstall into bespoke methods separate from each other
         if self.settings.get_boolean("theme-enabled") is True:
-            # Run install script
-            install.install_firefox(
-                firefox_path=self.firefox_path,
-                profile=profile_id,
-                version=self.update_version
-            )
-
-            # Set all user.js options according to gsettings
-            with open(file=user_js, mode="r") as file:
-                lines = file.readlines()
-
-            with open(file=user_js, mode="w") as file:
-                for group in FIREFOX_OPTIONS:
-                    for option in group["options"]:
-                        js_key = option["js_key"]
-                        value = str(self.settings.get_boolean(option["key"])).lower()
-                        pref_name = f"gnomeTheme.{js_key}"
-                        full_line = f"""user_pref("{pref_name}", {value});\n"""
-
-                        found = False
-                        for i in range(len(lines)):
-                            if pref_name in lines[i]:
-                                lines[i] = full_line
-                                found = True
-                                break
-                        if found == False:
-                            lines.append(full_line)
-
-                file.writelines(lines)
-
-            log.info("Theme installed successfully.")
-            msg = "Firefox theme installed. Restart Firefox to see changes."
-
+            msg = self.install_theme(profile_id=profile_id)
         else:
-            # Delete Chrome folder
-            chrome_path = os.path.join(self.firefox_path, profile_id, "chrome")
-            # TODO VERIFY THIS FOR POSSIBLE DATA LOSS
-            shutil.rmtree(chrome_path)
-
-
-            # Set all gnomeTheme prefs to false
-            with open(file=user_js, mode="r") as file:
-                lines = file.readlines()
-
-            with open(file=user_js, mode="w") as file:
-                # TODO Cleaner way to do this? A basic for each doesn't let you replace the item in the list
-                for i in range(len(lines)):
-                    if "gnomeTheme" in lines[i]:
-                        lines[i] = lines[i].replace("true", "false")
-
-                file.writelines(lines)
-
-            log.info("Theme uninstalled successfully.")
-            msg = "Firefox theme uninstalled. Restart Firefox to see changes."
-
+            msg = self.uninstall_theme(profile_id=profile_id)
 
         toast = Adw.Toast(
             title=msg,
@@ -210,4 +158,69 @@ class FirefoxPage(Adw.Bin):
             priority=Adw.ToastPriority.NORMAL
         )
         self.toast_overlay.add_toast(toast)
+
+    def install_theme(self, profile_id):
+        selected_profile_name = self.profile_switcher.get_selected_item().get_string()
+        for each in self.profiles:
+            if each["name"] == selected_profile_name:
+                profile_id = each["id"]
+                break
+
+        user_js = os.path.join(self.firefox_path, profile_id, "user.js")
+        # Run install script
+        install.install_firefox(
+            firefox_path=self.firefox_path,
+            profile=profile_id,
+            version=self.update_version
+        )
+
+        # Set all user.js options according to gsettings
+        with open(file=user_js, mode="r") as file:
+            lines = file.readlines()
+
+        with open(file=user_js, mode="w") as file:
+            for group in FIREFOX_OPTIONS:
+                for option in group["options"]:
+                    js_key = option["js_key"]
+                    value = str(self.settings.get_boolean(option["key"])).lower()
+                    pref_name = f"gnomeTheme.{js_key}"
+                    full_line = f"""user_pref("{pref_name}", {value});\n"""
+
+                    found = False
+                    for i in range(len(lines)):
+                        if pref_name in lines[i]:
+                            lines[i] = full_line
+                            found = True
+                            break
+                    if found == False:
+                        lines.append(full_line)
+
+            file.writelines(lines)
+
+        log.info("Theme installed successfully.")
+        return "Firefox theme installed. Restart Firefox to see changes."
+
+    def uninstall_theme(self, profile_id):
+        # Delete Chrome folder
+        chrome_path = os.path.join(self.firefox_path, profile_id, "chrome")
+        shutil.rmtree(chrome_path)
+
+        # Set all user_prefs to false
+        user_js = os.path.join(self.firefox_path, profile_id, "user.js")
+        try:
+            with open(file=user_js, mode="r") as file:
+                lines = file.readlines()
+        except FileNotFoundError:
+            pass
+
+        with open(file=user_js, mode="w") as file:
+            # TODO Cleaner way to do this? A basic for each doesn't let you replace the item in the list
+            for i in range(len(lines)):
+                if "gnomeTheme" in lines[i]:
+                    lines[i] = lines[i].replace("true", "false")
+
+            file.writelines(lines)
+
+        log.info("Theme uninstalled successfully.")
+        return "Firefox theme uninstalled. Restart Firefox to see changes."
 

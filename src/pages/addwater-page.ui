@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This is the Template from which both Firefox and Thunderbird will derive their layouts. -->
 <interface>
-	<template class="FirefoxPage" parent="AdwBin">
-		<!-- TODO make bottom page margin greater and add shadow to show you're at the end of the list -->
+	<template class="AddwaterPage" parent="AdwBin">
 		<property name="child">
 			<object class="AdwToastOverlay" id="toast_overlay">
 				<child>
@@ -10,7 +10,6 @@
 
 						<!-- Change Confirmation Bar -->
 						<child type="bottom">
-							<!-- TODO animate this apply bar to be a smooth popup -->
 							<object class="GtkActionBar" id="change_confirm_bar">
 								<child type="start">
 									<object class="GtkLabel">
@@ -18,13 +17,6 @@
 										<style>
 											<class name="heading"/>
 										</style>
-									</object>
-								</child>
-								<child type="start">
-									<object class="GtkButton">
-										<property name="icon-name">info-outline-symbolic</property>
-										<property name="tooltip-text">Review Changes</property>
-										<property name="action-name">firefox.open-change-summary</property>
 									</object>
 								</child>
 
@@ -105,3 +97,4 @@
 	</template>
 
 </interface>
+

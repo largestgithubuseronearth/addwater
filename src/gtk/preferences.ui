@@ -7,7 +7,8 @@
 				<property name="icon-name">globe-symbolic</property>
 				<child>
 					<object class="AdwPreferencesGroup">
-						<property name="title">Install Location</property>
+						<property name="title">Firefox Directory</property>
+						<property name="description">This is where Firefox stores your profile folders and the `profile.ini` file.</property>
 
 						<child>
 							<object class="AdwComboRow">
@@ -15,6 +16,7 @@
 								<property name="model">
 									<object class="GtkStringList">
 										<items>
+											<!-- TODO Find better name for base package than native -->
 											<item>Base</item>
 											<item>Flatpak</item>
 											<item>Snap</item>
@@ -38,13 +40,17 @@
 						</child>
 					</object>
 				</child>
-			</object>
-		</child>
-		<child>
-			<!-- TODO Thunderbird app preferences-->
-			<object class="AdwPreferencesPage" id="thunderbird_pref_page">
-				<property name="title">Thunderbird</property>
-				<property name="icon-name">mail-symbolic</property>
+				<child>
+					<object class="AdwPreferencesGroup">
+						<property name="title">Thunderbird Directory</property>
+					</object>
+				</child>
+				<!-- <child> -->
+				<!-- 	<object class="AdwPreferencesGroup"> -->
+				<!-- 		<property name="title">Experimental Features</property> -->
+				<!-- 		<property name="description">These options are buggy and may not work properly. If you encounter bugs in the theme, please ensure these options are disabled before asking for support.</property> -->
+				<!-- 	</object> -->
+				<!-- </child> -->
 			</object>
 		</child>
 	</template>
