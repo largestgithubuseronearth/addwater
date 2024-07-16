@@ -27,6 +27,8 @@ FIREFOX_FLATPAK = os.path.expanduser("~/.var/app/org.mozilla.firefox/.mozilla/fi
 FIREFOX_FLATPAK_WRONG = os.path.expanduser("~/.var/app/org.mozilla.Firefox/.mozilla/firefox/")
 FIREFOX_SNAP = os.path.expanduser("~/snap/firefox/common/.mozilla/firefox/")
 
+# THUNDERBIRD PATHS
+
 # FIXME this will not log entries on the first run of the app because LOG_DIR hasn't been created yet.
 def init_paths():
     paths = [APP_CACHE, DOWNLOAD_DIR, LOG_DIR]

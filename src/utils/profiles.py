@@ -13,24 +13,6 @@ from . import paths
 
 log = logging.getLogger(__name__)
 
-def find_firefox_path():
-    """Iterates over all common Firefox config directories and returns which one exists.
-
-    SUPPORTS: Only Firefox
-    """
-    path_list = [
-        paths.FIREFOX_BASE,
-        paths.FIREFOX_FLATPAK,
-        paths.FIREFOX_FLATPAK_WRONG,
-        paths.FIREFOX_SNAP
-    ]
-    for each in path_list:
-        if os.path.exists(each):
-            return each
-
-    return None
-
-
 # Note: First profile in returned list MUST ALWAYS be the user's default/preferred profile
 def find_profiles(moz_path):
     """Reads the app configuration files to adds all of them in a list.

@@ -34,7 +34,7 @@ addwater_sources = [
   'window.py',
   'preferences.py',
 
-  'pages/firefox_page.py',
+  'pages/addwater_page.py',
   'pages/firefox_prefs.py',
 
   'utils/install.py',
