@@ -20,10 +20,13 @@
 import logging, os.path
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .pages.addwater_page import AddwaterPage
-from .pages.firefox_prefs import FIREFOX_OPTIONS
+from .theme_options import FIREFOX_OPTIONS, THUNDERBIRD_OPTIONS
 from .utils import logs, paths
 
 log = logging.getLogger(__name__)
+
+firefox_url = "https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases"
+thunderbird_url = "https://api.github.com/repos/rafaelmardojai/thunderbird-gnome-theme/releases"
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddwaterWindow(Adw.ApplicationWindow):
@@ -51,7 +54,8 @@ class AddwaterWindow(Adw.ApplicationWindow):
         firefox_page = AddwaterPage(
             app_path=firefox_path,
             app_options=FIREFOX_OPTIONS,
-            app_name="Firefox"
+            app_name="Firefox",
+            theme_url=firefox_url
         )
         self.main_view_stack.add_titled_with_icon(
             child=firefox_page,
@@ -61,6 +65,20 @@ class AddwaterWindow(Adw.ApplicationWindow):
         )
 
         # TODO Thunderbird Page set up
+        firefox_page = AddwaterPage(
+            app_path=firefox_path,
+            app_options=THUNDERBIRD_OPTIONS,
+            app_name="Thunderbird",
+            theme_url=thunderbird_url
+        )
+        self.main_view_stack.add_titled_with_icon(
+            child=firefox_page,
+            name="Firefox",
+            title="Firefox",
+            icon_name="globe-symbolic"
+        )
+
+
 
     def find_firefox_path(self):
         """Iterates over all common Firefox config directories and returns which one exists.
