@@ -48,34 +48,53 @@ class AddwaterWindow(Adw.ApplicationWindow):
                 log.error("Could not find Firefox path automatically. User must set it manually.")
             else:
                 self.settings.set_string("firefox-path", firefox_path)
-                log.info(f"Found Firefox path.{firefox_path}")
 
+        log.debug(f"Found Firefox path: {firefox_path}")
         # Add page to window
-        firefox_page = AddwaterPage(
-            app_path=firefox_path,
-            app_options=FIREFOX_OPTIONS,
-            app_name="Firefox",
-            theme_url=firefox_url
-        )
+        if firefox_path == None:
+            # TODO Make status page that asks user to set the firefox path manually and restart the app.
+            firefox_page = Adw.StatusPage(
+                title="Can't Find Your Firefox Data :c",
+                # TODO Fix this description to be helpful or link to a Github troubleshooting page
+                description="""AddWater Flatpak is preconfigured to have access to the most common Firefox data locations. If you have modified Flatpak permissions, please ensure AddWater has permission to access the directory in which Firefox stores your profile folders and `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
+                )
+        else:
+            firefox_page = AddwaterPage(
+                app_path=firefox_path,
+                app_options=FIREFOX_OPTIONS,
+                app_name="Firefox",
+                theme_url=firefox_url
+            )
+
         self.main_view_stack.add_titled_with_icon(
             child=firefox_page,
             name="Firefox",
             title="Firefox",
             icon_name="globe-symbolic"
         )
+
 
         # TODO Thunderbird Page set up
-        firefox_page = AddwaterPage(
-            app_path=firefox_path,
-            app_options=THUNDERBIRD_OPTIONS,
-            app_name="Thunderbird",
-            theme_url=thunderbird_url
-        )
+        # TODO find_thunderbird_path
+        thunderbird_path = None
+        if thunderbird_path == None:
+            thunderbird_page = Adw.StatusPage(
+                title="Can't Find Your Thunderbird Data :c",
+                # TODO Fix this description to be helpful or link to a Github troubleshooting page
+                description="""AddWater Flatpak is preconfigured to have access to the most common Thunderbird data locations. If you have modified Flatpak permissions, please ensure AddWater has permission to access the directory in which Thunderbird stores your profile folders and `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
+            )
+        else:
+            thunderbird_page = AddwaterPage(
+                app_path=thunderbird_path,
+                app_options=THUNDERBIRD_OPTIONS,
+                app_name="Thunderbird",
+                theme_url=thunderbird_url
+            )
         self.main_view_stack.add_titled_with_icon(
-            child=firefox_page,
-            name="Firefox",
-            title="Firefox",
-            icon_name="globe-symbolic"
+            child=thunderbird_page,
+            name="Thunderbird",
+            title="Thunderbird",
+            icon_name="mail-symbolic"
         )
 
 

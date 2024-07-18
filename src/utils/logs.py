@@ -1,6 +1,6 @@
 # logs.py
 
-import logging
+import logging, datetime
 import os.path
 from gi.repository import Gtk, Adw
 from . import paths
@@ -12,6 +12,7 @@ def init_logs():
         LOGFILE = os.path.join(paths.LOG_DIR, "add-water.log")
         logging.basicConfig(filename=LOGFILE,
                             filemode="w",
+                            format="",
                             level=logging.DEBUG)
     except:
         print("Couldn't initialize log file")
