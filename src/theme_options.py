@@ -86,3 +86,31 @@ FIREFOX_OPTIONS = [
 
 ]
 
+# TODO add thunderbird options
+THUNDERBIRD_OPTIONS = [
+    {
+        "group_name": "Tab Position and Behavior",
+        "options": [
+            {
+            "key": "hide-tabbar",
+            "js_key": "hideTabbar",
+            "summary": "Hide Tab Bar",
+            # TODO fix this description
+            "description": "Hides tabs and menu bar. Press Alt to present the tab bar or by enabling the menu bar."
+            },
+            {
+            "key": "normal-width-tabs",
+            "js_key": "normalWidthTabs",
+            "summary": "Normal Width Tabs",
+            "description": "Use the same tab width as default Firefox"
+            },
+            {
+            "key": "active-tab-contrast",
+            "js_key": "activeTabContrast",
+            "summary": "Active Tab Contrast",
+            "description": "Add more contrast to the active tab"
+            }
+        ]
+    }
+
+]
