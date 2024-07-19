@@ -51,8 +51,8 @@
 							<object class="GtkScrolledWindow">
 								<property name="hexpand">False</property>
 								<property name="vexpand">False</property>
-								<property name="margin-start">10</property>
-								<property name="margin-end">10</property>
+								<property name="margin-start">15</property>
+								<property name="margin-end">15</property>
 								<child>
 									<object class="AdwPreferencesPage" id="preferences_page">
 										<!-- TODO add icons to the groups -->

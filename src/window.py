@@ -32,8 +32,13 @@ thunderbird_url = "https://api.github.com/repos/rafaelmardojai/thunderbird-gnome
 class AddwaterWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'AddwaterWindow'
 
-    main_page_switcher = Gtk.Template.Child()
-    main_view_stack = Gtk.Template.Child()
+
+    # Use when only one page is available
+    main_toolbar_view = Gtk.Template.Child()
+
+    # Use when Thunderbird page is ready
+    # main_page_switcher = Gtk.Template.Child()
+    # main_view_stack = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -66,36 +71,36 @@ class AddwaterWindow(Adw.ApplicationWindow):
                 theme_url=firefox_url
             )
 
-        self.main_view_stack.add_titled_with_icon(
-            child=firefox_page,
-            name="Firefox",
-            title="Firefox",
-            icon_name="globe-symbolic"
-        )
+
+        self.main_toolbar_view.set_content(firefox_page)
+        # self.main_view_stack.add_titled_with_icon(
+        #     child=firefox_page,
+        #     name="Firefox",
+        #     title="Firefox",
+        #     icon_name="globe-symbolic"
+        # )
 
 
-        # TODO Thunderbird Page set up
-        # TODO find_thunderbird_path
-        thunderbird_path = None
-        if thunderbird_path == None:
-            thunderbird_page = Adw.StatusPage(
-                title="Can't Find Your Thunderbird Data :c",
+        # thunderbird_path = None
+        # if thunderbird_path == None:
+        #     thunderbird_page = Adw.StatusPage(
+        #         title="Can't Find Your Thunderbird Data :c",
                 # TODO Fix this description to be helpful or link to a Github troubleshooting page
-                description="""AddWater Flatpak is preconfigured to have access to the most common Thunderbird data locations. If you have modified Flatpak permissions, please ensure AddWater has permission to access the directory in which Thunderbird stores your profile folders and `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
-            )
-        else:
-            thunderbird_page = AddwaterPage(
-                app_path=thunderbird_path,
-                app_options=THUNDERBIRD_OPTIONS,
-                app_name="Thunderbird",
-                theme_url=thunderbird_url
-            )
-        self.main_view_stack.add_titled_with_icon(
-            child=thunderbird_page,
-            name="Thunderbird",
-            title="Thunderbird",
-            icon_name="mail-symbolic"
-        )
+        #         description="""AddWater Flatpak is preconfigured to have access to the most common Thunderbird data locations. If you have modified Flatpak permissions, please ensure AddWater has permission to access the directory in which Thunderbird stores your profile folders and `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
+        #     )
+        # else:
+        #     thunderbird_page = AddwaterPage(
+        #         app_path=thunderbird_path,
+        #         app_options=THUNDERBIRD_OPTIONS,
+        #         app_name="Thunderbird",
+        #         theme_url=thunderbird_url
+        #     )
+        # self.main_view_stack.add_titled_with_icon(
+        #     child=thunderbird_page,
+        #     name="Thunderbird",
+        #     title="Thunderbird",
+        #     icon_name="mail-symbolic"
+        # )
 
 
 
@@ -117,4 +122,7 @@ class AddwaterWindow(Adw.ApplicationWindow):
 
     def find_thunderbird_path(self):
         # TODO
+        pass
+
+    def set_custom_firefox(self):
         pass

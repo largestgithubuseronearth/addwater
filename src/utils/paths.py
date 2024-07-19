@@ -22,10 +22,13 @@ LOG_DIR = os.path.join(APP_CACHE, "logs")
 
 # FIREFOX PATHS
 FIREFOX_BASE = os.path.expanduser("~/.mozilla/firefox/")
-# TODO Make issue for Firefox flatpak about the lowercase firefox in the app id. It should be uppercase per convention and is inconsistent with Thunderbird.
 FIREFOX_FLATPAK = os.path.expanduser("~/.var/app/org.mozilla.firefox/.mozilla/firefox/")
 FIREFOX_FLATPAK_WRONG = os.path.expanduser("~/.var/app/org.mozilla.Firefox/.mozilla/firefox/")
 FIREFOX_SNAP = os.path.expanduser("~/snap/firefox/common/.mozilla/firefox/")
+FIREFOX_LIBRE_FLATPAK = os.path.expanduser("~/.var/app/io.gitlab.librewolf-community/.librewolf/")
+# TODO Check base Librewolf path for accuracy
+FIREFOX_LIBRE_BASE = os.path.expanduser("~/.librewolf/")
+
 
 # TODO THUNDERBIRD PATHS
 

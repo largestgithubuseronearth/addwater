@@ -26,7 +26,7 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Gio, Adw, Gdk
 
 from .window import AddwaterWindow
-from .preferences import AddWaterPreferences
+from .preferences import AddwaterPreferences
 
 from .utils.logs import logging, init_logs
 from .utils import paths
@@ -82,7 +82,7 @@ class AddwaterApplication(Adw.Application):
     def on_preferences_action(self, widget, _):
         """Callback for the app.preferences action."""
         pref = AddWaterPreferences()
-        pref.present()
+        pref.present(self.props.active_window)
         print('app.preferences action activated')
 
     def create_action(self, name, callback, shortcuts=None):

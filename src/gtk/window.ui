@@ -6,23 +6,24 @@
 		<property name="default-width">500</property>
 		<property name="default-height">700</property>
 		<property name="resizable">false</property>
-		<property name="title">Add Water</property>
-		<style>
-			<class name="devel"/>
-		</style>
+		<property name="title">Add Water to Firefox</property>
+		<!-- <style> -->
+		<!-- 	<class name="devel"/> -->
+		<!-- </style> -->
 		<property name="content">
 
-				<object class="AdwToolbarView">
+				<object class="AdwToolbarView" id="main_toolbar_view">
 
 						<!-- HEADER BAR -->
 					<child type="top">
 						<object class="AdwHeaderBar" id="header_bar">
-							<property name="title-widget">
-								<object class="AdwViewSwitcher" id="main_page_switcher">
-									<property name="stack">main_view_stack</property>
-									<property name="policy">wide</property>
-								</object>
-							</property>
+							<!-- TODO Uncomment this when there's multiple pages -->
+							<!-- <property name="title-widget"> -->
+							<!-- 	<object class="AdwViewSwitcher" id="main_page_switcher"> -->
+							<!-- 		<property name="stack">main_view_stack</property> -->
+							<!-- 		<property name="policy">wide</property> -->
+							<!-- 	</object> -->
+							<!-- </property> -->
 							<child type="end">
 								<object class="GtkMenuButton">
 									<property name="primary">True</property>
@@ -35,11 +36,11 @@
 					</child>
 
 
-				<!-- WINDOW CONTENT -->
-				<property name="content">
-					<object class="AdwViewStack" id="main_view_stack">
-					</object>
-				</property>
+					<!-- WINDOW CONTENT -->
+					<property name="content">
+
+						<object class="AdwViewStack" id="main_view_stack"/>
+					</property>
 
 				</object>
 

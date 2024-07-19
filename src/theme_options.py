@@ -32,7 +32,7 @@ FIREFOX_OPTIONS = [
             "key": "tabs-as-headerbar",
             "js_key": "tabsAsHeaderbar",
             "summary": "Tabs as Headerbar",
-            "description": "Place the tabs on the top of the window, and use the tabs bar to hold the window controls, like Firefox's standard tab bar.\n\nEnabling with \"Hide Single Tab\" will replace the single tab with a title bar"
+            "description": "Place the tabs on the top of the window, and use the tabs bar to hold the window controls, like Firefox's standard tab bar.\n\nEnabling with \"Hide Single Tab\" will replace the single tab with a title bar."
           }
         ]
     },
@@ -79,14 +79,13 @@ FIREFOX_OPTIONS = [
         "key": "no-themed-icons",
         "js_key": "noThemedIcons",
         "summary": "No Themed Icons",
-        "description": "Use default Firefox icons instead of the included Adwaita icons."
+        "description": "Use default Firefox icons instead of the included Adwaita icons"
       }
     ]
   }
 
 ]
 
-# TODO add thunderbird options
 THUNDERBIRD_OPTIONS = [
     {
         "group_name": "Tab Position and Behavior",

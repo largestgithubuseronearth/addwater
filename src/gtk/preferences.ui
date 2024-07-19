@@ -1,48 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-	<template class="AddWaterPreferences" parent="AdwPreferencesDialog">
+	<template class="AddwaterPreferences" parent="AdwPreferencesDialog">
+		<property name="content-width">450</property>
+		<property name="content-height">450</property>
+		<!-- FIXME Make this fit into the main window attached like About or  -->
 		<child>
 			<object class="AdwPreferencesPage" id="firefox_pref_page">
 				<property name="title">Firefox</property>
 				<property name="icon-name">globe-symbolic</property>
 				<child>
 					<object class="AdwPreferencesGroup">
-						<property name="title">Firefox Directory</property>
-						<property name="description">This is where Firefox stores your profile folders and the `profile.ini` file.</property>
+						<property name="title">Firefox</property>
 
 						<child>
-							<object class="AdwComboRow">
-								<property name="title">Firefox Directory</property>
-								<property name="model">
-									<object class="GtkStringList">
-										<items>
-											<!-- TODO Find better name for base package than native -->
-											<item>Base</item>
-											<item>Flatpak</item>
-											<item>Snap</item>
-											<item>Librewolf Base</item>
-											<item>Librewolf Flatpak</item>
-											<item>Other</item>
-										</items>
+							<object class="AdwExpanderRow">
+								<property name="title">Use a Custom Profile Path</property>
+								<property name="subtitle">Specify the path to your Firefox profile directory, and override the path AddWater automatically finds</property>
+								<property name="expanded">True</property>
+								<property name="show-enable-switch">True</property>
+								<child>
+									<object class="AdwActionRow" id="custom_firefox_path">
+										<property name="title">Profiles Location</property>
+										<child type="suffix">
+											<object class="GtkButton">
+												<property name="icon-name">folder-symbolic</property>
+												<property name="valign">center</property>
+												<property name="action-name">pref.set-firefox-path</property>
+												<style>
+													<class name="flat"/>
+												</style>
+											</object>
+										</child>
+										<style>
+											<class name="property"/>
+										</style>
 									</object>
-								</property>
-							</object>
-						</child>
-						<child>
-							<object class="AdwEntryRow">
-								<property name="title">Custom Directory (where profiles.ini is stored)</property>
-							</object>
-						</child>
-						<child>
-							<object class="AdwActionRow">
-								<property name="title">SPAGHETITI</property>
+								</child>
 							</object>
 						</child>
 					</object>
 				</child>
 				<child>
 					<object class="AdwPreferencesGroup">
-						<property name="title">Thunderbird Directory</property>
+						<property name="title">Thunderbird</property>
+					</object>
+				</child>
+				<child>
+					<object class="AdwPreferencesGroup">
+						<property name="title">Reset Add Water</property>
+						<property name="description">This will uninstall the theme and reset the app to its default, out-of-the-box state</property>
 					</object>
 				</child>
 				<!-- <child> -->

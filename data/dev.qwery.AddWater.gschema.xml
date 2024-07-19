@@ -4,6 +4,7 @@
 		<key name="firefox-path" type="s">
 			<default>"~/.mozilla/firefox/"</default>
 		</key>
+		<!-- TODO set thunderbird path to base directory -->
 		<key name="thunderbird-path" type="s">
 			<default>""</default>
 		</key>

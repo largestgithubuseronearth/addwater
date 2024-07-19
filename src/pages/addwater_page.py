@@ -66,18 +66,18 @@ class AddwaterPage(Adw.Bin):
 
     # Look for updates
         self.check_for_updates()
-    #     if self.update_version > self.installed_version:
-    #         msg = f"Theme updated (v{self.update_version})"
+        if self.update_version > self.installed_version:
+            msg = f"Theme updated (v{self.update_version})"
             # TODO set has unapplied to True and ask to install if theme is installed, or automatically install
-    #     else:
-    #         msg = "No update available"
+        else:
+            msg = "No update available"
 
-    #     self.toast_overlay.add_toast(
-    #         Adw.Toast(
-    #             title=msg,
-    #             timeout=2
-    #         )
-    #     )
+        self.toast_overlay.add_toast(
+            Adw.Toast(
+                title=msg,
+                timeout=2
+            )
+        )
 
 
     def init_prefs(self, OPTIONS_LIST):
@@ -129,7 +129,7 @@ class AddwaterPage(Adw.Bin):
 
         # TODO Turn the install and uninstall into bespoke methods separate from each other
         if self.settings.get_boolean("theme-enabled") is True:
-            msg = self.install_theme(profile_id=profile_id)
+            msg = self.install_theme(profile_id=profile_id, OPTIONS=self.app_options)
         else:
             msg = self.uninstall_theme(profile_id=profile_id)
 
@@ -164,7 +164,7 @@ class AddwaterPage(Adw.Bin):
         user_js = os.path.join(self.app_path, profile_id, "user.js")
         # Run install script
         install.install_firefox(
-            app_path=self.app_path,
+            firefox_path=self.app_path,
             profile=profile_id,
             version=self.update_version
         )
@@ -183,6 +183,7 @@ class AddwaterPage(Adw.Bin):
 
                     found = False
                     for i in range(len(lines)):
+                    # TODO Cleaner way to do this? A basic for each doesn't let you replace the item in the list
                         if pref_name in lines[i]:
                             lines[i] = full_line
                             found = True
@@ -198,8 +199,11 @@ class AddwaterPage(Adw.Bin):
 
     def uninstall_theme(self, profile_id):
         # Delete Chrome folder
-        chrome_path = os.path.join(self.app_path, profile_id, "chrome")
-        shutil.rmtree(chrome_path)
+        try:
+            chrome_path = os.path.join(self.app_path, profile_id, "chrome")
+            shutil.rmtree(chrome_path)
+        except FileNotFoundError:
+            pass
 
         # Set all user_prefs to false
         user_js = os.path.join(self.app_path, profile_id, "user.js")
@@ -207,7 +211,7 @@ class AddwaterPage(Adw.Bin):
             with open(file=user_js, mode="r") as file:
                 lines = file.readlines()
         except FileNotFoundError:
-            pass
+            return "Firefox theme uninstalled. Restart Firefox to see changes."
 
         with open(file=user_js, mode="w") as file:
             # TODO Cleaner way to do this? A basic for each doesn't let you replace the item in the list
@@ -235,13 +239,14 @@ class AddwaterPage(Adw.Bin):
         # TODO add checks to ensure this doesn't exceed GitHub API limit and add error logs
         # FIXME Thunderbird has no releases. Must clone git
         try:
-            latest_release = requests.get(("meme")).json()[0]
+            latest_release = requests.get((check_url)).json()[0]
         except json.JSONDecodeError as err:
             log.error(f"Update json parsing failed: {err}")
             return False
         except requests.RequestException as err:
             log.error(f"Update request failed: {err}")
             return False
+
 
         self.update_version = int(latest_release["tag_name"].lstrip("v"))
 
