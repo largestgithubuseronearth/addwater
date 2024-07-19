@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-	<template class="AddwaterPreferences" parent="AdwPreferencesDialog">
+	<template class="AddWaterPreferences" parent="AdwPreferencesDialog">
 		<property name="content-width">450</property>
 		<property name="content-height">450</property>
 		<!-- FIXME Make this fit into the main window attached like About or  -->
@@ -15,7 +15,7 @@
 						<child>
 							<object class="AdwExpanderRow">
 								<property name="title">Use a Custom Profile Path</property>
-								<property name="subtitle">Specify the path to your Firefox profile directory, and override the path AddWater automatically finds</property>
+								<property name="subtitle">Specify the path to your Firefox profile directory, and override the path Add Water automatically finds</property>
 								<property name="expanded">True</property>
 								<property name="show-enable-switch">True</property>
 								<child>

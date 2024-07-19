@@ -11,9 +11,9 @@ log = logging.getLogger(__name__)
 
 
 @Gtk.Template(resource_path="/dev/qwery/AddWater/pages/addwater-page.ui")
-class AddwaterPage(Adw.Bin):
+class AddWaterPage(Adw.Bin):
     """ ViewStackPage"""
-    __gtype_name__ = "AddwaterPage"
+    __gtype_name__ = "AddWaterPage"
 
     # Firefox Attributes
 

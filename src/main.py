@@ -25,15 +25,15 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Gio, Adw, Gdk
 
-from .window import AddwaterWindow
-from .preferences import AddwaterPreferences
+from .window import AddWaterWindow
+from .preferences import AddWaterPreferences
 
 from .utils.logs import logging, init_logs
 from .utils import paths
 
 log = logging.getLogger(__name__)
 
-class AddwaterApplication(Adw.Application):
+class AddWaterApplication(Adw.Application):
     """The main application singleton class."""
 
     def __init__(self):
@@ -60,7 +60,7 @@ class AddwaterApplication(Adw.Application):
         """
         win = self.props.active_window
         if not win:
-            win = AddwaterWindow(application=self)
+            win = AddWaterWindow(application=self)
         win.present()
 
     def on_about_action(self, widget, _):
@@ -103,5 +103,5 @@ class AddwaterApplication(Adw.Application):
 
 def main(version):
     """The application's entry point."""
-    app = AddwaterApplication()
+    app = AddWaterApplication()
     return app.run(sys.argv)

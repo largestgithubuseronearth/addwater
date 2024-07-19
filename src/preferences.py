@@ -8,8 +8,8 @@
 from gi.repository import Adw, Gtk, Gio, GLib
 
 @Gtk.Template(resource_path="/dev/qwery/AddWater/gtk/preferences.ui")
-class AddwaterPreferences(Adw.PreferencesDialog):
-    __gtype_name__ = "AddwaterPreferences"
+class AddWaterPreferences(Adw.PreferencesDialog):
+    __gtype_name__ = "AddWaterPreferences"
 
     custom_firefox_path = Gtk.Template.Child()
 

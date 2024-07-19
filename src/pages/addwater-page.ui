@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This is the Template from which both Firefox and Thunderbird will derive their layouts. -->
 <interface>
-	<template class="AddwaterPage" parent="AdwBin">
+	<template class="AddWaterPage" parent="AdwBin">
 		<property name="child">
 			<object class="AdwToastOverlay" id="toast_overlay">
 				<child>

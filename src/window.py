@@ -19,7 +19,7 @@
 
 import logging, os.path
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
-from .pages.addwater_page import AddwaterPage
+from .pages.addwater_page import AddWaterPage
 from .theme_options import FIREFOX_OPTIONS, THUNDERBIRD_OPTIONS
 from .utils import logs, paths
 
@@ -29,8 +29,8 @@ firefox_url = "https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/r
 thunderbird_url = "https://api.github.com/repos/rafaelmardojai/thunderbird-gnome-theme/releases"
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
-class AddwaterWindow(Adw.ApplicationWindow):
-    __gtype_name__ = 'AddwaterWindow'
+class AddWaterWindow(Adw.ApplicationWindow):
+    __gtype_name__ = 'AddWaterWindow'
 
 
     # Use when only one page is available
@@ -61,10 +61,10 @@ class AddwaterWindow(Adw.ApplicationWindow):
             firefox_page = Adw.StatusPage(
                 title="Can't Find Your Firefox Data :c",
                 # TODO Fix this description to be helpful or link to a Github troubleshooting page
-                description="""AddWater Flatpak is preconfigured to have access to the most common Firefox data locations. If you have modified Flatpak permissions, please ensure AddWater has permission to access the directory in which Firefox stores your profile folders and `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
+                description="""Add Water Flatpak is preconfigured to have access to the most common Firefox data locations. If you have modified Flatpak permissions, please ensureAdd Water has permission to access the directory in which Firefox stores your profile folders and `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
                 )
         else:
-            firefox_page = AddwaterPage(
+            firefox_page = AddWaterPage(
                 app_path=firefox_path,
                 app_options=FIREFOX_OPTIONS,
                 app_name="Firefox",
@@ -86,10 +86,10 @@ class AddwaterWindow(Adw.ApplicationWindow):
         #     thunderbird_page = Adw.StatusPage(
         #         title="Can't Find Your Thunderbird Data :c",
                 # TODO Fix this description to be helpful or link to a Github troubleshooting page
-        #         description="""AddWater Flatpak is preconfigured to have access to the most common Thunderbird data locations. If you have modified Flatpak permissions, please ensure AddWater has permission to access the directory in which Thunderbird stores your profile folders and `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
+        #         description="""Add Water Flatpak is preconfigured to have access to the most common Thunderbird data locations. If you have modified Flatpak permissions, please ensureAdd Water has permission to access the directory in which Thunderbird stores your profile folders and `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
         #     )
         # else:
-        #     thunderbird_page = AddwaterPage(
+        #     thunderbird_page = AddWaterPage(
         #         app_path=thunderbird_path,
         #         app_options=THUNDERBIRD_OPTIONS,
         #         app_name="Thunderbird",
