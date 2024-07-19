@@ -34,8 +34,7 @@ addwater_sources = [
   'window.py',
   'preferences.py',
   'theme_options.py',
-
-  'pages/addwater_page.py',
+  'addwater_page.py',
 
   'utils/install.py',
   'utils/paths.py',

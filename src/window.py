@@ -19,7 +19,7 @@
 
 import logging, os.path
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
-from .pages.addwater_page import AddWaterPage
+from .addwater_page import AddWaterPage
 from .theme_options import FIREFOX_OPTIONS, THUNDERBIRD_OPTIONS
 from .utils import logs, paths
 
