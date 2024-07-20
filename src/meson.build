@@ -25,7 +25,6 @@ configure_file(
   install_dir: get_option('bindir'),
   install_mode: 'r-xr-xr-x'
 )
-install_subdir('pages', install_dir: moduledir)
 install_subdir('utils', install_dir: moduledir)
 
 addwater_sources = [

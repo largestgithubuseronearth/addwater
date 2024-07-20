@@ -92,7 +92,11 @@ class AddWaterPage(Adw.Bin):
 
         # Theme options
         for each in OPTIONS_LIST:
-            group = Adw.PreferencesGroup(title=each["group_name"])
+            group = Adw.PreferencesGroup(
+                title=each["group_name"],
+                margin_start=30,
+                margin_end=30
+            )
 
             for option in each["options"]:
                 button = Adw.SwitchRow(

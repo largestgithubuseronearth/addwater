@@ -17,13 +17,6 @@
 						<!-- HEADER BAR -->
 					<child type="top">
 						<object class="AdwHeaderBar" id="header_bar">
-							<!-- TODO Uncomment this when there's multiple pages -->
-							<!-- <property name="title-widget"> -->
-							<!-- 	<object class="AdwViewSwitcher" id="main_page_switcher"> -->
-							<!-- 		<property name="stack">main_view_stack</property> -->
-							<!-- 		<property name="policy">wide</property> -->
-							<!-- 	</object> -->
-							<!-- </property> -->
 							<child type="end">
 								<object class="GtkMenuButton">
 									<property name="primary">True</property>
@@ -37,11 +30,6 @@
 
 
 					<!-- WINDOW CONTENT -->
-					<property name="content">
-
-						<object class="AdwViewStack" id="main_view_stack"/>
-					</property>
-
 				</object>
 
 		</property>

@@ -6,7 +6,7 @@
 	<project_license>GPL-3.0-or-later</project_license>
 
 	<name>Add Water</name>
-	TODO Think of a better summary and description
+	<!-- TODO Think of a better summary and description -->
 	<summary>Give Your Browser the Adwaita Treatment</summary>
 	<description>
 	  <p>Easily install and update the GNOME theme for Firefox created by Rafael Mardojai CM</p>

@@ -37,8 +37,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
     main_toolbar_view = Gtk.Template.Child()
 
     # Use when Thunderbird page is ready
-    # main_page_switcher = Gtk.Template.Child()
-    # main_view_stack = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -59,9 +57,9 @@ class AddWaterWindow(Adw.ApplicationWindow):
         if firefox_path == None:
             # TODO Make status page that asks user to set the firefox path manually and restart the app.
             firefox_page = Adw.StatusPage(
-                title="Can't Find Your Firefox Data :c",
+                title="Can't Find Firefox Profiles :c",
                 # TODO Fix this description to be helpful or link to a Github troubleshooting page
-                description="""Add Water Flatpak is preconfigured to have access to the most common Firefox data locations. If you have modified Flatpak permissions, please ensureAdd Water has permission to access the directory in which Firefox stores your profile folders and `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
+                description="""Add Water is preconfigured to automatically find the common Firefox data locations. Please ensure Add Water has permission to access the directory in which Firefox stores the `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
                 )
         else:
             firefox_page = AddWaterPage(
@@ -73,34 +71,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
 
         self.main_toolbar_view.set_content(firefox_page)
-        # self.main_view_stack.add_titled_with_icon(
-        #     child=firefox_page,
-        #     name="Firefox",
-        #     title="Firefox",
-        #     icon_name="globe-symbolic"
-        # )
-
-
-        # thunderbird_path = None
-        # if thunderbird_path == None:
-        #     thunderbird_page = Adw.StatusPage(
-        #         title="Can't Find Your Thunderbird Data :c",
-                # TODO Fix this description to be helpful or link to a Github troubleshooting page
-        #         description="""Add Water Flatpak is preconfigured to have access to the most common Thunderbird data locations. If you have modified Flatpak permissions, please ensureAdd Water has permission to access the directory in which Thunderbird stores your profile folders and `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
-        #     )
-        # else:
-        #     thunderbird_page = AddWaterPage(
-        #         app_path=thunderbird_path,
-        #         app_options=THUNDERBIRD_OPTIONS,
-        #         app_name="Thunderbird",
-        #         theme_url=thunderbird_url
-        #     )
-        # self.main_view_stack.add_titled_with_icon(
-        #     child=thunderbird_page,
-        #     name="Thunderbird",
-        #     title="Thunderbird",
-        #     icon_name="mail-symbolic"
-        # )
 
 
 
