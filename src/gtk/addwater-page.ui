@@ -50,13 +50,10 @@
 						<property name="content">
 
 							<object class="AdwPreferencesPage" id="preferences_page">
-								<!-- TODO add icons to the groups -->
-								<!-- General -->
 								<child>
 									<object class="AdwPreferencesGroup">
 										<property name="margin-start">30</property>
 										<property name="margin-end">30</property>
-										<!-- TODO Add more prominence to this page -->
 										<child>
 											<object class="AdwSwitchRow" id="enable_button">
 												<property name="title" translatable="yes">Enable Theme</property>
@@ -71,6 +68,20 @@
 													</object>
 												</property>
 												<property name="tooltip-text">Select which user profile to install to</property>
+											</object>
+										</child>
+										<child>
+											<object class="AdwComboRow" id="theme_switcher">
+												<!-- TODO connect this to logic -->
+												<property name="title" translatable="yes">Theme</property>
+												<property name="model">
+													<object class="GtkStringList" id="theme_list">
+														<items>
+															<item>Adwaita</item>
+															<item>Maia</item>
+														</items>
+													</object>
+												</property>
 											</object>
 										</child>
 									</object>

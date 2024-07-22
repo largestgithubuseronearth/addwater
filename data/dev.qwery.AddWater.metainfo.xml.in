@@ -11,6 +11,11 @@
 	<description>
 	  <p>Easily install and update the GNOME theme for Firefox created by Rafael Mardojai CM</p>
 	</description>
+	<developer id="dev.qwery">
+		<name translate="no">qwery</name>
+	</developer>
+
+
 
 	<categories>
 		<category>GTK</category>
@@ -21,7 +26,21 @@
 	<requires>
 		<internet>always</internet>
 	</requires>
-	<developer id="dev.qwery">
-		<name translate="no">qwery</name>
-	</developer>
+
+
+	<screenshots>
+		<!-- TODO add images -->
+		<screenshot type="default">
+			<caption>Add Water Window</caption>
+			<!-- <image></image> -->
+		</screenshot>
+		<screenshot>
+			<caption>Firefox Window With Theme</caption>
+			<!-- <image></image> -->
+		</screenshot>
+		<screenshot>
+			<caption>Firefox Menus and Dialogs With Theme</caption>
+			<!-- <image></image> -->
+		</screenshot>
+	</screenshots>
 </component>

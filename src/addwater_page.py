@@ -198,7 +198,7 @@ class AddWaterPage(Adw.Bin):
             file.writelines(lines)
 
         log.info("Theme installed successfully.")
-        return "Firefox theme installed. Restart Firefox to see changes."
+        return "Installed Theme. Restart Firefox to see changes."
 
 
     def uninstall_theme(self, profile_id):
@@ -215,7 +215,7 @@ class AddWaterPage(Adw.Bin):
             with open(file=user_js, mode="r") as file:
                 lines = file.readlines()
         except FileNotFoundError:
-            return "Firefox theme uninstalled. Restart Firefox to see changes."
+            return "Removed Theme. Restart Firefox to see changes."
 
         with open(file=user_js, mode="w") as file:
             # TODO Cleaner way to do this? A basic for each doesn't let you replace the item in the list
@@ -226,7 +226,7 @@ class AddWaterPage(Adw.Bin):
             file.writelines(lines)
 
         log.info("Theme uninstalled successfully.")
-        return "Firefox theme uninstalled. Restart Firefox to see changes."
+        return "Removed Theme. Restart Firefox to see changes."
 
 
     def check_for_updates(self):

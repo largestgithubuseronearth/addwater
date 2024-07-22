@@ -19,7 +19,7 @@ NEXT FEATURES:
 * Is is okay to remove ipc permission? Doesn't seem necessary but idk.
 * Where does $FLATPAK_DEST go to?
 
-<!-- TODO Add multiple install support -->
+<!-- TODO theme color support -->
 
 <!-- TODO build preferences window for advanced users -->
 * Allow user-specified path for Firefox

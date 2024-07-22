@@ -65,17 +65,16 @@ class AddWaterApplication(Adw.Application):
 
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
-        # TODO Must redo AboutWindow info to give credit to theme dev
         # info.py.in seems like a good model for how to do this. But requires meson tinkering
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='AddWater',
                                 application_icon='dev.qwery.AddWater',
                                 developer_name='qwery',
                                 version='0.1.0',
-                                developers=['Claire'],
+                                developers=['Qwery'],
                                 copyright='© 2024 Qwery')
         about.add_credit_section(
-            name="Theme Created by",
+            name="Theme Created and Maintained by",
             people=["Rafael Mardojai CM https://www.mardojai.com/"])
         about.present()
 

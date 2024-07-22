@@ -14,6 +14,7 @@
 
 						<child>
 							<object class="AdwExpanderRow">
+								<!-- TODO make the logic for this -->
 								<property name="title">Use a Custom Profile Path</property>
 								<property name="subtitle">Specify the path to your Firefox profile directory, and override the path Add Water automatically finds</property>
 								<property name="expanded">True</property>
@@ -42,21 +43,47 @@
 				</child>
 				<child>
 					<object class="AdwPreferencesGroup">
-						<property name="title">Thunderbird</property>
-					</object>
-				</child>
-				<child>
-					<object class="AdwPreferencesGroup">
 						<property name="title">Reset Add Water</property>
-						<property name="description">This will uninstall the theme and reset the app to its default, out-of-the-box state</property>
+						<property name="description">This will uninstall the theme from all Firefox Profiles and reset the app to its default state</property>
+						<!-- TODO Make the logic for this button -->
+						<child>
+							<object class="GtkListBox">
+							 	<child>
+									<object class="AdwPreferencesRow">
+										<property name="title">Remove Water</property>
+										<property name="activatable">true</property>
+										<property name="selectable">false</property>
+										<child>
+											<object class="GtkBox">
+												<property name="spacing">6</property>
+												<property name="valign">center</property>
+												<property name="halign">center</property>
+												<child>
+													<object class="GtkLabel">
+														<property name="label">Remove Water</property>
+														<style>
+															<class name="heading"/>
+														</style>
+													</object>
+												</child>
+												<style>
+													<class name="header"/>
+												</style>
+											</object>
+										</child>
+										<style>
+											<class name="error"/>
+										</style>
+									</object>
+								</child>
+								<style>
+									<class name="boxed-list"/>
+								</style>
+							</object>
+						</child>
 					</object>
 				</child>
-				<!-- <child> -->
-				<!-- 	<object class="AdwPreferencesGroup"> -->
-				<!-- 		<property name="title">Experimental Features</property> -->
-				<!-- 		<property name="description">These options are buggy and may not work properly. If you encounter bugs in the theme, please ensure these options are disabled before asking for support.</property> -->
-				<!-- 	</object> -->
-				<!-- </child> -->
+				<!-- TODO add experimental features if i feel like it -->
 			</object>
 		</child>
 	</template>

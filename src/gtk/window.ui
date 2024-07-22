@@ -7,9 +7,9 @@
 		<property name="default-height">700</property>
 		<property name="resizable">false</property>
 		<property name="title">Add Water to Firefox</property>
-		<!-- <style> -->
-		<!-- 	<class name="devel"/> -->
-		<!-- </style> -->
+		<style>
+			<class name="devel"/>
+		</style>
 		<property name="content">
 
 				<object class="AdwToolbarView" id="main_toolbar_view">
