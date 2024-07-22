@@ -1,6 +1,7 @@
 # addwater_page.py
 # TODO once this is working properly turn this class into a generic parent class and spin off Firefox and Thunderbird Pages into their own subclasses
 # TODO make app_path and profile_path class properties that can be edited easily
+# TODO
 
 import logging, json, os.path, shutil, requests
 from configparser import ConfigParser
@@ -38,7 +39,7 @@ class AddWaterPage(Adw.Bin):
         super().__init__()
         self.settings = Gio.Settings(schema_id=f"dev.qwery.AddWater.{self.app_name}")
         self.settings.delay()
-        self.init_prefs(app_options)
+        self._init_prefs(app_options)
 
         # Change Confirmation bar
         # TODO make sure this doesn't cause issues. If it does, then add an ActionGroup to this class or just workaround actions altogether and connect the signal directly
@@ -80,7 +81,7 @@ class AddWaterPage(Adw.Bin):
         )
 
 
-    def init_prefs(self, OPTIONS_LIST):
+    def _init_prefs(self, OPTIONS_LIST):
         # TODO When a button is switched from its previous position, add a dot next to the switch to show it's been changed. Set all to hidden when settings are applied.
         # App options
         self.settings.bind(
@@ -133,7 +134,10 @@ class AddWaterPage(Adw.Bin):
 
         # TODO Turn the install and uninstall into bespoke methods separate from each other
         if self.settings.get_boolean("theme-enabled") is True:
-            msg = self.install_theme(profile_id=profile_id, OPTIONS=self.app_options)
+            msg = self.install_theme(
+                profile_id=profile_id,
+                OPTIONS=self.app_options
+            )
         else:
             msg = self.uninstall_theme(profile_id=profile_id)
 
@@ -159,21 +163,21 @@ class AddWaterPage(Adw.Bin):
 
 
     def install_theme(self, profile_id, OPTIONS):
-        selected_profile_name = self.profile_switcher.get_selected_item().get_string()
-        for each in self.profiles:
-            if each["name"] == selected_profile_name:
-                profile_id = each["id"]
-                break
+        profile_path = os.path.join(self.app_path, profile_id)
 
-        user_js = os.path.join(self.app_path, profile_id, "user.js")
-        # Run install script
-        install.install_firefox(
-            firefox_path=self.app_path,
-            profile=profile_id,
+        theme_path = install.extract_release(
+            app="firefox",
             version=self.update_version
+        )
+        # Run install script
+        install.install_firefox_theme(
+            theme_path=theme_path,
+            profile_path=profile_path,
+            theme="adwaita"
         )
 
         # Set all user.js options according to gsettings
+        user_js = os.path.join(profile_path, "user.js")
         with open(file=user_js, mode="r") as file:
             lines = file.readlines()
 
@@ -210,6 +214,8 @@ class AddWaterPage(Adw.Bin):
             pass
 
         # Set all user_prefs to false
+        # TODO consider removing the user.js file and replacing with the backup
+            # To make this happen, must find solution that doesn't let user delete their manually-configured user.js'
         user_js = os.path.join(self.app_path, profile_id, "user.js")
         try:
             with open(file=user_js, mode="r") as file:
@@ -300,7 +306,6 @@ class AddWaterPage(Adw.Bin):
             if len(cfg.read(install_file)) == 0:
                 raise FileNotFoundError(install_file)
 
-            # TODO Test that this works with multiple default profiles
             for each in cfg.sections():
                 default_profile = cfg[each]["Default"]
                 defaults.append(default_profile)

@@ -8,11 +8,6 @@ MINIMUM FEATURES:
 * Let the user uninstall the theme
 * Ability to revert to the previous version in case the current one doesn't work
 
-NEXT FEATURES:
-* Customize the theme preferences within this app
-* Thunderbird support
-
-
 <!-- TODO Configure flatpak manifest properly -->
 * Ensure flatpak manifest permissions are correct
 * Allow permission to run in background to permissions
@@ -29,3 +24,8 @@ NEXT FEATURES:
 <!-- TODO write .desktop file -->
 <!-- TODO Write docstrings for the classes and methods -->
 <!-- TODO Write unit tests for the majority of the app, especially critical sections where data loss may occur -->
+
+
+What needs to happen for Thunderbird support:
+* Be able to clone the git repo in Python and self-set rate limits to avoid clogging Github after every minor change
+* Set up AddWaterPage to work with both Firefox and Thunderbird

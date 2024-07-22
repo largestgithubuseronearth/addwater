@@ -2,9 +2,9 @@
 <schemalist gettext-domain="addwater">
 	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater/">
 		<key name="firefox-path" type="s">
-			<default>"~/.mozilla/firefox/"</default>
+			<default>""</default>
 		</key>
-		<!-- TODO set thunderbird path to base directory -->
+		<!-- TODO set Thunderbird path to base directory -->
 		<key name="thunderbird-path" type="s">
 			<default>""</default>
 		</key>
@@ -27,10 +27,9 @@
 			<description>Enable or disable the GNOME for Firefox theme</description>
 
 		</key>
-		<key name="selected-profile" type="s">
-			<default>"Weed"</default>
-			<summary>Profile</summary>
-			<description>Which Firefox profile to apply your changes to</description>
+		<key name="color-theme" type="s">
+			<default>"Adwaita"</default>
+			<summary>Color Theme</summary>
 		</key>
 
 		<!-- Tab Positioning -->
