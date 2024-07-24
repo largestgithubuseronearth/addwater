@@ -1,6 +1,6 @@
 # addwater
 
-An app to automatically download and update the GNOME style theme for Firefox made my Rafael Mardojai (link).
+An app to automatically download and update the GNOME style theme for Firefox made by Rafael Mardojai (link).
 
 MINIMUM FEATURES:
 * Check for new releases of the firefox theme
@@ -19,7 +19,6 @@ MINIMUM FEATURES:
 <!-- TODO build preferences window for advanced users -->
 * Allow user-specified path for Firefox
 * Allow user to remove the theme from all profiles inside their firefox directory
-* Bool to show unstable and buggy features in options list
 
 <!-- TODO write .desktop file -->
 <!-- TODO Write docstrings for the classes and methods -->
@@ -29,3 +28,6 @@ MINIMUM FEATURES:
 What needs to happen for Thunderbird support:
 * Be able to clone the git repo in Python and self-set rate limits to avoid clogging Github after every minor change
 * Set up AddWaterPage to work with both Firefox and Thunderbird
+
+Notes:
+* I will not support Experimental options. Users must enable those manually.

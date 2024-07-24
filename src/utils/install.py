@@ -45,6 +45,7 @@ def extract_release(app, version):
 
 
 def install_firefox_theme(theme_path, profile_path, theme):
+    # TODO ensure complete functional parity with install script
     """Replaces the included theme installer
 
     Arguments:
@@ -108,6 +109,7 @@ def install_firefox_theme(theme_path, profile_path, theme):
             log.info(f"{each} finished")
 
     # Backup user.js and replace with provided version that includes the prerequisite prefs
+    # TODO do i want to automatically import the user's user.js preferences? Must avoid rewriting prefs on subsequent reinstalls
     user_js = os.path.join(profile_path, "user.js")
     user_js_backup = os.path.join(profile_path, "user.js.bak")
     if os.path.exists(user_js) is True and os.path.exists(user_js_backup) is False:

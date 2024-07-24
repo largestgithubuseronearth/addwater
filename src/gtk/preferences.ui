@@ -83,7 +83,6 @@
 						</child>
 					</object>
 				</child>
-				<!-- TODO add experimental features if i feel like it -->
 			</object>
 		</child>
 	</template>
