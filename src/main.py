@@ -48,8 +48,8 @@ class AddWaterApplication(Adw.Application):
         print(f"GTK: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}")
         print(f"ADW: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}")
         print("-------------------------")
-        init_logs()
         paths.init_paths()
+        init_logs()
 
 
     def do_activate(self):

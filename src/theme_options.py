@@ -94,7 +94,7 @@ THUNDERBIRD_OPTIONS = [
             "key": "hide-tabbar",
             "js_key": "hideTabbar",
             "summary": "Hide Tab Bar",
-            # TODO fix this description
+            # TODO reword this description to be more elegant
             "description": "Hides tabs and menu bar. Press Alt to present the tab bar or by enabling the menu bar."
             },
             {

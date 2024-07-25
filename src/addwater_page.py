@@ -166,7 +166,7 @@ class AddWaterPage(Adw.Bin):
         profile_path = os.path.join(self.app_path, profile_id)
 
         theme_path = install.extract_release(
-            app="firefox",
+            app=self.app_name,
             version=self.update_version
         )
         # Run install script
@@ -261,7 +261,7 @@ class AddWaterPage(Adw.Bin):
         self.update_version = int(latest_release["tag_name"].lstrip("v"))
 
         if self.update_version > self.installed_version:
-            download_release(
+            self.download_release(
                 tarball_url=latest_release["tarball_url"],
                 version=self.update_version
             )
@@ -271,12 +271,13 @@ class AddWaterPage(Adw.Bin):
 
     # TODO how to make download asynchronous? Is that even worthwhile?
     def download_release(self, tarball_url, version):
+        DL_CACHE = paths.DOWNLOAD_DIR
         log.info(f"Update available ({self.installed_version} → {self.update_version}). Downloading now...")
         response = requests.get(tarball_url) # ASYNC use stream flag
         if response.status_code != 200:
             log.error(f"Github download request gave bad response [{response.status_code}]")
 
-        p = os.path.join(DL_CACHE, f"{app}-{version}.tar.gz")
+        p = os.path.join(DL_CACHE, f"{self.app_name}-{version}.tar.gz")
         with open(file=p, mode="wb") as file:
             file.write(response.content)
 
@@ -284,6 +285,8 @@ class AddWaterPage(Adw.Bin):
 
 
     def find_profiles(self, moz_path):
+    # FIXME finds multiple defaults on laptop. Why?
+
         """Reads the app configuration files to adds all of them in a list.
 
         ARGS:
