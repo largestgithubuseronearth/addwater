@@ -2,6 +2,7 @@
 <!-- TODO Write this metadata stuff-->
 <component type="desktop">
 	<id>dev.qwery.AddWater.desktop</id>
+	<launchable type="desktop-id">dev.qwery.AddWater.desktop</launchable>
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
 
@@ -15,6 +16,7 @@
 		<name translate="no">qwery</name>
 	</developer>
 
+	<content_rating type="oars-1.1" />
 
 
 	<categories>

@@ -12,38 +12,6 @@ log = logging.getLogger(__name__)
 
 DL_CACHE = paths.DOWNLOAD_DIR
 
-
-
-def extract_release(app, version):
-    # TODO refactor to be cleaner
-    name = f"{app}-{version}"
-    zipfile = os.path.join(DL_CACHE, f"{name}.tar.gz")
-    extract_dir = os.path.join(DL_CACHE, f"{name}-extracted/")
-
-    if os.path.exists(extract_dir):
-        log.info(f"{name} already extracted. Skipping.")
-        return os.path.join(extract_dir, "firefox-gnome-theme")
-
-    if not os.path.exists(zipfile):
-        log.error(f"Release zip doesn't exist: {zipfile}")
-        return None
-
-    with tarfile.open(zipfile) as tar:
-        tar.extractall(path=extract_dir,
-                        filter="data")
-
-    # Must rename the inner folder to "firefox-gnome-theme" for the provided script to work. Otherwise the theme won't show properly
-    with os.scandir(path=extract_dir) as scan:
-        for each in scan:
-            if each.name.startswith("rafaelmardojai-firefox-gnome-theme"):
-                old = os.path.join(extract_dir, each.name)
-                new = os.path.join(extract_dir, "firefox-gnome-theme")
-                os.rename(old, new)
-    print("new: ", new)
-    log.info(f"{name} tarball extracted successfully.")
-    return new
-
-
 def install_firefox_theme(theme_path, profile_path, theme):
     # TODO ensure complete functional parity with install script
     """Replaces the included theme installer
@@ -120,3 +88,35 @@ def install_firefox_theme(theme_path, profile_path, theme):
 
 
     log.info("Install successful")
+
+
+def extract_release(app, version):
+    # TODO refactor to be cleaner
+    name = f"{app}-{version}"
+    zipfile = os.path.join(DL_CACHE, f"{name}.tar.gz")
+    extract_dir = os.path.join(DL_CACHE, f"{name}-extracted/")
+
+    if os.path.exists(extract_dir):
+        log.info(f"{name} already extracted. Skipping.")
+        return os.path.join(extract_dir, "firefox-gnome-theme")
+
+    if not os.path.exists(zipfile):
+        log.error(f"Release zip doesn't exist: {zipfile}")
+        return None
+
+    with tarfile.open(zipfile) as tar:
+        tar.extractall(path=extract_dir,
+                        filter="data")
+
+    # Must rename the inner folder to "firefox-gnome-theme" for the provided script to work. Otherwise the theme won't show properly
+    with os.scandir(path=extract_dir) as scan:
+        for each in scan:
+            if each.name.startswith("rafaelmardojai-firefox-gnome-theme"):
+                old = os.path.join(extract_dir, each.name)
+                new = os.path.join(extract_dir, "firefox-gnome-theme")
+                os.rename(old, new)
+    print("new: ", new)
+    log.info(f"{name} tarball extracted successfully.")
+    return new
+
+
