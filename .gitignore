@@ -1,2 +1,5 @@
 .flatpak-builder
+.buildconfig
+dev.qwery.AddWater.json~
+build-dir
 firefox-gnome-theme

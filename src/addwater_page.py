@@ -47,7 +47,7 @@ class AddWaterPage(Adw.Bin):
             "water.apply-changes",
             None,
             self.apply_changes
-            )
+        )
         self.install_action(
             "water.discard-changes",
             None,
@@ -333,3 +333,4 @@ class AddWaterPage(Adw.Bin):
         self.profiles = profiles
         for each in self.profiles:
             self.profile_list.append(each["name"])
+
