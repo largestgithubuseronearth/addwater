@@ -95,4 +95,5 @@ class AddWaterWindow(Adw.ApplicationWindow):
         pass
 
     def set_custom_firefox(self):
+        # TODO
         pass

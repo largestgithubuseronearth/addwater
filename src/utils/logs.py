@@ -17,7 +17,7 @@ def init_logs():
                             filemode="w",
                             style="{",
                             format="[{levelname}] {name} — {message} {asctime}",
-                            # TODO make this format so it's easy to read the logs
+                            # TODO format asctime to only include time and not date
                             level=logging.DEBUG)
     except:
         print("Couldn't initialize log file")

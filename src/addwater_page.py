@@ -1,7 +1,8 @@
 # addwater_page.py
 # TODO once this is working properly turn this class into a generic parent class and spin off Firefox and Thunderbird Pages into their own subclasses
 # TODO make app_path and profile_path class properties that can be edited easily
-# TODO
+# TODO make selected profile a class property that methods can use immediately
+# TODO refactor entire app to work even without internet
 
 import logging, json, os.path, shutil, requests
 from configparser import ConfigParser
@@ -16,7 +17,7 @@ class AddWaterPage(Adw.Bin):
     """ ViewStackPage"""
     __gtype_name__ = "AddWaterPage"
 
-    # Firefox Attributes
+    update_version = None
 
     # Widget controls
     toast_overlay = Gtk.Template.Child()
@@ -34,6 +35,7 @@ class AddWaterPage(Adw.Bin):
         self.app_options = app_options
         self.app_name = app_name
         self.theme_url = theme_url
+        self.profile = None
 
     # GUI and Backend
         super().__init__()
@@ -45,13 +47,19 @@ class AddWaterPage(Adw.Bin):
         # TODO make sure this doesn't cause issues. If it does, then add an ActionGroup to this class or just workaround actions altogether and connect the signal directly
         self.install_action(
             "water.apply-changes",
-            None,
+            # TODO is this legal?
+            self.update_version,
             self.apply_changes
         )
         self.install_action(
             "water.discard-changes",
             None,
             self.discard_changes
+        )
+        self.install_action(
+            "water.reset",
+            None,
+            self.reset_app
         )
 
         self.settings.bind_property(
@@ -60,18 +68,32 @@ class AddWaterPage(Adw.Bin):
             "revealed",
             GObject.BindingFlags.SYNC_CREATE
         )
+        self.profile_switcher.connect(
+            # FIXME what is the correct signal name?
+            "activate",
+            self.set_profile
+        )
 
     # Find Firefox Attributes
         self.installed_version = self.settings.get_int("installed-version")
-        self.find_profiles(moz_path=self.app_path)
+        self.find_profiles(profile_path=self.app_path)
 
     # Look for updates
-        self.check_for_updates()
-        if self.update_version > self.installed_version:
-            msg = f"Theme updated (v{self.update_version})"
-            # TODO set has unapplied to True and ask to install if theme is installed, or automatically install
-        else:
-            msg = "No update available"
+        msg = self.check_for_updates()
+        if self.update_version is not None and self.update_version > self.installed_version:
+            if self.settings.get_bool("theme-enabled") == True:
+                selected_profile_name = self.profile_switcher.get_selected_item().get_string()
+                for each in self.profiles:
+                    if each["name"] == selected_profile_name:
+                        profile_id = each["id"]
+                        break
+
+                self.install_theme(
+                    profile_id=profile_id,
+                    OPTIONS=self.app_options
+                )
+
+            msg = f"Updated to v{self.update_version}"
 
         self.toast_overlay.add_toast(
             Adw.Toast(
@@ -82,6 +104,12 @@ class AddWaterPage(Adw.Bin):
 
 
     def _init_prefs(self, OPTIONS_LIST):
+        """Create and bind all SwitchRows according to their respective GSettings keys
+
+        Args:
+            OPTIONS_LIST: a json-style list of dictionaries which include all option groups
+                and options that the theme supports.
+        """
         # TODO When a button is switched from its previous position, add a dot next to the switch to show it's been changed. Set all to hidden when settings are applied.
         # App options
         self.settings.bind(
@@ -124,7 +152,11 @@ class AddWaterPage(Adw.Bin):
 
 
     def apply_changes(self, one, action, three):
-        self.settings.set_int("installed-version", self.update_version)
+        if self.update_version is None:
+            version = self.installed_version
+        else:
+            version = self.update_version
+        self.settings.set_int("installed-version", version)
         self.settings.apply()
         selected_profile_name = self.profile_switcher.get_selected_item().get_string()
         for each in self.profiles:
@@ -136,7 +168,8 @@ class AddWaterPage(Adw.Bin):
         if self.settings.get_boolean("theme-enabled") is True:
             msg = self.install_theme(
                 profile_id=profile_id,
-                OPTIONS=self.app_options
+                options=self.app_options,
+                version=version
             )
         else:
             msg = self.uninstall_theme(profile_id=profile_id)
@@ -151,6 +184,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def discard_changes(self, one, action, three):
+        """Revert changes made to GSettings and notify user"""
         self.settings.revert()
 
         # FIXME Toasts don't disappear unless another window is in focus. Why?
@@ -162,12 +196,12 @@ class AddWaterPage(Adw.Bin):
         self.toast_overlay.add_toast(toast)
 
 
-    def install_theme(self, profile_id, OPTIONS):
+    def install_theme(self, profile_id, options, version):
         profile_path = os.path.join(self.app_path, profile_id)
 
         theme_path = install.extract_release(
             app=self.app_name,
-            version=self.update_version
+            version=version
         )
         # Run install script
         install.install_firefox_theme(
@@ -182,7 +216,7 @@ class AddWaterPage(Adw.Bin):
             lines = file.readlines()
 
         with open(file=user_js, mode="w") as file:
-            for group in OPTIONS:
+            for group in options:
                 for option in group["options"]:
                     js_key = option["js_key"]
                     value = str(self.settings.get_boolean(option["key"])).lower()
@@ -214,8 +248,6 @@ class AddWaterPage(Adw.Bin):
             pass
 
         # Set all user_prefs to false
-        # TODO consider removing the user.js file and replacing with the backup
-            # To make this happen, must find solution that doesn't let user delete their manually-configured user.js'
         user_js = os.path.join(self.app_path, profile_id, "user.js")
         try:
             with open(file=user_js, mode="r") as file:
@@ -246,16 +278,21 @@ class AddWaterPage(Adw.Bin):
 
         DL_CACHE = paths.DOWNLOAD_DIR
         check_url = self.theme_url
-        # TODO add checks to ensure this doesn't exceed GitHub API limit and add error logs
-        # FIXME Thunderbird has no releases. Must clone git
         try:
             latest_release = requests.get((check_url)).json()[0]
-        except json.JSONDecodeError as err:
-            log.error(f"Update json parsing failed: {err}")
-            return False
         except requests.RequestException as err:
             log.error(f"Update request failed: {err}")
-            return False
+            msg = "Update failed. Please try again later."
+            self.update_version = None
+            return msg
+        except KeyError as err:
+        # TODO make this more robust and reliable
+            log.error(f"Likely exceeded Github rate limit: {err}")
+            self.update_version = None
+            msg = "Update failed. Please try again later."
+            return msg
+            # TODO add checks to ensure this doesn't exceed GitHub API limit and add error logs
+
 
 
         self.update_version = int(latest_release["tag_name"].lstrip("v"))
@@ -284,21 +321,19 @@ class AddWaterPage(Adw.Bin):
         log.info("Github download SUCCESS!")
 
 
-    def find_profiles(self, moz_path):
-    # FIXME finds multiple defaults on laptop. Why?
-
+    def find_profiles(self, profile_path):
         """Reads the app configuration files to adds all of them in a list.
 
-        ARGS:
-        moz_path : The path to where the app stores its profiles and the profiles.ini files
+        Args:
+        profile_path : The path to where the app stores its profiles and the profiles.ini files
 
-        RETURN:
+        Returns:
         A list of dicts with all profiles. Each dict includes the full ID of the profile, and a display name to present in the UI without the randomized prefix string.
         The first in the list is always the user's selected default profile.
 
         """
-        install_file = os.path.join(moz_path, "installs.ini")
-        profiles_file = os.path.join(moz_path, "profiles.ini")
+        install_file = os.path.join(profile_path, "installs.ini")
+        profiles_file = os.path.join(profile_path, "profiles.ini")
 
         cfg = ConfigParser()
         defaults = []
@@ -336,4 +371,21 @@ class AddWaterPage(Adw.Bin):
         self.profiles = profiles
         for each in self.profiles:
             self.profile_list.append(each["name"])
+
+
+    def reset_app(self):
+    # TODO Uninstall theme from all profiles and move the backup file back to user.js.
+        print("reset action activated")
+
+    # TODO reset all GSettings values
+
+    # TODO delete everything in APP_CACHE
+        pass
+
+    def set_profile(self, arg):
+        print(arg)
+        print(type(arg))
+        print("set profile activated")
+        self.profile = self.profile_switcher.get_selected_item().get_string()
+        print(self.profile)
 

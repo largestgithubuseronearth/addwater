@@ -3,7 +3,6 @@
 	<template class="AddWaterPreferences" parent="AdwPreferencesDialog">
 		<property name="content-width">450</property>
 		<property name="content-height">450</property>
-		<!-- FIXME Make this fit into the main window attached like About or  -->
 		<child>
 			<object class="AdwPreferencesPage" id="firefox_pref_page">
 				<property name="title">Firefox</property>
@@ -53,6 +52,8 @@
 										<property name="title">Remove Water</property>
 										<property name="activatable">true</property>
 										<property name="selectable">false</property>
+									  <!-- TODO how to connect this to addwaterpage? actiontarget? -->
+									  <property name="action-name">water.reset</property>
 										<child>
 											<object class="GtkBox">
 												<property name="spacing">6</property>
