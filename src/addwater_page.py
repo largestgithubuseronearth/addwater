@@ -1,13 +1,12 @@
 # addwater_page.py
 # TODO once this is working properly turn this class into a generic parent class and spin off Firefox and Thunderbird Pages into their own subclasses
 # TODO make app_path and profile_path class properties that can be edited easily
-# TODO make selected profile a class property that methods can use immediately
-# TODO make a setter method for color theme
 
 import logging, json, os.path, shutil, requests
 from configparser import ConfigParser
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 from .utils import install, paths
+from .theme_options import FIREFOX_COLORS
 
 log = logging.getLogger(__name__)
 
@@ -17,7 +16,19 @@ class AddWaterPage(Adw.Bin):
     """ ViewStackPage"""
     __gtype_name__ = "AddWaterPage"
 
+    # Class Attributes
+    # Version of theme installed and what will be updated
+    installed_version = None
     update_version = None
+
+    app_name = None     # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
+    app_options = None      # Theme features that user can enable in GUI
+    app_path = None     # Path to where app stores its profile folders and profiles.ini file
+    theme_url = None        # URL to Github theme to download and poll for updates
+
+    colors = None       # User's chosen color theme
+    profile = None        # User's chosen profile to install theme to
+
 
     # Widget controls
     toast_overlay = Gtk.Template.Child()
@@ -27,23 +38,32 @@ class AddWaterPage(Adw.Bin):
     enable_button = Gtk.Template.Child()
     profile_switcher = Gtk.Template.Child()
     profile_list = Gtk.Template.Child()
+    colors_list = Gtk.Template.Child()
     colors_switcher = Gtk.Template.Child()
 
 
 
     def __init__(self, app_path, app_options, app_name, theme_url):
+        super().__init__()
         self.app_path = app_path
         self.app_options = app_options
         self.app_name = app_name
         self.theme_url = theme_url
-        self.profile = None
-        self.colors = None
 
-    # GUI and Backend
-        super().__init__()
         self.settings = Gio.Settings(schema_id=f"dev.qwery.AddWater.{self.app_name}")
         self.settings.delay()
+        self.installed_version = self.settings.get_int("installed-version")
+
+        # Set up profile list
+        self.profile_switcher.notify("selected-item")
+        self.profile_switcher.connect("notify::selected-item", self._set_profile)
+        self.find_profiles(profile_path=self.app_path)
+
+        # Set up colors list
+        self.colors = self.settings.get_string("color-theme")
         self._init_prefs(app_options)
+        self.colors_switcher.notify("selected-item")
+        self.colors_switcher.connect("notify::selected-item", self._set_colors)
 
         # Change Confirmation bar
         # TODO make sure this doesn't cause issues. If it does, then add an ActionGroup to this class or just workaround actions altogether and connect the signal directly
@@ -70,47 +90,36 @@ class AddWaterPage(Adw.Bin):
             "revealed",
             GObject.BindingFlags.SYNC_CREATE
         )
-        self.profile_switcher.connect(
-            # FIXME what is the correct signal name?
-            "activate",
-            self.set_profile
-        )
 
-    # Find Firefox Attributes
-        self.installed_version = self.settings.get_int("installed-version")
-        self.find_profiles(profile_path=self.app_path)
 
-    # Look for updates
+
+        # Check for updates and install if new available and theme is already enabled
         msg = self.check_for_updates()
         if self.update_version is not None and self.update_version > self.installed_version:
             if self.settings.get_bool("theme-enabled") == True:
-                selected_profile_name = self.profile_switcher.get_selected_item().get_string()
-                for each in self.profiles:
-                    if each["name"] == selected_profile_name:
-                        profile_id = each["id"]
-                        break
-
                 self.install_theme(
-                    profile_id=profile_id,
+                    profile_id=self.selected_profile,
                     OPTIONS=self.app_options
                 )
 
             msg = f"Updated to v{self.update_version}"
 
-        self.toast_overlay.add_toast(
-            Adw.Toast(
-                title=msg,
-                timeout=2
+        if msg is not None:
+            self.toast_overlay.add_toast(
+                Adw.Toast(
+                    title=msg,
+                    timeout=2
+                )
             )
-        )
 
 
+    # TODO make this a wider-encompassing method to "init front end"
     def _init_prefs(self, OPTIONS_LIST):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
         Args:
             OPTIONS_LIST: a json-style list of dictionaries which include all option groups
-                and options that the theme supports.
+                and options that the theme supports. Included in theme_options.py
         """
         # TODO When a button is switched from its previous position, add a dot next to the switch to show it's been changed. Set all to hidden when settings are applied.
         # App options
@@ -151,6 +160,13 @@ class AddWaterPage(Adw.Bin):
                 group.add(button)
             self.preferences_page.add(group)
 
+        # Colors list
+        for each in FIREFOX_COLORS:
+            self.colors_list.append(each)
+
+        selected = self.colors.title()
+        self.colors_switcher.set_selected(FIREFOX_COLORS.index(selected))
+
 
 
     def apply_changes(self, one, action, three):
@@ -160,13 +176,9 @@ class AddWaterPage(Adw.Bin):
             version = self.update_version
         self.settings.set_int("installed-version", version)
         self.settings.apply()
-        selected_profile_name = self.profile_switcher.get_selected_item().get_string()
-        for each in self.profiles:
-            if each["name"] == selected_profile_name:
-                profile_id = each["id"]
-                break
 
         # TODO Turn the install and uninstall into bespoke methods separate from each other
+        profile_id = self.selected_profile
         if self.settings.get_boolean("theme-enabled") is True:
             msg = self.install_theme(
                 profile_id=profile_id,
@@ -205,13 +217,11 @@ class AddWaterPage(Adw.Bin):
             app=self.app_name,
             version=version
         )
-        self.colors = self.colors_switcher.get_selected_item().get_string().lower()
-        colors=self.colors
         # Run install script
         install.install_firefox_theme(
             theme_path=theme_path,
             profile_path=profile_path,
-            theme=colors
+            theme=self.colors
         )
 
         # Set all user.js options according to gsettings
@@ -377,6 +387,21 @@ class AddWaterPage(Adw.Bin):
             self.profile_list.append(each["name"])
 
 
+    def _set_profile(self, row, _):
+        profile_display_name = row.get_selected_item().get_string()
+        for each in self.profiles:
+            if each["name"] == profile_display_name:
+                self.selected_profile = each["id"]
+                break
+
+    def _set_colors(self, row, _):
+        self.colors = row.get_selected_item().get_string().lower()
+
+        # Workaround: Due to the settings delay, the app always starts with the 'apply changes' popup visible.
+        # Otherwise, this check would be unnecessary.
+        if self.colors != self.settings.get_string("color-theme"):
+            self.settings.set_string("color-theme", self.colors)
+
     def reset_app(self):
     # TODO Uninstall theme from all profiles and move the backup file back to user.js.
         print("reset action activated")
@@ -385,11 +410,3 @@ class AddWaterPage(Adw.Bin):
 
     # TODO delete everything in APP_CACHE
         pass
-
-    def set_profile(self, arg):
-        print(arg)
-        print(type(arg))
-        print("set profile activated")
-        self.profile = self.profile_switcher.get_selected_item().get_string()
-        print(self.profile)
-

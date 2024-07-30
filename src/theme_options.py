@@ -86,6 +86,11 @@ FIREFOX_OPTIONS = [
 
 ]
 
+FIREFOX_COLORS = [
+    "Adwaita",
+    "Maia"
+]
+
 THUNDERBIRD_OPTIONS = [
     {
         "group_name": "Tab Position and Behavior",

@@ -75,11 +75,9 @@
 												<!-- TODO connect this to logic -->
 												<property name="title" translatable="yes">Color Theme</property>
 												<property name="model">
-													<object class="GtkStringList" id="theme_list">
-														<items>
-															<item>Adwaita</item>
-															<item>Maia</item>
-														</items>
+													<object class="GtkStringList" id="colors_list">
+														<!-- TODO add color options via code in theme_options.py -->
+														<items></items>
 													</object>
 												</property>
 											</object>

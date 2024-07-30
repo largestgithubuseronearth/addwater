@@ -1,4 +1,5 @@
 # theme_actions.py
+# TODO move 'extract tarball' step into 'download theme release' step
 
 import os, shutil
 import os.path
