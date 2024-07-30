@@ -67,22 +67,21 @@ def install_firefox_theme(theme_path, profile_path, theme):
                 log.info(f"Creating {each}.")
 
         with open(file=p, mode="w") as file:
-            # FIXME i in this for doesn't get initialized to 0 every time. Why?
-            # This causes an error when reinstalling while already installed
-            for i in range(len(lines)):
-                print("---------------------")
-                print("lines: ", lines)
-                print("i: ", i)
-                print("length: ",len(lines))
-                print(lines[i])
-                if "firefox-gnome-theme" in lines[i]:
-                    del lines[i]
-                    log.info("Removed prior import lines")
+            # Remove old import lines
+            remove_list = []
+            for line in lines:
+                if "firefox-gnome-theme" in line:
+                    lines.remove(line)
+            log.info("Removed prior import lines")
 
+            # Add new import lines
             import_line = f'@import "firefox-gnome-theme/{each}";'
             if theme != "adwaita":
-                import_line = import_line + f'\n@import "firefox-gnome-theme/theme/colors/light-{theme}.css";\n@import "firefox-gnome-theme/theme/colors/dark-{theme}.css"'
+                lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/light-{theme}.css";')
+                lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/dark-{theme}.css";')
+                log.info(f"Installing the {theme} theme")
             lines.insert(0, import_line)
+
             file.writelines(lines)
             log.info(f"{each} finished")
 
@@ -96,7 +95,6 @@ def install_firefox_theme(theme_path, profile_path, theme):
 
     template = os.path.join(chrome_path, "firefox-gnome-theme", "configuration", "user.js")
     shutil.copy(template, profile_path)
-
 
     log.info("Install successful")
 
