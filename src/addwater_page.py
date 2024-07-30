@@ -2,7 +2,7 @@
 # TODO once this is working properly turn this class into a generic parent class and spin off Firefox and Thunderbird Pages into their own subclasses
 # TODO make app_path and profile_path class properties that can be edited easily
 # TODO make selected profile a class property that methods can use immediately
-# TODO refactor entire app to work even without internet
+# TODO make a setter method for color theme
 
 import logging, json, os.path, shutil, requests
 from configparser import ConfigParser
@@ -27,6 +27,7 @@ class AddWaterPage(Adw.Bin):
     enable_button = Gtk.Template.Child()
     profile_switcher = Gtk.Template.Child()
     profile_list = Gtk.Template.Child()
+    colors_switcher = Gtk.Template.Child()
 
 
 
@@ -36,6 +37,7 @@ class AddWaterPage(Adw.Bin):
         self.app_name = app_name
         self.theme_url = theme_url
         self.profile = None
+        self.colors = None
 
     # GUI and Backend
         super().__init__()
@@ -203,11 +205,13 @@ class AddWaterPage(Adw.Bin):
             app=self.app_name,
             version=version
         )
+        self.colors = self.colors_switcher.get_selected_item().get_string().lower()
+        colors=self.colors
         # Run install script
         install.install_firefox_theme(
             theme_path=theme_path,
             profile_path=profile_path,
-            theme="adwaita"
+            theme=colors
         )
 
         # Set all user.js options according to gsettings

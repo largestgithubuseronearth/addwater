@@ -71,7 +71,7 @@
 											</object>
 										</child>
 										<child>
-											<object class="AdwComboRow" id="theme_switcher">
+											<object class="AdwComboRow" id="colors_switcher">
 												<!-- TODO connect this to logic -->
 												<property name="title" translatable="yes">Color Theme</property>
 												<property name="model">

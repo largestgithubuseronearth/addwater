@@ -64,17 +64,27 @@ def install_firefox_theme(theme_path, profile_path, theme):
         except FileNotFoundError:
                 lines = []
                 log.info(f"Creating {each}.")
-        finally:
-            with open(file=p, mode="w") as file:
-                for i in range(len(lines)):
-                    if "firefox-gnome-theme" in lines[i]:
-                        del lines[i]
-                        log.info("Removed prior import lines")
 
-                import_line = f'@import "firefox-gnome-theme/{each}";'
-                lines.insert(0, import_line)
-                file.writelines(lines)
+        with open(file=p, mode="w") as file:
+            # FIXME i in this for doesn't get initialized to 0 every time. Why?
+            # This causes an error when reinstalling while already installed
+            for i in range(len(lines)):
+                print("---------------------")
+                print("lines: ", lines)
+                print("i: ", i)
+                print("length: ",len(lines))
+                print(lines[i])
+                if "firefox-gnome-theme" in lines[i]:
+                    del lines[i]
+                    log.info("Removed prior import lines")
+
+            import_line = f'@import "firefox-gnome-theme/{each}";'
+            if theme != "adwaita":
+                import_line = import_line + f'\n@import "firefox-gnome-theme/theme/colors/light-{theme}.css";\n@import "firefox-gnome-theme/theme/colors/dark-{theme}.css"'
+            lines.insert(0, import_line)
+            file.writelines(lines)
             log.info(f"{each} finished")
+
 
     # Backup user.js and replace with provided version that includes the prerequisite prefs
     # TODO do i want to automatically import the user's user.js preferences? Must avoid rewriting prefs on subsequent reinstalls
