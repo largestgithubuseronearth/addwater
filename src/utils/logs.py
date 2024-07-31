@@ -10,14 +10,14 @@ log = logging.getLogger(__name__)
 def init_logs():
     LOG_DIR = paths.LOG_DIR
     try:
-        # TODO consider making the file append per day and show time in the log messages
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%d_%H-%M")
+        # TODO can this send to both logfile AND to console?
+        now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         LOGFILE = os.path.join(LOG_DIR, f"addwater_{now}.log")
         logging.basicConfig(filename=LOGFILE,
-                            filemode="w",
+                            filemode="a",
                             style="{",
-                            format="[{levelname}] {name} — {message} {asctime}",
-                            # TODO format asctime to only include time and not date
+                            format="[{levelname}] {name} — {message}  | {asctime}",
+                            datefmt="%H:%M",
                             level=logging.DEBUG)
     except:
         print("Couldn't initialize log file")
@@ -29,7 +29,7 @@ def init_logs():
         for each in scan:
             time = datetime.strptime(
                 each.name,
-                "addwater_%Y-%m-%d_%H-%M.log",
+                "addwater_%Y-%m-%d.log",
             )
             time = time.replace(tzinfo=timezone.utc)
             difference = datetime.now(timezone.utc) - time
@@ -37,22 +37,17 @@ def init_logs():
                 os.remove(os.path.join(LOG_DIR, each.name))
                 log.info(each.name, "removed")
 
-
-
-
     # TODO Add to top of log file information about system and dependencies such as:
     # distro
     # desktop environment
     # flatpak or not?
-    info = f"""System Info:
+    info = f"""
+    ------------------------------------------------------------------------
+    System Info:
     Add Water — An installer for the GNOME theme for Firefox and Thunderbird
-    Time: {datetime.now(timezone.utc)}
+    Time (UTC): {datetime.now(timezone.utc)}
     GTK version: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}
     ADW version: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}
-    -------------------------------------------------------------------
+    ------------------------------------------------------------------------
     """
     log.debug(info)
-
-
-
-

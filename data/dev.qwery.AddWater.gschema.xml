@@ -4,7 +4,6 @@
 		<key name="firefox-path" type="s">
 			<default>""</default>
 		</key>
-		<!-- TODO set Thunderbird path to base directory -->
 		<key name="thunderbird-path" type="s">
 			<default>""</default>
 		</key>
@@ -85,11 +84,10 @@
 			<summary>No Themed Icons</summary>
 			<description>Use Firefox's default icons instead of themed Adwaita icons</description>
 		</key>
-		<!-- TODO reword this key description -->
 		<key name="oled-black" type="b">
 			<default>false</default>
 			<summary>True Black Dark Theme</summary>
-			<description>Change dark theme into an OLED black variant</description>
+			<description>Use an OLED-friendly, pure black as the dark theme</description>
 		</key>
 	</schema>
 

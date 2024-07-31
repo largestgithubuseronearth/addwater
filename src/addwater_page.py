@@ -1,11 +1,12 @@
 # addwater_page.py
-# TODO once this is working properly turn this class into a generic parent class and spin off Firefox and Thunderbird Pages into their own subclasses
 # TODO make app_path and profile_path class properties that can be edited easily
+# TODO make ToastOverlay a separate class and pass messages via signals
 
 import logging, json, os.path, shutil, requests
 from configparser import ConfigParser
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 from .utils import install, paths
+# from .utils.toast import AddWaterToaster
 from .theme_options import FIREFOX_COLORS
 
 log = logging.getLogger(__name__)
@@ -61,12 +62,11 @@ class AddWaterPage(Adw.Bin):
 
         # Set up colors list
         self.colors = self.settings.get_string("color-theme")
-        self._init_prefs(app_options)
+        self._init_gui(app_options)
         self.colors_switcher.notify("selected-item")
         self.colors_switcher.connect("notify::selected-item", self._set_colors)
 
         # Change Confirmation bar
-        # TODO make sure this doesn't cause issues. If it does, then add an ActionGroup to this class or just workaround actions altogether and connect the signal directly
         self.install_action(
             "water.apply-changes",
             # TODO is this legal?
@@ -78,6 +78,7 @@ class AddWaterPage(Adw.Bin):
             None,
             self.discard_changes
         )
+        # TODO make this action work and connect properly
         self.install_action(
             "water.reset",
             None,
@@ -90,8 +91,6 @@ class AddWaterPage(Adw.Bin):
             "revealed",
             GObject.BindingFlags.SYNC_CREATE
         )
-
-
 
         # Check for updates and install if new available and theme is already enabled
         msg = self.check_for_updates()
@@ -114,7 +113,7 @@ class AddWaterPage(Adw.Bin):
 
 
     # TODO make this a wider-encompassing method to "init front end"
-    def _init_prefs(self, OPTIONS_LIST):
+    def _init_gui(self, OPTIONS_LIST):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
         Args:
@@ -177,7 +176,6 @@ class AddWaterPage(Adw.Bin):
         self.settings.set_int("installed-version", version)
         self.settings.apply()
 
-        # TODO Turn the install and uninstall into bespoke methods separate from each other
         profile_id = self.selected_profile
         if self.settings.get_boolean("theme-enabled") is True:
             msg = self.install_theme(
@@ -239,7 +237,7 @@ class AddWaterPage(Adw.Bin):
 
                     found = False
                     for i in range(len(lines)):
-                    # TODO Cleaner way to do this? A basic for each doesn't let you replace the item in the list
+                        # This is easier than a for-each
                         if pref_name in lines[i]:
                             lines[i] = full_line
                             found = True
@@ -270,7 +268,7 @@ class AddWaterPage(Adw.Bin):
             return "Removed Theme. Restart Firefox to see changes."
 
         with open(file=user_js, mode="w") as file:
-            # TODO Cleaner way to do this? A basic for each doesn't let you replace the item in the list
+            # This is easier than a foreach
             for i in range(len(lines)):
                 if "gnomeTheme" in lines[i]:
                     lines[i] = lines[i].replace("true", "false")
@@ -300,14 +298,11 @@ class AddWaterPage(Adw.Bin):
             self.update_version = None
             return msg
         except KeyError as err:
-        # TODO make this more robust and reliable
+        # TODO make this more explicit and reliable
             log.error(f"Likely exceeded Github rate limit: {err}")
             self.update_version = None
             msg = "Update failed. Please try again later."
             return msg
-            # TODO add checks to ensure this doesn't exceed GitHub API limit and add error logs
-
-
 
         self.update_version = int(latest_release["tag_name"].lstrip("v"))
 
@@ -394,6 +389,7 @@ class AddWaterPage(Adw.Bin):
                 self.selected_profile = each["id"]
                 break
 
+
     def _set_colors(self, row, _):
         self.colors = row.get_selected_item().get_string().lower()
 
@@ -402,7 +398,9 @@ class AddWaterPage(Adw.Bin):
         if self.colors != self.settings.get_string("color-theme"):
             self.settings.set_string("color-theme", self.colors)
 
+
     def reset_app(self):
+    # TODO likely this needs to be window.py's responsibility
     # TODO Uninstall theme from all profiles and move the backup file back to user.js.
         print("reset action activated")
 
@@ -410,3 +408,5 @@ class AddWaterPage(Adw.Bin):
 
     # TODO delete everything in APP_CACHE
         pass
+
+

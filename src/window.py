@@ -80,8 +80,12 @@ class AddWaterWindow(Adw.ApplicationWindow):
         path_list = [
             paths.FIREFOX_BASE,
             paths.FIREFOX_FLATPAK,
-            paths.FIREFOX_FLATPAK_WRONG,
-            paths.FIREFOX_SNAP
+            paths.FIREFOX_SNAP,
+            paths.FIREFOX_LIBREWOLF_BASE,
+            paths.FIREFOX_LIBREWOLF_FLATPAK,
+            paths.FIREFOX_LIBREWOLF_SNAP,
+            paths.FIREFOX_FLOORP_BASE,
+            paths.FIREFOX_FLOORP_FLATPAK
         ]
         for each in path_list:
             if os.path.exists(each):
@@ -90,10 +94,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
         return None
 
 
-    def find_thunderbird_path(self):
-        # TODO
-        pass
-
     def set_custom_firefox(self):
         # TODO
         pass
+
