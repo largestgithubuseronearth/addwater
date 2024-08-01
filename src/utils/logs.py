@@ -16,7 +16,7 @@ def init_logs():
         logging.basicConfig(filename=LOGFILE,
                             filemode="a",
                             style="{",
-                            format="[{levelname}] {name} — {message}  | {asctime}",
+                            format="[{levelname}] {name} — {asctime} || {message}",
                             datefmt="%H:%M",
                             level=logging.DEBUG)
     except:
@@ -50,4 +50,4 @@ def init_logs():
     ADW version: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}
     ------------------------------------------------------------------------
     """
-    log.debug(info)
+    logging.debug(info)

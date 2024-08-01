@@ -166,6 +166,14 @@ class AddWaterPage(Adw.Bin):
         selected = self.colors.title()
         self.colors_switcher.set_selected(FIREFOX_COLORS.index(selected))
 
+        # Find last selected profile
+        # TODO
+        # last_profile = self.settings.get_string("last-profile")
+        # for each in self.profiles:
+        #     if each["id"] == last_profile:
+        #         self.profile_switcher.set_selected()
+
+
 
 
     def apply_changes(self, one, action, three):
@@ -291,17 +299,24 @@ class AddWaterPage(Adw.Bin):
         DL_CACHE = paths.DOWNLOAD_DIR
         check_url = self.theme_url
         try:
-            latest_release = requests.get((check_url)).json()[0]
+            r = requests.get((check_url))
+            log.debug(f'Remaining Github API calls for the next hour: {r.headers["x-ratelimit-remaining"]}')
+            # TODO set this to be more strict when releasing for Flathub
+            if int(r.headers["x-ratelimit-remaining"]) < 10:
+                raise ResourceWarning
+            latest_release = r.json()[0]
+
         except requests.RequestException as err:
             log.error(f"Update request failed: {err}")
             msg = "Update failed. Please try again later."
             self.update_version = None
             return msg
-        except KeyError as err:
-        # TODO make this more explicit and reliable
-            log.error(f"Likely exceeded Github rate limit: {err}")
+        except ResourceWarning as err:
+            # Deliberately limiting below the actual limit. There's no reason to poll Github so often.
+            log.error(f"Limiting polling in order to not overstep Github API rate limits")
+            print(f"Limiting polling in order to not overstep Github API rate limits")
             self.update_version = None
-            msg = "Update failed. Please try again later."
+            msg = "To avoid rate limits, please try again later"
             return msg
 
         self.update_version = int(latest_release["tag_name"].lstrip("v"))
@@ -331,7 +346,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def find_profiles(self, profile_path):
-        """Reads the app configuration files to adds all of them in a list.
+        """Reads the app configuration files and returns a list of profiles. The user's preferred profiles are first in the list.
 
         Args:
         profile_path : The path to where the app stores its profiles and the profiles.ini files
@@ -349,7 +364,7 @@ class AddWaterPage(Adw.Bin):
         profiles = []
 
         try:
-            # Preferred
+            # Find Preferred profile
             if len(cfg.read(install_file)) == 0:
                 raise FileNotFoundError(install_file)
 
@@ -360,7 +375,7 @@ class AddWaterPage(Adw.Bin):
                                 "name" : default_profile.partition(".")[2] + " (Preferred)"})
                 log.debug(f"User's default profile is {default_profile}")
 
-            # All
+            # Find all others
             if len(cfg.read(profiles_file)) == 0:
                 raise FileNotFoundError(profiles_file)
 

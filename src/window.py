@@ -26,7 +26,7 @@ from .utils import logs, paths
 log = logging.getLogger(__name__)
 
 firefox_url = "https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases"
-thunderbird_url = "https://api.github.com/repos/rafaelmardojai/thunderbird-gnome-theme/releases"
+# thunderbird_url = "https://api.github.com/repos/rafaelmardojai/thunderbird-gnome-theme/releases"
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddWaterWindow(Adw.ApplicationWindow):
@@ -36,11 +36,11 @@ class AddWaterWindow(Adw.ApplicationWindow):
     # Use when only one page is available
     main_toolbar_view = Gtk.Template.Child()
 
-    # Use when Thunderbird page is ready
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
+
+        # TODO reset app action
 
         # Firefox Page set up
         # Find Firefox profiles path
@@ -53,6 +53,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
                 self.settings.set_string("firefox-path", firefox_path)
 
         log.debug(f"Found Firefox path: {firefox_path}")
+
+
         # Add page to window
         if firefox_path == None:
             # TODO Make status page that asks user to set the firefox path manually and restart the app.
@@ -68,8 +70,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
                 app_name="Firefox",
                 theme_url=firefox_url
             )
-
-
         self.main_toolbar_view.set_content(firefox_page)
 
 

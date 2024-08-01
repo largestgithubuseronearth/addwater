@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="addwater">
+	<!-- Add Water -->
 	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater/">
 		<key name="firefox-path" type="s">
 			<default>""</default>
@@ -9,6 +10,7 @@
 		</key>
 	</schema>
 
+	<!-- Firefox -->
 	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox/">
 		<key name="installed-version" type="i">
 			<default>0</default>
@@ -20,6 +22,9 @@
 			<summary>Enable Theme</summary>
 			<description>Enable or disable the GNOME for Firefox theme</description>
 
+		</key>
+		<key name="last-profile" type="s">
+			<default>""</default>
 		</key>
 		<key name="color-theme" type="s">
 			<default>"Adwaita"</default>
@@ -91,6 +96,8 @@
 		</key>
 	</schema>
 
+
+	<!-- Thunderbird (finish when adding support)-->
 	<schema path="/dev/qwery/AddWater/Thunderbird/" id="dev.qwery.AddWater.Thunderbird">
 		<key name="installed-version" type="i">
 			<default>0</default>
