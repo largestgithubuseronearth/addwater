@@ -2,6 +2,7 @@
 # TODO make app_path and profile_path class properties that can be edited easily
 # TODO make ToastOverlay a separate class and pass messages via signals
 
+
 import logging, json, os.path, shutil, requests
 from configparser import ConfigParser
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
@@ -25,7 +26,7 @@ class AddWaterPage(Adw.Bin):
     app_name = None     # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
     app_options = None      # Theme features that user can enable in GUI
     app_path = None     # Path to where app stores its profile folders and profiles.ini file
-    theme_url = None        # URL to Github theme to download and poll for updates
+    theme_url = None        # URL to GitHub theme to download and poll for updates
 
     colors = None       # User's chosen color theme
     profile = None        # User's chosen profile to install theme to
@@ -67,22 +68,16 @@ class AddWaterPage(Adw.Bin):
         self.colors_switcher.connect("notify::selected-item", self._set_colors)
 
         # Change Confirmation bar
+        # TODO what does this parameter refer to?
         self.install_action(
             "water.apply-changes",
-            # TODO is this legal?
-            self.update_version,
+            None,
             self.apply_changes
         )
         self.install_action(
             "water.discard-changes",
             None,
             self.discard_changes
-        )
-        # TODO make this action work and connect properly
-        self.install_action(
-            "water.reset",
-            None,
-            self.reset_app
         )
 
         self.settings.bind_property(
@@ -95,7 +90,7 @@ class AddWaterPage(Adw.Bin):
         # Check for updates and install if new available and theme is already enabled
         msg = self.check_for_updates()
         if self.update_version is not None and self.update_version > self.installed_version:
-            if self.settings.get_bool("theme-enabled") == True:
+            if self.settings.get_boolean("theme-enabled") == True:
                 self.install_theme(
                     profile_id=self.selected_profile,
                     OPTIONS=self.app_options
@@ -166,21 +161,22 @@ class AddWaterPage(Adw.Bin):
         selected = self.colors.title()
         self.colors_switcher.set_selected(FIREFOX_COLORS.index(selected))
 
-        # Find last selected profile
-        # TODO
-        # last_profile = self.settings.get_string("last-profile")
-        # for each in self.profiles:
-        #     if each["id"] == last_profile:
-        #         self.profile_switcher.set_selected()
+        # Profile list - selected last used profile
+        last_profile = self.settings.get_string("last-profile")
+        for each in self.profiles:
+            if each["id"] == last_profile:
+                self.profile_switcher.set_selected(self.profiles.index(each))
 
 
 
 
-    def apply_changes(self, one, action, three):
+    def apply_changes(self, _, action, __):
+        print("Installing version ", self.update_version)
         if self.update_version is None:
             version = self.installed_version
         else:
             version = self.update_version
+
         self.settings.set_int("installed-version", version)
         self.settings.apply()
 
@@ -219,13 +215,9 @@ class AddWaterPage(Adw.Bin):
     def install_theme(self, profile_id, options, version):
         profile_path = os.path.join(self.app_path, profile_id)
 
-        theme_path = install.extract_release(
-            app=self.app_name,
-            version=version
-        )
         # Run install script
         install.install_firefox_theme(
-            theme_path=theme_path,
+            version=version,
             profile_path=profile_path,
             theme=self.colors
         )
@@ -398,30 +390,23 @@ class AddWaterPage(Adw.Bin):
 
 
     def _set_profile(self, row, _):
+        # TODO test this for usability issues
         profile_display_name = row.get_selected_item().get_string()
         for each in self.profiles:
             if each["name"] == profile_display_name:
                 self.selected_profile = each["id"]
                 break
 
+        # FIXME this makes the first item in the list always the last selected profile
+        if self.selected_profile != self.settings.get_string("last-profile"):
+            self.settings.set_string("last-profile", self.selected_profile)
+
 
     def _set_colors(self, row, _):
+        # TODO test this for usability issues
         self.colors = row.get_selected_item().get_string().lower()
 
         # Workaround: Due to the settings delay, the app always starts with the 'apply changes' popup visible.
-        # Otherwise, this check would be unnecessary.
+        # Otherwise, this compare check would be unnecessary.
         if self.colors != self.settings.get_string("color-theme"):
             self.settings.set_string("color-theme", self.colors)
-
-
-    def reset_app(self):
-    # TODO likely this needs to be window.py's responsibility
-    # TODO Uninstall theme from all profiles and move the backup file back to user.js.
-        print("reset action activated")
-
-    # TODO reset all GSettings values
-
-    # TODO delete everything in APP_CACHE
-        pass
-
-

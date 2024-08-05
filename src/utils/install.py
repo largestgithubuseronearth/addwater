@@ -1,5 +1,4 @@
 # theme_actions.py
-# TODO move 'extract tarball' step into 'download theme release' step
 
 import os, shutil
 import os.path
@@ -13,7 +12,7 @@ log = logging.getLogger(__name__)
 
 DL_CACHE = paths.DOWNLOAD_DIR
 
-def install_firefox_theme(theme_path, profile_path, theme):
+def install_firefox_theme(version, profile_path, theme):
     # TODO ensure complete functional parity with install script
     """Replaces the included theme installer
 
@@ -27,9 +26,17 @@ def install_firefox_theme(theme_path, profile_path, theme):
     if os.path.exists(profile_path) is False:
         log.error("profile_path not found. Install canceled.")
         return
-    if os.path.exists(theme_path) is False:
+
+    # TODO move 'extract tarball' step into 'download theme release' step
+    theme_path = extract_release(app="Firefox", version=version)
+
+    if theme_path == None:
+        log.error(f"Failed to extract Firefox v{version}")
+        return
+    elif os.path.exists(theme_path) is False:
         log.error("theme_path not found. Install canceled.")
         return
+
 
     # Make chrome folder if it doesn't already exist
     chrome_path = os.path.join(profile_path, "chrome")
@@ -126,6 +133,7 @@ def extract_release(app, version):
     print("new: ", new)
     log.info(f"{name} tarball extracted successfully.")
     return new
+
 
 
 

@@ -1,5 +1,4 @@
 #preferences.py
-# FIXME [Widget of type “AddWaterPreferences” already has an accessible role of type “GTK_ACCESSIBLE_ROLE_GENERIC”]
 
 
 
@@ -13,10 +12,9 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 
     def __init__(self):
         super().__init__()
-        print("preferences is alive!")
         self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
 
         firefox_path = self.settings.get_string("firefox-path")
-        self.custom_firefox_path.set_subtitle(firefox_path)
 
         # TODO Make set_custom_firefox_path handler
+

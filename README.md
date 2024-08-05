@@ -14,8 +14,6 @@ MINIMUM FEATURES:
 * Is is okay to remove ipc permission? Doesn't seem necessary but idk.
 * Where does $FLATPAK_DEST go to?
 
-<!-- TODO theme color support -->
-
 <!-- TODO build preferences window for advanced users -->
 * Allow user-specified path for Firefox
 * Allow user to remove the theme from all profiles inside their firefox directory
@@ -25,6 +23,8 @@ MINIMUM FEATURES:
 <!-- TODO Write unit tests for the majority of the app, especially critical sections where data loss may occur -->
 <!-- TODO consider pylint -->
 <!-- TODO format all code -->
+
+<!-- TODO make help page -->
 
 
 What needs to happen for Thunderbird support:

@@ -97,7 +97,7 @@
 	</schema>
 
 
-	<!-- Thunderbird (finish when adding support)-->
+	<!-- Thunderbird (finish when ready to support)-->
 	<schema path="/dev/qwery/AddWater/Thunderbird/" id="dev.qwery.AddWater.Thunderbird">
 		<key name="installed-version" type="i">
 			<default>0</default>
