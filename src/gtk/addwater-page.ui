@@ -8,6 +8,7 @@
 
 					<object class="AdwToolbarView">
 
+
 						<!-- Change Confirmation Bar -->
 						<child type="bottom">
 							<object class="GtkActionBar" id="change_confirm_bar">

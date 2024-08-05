@@ -74,9 +74,10 @@ class AddWaterPage(Adw.Bin):
         self.installed_version = self.settings.get_int("installed-version")
 
         # Set up profile list
+        print(self.app_path)
+        self.find_profiles(profile_path=self.app_path)
         self.profile_switcher.notify("selected-item")
         self.profile_switcher.connect("notify::selected-item", self._set_profile)
-        self.find_profiles(profile_path=self.app_path)
 
         # Set up colors list
         self.colors = self.settings.get_string("color-theme")
@@ -209,7 +210,7 @@ class AddWaterPage(Adw.Bin):
 
         toast = Adw.Toast(
             title=msg,
-            timeout=5,
+            timeout=3,
             priority=Adw.ToastPriority.HIGH
         )
         self.toast_overlay.add_toast(toast)
@@ -222,7 +223,7 @@ class AddWaterPage(Adw.Bin):
 
         toast = Adw.Toast(
             title="Changes reverted",
-            timeout=3,
+            timeout=2,
             priority=Adw.ToastPriority.NORMAL
         )
         self.toast_overlay.add_toast(toast)
@@ -413,7 +414,6 @@ class AddWaterPage(Adw.Bin):
                 self.selected_profile = each["id"]
                 break
 
-        # FIXME this makes the first item in the list always the last selected profile
         if self.selected_profile != self.settings.get_string("last-profile"):
             self.settings.set_string("last-profile", self.selected_profile)
 
@@ -426,4 +426,3 @@ class AddWaterPage(Adw.Bin):
         # Otherwise, this compare check would be unnecessary.
         if self.colors != self.settings.get_string("color-theme"):
             self.settings.set_string("color-theme", self.colors)
-
