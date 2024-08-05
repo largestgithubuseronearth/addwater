@@ -37,8 +37,7 @@ addwater_sources = [
 
   'utils/install.py',
   'utils/paths.py',
-  'utils/logs.py',
-  'utils/toast.py'
+  'utils/logs.py'
 ]
 
 install_data(addwater_sources, install_dir: moduledir)

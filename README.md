@@ -33,3 +33,7 @@ What needs to happen for Thunderbird support:
 
 Notes:
 * I will not support Experimental options. Users must enable those manually.
+* 
+
+<!-- TODO Find workaround for toasts staying on screen -->
+
