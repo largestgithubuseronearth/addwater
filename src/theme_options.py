@@ -32,7 +32,8 @@ FIREFOX_OPTIONS = [
             "key": "tabs-as-headerbar",
             "js_key": "tabsAsHeaderbar",
             "summary": "Tabs as Headerbar",
-            "description": "Place the tabs on the top of the window, and use the tabs bar to hold the window controls, like Firefox's standard tab bar.\n\nEnabling with \"Hide Single Tab\" will replace the single tab with a title bar."
+            "description": "Place the tab bar on the top of the window, and use the tabs bar to hold the window controls, like Firefox's standard tab bar",
+            "tooltip": 'Enabling with "Hide Single Tab" will replace the single tab with a title bar'
           }
         ]
     },
@@ -43,7 +44,7 @@ FIREFOX_OPTIONS = [
             "key": "active-tab-contrast",
             "js_key": "activeTabContrast",
             "summary": "Active Tab Contrast",
-            "description": "Add more contrast to the active tab"
+            "description": "Add more visual contrast to the active tab"
           },
           {
             "key": "close-only-selected-tabs",
@@ -67,7 +68,7 @@ FIREFOX_OPTIONS = [
         "key": "hide-webrtc-indicator",
         "js_key": "hideWebrtcIndicator",
         "summary": "Hide WebRTC Indicator",
-        "description": "Hide redundant WebRTC indicator since GNOME provides their own privacy icons in the top right"
+        "description": "Hide redundant WebRTC indicator. GNOME provides their own privacy icons in the top right."
       },
       {
         "key": "oled-black",

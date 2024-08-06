@@ -42,12 +42,14 @@ class AddWaterApplication(Adw.Application):
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q', '<primary>w'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action, ['<Ctrl>comma'])
+        self.create_action('open-help-page', self.on_help_action)
 
         print("-------------------------")
         print("ADD WATER — GNOME theme installer for Firefox and Thunderbird")
         print(f"GTK: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}")
         print(f"ADW: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}")
         print("-------------------------")
+
         paths.init_paths()
         init_logs()
 
@@ -63,26 +65,35 @@ class AddWaterApplication(Adw.Application):
             win = AddWaterWindow(application=self)
         win.present()
 
+
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
-        # info.py.in seems like a good model for how to do this. But requires meson tinkering
-        about = Adw.AboutWindow(transient_for=self.props.active_window,
-                                application_name='AddWater',
+        # TODO info.py.in seems like a good model for how to do this. But requires meson tinkering
+        about = Adw.AboutDialog(application_name='AddWater',
                                 application_icon='dev.qwery.AddWater',
                                 developer_name='qwery',
-                                version='0.1.0',
+                                version="alpha",
                                 developers=['Qwery'],
-                                copyright='© 2024 Qwery')
+                                copyright='© 2024 Qwery',
+                                license_type=Gtk.License.GPL_3_0)
         about.add_credit_section(
             name="Theme Created and Maintained by",
             people=["Rafael Mardojai CM https://www.mardojai.com/"])
-        about.present()
+        about.add_legal_section(
+            "Other Wordmarks",
+            "Firefox and Thunderbird are trademarks of the Mozilla Foundation in the U.S. and other countries.",
+            Gtk.License.UNKNOWN,
+            None
+        )
+        about.present(self.props.active_window)
+
 
     def on_preferences_action(self, widget, _):
         """Callback for the app.preferences action."""
         pref = AddWaterPreferences()
         pref.present(self.props.active_window)
         print('app.preferences action activated')
+
 
     def create_action(self, name, callback, shortcuts=None):
         """Add an application action.
@@ -98,6 +109,14 @@ class AddWaterApplication(Adw.Application):
         self.add_action(action)
         if shortcuts:
             self.set_accels_for_action(f"app.{name}", shortcuts)
+
+
+    def on_help_action(self, action, _):
+        # TODO redo this link when I have an actual help page made
+        weblaunch = Gtk.UriLauncher.new("https://www.zombo.com/")
+        # TODO is it okay to have all None?
+        weblaunch.launch(None, None, None, None)
+        print("app.open-help-page action activated")
 
 
 def main(version):

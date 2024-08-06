@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+	<!-- TODO bind window sizes in gschema -->
+	<!-- TODO set min window size -->
 <interface>
 <requires lib="gtk" version="4.0"/>
 <requires lib="Adw" version="1.0"/>
 	<template class="AddWaterWindow" parent="AdwApplicationWindow">
 		<property name="default-width">500</property>
 		<property name="default-height">700</property>
-		<property name="resizable">false</property>
 		<property name="title">Add Water to Firefox</property>
 		<style>
 			<class name="devel"/>

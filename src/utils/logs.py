@@ -1,4 +1,21 @@
 # logs.py
+#
+# Copyright 2024 Qwery
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
 from datetime import datetime, timezone, timedelta
@@ -16,7 +33,7 @@ def init_logs():
         logging.basicConfig(filename=LOGFILE,
                             filemode="a",
                             style="{",
-                            format="[{levelname}] {name} — {message}  | {asctime}",
+                            format="[{levelname}] {name} — {asctime} || {message}",
                             datefmt="%H:%M",
                             level=logging.DEBUG)
     except:
@@ -50,4 +67,4 @@ def init_logs():
     ADW version: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}
     ------------------------------------------------------------------------
     """
-    log.debug(info)
+    logging.debug(info)

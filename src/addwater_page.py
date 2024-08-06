@@ -1,12 +1,31 @@
 # addwater_page.py
+#
+# Copyright 2024 Qwery
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # TODO make app_path and profile_path class properties that can be edited easily
-# TODO make ToastOverlay a separate class and pass messages via signals
+
+# FIXME when the last-profile is the same as the first profile in the switcher list, self.selected_profile becomes None and fails the install.
+
 
 import logging, json, os.path, shutil, requests
 from configparser import ConfigParser
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 from .utils import install, paths
-# from .utils.toast import AddWaterToaster
 from .theme_options import FIREFOX_COLORS
 
 log = logging.getLogger(__name__)
@@ -25,10 +44,10 @@ class AddWaterPage(Adw.Bin):
     app_name = None     # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
     app_options = None      # Theme features that user can enable in GUI
     app_path = None     # Path to where app stores its profile folders and profiles.ini file
-    theme_url = None        # URL to Github theme to download and poll for updates
+    theme_url = None        # URL to GitHub theme to download and poll for updates
 
     colors = None       # User's chosen color theme
-    profile = None        # User's chosen profile to install theme to
+    selected_profile = None        # User's chosen profile to install theme to
 
 
     # Widget controls
@@ -55,34 +74,29 @@ class AddWaterPage(Adw.Bin):
         self.settings.delay()
         self.installed_version = self.settings.get_int("installed-version")
 
-        # Set up profile list
+        # Profiles and Colors lists
+        self.selected_profile = self.settings.get_string("last-profile")
+        self.find_profiles(profile_path=self.app_path)
+        self.colors = self.settings.get_string("color-theme")
+
+        self._init_gui(app_options)
+
         self.profile_switcher.notify("selected-item")
         self.profile_switcher.connect("notify::selected-item", self._set_profile)
-        self.find_profiles(profile_path=self.app_path)
-
-        # Set up colors list
-        self.colors = self.settings.get_string("color-theme")
-        self._init_gui(app_options)
         self.colors_switcher.notify("selected-item")
         self.colors_switcher.connect("notify::selected-item", self._set_colors)
 
         # Change Confirmation bar
+        # TODO what does this parameter refer to?
         self.install_action(
             "water.apply-changes",
-            # TODO is this legal?
-            self.update_version,
+            None,
             self.apply_changes
         )
         self.install_action(
             "water.discard-changes",
             None,
             self.discard_changes
-        )
-        # TODO make this action work and connect properly
-        self.install_action(
-            "water.reset",
-            None,
-            self.reset_app
         )
 
         self.settings.bind_property(
@@ -94,8 +108,8 @@ class AddWaterPage(Adw.Bin):
 
         # Check for updates and install if new available and theme is already enabled
         msg = self.check_for_updates()
-        if self.update_version is not None and self.update_version > self.installed_version:
-            if self.settings.get_bool("theme-enabled") == True:
+        if (self.update_version is not None and self.update_version > self.installed_version):
+            if self.settings.get_boolean("theme-enabled") == True:
                 self.install_theme(
                     profile_id=self.selected_profile,
                     OPTIONS=self.app_options
@@ -104,15 +118,9 @@ class AddWaterPage(Adw.Bin):
             msg = f"Updated to v{self.update_version}"
 
         if msg is not None:
-            self.toast_overlay.add_toast(
-                Adw.Toast(
-                    title=msg,
-                    timeout=2
-                )
-            )
+            self.send_toast(msg)
 
 
-    # TODO make this a wider-encompassing method to "init front end"
     def _init_gui(self, OPTIONS_LIST):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
@@ -120,7 +128,6 @@ class AddWaterPage(Adw.Bin):
             OPTIONS_LIST: a json-style list of dictionaries which include all option groups
                 and options that the theme supports. Included in theme_options.py
         """
-        # TODO When a button is switched from its previous position, add a dot next to the switch to show it's been changed. Set all to hidden when settings are applied.
         # App options
         self.settings.bind(
             "theme-enabled",
@@ -140,7 +147,7 @@ class AddWaterPage(Adw.Bin):
             for option in each["options"]:
                 button = Adw.SwitchRow(
                     title=option["summary"],
-                    tooltip_text=option["description"]
+                    subtitle=option["description"]
                 )
                 self.settings.bind(
                     option["key"],
@@ -162,17 +169,26 @@ class AddWaterPage(Adw.Bin):
         # Colors list
         for each in FIREFOX_COLORS:
             self.colors_list.append(each)
-
         selected = self.colors.title()
         self.colors_switcher.set_selected(FIREFOX_COLORS.index(selected))
 
+        # Profile list
+        last_profile = self.settings.get_string("last-profile")
+        for each in self.profiles:
+            if each["id"] == last_profile:
+                self.profile_switcher.set_selected(self.profiles.index(each))
+                break
 
 
-    def apply_changes(self, one, action, three):
+    def apply_changes(self, _, action, __):
+        # TODO Refactor how I use update_version and installed_version so that there's never a disconnect between them that causes unexpected issues
+        """Apply changes to GSettings and call the proper install or uninstall method"""
+        print("Installing version ", self.update_version)
         if self.update_version is None:
             version = self.installed_version
         else:
             version = self.update_version
+
         self.settings.set_int("installed-version", version)
         self.settings.apply()
 
@@ -186,38 +202,22 @@ class AddWaterPage(Adw.Bin):
         else:
             msg = self.uninstall_theme(profile_id=profile_id)
 
-        toast = Adw.Toast(
-            title=msg,
-            timeout=5,
-            priority=Adw.ToastPriority.HIGH
-        )
-        self.toast_overlay.add_toast(toast)
-
+        self.send_toast(msg, 3, 1)
 
 
     def discard_changes(self, one, action, three):
         """Revert changes made to GSettings and notify user"""
         self.settings.revert()
-
-        # FIXME Toasts don't disappear unless another window is in focus. Why?
-        toast = Adw.Toast(
-            title="Changes reverted",
-            timeout=3,
-            priority=Adw.ToastPriority.NORMAL
-        )
-        self.toast_overlay.add_toast(toast)
+        msg="Changes reverted"
+        self.send_toast(msg)
 
 
     def install_theme(self, profile_id, options, version):
         profile_path = os.path.join(self.app_path, profile_id)
 
-        theme_path = install.extract_release(
-            app=self.app_name,
-            version=version
-        )
         # Run install script
         install.install_firefox_theme(
-            theme_path=theme_path,
+            version=version,
             profile_path=profile_path,
             theme=self.colors
         )
@@ -280,6 +280,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def check_for_updates(self):
+        # TODO is there a way to check the Firefox version first? If so, check that first and then check Github once every day
         """Check theme github for new releases
 
 
@@ -291,17 +292,24 @@ class AddWaterPage(Adw.Bin):
         DL_CACHE = paths.DOWNLOAD_DIR
         check_url = self.theme_url
         try:
-            latest_release = requests.get((check_url)).json()[0]
+            r = requests.get((check_url))
+            log.debug(f'Remaining Github API calls for the next hour: {r.headers["x-ratelimit-remaining"]}')
+            # TODO set this to be more strict when releasing for Flathub
+            if int(r.headers["x-ratelimit-remaining"]) < 10:
+                raise ResourceWarning
+            latest_release = r.json()[0]
+
         except requests.RequestException as err:
             log.error(f"Update request failed: {err}")
             msg = "Update failed. Please try again later."
             self.update_version = None
             return msg
-        except KeyError as err:
-        # TODO make this more explicit and reliable
-            log.error(f"Likely exceeded Github rate limit: {err}")
+        except ResourceWarning as err:
+            # Deliberately limiting below the actual limit. There's no reason to poll Github so often.
+            log.error(f"Limiting polling in order to not overstep Github API rate limits")
+            print(f"Limiting polling in order to not overstep Github API rate limits")
             self.update_version = None
-            msg = "Update failed. Please try again later."
+            msg = "To avoid rate limits, please try again later"
             return msg
 
         self.update_version = int(latest_release["tag_name"].lstrip("v"))
@@ -331,7 +339,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def find_profiles(self, profile_path):
-        """Reads the app configuration files to adds all of them in a list.
+        """Reads the app configuration files and returns a list of profiles. The user's preferred profiles are first in the list.
 
         Args:
         profile_path : The path to where the app stores its profiles and the profiles.ini files
@@ -349,7 +357,7 @@ class AddWaterPage(Adw.Bin):
         profiles = []
 
         try:
-            # Preferred
+            # Find Preferred profile
             if len(cfg.read(install_file)) == 0:
                 raise FileNotFoundError(install_file)
 
@@ -360,7 +368,7 @@ class AddWaterPage(Adw.Bin):
                                 "name" : default_profile.partition(".")[2] + " (Preferred)"})
                 log.debug(f"User's default profile is {default_profile}")
 
-            # All
+            # Find all others
             if len(cfg.read(profiles_file)) == 0:
                 raise FileNotFoundError(profiles_file)
 
@@ -382,31 +390,35 @@ class AddWaterPage(Adw.Bin):
             self.profile_list.append(each["name"])
 
 
-    def _set_profile(self, row, _):
+    def _set_profile(self, row, _=None):
+        # TODO test for usability issues
         profile_display_name = row.get_selected_item().get_string()
         for each in self.profiles:
             if each["name"] == profile_display_name:
                 self.selected_profile = each["id"]
                 break
 
+        if self.selected_profile != self.settings.get_string("last-profile"):
+            self.settings.set_string("last-profile", self.selected_profile)
+
 
     def _set_colors(self, row, _):
+        # TODO test this for usability issues
         self.colors = row.get_selected_item().get_string().lower()
 
         # Workaround: Due to the settings delay, the app always starts with the 'apply changes' popup visible.
-        # Otherwise, this check would be unnecessary.
+        # Otherwise, this compare check would be unnecessary.
         if self.colors != self.settings.get_string("color-theme"):
             self.settings.set_string("color-theme", self.colors)
 
 
-    def reset_app(self):
-    # TODO likely this needs to be window.py's responsibility
-    # TODO Uninstall theme from all profiles and move the backup file back to user.js.
-        print("reset action activated")
-
-    # TODO reset all GSettings values
-
-    # TODO delete everything in APP_CACHE
-        pass
-
-
+    def send_toast(self, msg, time=2, priority=0):
+        # Workaround for libadwaita bug which cause toasts not to disappear automatically
+        self.toast_overlay.add_toast(
+            Adw.Toast(
+                title=msg,
+                timeout=time,
+                priority=priority
+            )
+        )
+        self.enable_button.grab_focus()

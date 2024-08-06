@@ -1,5 +1,21 @@
 # theme_actions.py
-# TODO move 'extract tarball' step into 'download theme release' step
+#
+# Copyright 2024 Qwery
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os, shutil
 import os.path
@@ -13,7 +29,7 @@ log = logging.getLogger(__name__)
 
 DL_CACHE = paths.DOWNLOAD_DIR
 
-def install_firefox_theme(theme_path, profile_path, theme):
+def install_firefox_theme(version, profile_path, theme):
     # TODO ensure complete functional parity with install script
     """Replaces the included theme installer
 
@@ -27,9 +43,17 @@ def install_firefox_theme(theme_path, profile_path, theme):
     if os.path.exists(profile_path) is False:
         log.error("profile_path not found. Install canceled.")
         return
-    if os.path.exists(theme_path) is False:
+
+    # TODO move 'extract tarball' step into 'download theme release' step
+    theme_path = extract_release(app="Firefox", version=version)
+
+    if theme_path == None:
+        log.error(f"Failed to extract Firefox v{version}")
+        return
+    elif os.path.exists(theme_path) is False:
         log.error("theme_path not found. Install canceled.")
         return
+
 
     # Make chrome folder if it doesn't already exist
     chrome_path = os.path.join(profile_path, "chrome")
@@ -126,6 +150,4 @@ def extract_release(app, version):
     print("new: ", new)
     log.info(f"{name} tarball extracted successfully.")
     return new
-
-
 

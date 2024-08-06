@@ -17,7 +17,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import logging, os.path
+import logging, os.path, shutil
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .addwater_page import AddWaterPage
 from .theme_options import FIREFOX_OPTIONS, THUNDERBIRD_OPTIONS
@@ -26,7 +26,7 @@ from .utils import logs, paths
 log = logging.getLogger(__name__)
 
 firefox_url = "https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases"
-thunderbird_url = "https://api.github.com/repos/rafaelmardojai/thunderbird-gnome-theme/releases"
+# thunderbird_url = "https://api.github.com/repos/rafaelmardojai/thunderbird-gnome-theme/releases"
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddWaterWindow(Adw.ApplicationWindow):
@@ -36,31 +36,46 @@ class AddWaterWindow(Adw.ApplicationWindow):
     # Use when only one page is available
     main_toolbar_view = Gtk.Template.Child()
 
-    # Use when Thunderbird page is ready
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
 
+        reset_action = Gio.SimpleAction.new("reset-app")
+        reset_action.connect("activate", self.on_reset_action)
+        self.add_action(reset_action)
+
+        self.create_firefox_page()
+
+
+    def create_firefox_page(self):
         # Firefox Page set up
         # Find Firefox profiles path
+        self.main_toolbar_view.set_content(None)
         firefox_path = os.path.expanduser(self.settings.get_string("firefox-path"))
         if os.path.exists(firefox_path) is False:
+            log.warning("Prior Firefox path no longer exists. Searching for a new one...")
             firefox_path = self.find_firefox_path()
             if firefox_path is None:
                 log.error("Could not find Firefox path automatically. User must set it manually.")
             else:
                 self.settings.set_string("firefox-path", firefox_path)
+                log.info(f"Found Firefox path: {firefox_path}")
 
-        log.debug(f"Found Firefox path: {firefox_path}")
         # Add page to window
         if firefox_path == None:
-            # TODO Make status page that asks user to set the firefox path manually and restart the app.
             firefox_page = Adw.StatusPage(
-                title="Can't Find Firefox Profiles :c",
-                # TODO Fix this description to be helpful or link to a Github troubleshooting page
-                description="""Add Water is preconfigured to automatically find the common Firefox data locations. Please ensure Add Water has permission to access the directory in which Firefox stores the `profiles.ini` file.\n\nClick the button below to find more troubleshooting help."""
+                title="Can't Find Firefox Profiles",
+                # TODO Redo this description. Is this status page even necessary?
+                description="""Add Water is preconfigured to automatically find the common Firefox data locations. Please ensure Add Water has permission to access the directory in which Firefox stores the `profiles.ini` file.\n\nClick the button below to find more troubleshooting help.""",
+                child=Adw.Clamp(
+                    maximum_size=300,
+                    child=Gtk.Button(
+                        label="Open Help Page",
+                        action_name="app.open-help-page",
+                        css_classes=["suggested-action", "pill"],
+                    )
                 )
+            )
         else:
             firefox_page = AddWaterPage(
                 app_path=firefox_path,
@@ -68,10 +83,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
                 app_name="Firefox",
                 theme_url=firefox_url
             )
-
-
         self.main_toolbar_view.set_content(firefox_page)
-
 
 
     def find_firefox_path(self):
@@ -98,3 +110,28 @@ class AddWaterWindow(Adw.ApplicationWindow):
         # TODO
         pass
 
+    def on_reset_action(self, action, _):
+        # Delete Download cache. Always keep the logs! Users may try this to troubleshoot and if it does not work, they'll need logs.
+        try:
+            shutil.rmtree(paths.DOWNLOAD_DIR)
+        except FileNotFoundError:
+            pass
+
+        # Reset GSettings
+        firefox_settings = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
+        firefox_settings.reset("installed-version")
+        firefox_settings.reset("theme-enabled")
+        firefox_settings.reset("color-theme")
+        for group in FIREFOX_OPTIONS:
+            for each in group["options"]:
+                firefox_settings.reset(each["key"])
+
+        self.settings.reset("firefox-path")
+
+        # TODO uninstall theme from all profiles and reset all gnometheme
+        self.main_toolbar_view.set_content(
+            Adw.StatusPage(
+                title="Please close and reopen Add Water"
+            )
+        )
+        print("reset action activated")

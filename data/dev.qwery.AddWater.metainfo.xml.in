@@ -29,6 +29,10 @@
 		<internet>always</internet>
 	</requires>
 
+	<supports>
+		<control>keyboard</control>
+		<control>pointing</control>
+	</supports>
 
 	<screenshots>
 		<!-- TODO add images -->

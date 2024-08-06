@@ -14,8 +14,6 @@ MINIMUM FEATURES:
 * Is is okay to remove ipc permission? Doesn't seem necessary but idk.
 * Where does $FLATPAK_DEST go to?
 
-<!-- TODO theme color support -->
-
 <!-- TODO build preferences window for advanced users -->
 * Allow user-specified path for Firefox
 * Allow user to remove the theme from all profiles inside their firefox directory
@@ -26,6 +24,8 @@ MINIMUM FEATURES:
 <!-- TODO consider pylint -->
 <!-- TODO format all code -->
 
+<!-- TODO make help page -->
+
 
 What needs to happen for Thunderbird support:
 * Be able to clone the git repo in Python and self-set rate limits to avoid clogging Github after every minor change
@@ -33,3 +33,15 @@ What needs to happen for Thunderbird support:
 
 Notes:
 * I will not support Experimental options. Users must enable those manually.
+
+Accessibility:
+[X] Large Text
+[~] Screen Reader.
+    Could find everything except:
+    * Can't find label for the bottom action bar
+    * Can't find tooltip info
+    * Toasts are not read out
+[X] Full keyboard navigation
+[X] Contrast
+[] Touch screen support
+[] Accerciser test (need to resolve imp issue)
