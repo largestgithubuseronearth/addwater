@@ -10,6 +10,7 @@
 						<property name="title">Firefox</property>
 
 						<child>
+							<!-- TODO make this a dropdown of the supported locations -->
 							<object class="AdwComboRow">
 							</object>
 						</child>

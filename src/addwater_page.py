@@ -117,12 +117,7 @@ class AddWaterPage(Adw.Bin):
             msg = f"Updated to v{self.update_version}"
 
         if msg is not None:
-            self.toast_overlay.add_toast(
-                Adw.Toast(
-                    title=msg,
-                    timeout=2
-                )
-            )
+            self.send_toast(msg)
 
 
     # TODO make this a wider-encompassing method to "init front end"
@@ -179,7 +174,7 @@ class AddWaterPage(Adw.Bin):
         selected = self.colors.title()
         self.colors_switcher.set_selected(FIREFOX_COLORS.index(selected))
 
-        # Profile list - selected last used profile
+        # Profile list
         last_profile = self.settings.get_string("last-profile")
         for each in self.profiles:
             if each["id"] == last_profile:
@@ -208,25 +203,14 @@ class AddWaterPage(Adw.Bin):
         else:
             msg = self.uninstall_theme(profile_id=profile_id)
 
-        toast = Adw.Toast(
-            title=msg,
-            timeout=3,
-            priority=Adw.ToastPriority.HIGH
-        )
-        self.toast_overlay.add_toast(toast)
-
+        self.send_toast(msg, 3, 1)
 
 
     def discard_changes(self, one, action, three):
         """Revert changes made to GSettings and notify user"""
         self.settings.revert()
-
-        toast = Adw.Toast(
-            title="Changes reverted",
-            timeout=2,
-            priority=Adw.ToastPriority.NORMAL
-        )
-        self.toast_overlay.add_toast(toast)
+        msg="Changes reverted"
+        self.send_toast(msg)
 
 
     def install_theme(self, profile_id, options, version):
@@ -297,6 +281,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def check_for_updates(self):
+        # TODO is there a way to check the Firefox version first?
         """Check theme github for new releases
 
 
@@ -407,7 +392,6 @@ class AddWaterPage(Adw.Bin):
 
 
     def _set_profile(self, row, _):
-        # TODO test this for usability issues
         profile_display_name = row.get_selected_item().get_string()
         for each in self.profiles:
             if each["name"] == profile_display_name:
@@ -426,3 +410,15 @@ class AddWaterPage(Adw.Bin):
         # Otherwise, this compare check would be unnecessary.
         if self.colors != self.settings.get_string("color-theme"):
             self.settings.set_string("color-theme", self.colors)
+
+
+    def send_toast(self, msg, time=2, priority=0):
+        # Workaround for libadwaita bug which cause toasts not to disappear automatically
+        self.toast_overlay.add_toast(
+            Adw.Toast(
+                title=msg,
+                timeout=time,
+                priority=priority
+            )
+        )
+        self.enable_button.grab_focus()

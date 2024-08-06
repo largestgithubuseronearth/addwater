@@ -23,7 +23,6 @@ MINIMUM FEATURES:
 <!-- TODO Write unit tests for the majority of the app, especially critical sections where data loss may occur -->
 <!-- TODO consider pylint -->
 <!-- TODO format all code -->
-<!-- TODO Find workaround for toasts staying on screen -->
 
 <!-- TODO make help page -->
 
@@ -35,3 +34,13 @@ What needs to happen for Thunderbird support:
 Notes:
 * I will not support Experimental options. Users must enable those manually.
 
+Accessibility:
+<!-- TODO read the HIG more  -->
+[X] Large Text
+[~] Screen Reader.
+    Could find everything except:
+    * Can't find label for the bottom action bar
+    * Can't find tooltip info
+    * Toasts are not read out
+[] Full keyboard navigation
+[X] Contrast

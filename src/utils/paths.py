@@ -18,6 +18,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # This module owns all app paths and must be used when referring to general paths like config or firefox paths
+# TODO make list here of all firefox locations and the "name". List of
 
 import os
 from os.path import expanduser, join
