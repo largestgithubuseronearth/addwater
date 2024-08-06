@@ -35,12 +35,13 @@ Notes:
 * I will not support Experimental options. Users must enable those manually.
 
 Accessibility:
-<!-- TODO read the HIG more  -->
 [X] Large Text
 [~] Screen Reader.
     Could find everything except:
     * Can't find label for the bottom action bar
     * Can't find tooltip info
     * Toasts are not read out
-[] Full keyboard navigation
+[X] Full keyboard navigation
 [X] Contrast
+[] Touch screen support
+[] Accerciser test (need to resolve imp issue)

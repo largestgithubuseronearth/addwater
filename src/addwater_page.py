@@ -18,7 +18,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # TODO make app_path and profile_path class properties that can be edited easily
-# TODO make ToastOverlay a separate class and pass messages via signals
+
+# FIXME when the last-profile is the same as the first profile in the switcher list, self.selected_profile becomes None and fails the install.
 
 
 import logging, json, os.path, shutil, requests
@@ -46,7 +47,7 @@ class AddWaterPage(Adw.Bin):
     theme_url = None        # URL to GitHub theme to download and poll for updates
 
     colors = None       # User's chosen color theme
-    profile = None        # User's chosen profile to install theme to
+    selected_profile = None        # User's chosen profile to install theme to
 
 
     # Widget controls
@@ -73,15 +74,15 @@ class AddWaterPage(Adw.Bin):
         self.settings.delay()
         self.installed_version = self.settings.get_int("installed-version")
 
-        # Set up profile list
-        print(self.app_path)
+        # Profiles and Colors lists
+        self.selected_profile = self.settings.get_string("last-profile")
         self.find_profiles(profile_path=self.app_path)
+        self.colors = self.settings.get_string("color-theme")
+
+        self._init_gui(app_options)
+
         self.profile_switcher.notify("selected-item")
         self.profile_switcher.connect("notify::selected-item", self._set_profile)
-
-        # Set up colors list
-        self.colors = self.settings.get_string("color-theme")
-        self._init_gui(app_options)
         self.colors_switcher.notify("selected-item")
         self.colors_switcher.connect("notify::selected-item", self._set_colors)
 
@@ -107,7 +108,7 @@ class AddWaterPage(Adw.Bin):
 
         # Check for updates and install if new available and theme is already enabled
         msg = self.check_for_updates()
-        if self.update_version is not None and self.update_version > self.installed_version:
+        if (self.update_version is not None and self.update_version > self.installed_version):
             if self.settings.get_boolean("theme-enabled") == True:
                 self.install_theme(
                     profile_id=self.selected_profile,
@@ -120,7 +121,6 @@ class AddWaterPage(Adw.Bin):
             self.send_toast(msg)
 
 
-    # TODO make this a wider-encompassing method to "init front end"
     def _init_gui(self, OPTIONS_LIST):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
@@ -128,7 +128,6 @@ class AddWaterPage(Adw.Bin):
             OPTIONS_LIST: a json-style list of dictionaries which include all option groups
                 and options that the theme supports. Included in theme_options.py
         """
-        # TODO When a button is switched from its previous position, add a dot next to the switch to show it's been changed. Set all to hidden when settings are applied.
         # App options
         self.settings.bind(
             "theme-enabled",
@@ -148,7 +147,7 @@ class AddWaterPage(Adw.Bin):
             for option in each["options"]:
                 button = Adw.SwitchRow(
                     title=option["summary"],
-                    tooltip_text=option["description"]
+                    subtitle=option["description"]
                 )
                 self.settings.bind(
                     option["key"],
@@ -170,7 +169,6 @@ class AddWaterPage(Adw.Bin):
         # Colors list
         for each in FIREFOX_COLORS:
             self.colors_list.append(each)
-
         selected = self.colors.title()
         self.colors_switcher.set_selected(FIREFOX_COLORS.index(selected))
 
@@ -179,11 +177,12 @@ class AddWaterPage(Adw.Bin):
         for each in self.profiles:
             if each["id"] == last_profile:
                 self.profile_switcher.set_selected(self.profiles.index(each))
-
-
+                break
 
 
     def apply_changes(self, _, action, __):
+        # TODO Refactor how I use update_version and installed_version so that there's never a disconnect between them that causes unexpected issues
+        """Apply changes to GSettings and call the proper install or uninstall method"""
         print("Installing version ", self.update_version)
         if self.update_version is None:
             version = self.installed_version
@@ -281,7 +280,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def check_for_updates(self):
-        # TODO is there a way to check the Firefox version first?
+        # TODO is there a way to check the Firefox version first? If so, check that first and then check Github once every day
         """Check theme github for new releases
 
 
@@ -391,7 +390,8 @@ class AddWaterPage(Adw.Bin):
             self.profile_list.append(each["name"])
 
 
-    def _set_profile(self, row, _):
+    def _set_profile(self, row, _=None):
+        # TODO test for usability issues
         profile_display_name = row.get_selected_item().get_string()
         for each in self.profiles:
             if each["name"] == profile_display_name:
