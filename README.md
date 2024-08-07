@@ -1,4 +1,4 @@
-# addwater
+# Add Water
 
 An app to automatically download and update the GNOME style theme for Firefox made by Rafael Mardojai (link).
 
@@ -15,8 +15,7 @@ MINIMUM FEATURES:
 * Where does $FLATPAK_DEST go to?
 
 <!-- TODO build preferences window for advanced users -->
-* Allow user-specified path for Firefox
-* Allow user to remove the theme from all profiles inside their firefox directory
+* Allow to choose a specific path from the list of commons ones, or auto to let me figure it out
 
 <!-- TODO write .desktop file -->
 <!-- TODO Write docstrings for the classes and methods -->
@@ -39,7 +38,7 @@ Accessibility:
 [~] Screen Reader.
     Could find everything except:
     * Can't find label for the bottom action bar
-    * Can't find tooltip info
+    * Some subtitles are not read aloud. Orca bug?
     * Toasts are not read out
 [X] Full keyboard navigation
 [X] Contrast

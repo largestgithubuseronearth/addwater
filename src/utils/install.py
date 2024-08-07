@@ -60,7 +60,6 @@ def install_firefox_theme(version, profile_path, theme):
     try:
         os.mkdir(chrome_path)
     except FileExistsError:
-        log.info("Chrome exists.")
         pass
     except FileNotFoundError:
         log.critical("Install path does not exist. Install canceled.")
@@ -85,10 +84,10 @@ def install_firefox_theme(version, profile_path, theme):
         try:
             with open(file=p, mode="r") as file:
                 lines = file.readlines()
-                log.info(f"Found {each}.")
+                log.debug(f"Found {each}.")
         except FileNotFoundError:
                 lines = []
-                log.info(f"Creating {each}.")
+                log.debug(f"Creating {each}.")
 
         with open(file=p, mode="w") as file:
             # Remove old import lines
@@ -96,18 +95,19 @@ def install_firefox_theme(version, profile_path, theme):
             for line in lines:
                 if "firefox-gnome-theme" in line:
                     lines.remove(line)
-            log.info("Removed prior import lines")
+            log.debug("Removed prior import lines")
 
             # Add new import lines
-            import_line = f'@import "firefox-gnome-theme/{each}";'
+            # TODO inserting like this puts all three imports onto the same line. Doesn't seem to cause issues though.
             if theme != "adwaita":
                 lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/light-{theme}.css";')
                 lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/dark-{theme}.css";')
-                log.info(f"Installing the {theme} theme")
+                log.debug(f"Installing the {theme} theme")
+            import_line = f'@import "firefox-gnome-theme/{each}";'
             lines.insert(0, import_line)
 
             file.writelines(lines)
-            log.info(f"{each} finished")
+            log.debug(f"{each} finished")
 
 
     # Backup user.js and replace with provided version that includes the prerequisite prefs

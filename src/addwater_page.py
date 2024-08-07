@@ -88,6 +88,8 @@ class AddWaterPage(Adw.Bin):
 
         # Change Confirmation bar
         # TODO what does this parameter refer to?
+        # TODO try using an action group instead
+        # self.insert_action_group("water", None)
         self.install_action(
             "water.apply-changes",
             None,
@@ -252,12 +254,17 @@ class AddWaterPage(Adw.Bin):
 
 
     def uninstall_theme(self, profile_id):
+        log.info(f"Removing theme from {profile_id}...")
+        print(f"Removing theme from {profile_id}...")
         # Delete Chrome folder
+        # TODO test this to make sure changing chrome_path doesn't break anything!
         try:
-            chrome_path = os.path.join(self.app_path, profile_id, "chrome")
+            chrome_path = os.path.join(self.app_path, profile_id, "chrome", "firefox-gnome-theme")
             shutil.rmtree(chrome_path)
         except FileNotFoundError:
             pass
+
+        # TODO remove css import lines
 
         # Set all user_prefs to false
         user_js = os.path.join(self.app_path, profile_id, "user.js")
@@ -422,3 +429,11 @@ class AddWaterPage(Adw.Bin):
             )
         )
         self.enable_button.grab_focus()
+
+
+    def full_uninstall(self, *args):
+        # TODO is there a cleaner way to implement this with signals/actions?
+        print(f"Removing theme from all profiles in path [{self.app_path}]")
+        log.info(f"Removing theme from all profiles in path [{self.app_path}]")
+        for each in self.profiles:
+            self.uninstall_theme(profile_id=each["id"])

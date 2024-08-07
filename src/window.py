@@ -32,6 +32,7 @@ firefox_url = "https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/r
 class AddWaterWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'AddWaterWindow'
 
+    firefox_page = None     # Keep a reference to the page to call it in case of reset app.
 
     # Use when only one page is available
     main_toolbar_view = Gtk.Template.Child()
@@ -63,7 +64,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
         # Add page to window
         if firefox_path == None:
-            firefox_page = Adw.StatusPage(
+            self.firefox_page = Adw.StatusPage(
                 title="Can't Find Firefox Profiles",
                 # TODO Redo this description. Is this status page even necessary?
                 description="""Add Water is preconfigured to automatically find the common Firefox data locations. Please ensure Add Water has permission to access the directory in which Firefox stores the `profiles.ini` file.\n\nClick the button below to find more troubleshooting help.""",
@@ -77,13 +78,13 @@ class AddWaterWindow(Adw.ApplicationWindow):
                 )
             )
         else:
-            firefox_page = AddWaterPage(
+            self.firefox_page = AddWaterPage(
                 app_path=firefox_path,
                 app_options=FIREFOX_OPTIONS,
                 app_name="Firefox",
                 theme_url=firefox_url
             )
-        self.main_toolbar_view.set_content(firefox_page)
+        self.main_toolbar_view.set_content(self.firefox_page)
 
 
     def find_firefox_path(self):
@@ -112,12 +113,14 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     def on_reset_action(self, action, _):
         # Delete Download cache. Always keep the logs! Users may try this to troubleshoot and if it does not work, they'll need logs.
+        log.warning("App is being reset...")
         try:
             shutil.rmtree(paths.DOWNLOAD_DIR)
         except FileNotFoundError:
             pass
+        log.info(f"Deleted path: {paths.DOWNLOAD_DIR}")
 
-        # Reset GSettings
+        # # Reset GSettings
         firefox_settings = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
         firefox_settings.reset("installed-version")
         firefox_settings.reset("theme-enabled")
@@ -125,13 +128,17 @@ class AddWaterWindow(Adw.ApplicationWindow):
         for group in FIREFOX_OPTIONS:
             for each in group["options"]:
                 firefox_settings.reset(each["key"])
+        log.info("Reset all Firefox GSettings")
 
         self.settings.reset("firefox-path")
+        log.info("Reset AddWater GSettings")
 
-        # TODO uninstall theme from all profiles and reset all gnometheme
+        self.firefox_page.full_uninstall()
+
         self.main_toolbar_view.set_content(
             Adw.StatusPage(
                 title="Please close and reopen Add Water"
             )
         )
+        log.info("Reset done")
         print("reset action activated")

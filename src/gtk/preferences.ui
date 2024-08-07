@@ -20,8 +20,8 @@
 					<!-- This section's styling is borrowed from cartridges to workaround not having button rows yet -->
 					<object class="AdwPreferencesGroup">
 						<property name="margin-bottom">30</property>
-						<property name="title">Reset Add Water</property>
-						<property name="description">This will reset the app to its default state and close it. However, this will NOT remove the theme from your Firefox profiles.</property>
+						<property name="title">Danger Zone</property>
+						<property name="description">This will remove the theme from all Firefox profiles and reset Add Water to its default state</property>
 						<child>
 							<object class="GtkListBox">
 							 	<child>
