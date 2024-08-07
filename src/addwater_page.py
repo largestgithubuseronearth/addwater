@@ -19,8 +19,6 @@
 
 # TODO make app_path and profile_path class properties that can be edited easily
 
-# FIXME when the last-profile is the same as the first profile in the switcher list, self.selected_profile becomes None and fails the install.
-
 
 import logging, json, os.path, shutil, requests
 from configparser import ConfigParser
@@ -130,6 +128,7 @@ class AddWaterPage(Adw.Bin):
             OPTIONS_LIST: a json-style list of dictionaries which include all option groups
                 and options that the theme supports. Included in theme_options.py
         """
+        # TODO consider adding options to move the "New Tab" button for Hide Single Tab
         # App options
         self.settings.bind(
             "theme-enabled",
@@ -214,6 +213,20 @@ class AddWaterPage(Adw.Bin):
         self.send_toast(msg)
 
 
+        # Reset combo boxes to the original state
+        selected = self.settings.get_string("color-theme").title()
+        for each in FIREFOX_COLORS:
+            if each == selected:
+                self.colors_switcher.set_selected(FIREFOX_COLORS.index(each))
+                break
+
+        last_profile = self.settings.get_string("last-profile")
+        for each in self.profiles:
+            if each["id"] == last_profile:
+                self.profile_switcher.set_selected(self.profiles.index(each))
+                break
+
+
     def install_theme(self, profile_id, options, version):
         profile_path = os.path.join(self.app_path, profile_id)
 
@@ -257,7 +270,6 @@ class AddWaterPage(Adw.Bin):
         log.info(f"Removing theme from {profile_id}...")
         print(f"Removing theme from {profile_id}...")
         # Delete Chrome folder
-        # TODO test this to make sure changing chrome_path doesn't break anything!
         try:
             chrome_path = os.path.join(self.app_path, profile_id, "chrome", "firefox-gnome-theme")
             shutil.rmtree(chrome_path)
@@ -398,23 +410,22 @@ class AddWaterPage(Adw.Bin):
 
 
     def _set_profile(self, row, _=None):
-        # TODO test for usability issues
         profile_display_name = row.get_selected_item().get_string()
         for each in self.profiles:
             if each["name"] == profile_display_name:
                 self.selected_profile = each["id"]
+                log.debug(f'set profile to {each["id"]}')
                 break
 
+        # This compare check avoids triggering "has-unapplied" at app launch
         if self.selected_profile != self.settings.get_string("last-profile"):
             self.settings.set_string("last-profile", self.selected_profile)
 
 
     def _set_colors(self, row, _):
-        # TODO test this for usability issues
         self.colors = row.get_selected_item().get_string().lower()
 
-        # Workaround: Due to the settings delay, the app always starts with the 'apply changes' popup visible.
-        # Otherwise, this compare check would be unnecessary.
+        # This compare check avoids triggering "has-unapplied" at app launch
         if self.colors != self.settings.get_string("color-theme"):
             self.settings.set_string("color-theme", self.colors)
 
@@ -437,3 +448,4 @@ class AddWaterPage(Adw.Bin):
         log.info(f"Removing theme from all profiles in path [{self.app_path}]")
         for each in self.profiles:
             self.uninstall_theme(profile_id=each["id"])
+

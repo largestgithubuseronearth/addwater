@@ -14,13 +14,13 @@ FIREFOX_OPTIONS = [
             "key": "normal-width-tabs",
             "js_key": "normalWidthTabs",
             "summary": "Normal Width Tabs",
-            "description": "Use the same tab width as default Firefox"
+            "description": "Use the same tab width as standard Firefox"
           },
           {
             "key": "swap-tab-close",
             "js_key": "swapTabClose",
             "summary": "Swap Tab Close Button",
-            "description": "Prevent Tab Close button from following the position of the window controls"
+            "description": "Place Close Tab button on opposite side of the window controls"
           },
           {
             "key": "bookmarks-toolbar-under-tabs",
@@ -32,7 +32,7 @@ FIREFOX_OPTIONS = [
             "key": "tabs-as-headerbar",
             "js_key": "tabsAsHeaderbar",
             "summary": "Tabs as Headerbar",
-            "description": "Place the tab bar on the top of the window, and use the tabs bar to hold the window controls, like Firefox's standard tab bar",
+            "description": "Place the tab bar at the top of the window, like Firefox's standard layout",
             "tooltip": 'Enabling with "Hide Single Tab" will replace the single tab with a title bar'
           }
         ]
