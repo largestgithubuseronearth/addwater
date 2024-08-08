@@ -111,7 +111,8 @@ class AddWaterPage(Adw.Bin):
             if self.settings.get_boolean("theme-enabled") == True:
                 self.install_theme(
                     profile_id=self.selected_profile,
-                    OPTIONS=self.app_options
+                    options=self.app_options,
+                    version=self.update_version
                 )
 
             msg = f"Updated to v{self.update_version}"

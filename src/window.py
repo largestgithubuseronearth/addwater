@@ -109,6 +109,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
 
     def on_reset_action(self, action, _):
+        # TODO make this actually close the app completely. It's awkward to ask the user to relaunch the app.
         # Delete Download cache. Always keep the logs! Users may try this to troubleshoot and if it does not work, they'll need logs.
         log.warning("App is being reset...")
         try:
