@@ -64,6 +64,26 @@
             ]
         },
         {
+            "name": "libportal",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Ddocs=false",
+                "-Dbackend-gtk4=enabled"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/flatpak/libportal/archive/refs/tags/0.7.1.tar.gz",
+                    "sha256": "6ac8e0e2aa04f56d0320adff03e5f20a0c5d7d1a33d4b19e22707bfbece0b874",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 230124,
+                        "url-template": "https://github.com/flatpak/libportal/archive/refs/tags/$version.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
             "name" : "addwater",
             "buildsystem" : "meson",
             "sources" : [

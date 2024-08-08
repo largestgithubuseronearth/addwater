@@ -1,39 +1,34 @@
 # Add Water
+### An Installer for the fantastic GNOME for Firefox theme by Rafael Mardojai (link)
 
-An app to automatically download and update the GNOME style theme for Firefox made by Rafael Mardojai (link).
-
-MINIMUM FEATURES:
-* Check for new releases of the firefox theme
-* Automatically download the new release and install it
-* Let the user uninstall the theme
-* Ability to revert to the previous version in case the current one doesn't work
-
-<!-- TODO Configure flatpak manifest properly -->
-* Ensure flatpak manifest permissions are correct
-* Allow permission to run in background to permissions
-* Is is okay to remove ipc permission? Doesn't seem necessary but idk.
-* Where does $FLATPAK_DEST go to?
-
-<!-- TODO build preferences window for advanced users -->
-* Allow to choose a specific path from the list of commons ones, or auto to let me figure it out
-
-<!-- TODO write .desktop file -->
-<!-- TODO Write docstrings for the classes and methods -->
-<!-- TODO Write unit tests for the majority of the app, especially critical sections where data loss may occur -->
-<!-- TODO consider pylint -->
-<!-- TODO format all code -->
-
-<!-- TODO make help page -->
+## PRIMARY GOALS:
+* Give app functionality to run at startup, in the background, and check for + install updates automatically
+    * Is the manifest import okay? I copied from AdwSteamGtk 
+* Pref: Allow user to choose a specific path from the list of commons ones, or auto to let me figure it out
+* Make unit tests for app, especially in sections where data loss could occur
+* Find a good formatting solution
+    * Pylint
+    * Black 
+* Make Github issue template
 
 
-What needs to happen for Thunderbird support:
-* Be able to clone the git repo in Python and self-set rate limits to avoid clogging Github after every minor change
-* Set up AddWaterPage to work with both Firefox and Thunderbird
+## FLATHUB GOALS:
+* Flatpak: Make sure Flatpak is configured properly
+    * Ensure flatpak manifest permissions are correct
+    * Allow permission to run in background to permissions
+    * Is is okay to remove ipc permission? Doesn't seem necessary but idk.
+    * Where does $FLATPAK_DEST go to?
+* Write .desktop file
+* Write appstream info
+* Smooth out all accessibility issues
 
-Notes:
-* I will not support Experimental options. Users must enable those manually.
 
-Accessibility:
+## Wrap up
+* Make docstrings for the classes and methods
+* Write help page for user troubleshooting
+
+
+### Accessibility:
 [X] Large Text
 [~] Screen Reader.
     Could find everything except:
@@ -43,4 +38,15 @@ Accessibility:
 [X] Full keyboard navigation
 [X] Contrast
 [] Touch screen support
-[] Accerciser test (need to resolve imp issue)
+[] Accerciser test (need to resolve imp issue; dnf has old version?)
+
+
+### What needs to happen for Thunderbird support:
+* Be able to clone the git repo in Python and self-set rate limits to avoid clogging Github after every minor change
+* Set up AddWaterPage to work with both Firefox and Thunderbird
+
+
+### Other Notes:
+* I will not support Experimental options. Users must enable those manually.
+
+

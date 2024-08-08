@@ -17,6 +17,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# TODO standardize all logs to make info logs more meaningful. Debug should include the tech details and info should only communicate the actual purpose and action that's being done and whether it was successful or not.
+
 import logging
 from datetime import datetime, timezone, timedelta
 import os, os.path

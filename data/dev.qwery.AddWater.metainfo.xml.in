@@ -6,33 +6,13 @@
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
 
+	<!-- Branding Info -->
 	<name>Add Water</name>
 	<!-- TODO Think of a better summary and description -->
 	<summary>Browse fashionably</summary>
 	<description>
 	  <p>Easily install and update the GNOME theme for Firefox created by Rafael Mardojai CM</p>
 	</description>
-	<developer id="dev.qwery">
-		<name translate="no">qwery</name>
-	</developer>
-
-	<content_rating type="oars-1.1" />
-
-
-	<categories>
-		<category>GTK</category>
-		<category>GNOME</category>
-		<category>Utility</category>
-	</categories>
-
-	<requires>
-		<internet>always</internet>
-	</requires>
-
-	<supports>
-		<control>keyboard</control>
-		<control>pointing</control>
-	</supports>
 
 	<screenshots>
 		<!-- TODO add images -->
@@ -57,4 +37,27 @@
 			<!-- <image></image> -->
 		</screenshot>
 	</screenshots>
+
+	<!-- Primary Info -->
+	<developer id="dev.qwery">
+		<name translate="no">qwery</name>
+	</developer>
+	<content_rating type="oars-1.1" />
+
+	<categories>
+		<category>GTK</category>
+		<category>GNOME</category>
+		<category>Utility</category>
+	</categories>
+
+	<!-- Technical Details -->
+	<requires>
+		<internet>always</internet>
+	</requires>
+
+	<supports>
+		<control>keyboard</control>
+		<control>pointing</control>
+	</supports>
+
 </component>
