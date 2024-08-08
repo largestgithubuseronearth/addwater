@@ -8,7 +8,7 @@
 
 	<name>Add Water</name>
 	<!-- TODO Think of a better summary and description -->
-	<summary>Give Your Browser the Adwaita Treatment</summary>
+	<summary>Browse fashionably</summary>
 	<description>
 	  <p>Easily install and update the GNOME theme for Firefox created by Rafael Mardojai CM</p>
 	</description>
@@ -41,11 +41,19 @@
 			<!-- <image></image> -->
 		</screenshot>
 		<screenshot>
-			<caption>Firefox Window With Theme</caption>
+			<caption>Firefox Window Preview -- Light</caption>
 			<!-- <image></image> -->
 		</screenshot>
 		<screenshot>
-			<caption>Firefox Menus and Dialogs With Theme</caption>
+			<caption>Firefox Window Preview -- Dark</caption>
+			<!-- <image></image> -->
+		</screenshot>
+		<screenshot>
+			<caption>Menus Preview -- Light</caption>
+			<!-- <image></image> -->
+		</screenshot>
+		<screenshot>
+			<caption>Menus Preview -- Dark</caption>
 			<!-- <image></image> -->
 		</screenshot>
 	</screenshots>

@@ -1,6 +1,7 @@
 [Desktop Entry]
-Name=addwater
+Name=Add Water
 Exec=addwater
+Comment=Browse fashionably
 Icon=dev.qwery.AddWater
 Terminal=false
 Type=Application
