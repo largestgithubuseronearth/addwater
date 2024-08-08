@@ -31,7 +31,6 @@ log = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path="/dev/qwery/AddWater/gtk/addwater-page.ui")
 class AddWaterPage(Adw.Bin):
-    """ ViewStackPage"""
     __gtype_name__ = "AddWaterPage"
 
     # Class Attributes
@@ -209,8 +208,7 @@ class AddWaterPage(Adw.Bin):
     def discard_changes(self, one, action, three):
         """Revert changes made to GSettings and notify user"""
         self.settings.revert()
-        msg="Changes reverted"
-        self.send_toast(msg)
+        self.send_toast("Changes reverted")
 
 
         # Reset combo boxes to the original state
