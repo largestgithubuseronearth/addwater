@@ -17,6 +17,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+
 import logging, os.path, shutil
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .addwater_page import AddWaterPage
@@ -106,10 +107,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
         return None
 
-
-    def set_custom_firefox(self):
-        # TODO
-        pass
 
     def on_reset_action(self, action, _):
         # Delete Download cache. Always keep the logs! Users may try this to troubleshoot and if it does not work, they'll need logs.

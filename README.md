@@ -3,6 +3,7 @@
 
 ## PRIMARY GOALS:
 * Give app functionality to run at startup, in the background, and check for + install updates automatically
+    * Is the manifest import okay? I copied from AdwSteamGtk 
 * Pref: Allow user to choose a specific path from the list of commons ones, or auto to let me figure it out
 * Make unit tests for app, especially in sections where data loss could occur
 * Find a good formatting solution
@@ -37,7 +38,7 @@
 [X] Full keyboard navigation
 [X] Contrast
 [] Touch screen support
-[] Accerciser test (need to resolve imp issue; dnf has old package?)
+[] Accerciser test (need to resolve imp issue; dnf has old version?)
 
 
 ### What needs to happen for Thunderbird support:
@@ -47,4 +48,5 @@
 
 ### Other Notes:
 * I will not support Experimental options. Users must enable those manually.
+
 
