@@ -46,14 +46,12 @@ class AddWaterApplication(Adw.Application):
 
         print("-------------------------")
         print("ADD WATER — GNOME theme installer for Firefox and Thunderbird")
-        print(f"GTK: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}")
-        print(f"ADW: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}")
+        print(f"Gtk: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}")
+        print(f"Adw: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}")
         print("-------------------------")
 
         paths.init_paths()
         init_logs()
-
-        self.notify_shell()
 
 
     def do_activate(self):
@@ -116,21 +114,8 @@ class AddWaterApplication(Adw.Application):
     def on_help_action(self, action, _):
         # TODO redo this link when I have an actual help page made
         weblaunch = Gtk.UriLauncher.new("https://www.zombo.com/")
-        # TODO is it okay to have all None?
         weblaunch.launch(None, None, None, None)
         print("app.open-help-page action activated")
-
-
-    def notify_shell(self):
-        print("Register result:", self.register(None))
-        notif = Gio.Notification.new("Add Water testing notification")
-        notif.set_body("bodybodybodybody")
-
-
-        self.send_notification(
-            'dev.qwery.AddWater.notification.1274',
-            notif
-        )
 
 
 def main(version):

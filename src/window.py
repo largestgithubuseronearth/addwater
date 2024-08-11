@@ -50,35 +50,26 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
 
     def create_firefox_page(self):
-        # Firefox Page set up
-        # Find Firefox profiles path
         self.main_toolbar_view.set_content(None)
+
         firefox_path = os.path.expanduser(self.settings.get_string("firefox-path"))
         if os.path.exists(firefox_path) is False:
-            log.warning("Prior Firefox path no longer exists. Searching for a new one...")
-            firefox_path = self.find_firefox_path()
-            if firefox_path is None:
-                log.error("Could not find Firefox path automatically. User must set it manually.")
+            log.warning(f"Prior Firefox path no longer exists {firefox_path}")
+            if self.settings.get_boolean("autofind-paths") is True:
+                log.warning("Automatically finding a new one...")
+                firefox_path = self.find_app_path(paths.FIREFOX_PATHS)
             else:
-                self.settings.set_string("firefox-path", firefox_path)
-                log.info(f"Found Firefox path: {firefox_path}")
+                log.warning("User has autofind disabled.")
+                firefox_path = None
+        log.info(f"Found Firefox Path: {firefox_path}")
 
         # Add page to window
         if firefox_path == None:
-            self.firefox_page = Adw.StatusPage(
-                title="Can't Find Firefox Profiles",
-                # TODO Redo this description. Is this status page even necessary?
-                description="""Add Water is preconfigured to automatically find the common Firefox data locations. Please ensure Add Water has permission to access the directory in which Firefox stores the `profiles.ini` file.\n\nClick the button below to find more troubleshooting help.""",
-                child=Adw.Clamp(
-                    maximum_size=300,
-                    child=Gtk.Button(
-                        label="Open Help Page",
-                        action_name="app.open-help-page",
-                        css_classes=["suggested-action", "pill"],
-                    )
-                )
-            )
+            log.critical("Could not find Firefox path. Displaying error page to user.")
+            self.firefox_page = self.error_status_page("Firefox")
         else:
+            self.settings.set_string("firefox-path", firefox_path)
+
             self.firefox_page = AddWaterPage(
                 app_path=firefox_path,
                 app_options=FIREFOX_OPTIONS,
@@ -88,23 +79,19 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.main_toolbar_view.set_content(self.firefox_page)
 
 
-    def find_firefox_path(self):
+    def find_app_path(self, path_list):
         """Iterates over all common Firefox config directories and returns which one exists.
-        """
-        path_list = [
-            paths.FIREFOX_BASE,
-            paths.FIREFOX_FLATPAK,
-            paths.FIREFOX_SNAP,
-            paths.FIREFOX_LIBREWOLF_BASE,
-            paths.FIREFOX_LIBREWOLF_FLATPAK,
-            paths.FIREFOX_LIBREWOLF_SNAP,
-            paths.FIREFOX_FLOORP_BASE,
-            paths.FIREFOX_FLOORP_FLATPAK
-        ]
-        for each in path_list:
-            if os.path.exists(each):
-                return each
 
+        Args:
+            path_list = Either of the list of dicts from the paths module to make it easy to iterate over
+        """
+        for each in path_list:
+            p = each["path"]
+            if os.path.exists(p):
+                n = each["name"]
+                log.info(f"Found new Firefox path: {n} — {p}")
+                return p
+        log.error("Could not find any of the common Firefox paths")
         return None
 
 
@@ -129,14 +116,30 @@ class AddWaterWindow(Adw.ApplicationWindow):
         log.info("Reset all Firefox GSettings")
 
         self.settings.reset("firefox-path")
+        self.settings.reset("autofind-paths")
         log.info("Reset AddWater GSettings")
 
         self.firefox_page.full_uninstall()
 
         self.main_toolbar_view.set_content(
-            Adw.StatusPage(
-                title="Please close and reopen Add Water"
-            )
+            Adw.StatusPage(title="Please close and reopen Add Water")
         )
         log.info("Reset done")
         print("reset action activated")
+
+
+    def error_status_page(self, app_name):
+        statuspage = Adw.StatusPage(
+            title=f"Can't Find {app_name} Data",
+            description=f'Please ensure that [Preferences > {app_name}: Package Type] is correctly set to the type of {app_name} you have (Snap, Flatpak, etc.) or to Auto.\n\nFor more troubleshooting support, click the button below.',
+            child=Adw.Clamp(
+                maximum_size=300,
+                child=Gtk.Button(
+                    label="Open Help Page",
+                    action_name="app.open-help-page",
+                    css_classes=["suggested-action", "pill"],
+                )
+            )
+        )
+        return statuspage
+

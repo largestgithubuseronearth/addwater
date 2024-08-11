@@ -8,6 +8,9 @@
 		<key name="thunderbird-path" type="s">
 			<default>""</default>
 		</key>
+		<key name="autofind-paths" type="b">
+			<default>true</default>
+		</key>
 	</schema>
 
 	<!-- Firefox -->

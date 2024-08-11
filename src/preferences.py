@@ -17,48 +17,79 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import gi
+import gi, logging
 
 gi.require_version('Xdp', '1.0')
 gi.require_version('XdpGtk4', '1.0')
 
 from gi.repository import Adw, Gtk, Gio, GLib, Xdp, XdpGtk4
+from .utils.paths import FIREFOX_PATHS
 
 # TODO Make set_custom_firefox_path handler
+
+log = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path="/dev/qwery/AddWater/gtk/preferences.ui")
 class AddWaterPreferences(Adw.PreferencesDialog):
     __gtype_name__ = "AddWaterPreferences"
 
+    FIREFOX_VERSIONS = FIREFOX_PATHS
+
+    # TODO is there a better word than version? To avoid confusion with update version
+    firefox_version_switcher = Gtk.Template.Child()
+    firefox_version_list = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
-        self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
         log.info("Preferences Window activated")
 
-        firefox_path = self.settings.get_string("firefox-path")
+        self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
+        self.settings_firefox = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
 
-        # DEBUG
-        self.notification_tester
+        self.firefox_path = self.settings.get_string("firefox-path")
+        self._init_firefox_combobox()
+
+        # TODO notify of selected_item changing and deal with it in the handler
+        self.firefox_version_switcher.notify("selected-item")
+        self.firefox_version_switcher.connect("notify::selected-item", self._set_firefox_version)
 
         # Portal stuff
         self.parent = XdpGtk4.parent_new_gtk(Gtk.Window.new())
         self.portal = Xdp.Portal.initable_new()
 
-        log.debug("Requesting autostart in background...")
-        self.portal.request_background(
-            None,
-            "TESTING BACKGROUND STUFF",
-            None, # terminal exec. Do i need to make my app use the terminal? Probably.
-            Xdp.BackgroundFlags.AUTOSTART,
-            None,
-            self.background_handler,
-            None
-        )
+    def _init_firefox_combobox(self):
+        for each in self.FIREFOX_VERSIONS:
+            self.firefox_version_list.append(each["name"])
 
-    def background_handler(self, portal, result, _):
-        if self.portal.request_background_finish(result) == True:
-            log.debug("Success. Background request granted")
-        else:
-            log.debug("Failed. Background request rejected")
+        if self.settings.get_boolean("autofind-paths") is False:
+            user_path = self.firefox_path
+
+            for each in self.FIREFOX_VERSIONS:
+                if each["path"] == user_path:
+                    i = self.FIREFOX_VERSIONS.index(each) + 1
+
+            self.firefox_version_switcher.set_selected(i)
+
+
+
+    def _set_firefox_version(self, row, _):
+        selected_index = row.get_selected()
+        if selected_index == 0:
+            self.settings.set_boolean("autofind-paths", True)
+            log.warning("Autofind paths enabled")
+            print("Autofind paths enabled")
+            return
+
+        self.settings.set_boolean("autofind-paths", False)
+        log.warning("Autofind paths disabled")
+        print("Autofind paths disabled")
+        selected = row.get_selected_item().get_string()
+
+        for each in self.FIREFOX_VERSIONS:
+            if selected == each["name"]:
+                print(f'User specified path: {each["path"]}')
+                self.settings.set_string("firefox-path", each["path"])
+                self.firefox_path = each["path"]
+
+        # TODO trigger app to reset the gui
 

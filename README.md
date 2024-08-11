@@ -5,6 +5,7 @@
 * Give app functionality to run at startup, in the background, and check for + install updates automatically
     * Is the libportal manifest import okay? I copied from AdwSteamGtk 
 * Pref: Allow user to choose a specific path from the list of commons ones, or auto to let me figure it out
+* Properly set up Meson
 * Make unit tests for app, especially in sections where data loss could occur
 * Find a good formatting solution
     * Pylint

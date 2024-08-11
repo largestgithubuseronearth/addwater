@@ -17,7 +17,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# TODO make app_path and profile_path class properties that can be edited easily
+# TODO make app_path a class property that can be edited easily
+# FIXME If the app updates but the user doesn't install it, then the theme update is downloaded in full repeatedly until user manually installs it
 
 
 import logging, json, os.path, shutil, requests
@@ -84,9 +85,7 @@ class AddWaterPage(Adw.Bin):
         self.colors_switcher.connect("notify::selected-item", self._set_colors)
 
         # Change Confirmation bar
-        # TODO what does this parameter refer to?
         # TODO try using an action group instead
-        # self.insert_action_group("water", None)
         self.install_action(
             "water.apply-changes",
             None,
@@ -108,6 +107,7 @@ class AddWaterPage(Adw.Bin):
         # Check for updates and install if new available and theme is already enabled
         msg = self.check_for_updates()
         if (self.update_version is not None and self.update_version > self.installed_version):
+            # FIXME this bypasses applying changes to gsettings
             if self.settings.get_boolean("theme-enabled") == True:
                 self.install_theme(
                     profile_id=self.selected_profile,
@@ -128,7 +128,7 @@ class AddWaterPage(Adw.Bin):
             OPTIONS_LIST: a json-style list of dictionaries which include all option groups
                 and options that the theme supports. Included in theme_options.py
         """
-        # TODO consider adding options to move the "New Tab" button for Hide Single Tab
+        # TODO consider adding option to move the "New Tab" button for Hide Single Tab
         # App options
         self.settings.bind(
             "theme-enabled",
@@ -184,14 +184,12 @@ class AddWaterPage(Adw.Bin):
     def apply_changes(self, _, action, __):
         # TODO Refactor how I use update_version and installed_version so that there's never a disconnect between them that causes unexpected issues
         """Apply changes to GSettings and call the proper install or uninstall method"""
-        print("Installing version ", self.update_version)
+
         if self.update_version is None:
             version = self.installed_version
         else:
             version = self.update_version
 
-        self.settings.set_int("installed-version", version)
-        self.settings.apply()
 
         profile_id = self.selected_profile
         if self.settings.get_boolean("theme-enabled") is True:
@@ -206,7 +204,7 @@ class AddWaterPage(Adw.Bin):
         self.send_toast(msg, 3, 1)
 
 
-    def discard_changes(self, one, action, three):
+    def discard_changes(self, _, action, __):
         """Revert changes made to GSettings and notify user"""
         self.settings.revert()
         self.send_toast("Changes reverted")
@@ -227,6 +225,9 @@ class AddWaterPage(Adw.Bin):
 
 
     def install_theme(self, profile_id, options, version):
+        self.settings.set_int("installed-version", version)
+        self.settings.apply()
+
         profile_path = os.path.join(self.app_path, profile_id)
 
         # Run install script
@@ -298,7 +299,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def check_for_updates(self):
-        # TODO is there a way to check the Firefox version first? If so, check that first and then check Github once every day
+        # TODO is there a way to check the Firefox version first? If so, check that first and if newer only then check Github once every day
         """Check theme github for new releases
 
 

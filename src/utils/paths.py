@@ -18,14 +18,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # This module owns all app paths and must be used when referring to general paths like config or firefox paths
-# TODO make list here of all firefox locations and the "name". List of
 
 import os
 from os.path import expanduser, join
-from .logs import logging
 from gi.repository import GLib
 
-log = logging.getLogger(__name__)
 
 # APP PATHS
 XDG_CACHE_DIR = GLib.get_user_cache_dir()
@@ -52,20 +49,29 @@ FIREFOX_LIBREWOLF_SNAP = expanduser("~/.var/app/io.gitlab.librewolf-community/.l
 FIREFOX_FLOORP_BASE = expanduser("~/.floorp")
 FIREFOX_FLOORP_FLATPAK = expanduser("~/.var/app/one.ablaze.floorp/.floorp")
 
+FIREFOX_PATHS = [
+    {"name" : "Base", "path" : FIREFOX_BASE},
+    {"name" : "Flatpak", "path" : FIREFOX_FLATPAK},
+    {"name" : "Snap", "path" : FIREFOX_SNAP},
+    {"name" : "Librewolf Base", "path" : FIREFOX_LIBREWOLF_BASE},
+    {"name" : "Librewolf Flatpak", "path" : FIREFOX_LIBREWOLF_FLATPAK},
+    {"name" : "Librewolf Snap", "path" : FIREFOX_LIBREWOLF_SNAP},
+    {"name" : "Floorp Base", "path" : FIREFOX_FLOORP_BASE},
+    {"name" : "Floorp Flatpak", "path" : FIREFOX_FLOORP_FLATPAK},
+]
+
 
 def init_paths():
     paths = [APP_CACHE, DOWNLOAD_DIR, LOG_DIR]
     for each in paths:
         try:
             os.mkdir(path=each)
-            log.info(f"{each} directory created.")
             print(f"{each} directory created.")
         except FileExistsError as err:
-            log.info(f"{each} already exists. Skipped.")
             print(f"{each} already exists. Skipped.")
         except FileNotFoundError as err:
-            log.error("Couldn't find parent dir when initializing dirs ::", err)
             print("Couldn't find parent dir when initializing dirs ::", err)
             return
 
-    log.info("All paths initialized.")
+    print("All paths initialized.")
+    print("-------------------------")
