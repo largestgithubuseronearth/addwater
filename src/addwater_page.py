@@ -22,6 +22,7 @@
 
 
 import logging, json, os.path, shutil, requests
+from typing import Optional
 from configparser import ConfigParser
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 from .utils import install, paths
@@ -61,8 +62,10 @@ class AddWaterPage(Adw.Bin):
 
 
 
-    def __init__(self, app_path, app_options, app_name, theme_url):
+    def __init__(self, app_path: str, app_options, app_name: str, theme_url: str):
         super().__init__()
+        if app_path is None:
+            raise FatalPageException
         self.app_path = app_path
         self.app_options = app_options
         self.app_name = app_name
@@ -105,7 +108,12 @@ class AddWaterPage(Adw.Bin):
         )
 
         # Check for updates and install if new available and theme is already enabled
-        msg = self.check_for_updates()
+        try:
+            self.update_version = self.get_updates(URL=self.theme_url, installed_version=self.installed_version)
+        except NetworkException as err:
+            self.update_version = None
+            self.send_toast(err, timeout=3, priority=1)
+
         if (self.update_version is not None and self.update_version > self.installed_version):
             # FIXME this bypasses applying changes to gsettings
             if self.settings.get_boolean("theme-enabled") == True:
@@ -114,11 +122,7 @@ class AddWaterPage(Adw.Bin):
                     options=self.app_options,
                     version=self.update_version
                 )
-
-            msg = f"Updated to v{self.update_version}"
-
-        if msg is not None:
-            self.send_toast(msg)
+            self.send_toast(f"Updated to v{self.update_version}")
 
 
     def _init_gui(self, OPTIONS_LIST):
@@ -128,7 +132,6 @@ class AddWaterPage(Adw.Bin):
             OPTIONS_LIST: a json-style list of dictionaries which include all option groups
                 and options that the theme supports. Included in theme_options.py
         """
-        # TODO consider adding option to move the "New Tab" button for Hide Single Tab
         # App options
         self.settings.bind(
             "theme-enabled",
@@ -150,6 +153,11 @@ class AddWaterPage(Adw.Bin):
                     title=option["summary"],
                     subtitle=option["description"]
                 )
+                # TODO If possible, make this tooltip an actual info suffix button
+                try:
+                    button.set_tooltip_text(option["tooltip"])
+                except KeyError:
+                    pass
                 self.settings.bind(
                     option["key"],
                     button,
@@ -183,33 +191,35 @@ class AddWaterPage(Adw.Bin):
 
     def apply_changes(self, _, action, __):
         # TODO Refactor how I use update_version and installed_version so that there's never a disconnect between them that causes unexpected issues
-        """Apply changes to GSettings and call the proper install or uninstall method"""
+        """FRONT: Apply changes to GSettings and call the proper install or uninstall method"""
 
-        if self.update_version is None:
-            version = self.installed_version
-        else:
+        if self.update_version:
             version = self.update_version
-
+        else:
+            version = self.installed_version
 
         profile_id = self.selected_profile
-        if self.settings.get_boolean("theme-enabled") is True:
-            msg = self.install_theme(
+        profile_path = os.path.join(self.app_path, profile_id)
+
+        if self.settings.get_boolean("theme-enabled"):
+            log.info(f'Installing theme to {profile_id}...')
+            self.install_theme(
                 profile_id=profile_id,
                 options=self.app_options,
                 version=version
             )
+            msg = "Installed Theme. Restart Firefox to see changes."
         else:
-            msg = self.uninstall_theme(profile_id=profile_id)
+            log.info(f'Uninstalling theme from {profile_id}...')
+            self.uninstall_theme(profile_id=profile_id)
+            msg = "Removed Theme. Restart Firefox to see changes."
 
+        log.info('SUCCESS')
         self.send_toast(msg, 3, 1)
 
 
     def discard_changes(self, _, action, __):
-        """Revert changes made to GSettings and notify user"""
-        self.settings.revert()
-        self.send_toast("Changes reverted")
-
-
+        """FRONT: Revert changes made to GSettings and notify user"""
         # Reset combo boxes to the original state
         selected = self.settings.get_string("color-theme").title()
         for each in FIREFOX_COLORS:
@@ -223,8 +233,12 @@ class AddWaterPage(Adw.Bin):
                 self.profile_switcher.set_selected(self.profiles.index(each))
                 break
 
+        self.settings.revert()
+        self.send_toast("Changes reverted")
+
 
     def install_theme(self, profile_id, options, version):
+        """BACK: Setup install method and set userjs preferences"""
         self.settings.set_int("installed-version", version)
         self.settings.apply()
 
@@ -263,12 +277,11 @@ class AddWaterPage(Adw.Bin):
             file.writelines(lines)
 
         log.info("Theme installed successfully.")
-        return "Installed Theme. Restart Firefox to see changes."
 
 
     def uninstall_theme(self, profile_id):
-        log.info(f"Removing theme from {profile_id}...")
-        print(f"Removing theme from {profile_id}...")
+        self.settings.apply()
+
         # Delete Chrome folder
         try:
             chrome_path = os.path.join(self.app_path, profile_id, "chrome", "firefox-gnome-theme")
@@ -284,7 +297,7 @@ class AddWaterPage(Adw.Bin):
             with open(file=user_js, mode="r") as file:
                 lines = file.readlines()
         except FileNotFoundError:
-            return "Removed Theme. Restart Firefox to see changes."
+            return
 
         with open(file=user_js, mode="w") as file:
             # This is easier than a foreach
@@ -295,55 +308,46 @@ class AddWaterPage(Adw.Bin):
             file.writelines(lines)
 
         log.info("Theme uninstalled successfully.")
-        return "Removed Theme. Restart Firefox to see changes."
 
 
-    def check_for_updates(self):
+    def get_updates(self, URL: str, installed_version: int) -> Optional[int]:
         # TODO is there a way to check the Firefox version first? If so, check that first and if newer only then check Github once every day
-        """Check theme github for new releases
-
-
-        Returns:
-            None = No new release to update to
-            Int = Next release version to update to
-        """
+        # TODO Set API limit more strict before flathub release
+        """Check theme github for new releases"""
 
         DL_CACHE = paths.DOWNLOAD_DIR
-        check_url = self.theme_url
-        try:
-            r = requests.get((check_url))
-            log.debug(f'Remaining Github API calls for the next hour: {r.headers["x-ratelimit-remaining"]}')
-            # TODO set this to be more strict when releasing for Flathub
-            if int(r.headers["x-ratelimit-remaining"]) < 10:
-                raise ResourceWarning
-            latest_release = r.json()[0]
+        check_url = URL
 
+        try:
+            # TODO make sure this request is complaint with github's specification
+            response = requests.get((check_url))
         except requests.RequestException as err:
             log.error(f"Update request failed: {err}")
-            msg = "Update failed. Please try again later."
-            self.update_version = None
-            return msg
-        except ResourceWarning as err:
-            # Deliberately limiting below the actual limit. There's no reason to poll Github so often.
-            log.error(f"Limiting polling in order to not overstep Github API rate limits")
-            print(f"Limiting polling in order to not overstep Github API rate limits")
-            self.update_version = None
-            msg = "To avoid rate limits, please try again later"
-            return msg
+            raise NetworkException('Unable to check for an update due to a network issue')
 
-        self.update_version = int(latest_release["tag_name"].lstrip("v"))
+        api_calls_left = int(response.headers["x-ratelimit-remaining"])
+        log.debug(f'Remaining Github API calls for the next hour: {api_calls_left}')
+        if api_calls_left < 10:
+            log.error("Limiting polling in order to not overstep Github API rate limits")
+            print("Limiting polling so to not overstep Github API rate limits")
+            raise NetworkException('Unable to check for updates. Please try again later.')
 
-        if self.update_version > self.installed_version:
+        latest_release = response.json()[0]
+
+        update_version = int(latest_release["tag_name"].lstrip("v"))
+
+        if update_version > installed_version:
             self.download_release(
                 tarball_url=latest_release["tarball_url"],
-                version=self.update_version
+                version=update_version
             )
+            return update_version
         else:
             log.info("No update available.")
 
 
     # TODO how to make download asynchronous? Is that even worthwhile?
-    def download_release(self, tarball_url, version):
+    def download_release(self, tarball_url: str, version: int):
         DL_CACHE = paths.DOWNLOAD_DIR
         log.info(f"Update available ({self.installed_version} → {self.update_version}). Downloading now...")
         response = requests.get(tarball_url) # ASYNC use stream flag
@@ -357,7 +361,7 @@ class AddWaterPage(Adw.Bin):
         log.info("Github download SUCCESS!")
 
 
-    def find_profiles(self, profile_path):
+    def find_profiles(self, profile_path: str):
         """Reads the app configuration files and returns a list of profiles. The user's preferred profiles are first in the list.
 
         Args:
@@ -404,6 +408,7 @@ class AddWaterPage(Adw.Bin):
             return
 
         # NOTE: The user's preferred profile must always be the first option in the list
+        # TODO consider moving this into the init_gui method to separate front and backend logic
         self.profiles = profiles
         for each in self.profiles:
             self.profile_list.append(each["name"])
@@ -430,7 +435,8 @@ class AddWaterPage(Adw.Bin):
             self.settings.set_string("color-theme", self.colors)
 
 
-    def send_toast(self, msg, time=2, priority=0):
+    # TODO consider using timedelta on timeout arg
+    def send_toast(self, msg: str, timeout: int=2, priority: int=0):
         # Workaround for libadwaita bug which cause toasts not to disappear automatically
         self.toast_overlay.add_toast(
             Adw.Toast(
@@ -448,4 +454,12 @@ class AddWaterPage(Adw.Bin):
         log.info(f"Removing theme from all profiles in path [{self.app_path}]")
         for each in self.profiles:
             self.uninstall_theme(profile_id=each["id"])
+
+
+
+class NetworkException(Exception):
+    pass
+
+class FatalPageException(Exception):
+    pass
 

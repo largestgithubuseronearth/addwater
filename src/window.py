@@ -20,14 +20,14 @@
 
 import logging, os.path, shutil
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
-from .addwater_page import AddWaterPage
-from .theme_options import FIREFOX_OPTIONS, THUNDERBIRD_OPTIONS
+from .addwater_page import AddWaterPage, FatalPageException
+from .theme_options import FIREFOX_OPTIONS
 from .utils import logs, paths
 
 log = logging.getLogger(__name__)
 
 firefox_url = "https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases"
-# thunderbird_url = "https://api.github.com/repos/rafaelmardojai/thunderbird-gnome-theme/releases"
+
 
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddWaterWindow(Adw.ApplicationWindow):
@@ -64,10 +64,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
         log.info(f"Found Firefox Path: {firefox_path}")
 
         # Add page to window
-        if firefox_path == None:
-            log.critical("Could not find Firefox path. Displaying error page to user.")
-            self.firefox_page = self.error_status_page("Firefox")
-        else:
+        try:
             self.settings.set_string("firefox-path", firefox_path)
 
             self.firefox_page = AddWaterPage(
@@ -76,6 +73,10 @@ class AddWaterWindow(Adw.ApplicationWindow):
                 app_name="Firefox",
                 theme_url=firefox_url
             )
+        except FatalPageException as err:
+            log.critical("Could not find Firefox path. Displaying error page to user.")
+            self.firefox_page = self.error_status_page("Firefox")
+
         self.main_toolbar_view.set_content(self.firefox_page)
 
 
@@ -124,6 +125,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.main_toolbar_view.set_content(
             Adw.StatusPage(title="Please close and reopen Add Water")
         )
+
         log.info("Reset done")
         print("reset action activated")
 
@@ -142,4 +144,3 @@ class AddWaterWindow(Adw.ApplicationWindow):
             )
         )
         return statuspage
-

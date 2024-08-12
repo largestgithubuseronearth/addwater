@@ -4,7 +4,7 @@
 ## PRIMARY GOALS:
 * Give app functionality to run at startup, in the background, and check for + install updates automatically
     * Is the libportal manifest import okay? I copied from AdwSteamGtk 
-* Pref: Allow user to choose a specific path from the list of commons ones, or auto to let me figure it out
+* Add all Thunderbird and Firefox paths to Flatpak manifest
 * Properly set up Meson
 * Make unit tests for app, especially in sections where data loss could occur
 * Find a good formatting solution
@@ -26,6 +26,7 @@
 
 
 ## Wrap up
+* Set up project for i18n work
 * Make docstrings for the classes and methods
 * Write help page for user troubleshooting
 
@@ -40,7 +41,7 @@
 [X] Full keyboard navigation
 [X] Contrast
 [] Touch screen support
-[] Accerciser test (need to resolve imp issue; dnf has old version?)
+[] Accerciser test (need to resolve imp issue; build from scratch?)
 
 
 ### What needs to happen for Thunderbird support:
@@ -50,5 +51,4 @@
 
 ### Other Notes:
 * I will not support Experimental options. Users must enable those manually.
-
 

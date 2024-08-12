@@ -8,19 +8,20 @@ FIREFOX_OPTIONS = [
             "key": "hide-single-tab",
             "js_key": "hideSingleTab",
             "summary": "Hide Single Tab",
-            "description": "Hide the tab bar when only one tab is open"
+            "description": "Hide the tab bar when only one tab is open",
+            "tooltip":'Consider moving New Tab button near the search bar. Otherwise it may get lost when only tab is open'
           },
           {
             "key": "normal-width-tabs",
             "js_key": "normalWidthTabs",
-            "summary": "Normal Width Tabs",
+            "summary": "Standard Tab Width",
             "description": "Use the same tab width as standard Firefox"
           },
           {
             "key": "swap-tab-close",
             "js_key": "swapTabClose",
             "summary": "Swap Tab Close Button",
-            "description": "Place Close Tab button on opposite side of the window controls"
+            "description": "Place Close Tab button on opposite side from window controls"
           },
           {
             "key": "bookmarks-toolbar-under-tabs",
@@ -50,7 +51,7 @@ FIREFOX_OPTIONS = [
             "key": "close-only-selected-tabs",
             "js_key": "closeOnlySelectedTabs",
             "summary": "Close Only Selected Tabs",
-            "description": "Only show the close button on the selected tab"
+            "description": "Only show the Close Tab button on the active tab"
           },
           {
             "key": "symbolic-tab-icons",
@@ -67,8 +68,8 @@ FIREFOX_OPTIONS = [
       {
         "key": "hide-webrtc-indicator",
         "js_key": "hideWebrtcIndicator",
-        "summary": "Hide WebRTC Indicator",
-        "description": "Hide redundant WebRTC indicator. GNOME provides their own privacy icons in the top right."
+        "summary": "Hide Privacy Indicators",
+        "description": "Hide microphone, screen share, and camera indicators. GNOME provides privacy warnings in the top bar."
       },
       {
         "key": "oled-black",
@@ -80,7 +81,7 @@ FIREFOX_OPTIONS = [
         "key": "no-themed-icons",
         "js_key": "noThemedIcons",
         "summary": "No Themed Icons",
-        "description": "Use default Firefox icons instead of the included Adwaita icons"
+        "description": "Use standard Firefox icons instead of Adwaita-styled icons"
       }
     ]
   }
@@ -90,32 +91,4 @@ FIREFOX_OPTIONS = [
 FIREFOX_COLORS = [
     "Adwaita",
     "Maia"
-]
-
-THUNDERBIRD_OPTIONS = [
-    {
-        "group_name": "Tab Position and Behavior",
-        "options": [
-            {
-            "key": "hide-tabbar",
-            "js_key": "hideTabbar",
-            "summary": "Hide Tab Bar",
-            # TODO reword this description to be more elegant
-            "description": "Hides tabs and menu bar. Press Alt to present the tab bar or by enabling the menu bar."
-            },
-            {
-            "key": "normal-width-tabs",
-            "js_key": "normalWidthTabs",
-            "summary": "Normal Width Tabs",
-            "description": "Use the same tab width as default Firefox"
-            },
-            {
-            "key": "active-tab-contrast",
-            "js_key": "activeTabContrast",
-            "summary": "Active Tab Contrast",
-            "description": "Add more contrast to the active tab"
-            }
-        ]
-    }
-
 ]

@@ -10,8 +10,10 @@
 		</key>
 		<key name="autofind-paths" type="b">
 			<default>true</default>
+			<summary>Automatically Discover Package Type</summary>
 		</key>
 	</schema>
+
 
 	<!-- Firefox -->
 	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox/">
@@ -22,8 +24,6 @@
 		<!-- General -->
 		<key name="theme-enabled" type="b">
 			<default>false</default>
-			<summary>Enable Theme</summary>
-			<description>Enable or disable the GNOME for Firefox theme</description>
 
 		</key>
 		<key name="last-profile" type="s">
@@ -31,95 +31,50 @@
 		</key>
 		<key name="color-theme" type="s">
 			<default>"Adwaita"</default>
-			<summary>Color Theme</summary>
 		</key>
 
 		<!-- Tab Positioning -->
 		<key name="hide-single-tab" type="b">
 			<default>false</default>
-			<summary>Hide Single Tab</summary>
-			<description>Hide the tab bar when only one tab is open</description>
 		</key>
 		<key name="normal-width-tabs" type="b">
 			<default>false</default>
-			<summary>Normal Width Tabs</summary>
-			<description>Use the same tab width as default Firefox</description>
 		</key>
 		<key name="swap-tab-close" type="b">
 			<default>false</default>
-			<summary>Swap Tab Close Button</summary>
-			<description>Prevent Tab Close button from following the position of the window controls</description>
 		</key>
 		<key name="bookmarks-toolbar-under-tabs" type="b">
 			<default>false</default>
-			<summary>Bookmarks Toolbar Under Tabs</summary>
-			<description>Move the Bookmarks toolbar underneath tabs bar</description>
 		</key>
 		<key name="tabs-as-headerbar" type="b">
 			<default>false</default>
-			<summary>Tabs as Headerbar</summary>
-			<description>Place the tabs on the top of the window, and use the tabs bar to hold the window controls, like Firefox's standard tab bar
-
-				NOTE: Enabling with "Hide Single Tab" will replace the single tab with a title bar
-			</description>
 		</key>
 
 		<!-- Tab Behavior -->
 		<key name="active-tab-contrast" type="b">
 			 <default>false</default>
-			<summary>Active Tab Contrast</summary>
-			<description>Add more contrast to the active tab</description>
 		</key>
 		<key name="close-only-selected-tabs" type="b">
 			<default>false</default>
-			<summary>Close Only Selected Tab</summary>
-			<description>Only show the close button on the selected tab</description>
 		</key>
 		<key name="symbolic-tab-icons" type="b">
 			<default>false</default>
-			<summary>Symbolic Tab Icons</summary>
-			<description>Make all tab icons look kinda like symbolic icons</description>
 		</key>
 
 		<!-- Styling -->
 		<key name="hide-webrtc-indicator" type="b">
 			<default>false</default>
-			<summary>Hide WebRTC Indicator</summary>
-			<description>Hide redundant WebRTC indicator since GNOME provides their own privacy icons in the top right</description>
 		</key>
 		<key name="no-themed-icons" type="b">
 			<default>false</default>
-			<summary>No Themed Icons</summary>
-			<description>Use Firefox's default icons instead of themed Adwaita icons</description>
 		</key>
 		<key name="oled-black" type="b">
 			<default>false</default>
-			<summary>True Black Dark Theme</summary>
-			<description>Use an OLED-friendly, pure black as the dark theme</description>
 		</key>
 	</schema>
 
 
 	<!-- Thunderbird (finish when ready to support)-->
 	<schema path="/dev/qwery/AddWater/Thunderbird/" id="dev.qwery.AddWater.Thunderbird">
-		<key name="installed-version" type="i">
-			<default>0</default>
-		</key>
-
-		<!-- GENERAL -->
-		<key name="theme-enabled" type="b">
-			<default>false</default>
-		</key>
-
-		<!-- TABS -->
-		<key name="hide-tabbar" type="b">
-			<default>false</default>
-		</key>
-		<key name="normal-width-tabs" type="b">
-			<default>false</default>
-		</key>
-		<key name="active-tab-contrast" type="b">
-			<default>false</default>
-		</key>
 	</schema>
 </schemalist>
