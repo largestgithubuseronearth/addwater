@@ -20,9 +20,10 @@
 
 import logging, os.path, shutil
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
-from .addwater_page import AddWaterPage, FatalPageException
+from .addwater_page import AddWaterPage
 from .theme_options import FIREFOX_OPTIONS
 from .utils import logs, paths
+from .utils import exceptions as err
 
 log = logging.getLogger(__name__)
 
@@ -73,7 +74,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
                 app_name="Firefox",
                 theme_url=firefox_url
             )
-        except FatalPageException as err:
+        except err.FatalPageException as err:
             log.critical("Could not find Firefox path. Displaying error page to user.")
             self.firefox_page = self.error_status_page("Firefox")
 

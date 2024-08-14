@@ -5,6 +5,5 @@ Comment=Browse fashionably
 Icon=dev.qwery.AddWater
 Terminal=false
 Type=Application
-TODO categories
 Keywords=theme;adwaita;firefox;
 StartupNotify=true

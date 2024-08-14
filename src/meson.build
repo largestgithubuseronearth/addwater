@@ -34,10 +34,12 @@ addwater_sources = [
   'preferences.py',
   'theme_options.py',
   'addwater_page.py',
+  'backend.py',
 
   'utils/install.py',
   'utils/paths.py',
-  'utils/logs.py'
+  'utils/logs.py',
+  'utils/exceptions.py'
 ]
 
 install_data(addwater_sources, install_dir: moduledir)

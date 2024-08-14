@@ -26,6 +26,7 @@ from typing import Optional
 from configparser import ConfigParser
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 from .utils import install, paths
+from .utils import exceptions as err
 from .theme_options import FIREFOX_COLORS
 
 log = logging.getLogger(__name__)
@@ -37,16 +38,16 @@ class AddWaterPage(Adw.Bin):
 
     # Class Attributes
     # Version of theme installed and what will be updated
-    installed_version = None
-    update_version = None
+    installed_version: int
+    update_version: int
 
-    app_name = None     # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
+    app_name: str     # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
+    app_path: str     # Path to where app stores its profile folders and profiles.ini file
+    theme_url: str        # URL to GitHub theme to download and poll for updates
     app_options = None      # Theme features that user can enable in GUI
-    app_path = None     # Path to where app stores its profile folders and profiles.ini file
-    theme_url = None        # URL to GitHub theme to download and poll for updates
 
-    colors = None       # User's chosen color theme
-    selected_profile = None        # User's chosen profile to install theme to
+    colors: str       # User's chosen color theme
+    selected_profile: str        # User's chosen profile to install theme to
 
 
     # Widget controls
@@ -65,7 +66,7 @@ class AddWaterPage(Adw.Bin):
     def __init__(self, app_path: str, app_options, app_name: str, theme_url: str):
         super().__init__()
         if app_path is None:
-            raise FatalPageException
+            raise err.FatalPageException
         self.app_path = app_path
         self.app_options = app_options
         self.app_name = app_name
@@ -77,7 +78,12 @@ class AddWaterPage(Adw.Bin):
 
         # Profiles and Colors lists
         self.selected_profile = self.settings.get_string("last-profile")
-        self.find_profiles(profile_path=self.app_path)
+        try:
+            self.profiles = self.find_profiles(profile_path=self.app_path)
+        except FileNotFoundError as e:
+            log.critical(e)
+            raise err.FatalPageException(e)
+
         self.colors = self.settings.get_string("color-theme")
 
         self._init_gui(app_options)
@@ -110,11 +116,12 @@ class AddWaterPage(Adw.Bin):
         # Check for updates and install if new available and theme is already enabled
         try:
             self.update_version = self.get_updates(URL=self.theme_url, installed_version=self.installed_version)
-        except NetworkException as err:
-            self.update_version = None
-            self.send_toast(err, timeout=3, priority=1)
+        except err.NetworkException as e:
+            self.update_version = self.installed_version
+            self.send_toast(e, timeout=3, priority=1)
 
-        if (self.update_version is not None and self.update_version > self.installed_version):
+        # TODO consider making these version compares only check whether they're different, not greater. In case there's a rollback
+        if (self.update_version > self.installed_version):
             # FIXME this bypasses applying changes to gsettings
             if self.settings.get_boolean("theme-enabled") == True:
                 self.install_theme(
@@ -182,6 +189,10 @@ class AddWaterPage(Adw.Bin):
         self.colors_switcher.set_selected(FIREFOX_COLORS.index(selected))
 
         # Profile list
+        for each in self.profiles:
+            self.profile_list.append(each["name"])
+
+
         last_profile = self.settings.get_string("last-profile")
         for each in self.profiles:
             if each["id"] == last_profile:
@@ -189,38 +200,41 @@ class AddWaterPage(Adw.Bin):
                 break
 
 
-    def apply_changes(self, _, action, __):
+    def apply_changes(self, _=None, action=None, __=None):
         # TODO Refactor how I use update_version and installed_version so that there's never a disconnect between them that causes unexpected issues
         """FRONT: Apply changes to GSettings and call the proper install or uninstall method"""
 
-        if self.update_version:
-            version = self.update_version
+        version = self.update_version
+
+        profile_path = os.path.join(self.app_path, self.selected_profile)
+
+        try:
+            if self.settings.get_boolean("theme-enabled"):
+                log.info(f'Installing theme to {self.selected_profile}...')
+                self.install_theme(
+                    profile_path=profile_path,
+                    options=self.app_options,
+                    version=version
+                )
+                msg = "Installed Theme. Restart Firefox to see changes."
+            else:
+                log.info(f'Uninstalling theme from {self.selected_profile}...')
+                self.uninstall_theme(profile_path=profile_path)
+                msg = "Removed Theme. Restart Firefox to see changes."
+        except err.FatalPageException as e:
+            log.critical(e)
+            msg = 'Installation failed'
         else:
-            version = self.installed_version
 
-        profile_id = self.selected_profile
-        profile_path = os.path.join(self.app_path, profile_id)
+            log.info('SUCCESS')
 
-        if self.settings.get_boolean("theme-enabled"):
-            log.info(f'Installing theme to {profile_id}...')
-            self.install_theme(
-                profile_id=profile_id,
-                options=self.app_options,
-                version=version
-            )
-            msg = "Installed Theme. Restart Firefox to see changes."
-        else:
-            log.info(f'Uninstalling theme from {profile_id}...')
-            self.uninstall_theme(profile_id=profile_id)
-            msg = "Removed Theme. Restart Firefox to see changes."
-
-        log.info('SUCCESS')
         self.send_toast(msg, 3, 1)
 
 
     def discard_changes(self, _, action, __):
         """FRONT: Revert changes made to GSettings and notify user"""
         # Reset combo boxes to the original state
+        # FIXME these don't reset properly
         selected = self.settings.get_string("color-theme").title()
         for each in FIREFOX_COLORS:
             if each == selected:
@@ -236,13 +250,14 @@ class AddWaterPage(Adw.Bin):
         self.settings.revert()
         self.send_toast("Changes reverted")
 
-
-    def install_theme(self, profile_id, options, version):
+    # TODO type args
+    def install_theme(self, profile_path: str, options, version: int):
         """BACK: Setup install method and set userjs preferences"""
+        if not os.path.exists(profile_path):
+            raise err.FatalPageException('Install failed. Profile doesn\'t exist.')
+
         self.settings.set_int("installed-version", version)
         self.settings.apply()
-
-        profile_path = os.path.join(self.app_path, profile_id)
 
         # Run install script
         install.install_firefox_theme(
@@ -279,12 +294,12 @@ class AddWaterPage(Adw.Bin):
         log.info("Theme installed successfully.")
 
 
-    def uninstall_theme(self, profile_id):
+    def uninstall_theme(self, profile_path):
         self.settings.apply()
 
         # Delete Chrome folder
         try:
-            chrome_path = os.path.join(self.app_path, profile_id, "chrome", "firefox-gnome-theme")
+            chrome_path = os.path.join(profile_path, "chrome", "firefox-gnome-theme")
             shutil.rmtree(chrome_path)
         except FileNotFoundError:
             pass
@@ -292,7 +307,7 @@ class AddWaterPage(Adw.Bin):
         # TODO remove css import lines
 
         # Set all user_prefs to false
-        user_js = os.path.join(self.app_path, profile_id, "user.js")
+        user_js = os.path.join(profile_path, "user.js")
         try:
             with open(file=user_js, mode="r") as file:
                 lines = file.readlines()
@@ -315,44 +330,54 @@ class AddWaterPage(Adw.Bin):
         # TODO Set API limit more strict before flathub release
         """Check theme github for new releases"""
 
-        DL_CACHE = paths.DOWNLOAD_DIR
-        check_url = URL
-
         try:
             # TODO make sure this request is complaint with github's specification
-            response = requests.get((check_url))
-        except requests.RequestException as err:
-            log.error(f"Update request failed: {err}")
-            raise NetworkException('Unable to check for an update due to a network issue')
+            response = requests.get((URL))
+        except requests.RequestException as e:
+            log.error(f"Update request failed: {e}")
+            raise err.NetworkException('Unable to check for an update due to a network issue')
 
         api_calls_left = int(response.headers["x-ratelimit-remaining"])
         log.debug(f'Remaining Github API calls for the next hour: {api_calls_left}')
         if api_calls_left < 10:
             log.error("Limiting polling in order to not overstep Github API rate limits")
             print("Limiting polling so to not overstep Github API rate limits")
-            raise NetworkException('Unable to check for updates. Please try again later.')
+            raise err.NetworkException('Unable to check for updates. Please try again later.')
 
         latest_release = response.json()[0]
 
         update_version = int(latest_release["tag_name"].lstrip("v"))
 
         if update_version > installed_version:
-            self.download_release(
-                tarball_url=latest_release["tarball_url"],
-                version=update_version
-            )
+            try:
+                self.download_release(
+                    tarball_url=latest_release["tarball_url"],
+                    version=update_version
+                )
+            except err.NetworkException as e:
+                raise err.NetworkException(e)
+
             return update_version
         else:
             log.info("No update available.")
+            return update_version
 
 
     # TODO how to make download asynchronous? Is that even worthwhile?
+    # TODO Move this to outside the class?
+    # TODO move extraction step here
+    # TODO delete old versions and make them all the same name
     def download_release(self, tarball_url: str, version: int):
+        log.info(f"Update available (v{version}). Downloading now...")
+
         DL_CACHE = paths.DOWNLOAD_DIR
-        log.info(f"Update available ({self.installed_version} → {self.update_version}). Downloading now...")
-        response = requests.get(tarball_url) # ASYNC use stream flag
-        if response.status_code != 200:
-            log.error(f"Github download request gave bad response [{response.status_code}]")
+        try:
+            response = requests.get(tarball_url) # ASYNC use stream flag
+        except requests.RequestException as e:
+            log.error(f"Github download failed [{e}]")
+            raise err.NetworkException('Download failed.')
+
+        # TODO delete previous downloads
 
         p = os.path.join(DL_CACHE, f"{self.app_name}-{version}.tar.gz")
         with open(file=p, mode="wb") as file:
@@ -362,56 +387,44 @@ class AddWaterPage(Adw.Bin):
 
 
     def find_profiles(self, profile_path: str):
-        """Reads the app configuration files and returns a list of profiles. The user's preferred profiles are first in the list.
+        """BACK: Reads the app configuration files and returns a list of profiles. The user's preferred profiles are first in the list.
 
         Args:
-        profile_path : The path to where the app stores its profiles and the profiles.ini files
+        profile_path : The full path to where the app stores its profiles and the profiles.ini files
 
         Returns:
         A list of dicts with all profiles. Each dict includes the full ID of the profile, and a display name to present in the UI without the randomized prefix string.
-        The first in the list is always the user's selected default profile.
-
         """
-        install_file = os.path.join(profile_path, "installs.ini")
-        profiles_file = os.path.join(profile_path, "profiles.ini")
-
         cfg = ConfigParser()
         defaults = []
         profiles = []
 
-        try:
-            # Find Preferred profile
-            if len(cfg.read(install_file)) == 0:
-                raise FileNotFoundError(install_file)
+        install_file = os.path.join(profile_path, "installs.ini")
+        profiles_file = os.path.join(profile_path, "profiles.ini")
 
-            for each in cfg.sections():
-                default_profile = cfg[each]["Default"]
-                defaults.append(default_profile)
-                profiles.append({"id" : default_profile,
-                                "name" : default_profile.partition(".")[2] + " (Preferred)"})
-                log.debug(f"User's default profile is {default_profile}")
+        # Find preferred profile first so it's always at top of list
+        if len(cfg.read(install_file)) == 0:
+            raise FileNotFoundError('Reading installs.ini failed. File doesn\'t exist.')
+        for each in cfg.sections():
+            default_profile = cfg[each]["Default"]
+            defaults.append(default_profile)
+            profiles.append({"id" : default_profile,
+                            "name" : default_profile.partition(".")[2] + " (Preferred)"})
+            log.debug(f"User's default profile is {default_profile}")
 
-            # Find all others
-            if len(cfg.read(profiles_file)) == 0:
-                raise FileNotFoundError(profiles_file)
+        # Find all others
+        if len(cfg.read(profiles_file)) == 0:
+            raise FileNotFoundError('Reading profiles.ini failed. File doesn\'t exist.')
+        for each in cfg.sections():
+            try:
+                s = cfg[each]["path"]
+                if s not in defaults:
+                    profiles.append({"id" : s,
+                                    "name" : s.partition(".")[2]})
+            except KeyError:
+                pass
 
-            for each in cfg.sections():
-                try:
-                    s = cfg[each]["path"]
-                    if s not in defaults:
-                        profiles.append({"id" : s,
-                                        "name" : s.partition(".")[2]})
-                except KeyError:
-                    pass
-        except FileNotFoundError as err:
-            log.error(f"Reading INI failed: {err}")
-            return
-
-        # NOTE: The user's preferred profile must always be the first option in the list
-        # TODO consider moving this into the init_gui method to separate front and backend logic
-        self.profiles = profiles
-        for each in self.profiles:
-            self.profile_list.append(each["name"])
+        return profiles
 
 
     def _set_profile(self, row, _=None):
@@ -437,11 +450,11 @@ class AddWaterPage(Adw.Bin):
 
     # TODO consider using timedelta on timeout arg
     def send_toast(self, msg: str, timeout: int=2, priority: int=0):
-        # Workaround for libadwaita bug which cause toasts not to disappear automatically
+        # Workaround for libadwaita bug which cause toasts to display forever
         self.toast_overlay.add_toast(
             Adw.Toast(
                 title=msg,
-                timeout=time,
+                timeout=timeout,
                 priority=priority
             )
         )
@@ -455,11 +468,4 @@ class AddWaterPage(Adw.Bin):
         for each in self.profiles:
             self.uninstall_theme(profile_id=each["id"])
 
-
-
-class NetworkException(Exception):
-    pass
-
-class FatalPageException(Exception):
-    pass
 

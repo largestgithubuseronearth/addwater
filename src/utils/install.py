@@ -21,15 +21,17 @@ import os, shutil
 import os.path
 import tarfile
 
+from typing import Optional
 from gi.repository import Gio
 from . import paths
 from .logs import logging
+from . import exceptions as err
 
 log = logging.getLogger(__name__)
 
 DL_CACHE = paths.DOWNLOAD_DIR
 
-def install_firefox_theme(version, profile_path, theme):
+def install_firefox_theme(version: int, profile_path: str, theme: str="adwaita") -> None:
     # TODO ensure complete functional parity with install script
     """Replaces the included theme installer
 
@@ -38,32 +40,29 @@ def install_firefox_theme(version, profile_path, theme):
         profile_path = path to the profile folder in which the theme will be installed.
         theme = user selected color theme
     """
-
     # Check paths to ensure they exist
-    if os.path.exists(profile_path) is False:
-        log.error("profile_path not found. Install canceled.")
-        return
+    try:
+        if not os.path.exists(profile_path):
+            raise FileNotFoundError('Install failed. Profile path not found.')
 
-    # TODO move 'extract tarball' step into 'download theme release' step
-    theme_path = extract_release(app="Firefox", version=version)
-
-    if theme_path == None:
-        log.error(f"Failed to extract Firefox v{version}")
-        return
-    elif os.path.exists(theme_path) is False:
-        log.error("theme_path not found. Install canceled.")
-        return
+        # TODO move 'extract tarball' step into 'download theme release' step
+        theme_path = extract_release(app="Firefox", version=version)
+        if not os.path.exists(theme_path):
+            raise FileNotFoundError('Install failed. Cannot find theme files.')
+    except (TypeError, FileNotFoundError) as e:
+        log.critical(e)
+        raise InstallException(e)
 
 
     # Make chrome folder if it doesn't already exist
     chrome_path = os.path.join(profile_path, "chrome")
     try:
         os.mkdir(chrome_path)
-    except FileExistsError:
-        pass
     except FileNotFoundError:
         log.critical("Install path does not exist. Install canceled.")
-        return False
+        raise InstallException('Profile doesn\'t exist.')
+    except FileExistsError:
+        pass
 
 
     # Copy theme repo into chrome folder
@@ -74,20 +73,15 @@ def install_firefox_theme(version, profile_path, theme):
     )
 
     # Add import lines to CSS files, and creates them if necessary.
-    css_files = [
-        "userChrome.css",
-        "userContent.css"
-    ]
+    css_files = ["userChrome.css", "userContent.css"]
 
     for each in css_files:
         p = os.path.join(chrome_path, each)
         try:
             with open(file=p, mode="r") as file:
                 lines = file.readlines()
-                log.debug(f"Found {each}.")
         except FileNotFoundError:
                 lines = []
-                log.debug(f"Creating {each}.")
 
         with open(file=p, mode="w") as file:
             # Remove old import lines
@@ -95,10 +89,9 @@ def install_firefox_theme(version, profile_path, theme):
             for line in lines:
                 if "firefox-gnome-theme" in line:
                     lines.remove(line)
-            log.debug("Removed prior import lines")
 
             # Add new import lines
-            # TODO inserting like this puts all three imports onto the same line. Doesn't seem to cause issues though.
+            # FIXME inserting like this puts all three imports onto the same line. Doesn't seem to cause issues though.
             if theme != "adwaita":
                 lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/light-{theme}.css";')
                 lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/dark-{theme}.css";')
@@ -107,7 +100,7 @@ def install_firefox_theme(version, profile_path, theme):
             lines.insert(0, import_line)
 
             file.writelines(lines)
-            log.debug(f"{each} finished")
+        log.debug(f"{each} finished")
 
 
     # Backup user.js and replace with provided version that includes the prerequisite prefs
@@ -122,7 +115,7 @@ def install_firefox_theme(version, profile_path, theme):
     log.info("Install successful")
 
 
-def extract_release(app, version):
+def extract_release(app, version) -> Optional[str]:
     # TODO refactor to be cleaner
     name = f"{app}-{version}"
     zipfile = os.path.join(DL_CACHE, f"{name}.tar.gz")
@@ -130,15 +123,14 @@ def extract_release(app, version):
 
     if os.path.exists(extract_dir):
         log.info(f"{name} already extracted. Skipping.")
-        return os.path.join(extract_dir, "firefox-gnome-theme")
+        return
 
     if not os.path.exists(zipfile):
         log.error(f"Release zip doesn't exist: {zipfile}")
-        return None
+        raise FileNotFoundError
 
     with tarfile.open(zipfile) as tar:
-        tar.extractall(path=extract_dir,
-                        filter="data")
+        tar.extractall(path=extract_dir, filter="data")
 
     # Must rename the inner folder to "firefox-gnome-theme" for the provided script to work. Otherwise the theme won't show properly
     with os.scandir(path=extract_dir) as scan:
@@ -147,7 +139,8 @@ def extract_release(app, version):
                 old = os.path.join(extract_dir, each.name)
                 new = os.path.join(extract_dir, "firefox-gnome-theme")
                 os.rename(old, new)
-    print("new: ", new)
     log.info(f"{name} tarball extracted successfully.")
-    return new
+    return
+
+
 
