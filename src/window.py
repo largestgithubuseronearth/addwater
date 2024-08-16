@@ -74,7 +74,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
                 app_name="Firefox",
                 theme_url=firefox_url
             )
-        except err.FatalPageException as err:
+        except err.FatalPageException as e:
             log.critical("Could not find Firefox path. Displaying error page to user.")
             self.firefox_page = self.error_status_page("Firefox")
 
