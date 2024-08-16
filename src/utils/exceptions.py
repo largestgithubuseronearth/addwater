@@ -3,8 +3,8 @@ class AddWaterException(Exception):
 
     # TODO User-friendly error message
 
-    def __init__(self, msg, log_info):
-        self.msg = msg
+    def __init__(self, user_msg=None, log_info=None):
+        self.msg = user_msg
         self.log_info = log_info
 
 
