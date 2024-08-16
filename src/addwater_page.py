@@ -223,7 +223,10 @@ class AddWaterPage(Adw.Bin):
                 msg = "Removed Theme. Restart Firefox to see changes."
         except err.FatalPageException as e:
             log.critical(e)
-            msg = 'Installation failed'
+            raise err.FatalPageException(e)
+        except err.InstallException as e:
+            log.critical(e)
+            msg = e.user_msg
         else:
 
             log.info('SUCCESS')
@@ -260,11 +263,14 @@ class AddWaterPage(Adw.Bin):
         self.settings.apply()
 
         # Run install script
-        install.install_firefox_theme(
-            version=version,
-            profile_path=profile_path,
-            theme=self.colors
-        )
+        try:
+            install.install_firefox_theme(
+                version=version,
+                profile_path=profile_path,
+                theme=self.colors
+            )
+        except err.InstallException as e:
+            print(e)
 
         # Set all user.js options according to gsettings
         user_js = os.path.join(profile_path, "user.js")
@@ -451,6 +457,9 @@ class AddWaterPage(Adw.Bin):
     # TODO consider using timedelta on timeout arg
     def send_toast(self, msg: str, timeout: int=2, priority: int=0):
         # Workaround for libadwaita bug which cause toasts to display forever
+        if not msg:
+            return
+
         self.toast_overlay.add_toast(
             Adw.Toast(
                 title=msg,
@@ -467,5 +476,6 @@ class AddWaterPage(Adw.Bin):
         log.info(f"Removing theme from all profiles in path [{self.app_path}]")
         for each in self.profiles:
             self.uninstall_theme(profile_id=each["id"])
+
 
 

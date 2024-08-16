@@ -10,8 +10,10 @@
 * Find a good formatting solution
     * Pylint
     * Black 
-* Make Github issue template
-
+* Finish major refactor to separate front and back end more cleanly
+    * Backend should be able to stand on its own. This allows for an easier way to implement the background feature
+    * Backend methods should be more functional instead of modifying object attributes directly
+        * This is less feasible for the frontend with its reliance on object attribute references to gui elements, and actions. But when calling backend methods, it should supply everything the backend needs via args, or request the object it needs for its task
 
 ## FLATHUB GOALS:
 * Make sure Flatpak is configured properly

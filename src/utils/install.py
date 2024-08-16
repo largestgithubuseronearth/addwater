@@ -51,7 +51,8 @@ def install_firefox_theme(version: int, profile_path: str, theme: str="adwaita")
             raise FileNotFoundError('Install failed. Cannot find theme files.')
     except (TypeError, FileNotFoundError) as e:
         log.critical(e)
-        raise InstallException(e)
+        # FIXME error here occurs when handling the error. Passing e to raise is illegal?
+        raise err.InstallException("Install failed")
 
 
     # Make chrome folder if it doesn't already exist
@@ -60,7 +61,7 @@ def install_firefox_theme(version: int, profile_path: str, theme: str="adwaita")
         os.mkdir(chrome_path)
     except FileNotFoundError:
         log.critical("Install path does not exist. Install canceled.")
-        raise InstallException('Profile doesn\'t exist.')
+        raise err.InstallException('Profile doesn\'t exist.')
     except FileExistsError:
         pass
 
@@ -123,7 +124,7 @@ def extract_release(app, version) -> Optional[str]:
 
     if os.path.exists(extract_dir):
         log.info(f"{name} already extracted. Skipping.")
-        return
+        return os.path.join(extract_dir, "firefox-gnome-theme")
 
     if not os.path.exists(zipfile):
         log.error(f"Release zip doesn't exist: {zipfile}")
@@ -140,7 +141,4 @@ def extract_release(app, version) -> Optional[str]:
                 new = os.path.join(extract_dir, "firefox-gnome-theme")
                 os.rename(old, new)
     log.info(f"{name} tarball extracted successfully.")
-    return
-
-
-
+    return new
