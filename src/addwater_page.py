@@ -24,7 +24,7 @@
 import logging, json, os.path, shutil
 from typing import Optional
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
-from .utils import install, paths
+from .utils import paths
 from .utils import exceptions as err
 from .theme_options import FIREFOX_COLORS
 from .backend import AddWaterBackend
@@ -55,27 +55,25 @@ class AddWaterPage(Adw.Bin):
     preferences_page = Gtk.Template.Child()
     change_confirm_bar = Gtk.Template.Child()
 
+
     enable_button = Gtk.Template.Child()
-    profile_switcher = Gtk.Template.Child()
-    profile_list = Gtk.Template.Child()
-    colors_list = Gtk.Template.Child()
-    colors_switcher = Gtk.Template.Child()
+    profile_combobox = Gtk.Template.Child()
+    profile_combobox_list = Gtk.Template.Child()
+    color_combobox = Gtk.Template.Child()
+    color_combobox_list = Gtk.Template.Child()
 
 
 
-    def __init__(self, app_path: str, app_options, app_name: str, theme_url: str):
+    def __init__(self, app_path: str, app_options, app_name: str, theme_url: str, backend=None):
         super().__init__()
         if app_path is None:
             raise err.FatalPageException
         # TODO remove the backend once main is capable of building the backend on its own and then connect the front and back. For ease of testing, it's being initialized here for now
         try:
-            self.backend = AddWaterBackend(
-                app_path=app_path,
-                app_options=app_options,
-                theme_url=theme_url
-            )
+            self.backend = backend
         except:
             print("CRITICAL: Backend initialization FAILED")
+
         self.app_path = app_path
         self.app_options = app_options
         self.app_name = app_name
@@ -87,33 +85,25 @@ class AddWaterPage(Adw.Bin):
 
         # Profiles and Colors lists
         self.selected_profile = self.settings.get_string("last-profile")
-        try:
-            self.profiles = self.backend.get_profiles()
-        except FileNotFoundError as e:
-            log.critical(e)
-            raise err.FatalPageException(e)
+
+        self.profiles = self.backend.get_profiles()
 
         self.colors = self.settings.get_string("color-theme")
 
         self._init_gui(app_options)
 
-        self.profile_switcher.notify("selected-item")
-        self.profile_switcher.connect("notify::selected-item", self._set_profile)
-        self.colors_switcher.notify("selected-item")
-        self.colors_switcher.connect("notify::selected-item", self._set_colors)
+        self.profile_combobox.notify("selected-item")
+        self.profile_combobox.connect("notify::selected-item", self._set_profile)
+        self.color_combobox.notify("selected-item")
+        self.color_combobox.connect("notify::selected-item", self._set_colors)
 
         # Change Confirmation bar
         # TODO try using an action group instead
         self.install_action(
-            "water.apply-changes",
-            None,
-            self.apply_changes
+            "water.apply-changes", None, self.apply_changes
         )
         self.install_action(
-            "water.discard-changes",
-
-            None,
-            self.discard_changes
+            "water.discard-changes", None, self.discard_changes
         )
 
         self.settings.bind_property(
@@ -130,15 +120,8 @@ class AddWaterPage(Adw.Bin):
             self.update_version = self.installed_version
             self.send_toast(e, timeout=3, priority=1)
 
-        # TODO consider making these version compares only check whether they're different, not greater. In case there's a rollback
-        if (self.update_version > self.installed_version):
-            # FIXME this bypasses applying changes to gsettings
-            if self.settings.get_boolean("theme-enabled") == True:
-                self.install_theme(
-                    profile_id=self.selected_profile,
-                    options=self.app_options,
-                    version=self.update_version
-                )
+        if (self.update_version > self.installed_version) and self.settings.get_boolean("theme-enabled") == True:
+            self.apply_changes()
             self.send_toast(f"Updated to v{self.update_version}")
 
 
@@ -170,7 +153,7 @@ class AddWaterPage(Adw.Bin):
                     title=option["summary"],
                     subtitle=option["description"]
                 )
-                # TODO If possible, make this tooltip an actual info suffix button
+                # TODO If possible, make this tooltip an actual info suffix button (i)
                 try:
                     button.set_tooltip_text(option["tooltip"])
                 except KeyError:
@@ -194,20 +177,15 @@ class AddWaterPage(Adw.Bin):
 
         # Colors list
         for each in FIREFOX_COLORS:
-            self.colors_list.append(each)
-        selected = self.colors.title()
-        self.colors_switcher.set_selected(FIREFOX_COLORS.index(selected))
+            self.color_combobox_list.append(each)
+        self.reset_color_combobox()
 
         # Profile list
         for each in self.profiles:
-            self.profile_list.append(each["name"])
+            self.profile_combobox_list.append(each["name"])
+        self.reset_profile_combobox()
 
 
-        last_profile = self.settings.get_string("last-profile")
-        for each in self.profiles:
-            if each["id"] == last_profile:
-                self.profile_switcher.set_selected(self.profiles.index(each))
-                break
 
 
     def apply_changes(self, _=None, action=None, __=None):
@@ -221,7 +199,7 @@ class AddWaterPage(Adw.Bin):
         try:
             if self.settings.get_boolean("theme-enabled"):
                 log.info(f'Installing theme to {self.selected_profile}...')
-                self.backend.install_theme(
+                self.backend.full_install(
                     profile_path=profile_path,
                     options=self.app_options,
                     version=version,
@@ -239,7 +217,6 @@ class AddWaterPage(Adw.Bin):
             log.critical(e)
             msg = e.user_msg
         else:
-
             log.info('SUCCESS')
 
         self.send_toast(msg, 3, 1)
@@ -247,23 +224,13 @@ class AddWaterPage(Adw.Bin):
 
     def discard_changes(self, _, action, __):
         """FRONT: Revert changes made to GSettings and notify user"""
-        # Reset combo boxes to the original state
-        # FIXME these don't reset properly
-        selected = self.settings.get_string("color-theme").title()
-        for each in FIREFOX_COLORS:
-            if each == selected:
-                self.colors_switcher.set_selected(FIREFOX_COLORS.index(each))
-                break
-
-        last_profile = self.settings.get_string("last-profile")
-        for each in self.profiles:
-            if each["id"] == last_profile:
-                self.profile_switcher.set_selected(self.profiles.index(each))
-                break
-
+        # Revert must ALWAYS be first
         self.settings.revert()
-        self.send_toast("Changes reverted")
 
+        self.reset_color_combobox()
+        self.reset_profile_combobox()
+
+        self.send_toast("Changes reverted")
 
 
     def _set_profile(self, row, _=None):
@@ -305,13 +272,26 @@ class AddWaterPage(Adw.Bin):
         self.enable_button.grab_focus()
 
 
+    # TODO remove this later and have window call backend directly
     def full_uninstall(self, *args):
-        # TODO is there a cleaner way to implement this with signals/actions?
-        print(f"Removing theme from all profiles in path [{self.app_path}]")
-        log.info(f"Removing theme from all profiles in path [{self.app_path}]")
+        self.backend.full_uninstall()
+
+
+    def reset_profile_combobox(self,):
+        last_profile = self.settings.get_string("last-profile")
         for each in self.profiles:
-            profile_path = os.path.join(self.app_path, each["id"])
-            self.uninstall_theme(profile_path=profile_path)
+            if each["id"] == last_profile:
+                self.profile_combobox.set_selected(self.profiles.index(each))
+                return
+
+        raise FileNotFoundError('Profile combo box reset failed')
 
 
+    def reset_color_combobox(self,):
+        selected = self.settings.get_string("color-theme").title()
+        for each in FIREFOX_COLORS:
+            if each == selected:
+                self.color_combobox.set_selected(FIREFOX_COLORS.index(each))
+                return
 
+        raise FileNotFoundError('Profile combo box reset failed')
