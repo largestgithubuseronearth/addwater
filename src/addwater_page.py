@@ -68,7 +68,6 @@ class AddWaterPage(Adw.Bin):
         super().__init__()
         if app_path is None:
             raise err.FatalPageException
-        # TODO remove the backend once main is capable of building the backend on its own and then connect the front and back. For ease of testing, it's being initialized here for now
         try:
             self.backend = backend
         except:
