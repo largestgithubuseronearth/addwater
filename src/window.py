@@ -21,6 +21,7 @@
 import logging, os.path, shutil
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .addwater_page import AddWaterPage
+from .backend import AddWaterBackend
 from .theme_options import FIREFOX_OPTIONS
 from .utils import logs, paths
 from .utils import exceptions as err
@@ -35,6 +36,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'AddWaterWindow'
 
     firefox_page = None     # Keep a reference to the page to call it in case of reset app.
+    firefox_backend = None
 
     # Use when only one page is available
     main_toolbar_view = Gtk.Template.Child()
@@ -53,6 +55,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
     def create_firefox_page(self):
         self.main_toolbar_view.set_content(None)
 
+        # Find Firefox Profile Path
         firefox_path = os.path.expanduser(self.settings.get_string("firefox-path"))
         if os.path.exists(firefox_path) is False:
             log.warning(f"Prior Firefox path no longer exists {firefox_path}")
@@ -67,12 +70,19 @@ class AddWaterWindow(Adw.ApplicationWindow):
         # Add page to window
         try:
             self.settings.set_string("firefox-path", firefox_path)
+            self.firefox_backend = AddWaterBackend(
+                app_path=firefox_path,
+                app_name='Firefox',
+                app_options=FIREFOX_OPTIONS,
+                theme_url=firefox_url,
+            )
 
             self.firefox_page = AddWaterPage(
                 app_path=firefox_path,
                 app_options=FIREFOX_OPTIONS,
-                app_name="Firefox",
-                theme_url=firefox_url
+                app_name='Firefox',
+                theme_url=firefox_url,
+                backend=self.firefox_backend
             )
         except err.FatalPageException as e:
             log.critical("Could not find Firefox path. Displaying error page to user.")

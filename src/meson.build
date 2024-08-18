@@ -36,8 +36,8 @@ addwater_sources = [
   'addwater_page.py',
   'backend.py',
 
-  'utils/install.py',
   'utils/paths.py',
+  'utils/unzip.py',
   'utils/logs.py',
   'utils/exceptions.py'
 ]
