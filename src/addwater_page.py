@@ -37,32 +37,22 @@ class AddWaterPage(Adw.Bin):
     __gtype_name__ = "AddWaterPage"
 
     # Class Attributes
-    # Version of theme installed and what will be updated
-    installed_version: int
-    update_version: int
-
     app_name: str     # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
-    app_path: str     # Path to where app stores its profile folders and profiles.ini file
-    theme_url: str        # URL to GitHub theme to download and poll for updates
-    app_options = None      # Theme features that user can enable in GUI
-
-    colors: str       # User's chosen color theme
+    selected_color: str       # User's chosen color theme
     selected_profile: str        # User's chosen profile to install theme to
 
+    profile_list: list[dict[str,str]]
 
     # Widget controls
     toast_overlay = Gtk.Template.Child()
     preferences_page = Gtk.Template.Child()
     change_confirm_bar = Gtk.Template.Child()
 
-
     enable_button = Gtk.Template.Child()
     profile_combobox = Gtk.Template.Child()
     profile_combobox_list = Gtk.Template.Child()
     color_combobox = Gtk.Template.Child()
     color_combobox_list = Gtk.Template.Child()
-
-
 
     def __init__(self, app_name: str, backend=None):
         super().__init__()
@@ -75,10 +65,9 @@ class AddWaterPage(Adw.Bin):
 
         self.settings = Gio.Settings(schema_id=f"dev.qwery.AddWater.{self.app_name}")
         self.settings.delay()
-        self.installed_version = self.settings.get_int("installed-version")
 
         # Profiles and Colors lists
-        self.colors = self.settings.get_string("color-theme")
+        self.selected_color = self.settings.get_string("color-theme")
         self.selected_profile = self.settings.get_string("last-profile")
         self.profile_list = self.backend.get_profiles()
 
@@ -162,7 +151,6 @@ class AddWaterPage(Adw.Bin):
 
 
     def apply_changes(self, *_):
-        # TODO Refactor how I use update_version and installed_version so that there's never a disconnect between them that causes unexpected issues
         """FRONT: Apply changes to GSettings and call the proper install or uninstall method"""
         self.settings.apply()
 
@@ -203,7 +191,7 @@ class AddWaterPage(Adw.Bin):
         for each in self.profile_list:
             if each["name"] == profile_display_name:
                 self.selected_profile = each["id"]
-                log.debug(f'set profile to {each["id"]}')
+                log.debug('set profile to %s', each["id"])
                 break
 
         # This compare check avoids triggering "has-unapplied" at app launch
@@ -212,11 +200,11 @@ class AddWaterPage(Adw.Bin):
 
 
     def _set_colors(self, row, _):
-        self.colors = row.get_selected_item().get_string().lower()
+        self.selected_color = row.get_selected_item().get_string().lower()
 
         # This compare check avoids triggering "has-unapplied" at app launch
-        if self.colors != self.settings.get_string("color-theme"):
-            self.settings.set_string("color-theme", self.colors)
+        if self.selected_color != self.settings.get_string("color-theme"):
+            self.settings.set_string("color-theme", self.selected_color)
 
 
     # TODO consider using timedelta on timeout arg

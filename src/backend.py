@@ -126,7 +126,7 @@ class AddWaterBackend():
         log.info("No update available.")
         return update_version
 
-
+    # TODO type this arg
     def _set_theme_prefs(self, profile_path: str, options) -> None:
         # Set all user.js options according to gsettings
         user_js = join(profile_path, "user.js")
@@ -235,7 +235,7 @@ class AddWaterBackend():
         log.info("Install successful")
 
 
-    def _do_uninstall_theme(self, profile_path):
+    def _do_uninstall_theme(self, profile_path: str):
         # Delete theme folder
         try:
             chrome_path = join(profile_path, "chrome", "firefox-gnome-theme")
@@ -276,8 +276,6 @@ class AddWaterBackend():
 
     """PUBLIC METHODS"""
 
-    # TODO type these args
-    # TODO break this into two install paths: full (install + prefs) and quick/background (install)
     def full_install(self):
         """Setup install method and set userjs preferences"""
 
@@ -320,9 +318,35 @@ class AddWaterBackend():
         return value
 
 
+    def quick_install(self):
+        """Installs theme files but doesn't change any user preferences. This is useful for updating in the background."""
+        profile_path = join(self.app_path, self.settings.get_string('last-profile'))
+        colors = self.settings.get_string('color-theme')
+        version = self.update_version
+
+        if not exists(profile_path):
+            raise err.FatalPageException('Install failed. Profile doesn\'t exist.')
+
+        self.settings.set_int("installed-version", version)
+
+        # Run install script
+        try:
+            self._install_theme_files(
+                profile_path=profile_path,
+                theme=colors,
+                theme_path=join(
+                    DOWNLOAD_DIR, f'firefox-{version}-extracted', 'firefox-gnome-theme'
+                ),
+            )
+        except err.InstallException as e:
+            log.critical(e)
+            raise err.InstallException(e)
+
+
     def remove_theme(self):
         profile_path = join(self.app_path, self.settings.get_string('last-profile'))
         self._do_uninstall_theme(profile_path)
+
 
     def set_app_path(self, new_path: str):
         if exists(new_path):
