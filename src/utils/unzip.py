@@ -50,4 +50,6 @@ def extract_theme_release(appname: str, version: int) -> None:
                 old = os.path.join(extract_dir, each.name)
                 new = os.path.join(extract_dir, f"{appname}-gnome-theme")
                 os.rename(old, new)
+    os.remove(zipfile)
     log.info(f"{appname} tarball extracted successfully.")
+
