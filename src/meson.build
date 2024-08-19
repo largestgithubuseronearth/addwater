@@ -37,6 +37,7 @@ addwater_sources = [
   'backend.py',
 
   'utils/paths.py',
+  'utils/installers.py',
   'utils/unzip.py',
   'utils/logs.py',
   'utils/exceptions.py'
