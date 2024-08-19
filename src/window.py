@@ -78,10 +78,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
             )
 
             self.firefox_page = AddWaterPage(
-                app_path=firefox_path,
-                app_options=FIREFOX_OPTIONS,
                 app_name='Firefox',
-                theme_url=firefox_url,
                 backend=self.firefox_backend
             )
         except err.FatalPageException as e:
@@ -109,7 +106,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     def on_reset_action(self, action, _):
         # TODO make this actually close the app completely. It's awkward to ask the user to relaunch the app.
-        # Delete Download cache. Always keep the logs! Users may try this to troubleshoot and if it does not work, they'll need logs.
+        # Delete Download cache. Always keep the logs!
         log.warning("App is being reset...")
         try:
             shutil.rmtree(paths.DOWNLOAD_DIR)
@@ -131,7 +128,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.settings.reset("autofind-paths")
         log.info("Reset AddWater GSettings")
 
-        self.firefox_page.full_uninstall()
+        self.firefox_backend._reset_full_uninstall()
 
         self.main_toolbar_view.set_content(
             Adw.StatusPage(title="Please close and reopen Add Water")
@@ -155,3 +152,4 @@ class AddWaterWindow(Adw.ApplicationWindow):
             )
         )
         return statuspage
+

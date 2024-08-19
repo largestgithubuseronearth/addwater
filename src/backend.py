@@ -1,26 +1,36 @@
 
 
-import logging, json, os, os.path, shutil, requests, tarfile
+import logging, os, shutil, requests
+
+from os.path import join, exists
 from typing import Optional
-from gi.repository import Gio, GLib, GObject
 from configparser import ConfigParser
-from .utils.paths import DOWNLOAD_DIR
+
+from gi.repository import Gio
 from .utils import unzip
 from .utils import exceptions as err
-from .theme_options import FIREFOX_COLORS
-import logging
+from .utils.paths import DOWNLOAD_DIR
 
 log = logging.getLogger(__name__)
 
-class AddWaterBackend(object):
+class AddWaterBackend():
+    """This class handles everything that doesn't relate to the GUI such as installing the theme, getting updates, finding profiles, etc.
+    This class can live without a GUI frontend to allow for background updating.
+
+    Args:
+        app_name = proper name of app; Firefox or Thunderbird
+        app_path = path to where profiles and
+        theme_url = url to github releases api page
+    """
     def __init__(self, app_name: str, app_path: str, app_options, theme_url: str,):
         print("Backend is alive!")
 
-        # TODO make this compatible for both apps later
         self.settings = Gio.Settings(schema_id=f'dev.qwery.AddWater.{app_name}')
-        self.app_path = app_path
         self.app_options = app_options
         self.theme_url = theme_url
+        self.set_app_path(app_path)
+
+        self.installed_version = self.settings.get_int('installed-version')
 
         try:
             self.profile_list = self._find_profiles(self.app_path)
@@ -28,12 +38,19 @@ class AddWaterBackend(object):
             log.critical(e)
             raise err.FatalPageException(e)
 
-    def get_profiles(self):
-        return self.profile_list
+        try:
+            self.update_version = self._get_updates(
+                gh_url=self.theme_url, installed_version=self.installed_version
+            )
+        except err.NetworkException as e:
+            self.update_version = self.install_version
+            log.error(e)
 
+
+    """PRIVATE METHODS"""
 
     def _find_profiles(self, app_path: str):
-        """BACK: Reads the app configuration files and returns a list of profiles. The user's preferred profiles are first in the list.
+        """Reads the app configuration files and returns a list of profiles. The user's preferred profiles are first in the list.
 
         Args:
         app_path : The full path to where the app stores its profiles and the profiles.ini files
@@ -45,8 +62,8 @@ class AddWaterBackend(object):
         defaults = []
         profiles = []
 
-        install_file = os.path.join(app_path, "installs.ini")
-        profiles_file = os.path.join(app_path, "profiles.ini")
+        install_file = join(app_path, "installs.ini")
+        profiles_file = join(app_path, "profiles.ini")
 
         # Find preferred profile first so it's always at top of list
         if len(cfg.read(install_file)) == 0:
@@ -73,14 +90,13 @@ class AddWaterBackend(object):
         return profiles
 
 
-    def get_updates(self, URL: str, installed_version: int) -> Optional[int]:
-        # TODO is there a way to check the Firefox version first? If so, check that first and if newer only then check Github once every day
+    def _get_updates(self, gh_url: str, installed_version: int) -> Optional[int]:
         # TODO Set API limit more strict before flathub release
         # TODO consider making this consider special cases like rollbacks or partial updates
         """Check theme github for new releases"""
         try:
             # TODO make sure this request is complaint with github's specification
-            response = requests.get((URL))
+            response = requests.get((gh_url))
         except requests.RequestException as e:
             log.error(f"Update request failed: {e}")
             raise err.NetworkException('Unable to check for an update due to a network issue')
@@ -94,12 +110,11 @@ class AddWaterBackend(object):
             raise err.NetworkException('Unable to check for updates. Please try again later.')
 
         latest_release = response.json()[0]
-
         update_version = int(latest_release["tag_name"].lstrip("v"))
 
         if update_version > installed_version:
             try:
-                self.download_release(
+                unzip.download_release(
                     tarball_url=latest_release["tarball_url"],
                     version=update_version
                 )
@@ -107,67 +122,22 @@ class AddWaterBackend(object):
                 raise err.NetworkException(e)
 
             return update_version
-        else:
-            log.info("No update available.")
-            return update_version
 
-
-    # TODO how to make download asynchronous? Is that even worthwhile?
-    # TODO Move this to outside the class?
-    # TODO move extraction step here
-    # TODO delete old versions and make them all the same name
-    def download_release(self, tarball_url: str, version: int):
-        log.info(f"Update available (v{version}). Downloading now...")
-
-        try:
-            response = requests.get(tarball_url) # TODO use stream flag
-        except requests.RequestException as e:
-            log.error(f"Github download failed [{e}]")
-            raise err.NetworkException('Download failed.')
-
-        # TODO delete previous downloads
-
-        # TODO make this compat w both apps
-        p = os.path.join(DOWNLOAD_DIR, f"firefox-{version}.tar.gz")
-        with open(file=p, mode="wb") as file:
-            file.write(response.content)
-
-        log.info("Github download SUCCESS!")
-
-
-    # TODO type these args
-    # TODO break this into two install paths: full (install + prefs) and quick/background (install)
-    def full_install(self, profile_path: str, options, version: int, colors: str):
-        """BACK: Setup install method and set userjs preferences"""
-        if not os.path.exists(profile_path):
-            raise err.FatalPageException('Install failed. Profile doesn\'t exist.')
-
-        self.settings.set_int("installed-version", version)
-
-        # Run install script
-        try:
-            self._install_theme_files(
-                version=version,
-                profile_path=profile_path,
-                theme=colors
-            )
-            self._set_theme_prefs(profile_path, options)
-        except err.InstallException as e:
-            print(e)
+        log.info("No update available.")
+        return update_version
 
 
     def _set_theme_prefs(self, profile_path: str, options) -> None:
         # Set all user.js options according to gsettings
-        user_js = os.path.join(profile_path, "user.js")
-        with open(file=user_js, mode="r") as file:
+        user_js = join(profile_path, "user.js")
+        with open(file=user_js, mode="r", encoding='utf-8') as file:
             lines = file.readlines()
 
-        with open(file=user_js, mode="w") as file:
+        with open(file=user_js, mode="w", encoding='utf-8') as file:
             for group in options:
                 for option in group["options"]:
-                    js_key = option["js_key"]
                     value = str(self.settings.get_boolean(option["key"])).lower()
-                    pref_name = f"gnomeTheme.{js_key}"
+                    pref_name = f'gnomeTheme.{option["js_key"]}'
                     full_line = f"""user_pref("{pref_name}", {value});\n"""
 
                     found = False
@@ -177,7 +147,7 @@ class AddWaterBackend(object):
                             lines[i] = full_line
                             found = True
                             break
-                    if found == False:
+                    if found is False:
                         lines.append(full_line)
 
             file.writelines(lines)
@@ -185,12 +155,9 @@ class AddWaterBackend(object):
         log.info("Theme installed successfully.")
 
 
-
-
-    def _install_theme_files(self, version: int, profile_path: str, theme: str="adwaita") -> None:
-        # FIREFOX ONLY
-        # TODO ensure complete functional parity with install script
-        """Replaces the included theme installer
+    def _install_theme_files(self, theme_path: str, profile_path: str, theme: str="adwaita") -> None:
+        """FIREFOX ONLY
+        Replaces the included theme installer
 
         Arguments:
             theme_path = path to the extracted theme folder. Likely inside `[app_path]/cache/add-water/downloads/`
@@ -199,12 +166,10 @@ class AddWaterBackend(object):
         """
         # Check paths to ensure they exist
         try:
-            if not os.path.exists(profile_path):
+            if not exists(profile_path):
                 raise FileNotFoundError('Install failed. Profile path not found.')
 
-            # TODO move 'extract tarball' step into 'download theme release' step
-            theme_path = unzip.extract_theme_release(appname="Firefox", version=version)
-            if not os.path.exists(theme_path):
+            if not exists(theme_path):
                 raise FileNotFoundError('Install failed. Cannot find theme files.')
         except (TypeError, FileNotFoundError) as e:
             log.critical(e)
@@ -212,7 +177,7 @@ class AddWaterBackend(object):
             raise err.InstallException("Install failed")
 
         # Make chrome folder if it doesn't already exist
-        chrome_path = os.path.join(profile_path, "chrome")
+        chrome_path = join(profile_path, "chrome")
         try:
             os.mkdir(chrome_path)
         except FileNotFoundError:
@@ -224,7 +189,7 @@ class AddWaterBackend(object):
         # Copy theme repo into chrome folder
         shutil.copytree(
             src=theme_path,
-            dst=os.path.join(chrome_path, "firefox-gnome-theme"),
+            dst=join(chrome_path, "firefox-gnome-theme"),
             dirs_exist_ok=True
         )
 
@@ -232,14 +197,14 @@ class AddWaterBackend(object):
         css_files = ["userChrome.css", "userContent.css"]
 
         for each in css_files:
-            p = os.path.join(chrome_path, each)
+            p = join(chrome_path, each)
             try:
-                with open(file=p, mode="r") as file:
+                with open(file=p, mode="r", encoding='utf-8') as file:
                     lines = file.readlines()
             except FileNotFoundError:
-                    lines = []
+                lines = []
 
-            with open(file=p, mode="w") as file:
+            with open(file=p, mode="w", encoding='utf-8') as file:
                 # Remove old import lines
                 remove_list = []
                 for line in lines:
@@ -259,21 +224,21 @@ class AddWaterBackend(object):
             log.debug(f"{each} finished")
 
         # Backup user.js and replace with provided version that includes the prerequisite prefs
-        user_js = os.path.join(profile_path, "user.js")
-        user_js_backup = os.path.join(profile_path, "user.js.bak")
-        if os.path.exists(user_js) is True and os.path.exists(user_js_backup) is False:
+        user_js = join(profile_path, "user.js")
+        user_js_backup = join(profile_path, "user.js.bak")
+        if join(user_js) is True and join(user_js_backup) is False:
             os.rename(user_js, user_js_backup)
 
-        template = os.path.join(chrome_path, "firefox-gnome-theme", "configuration", "user.js")
+        template = join(chrome_path, "firefox-gnome-theme", "configuration", "user.js")
         shutil.copy(template, profile_path)
 
         log.info("Install successful")
 
 
-    def uninstall_theme(self, profile_path):
+    def _do_uninstall_theme(self, profile_path):
         # Delete theme folder
         try:
-            chrome_path = os.path.join(profile_path, "chrome", "firefox-gnome-theme")
+            chrome_path = join(profile_path, "chrome", "firefox-gnome-theme")
             shutil.rmtree(chrome_path)
         except FileNotFoundError:
             pass
@@ -281,15 +246,15 @@ class AddWaterBackend(object):
         # TODO remove css import lines
 
         # Set all user_prefs to false
-        user_js = os.path.join(profile_path, "user.js")
+        user_js = join(profile_path, "user.js")
         try:
-            with open(file=user_js, mode="r") as file:
+            with open(file=user_js, mode="r", encoding='utf-8') as file:
                 lines = file.readlines()
         except FileNotFoundError:
             log.info("Theme uninstalled successfully.")
             return
 
-        with open(file=user_js, mode="w") as file:
+        with open(file=user_js, mode="w", encoding='utf-8') as file:
             # This is easier than a foreach
             for i in range(len(lines)):
                 if "gnomeTheme" in lines[i]:
@@ -300,10 +265,67 @@ class AddWaterBackend(object):
         log.info("Theme uninstalled successfully.")
 
 
-    def full_uninstall(self):
-        # TODO is there a cleaner way to implement this with signals/actions?
+    def _reset_full_uninstall(self):
+        # TODO is there a cleaner way to implement this?
         print(f"Removing theme from all profiles in path [{self.app_path}]")
         log.info(f"Removing theme from all profiles in path [{self.app_path}]")
         for each in self.profile_list:
-            profile_path = os.path.join(self.app_path, each["id"])
-            self.uninstall_theme(profile_path=profile_path)
+            profile_path = join(self.app_path, each["id"])
+            self._do_uninstall_theme(profile_path=profile_path)
+
+
+    """PUBLIC METHODS"""
+
+    # TODO type these args
+    # TODO break this into two install paths: full (install + prefs) and quick/background (install)
+    def full_install(self):
+        """Setup install method and set userjs preferences"""
+
+        version = self.update_version
+        colors = self.settings.get_string('color-theme')
+        profile_path = join(self.app_path, self.settings.get_string('last-profile'))
+
+        if not exists(profile_path):
+            raise err.FatalPageException('Install failed. Profile doesn\'t exist.')
+
+        self.settings.set_int("installed-version", version)
+
+        # Run install script
+        try:
+            self._install_theme_files(
+                profile_path=profile_path,
+                theme=colors,
+                theme_path=join(
+                    DOWNLOAD_DIR, f'firefox-{version}-extracted', 'firefox-gnome-theme'
+                ),
+            )
+            self._set_theme_prefs(profile_path, self.app_options)
+        except err.InstallException as e:
+            print(e)
+
+    def get_app_options(self):
+        return self.app_options
+
+
+    def get_profiles(self):
+        return self.profile_list
+
+
+    def get_update_available(self):
+        # TODO make this enum 0 false, 1 true, 2 fail
+        if self.update_version > self.installed_version:
+            value = True
+        else:
+            value = False
+        return value
+
+
+    def remove_theme(self):
+        profile_path = join(self.app_path, self.settings.get_string('last-profile'))
+        self._do_uninstall_theme(profile_path)
+
+    def set_app_path(self, new_path: str):
+        if exists(new_path):
+            self.app_path = new_path
+            log.info('Set app path to %s', new_path)
+
