@@ -23,7 +23,7 @@ from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .addwater_page import AddWaterPage
 from .backend import AddWaterBackend
 from .theme_options import FIREFOX_OPTIONS
-from .utils import logs, paths
+from .utils import logs, paths, installers
 from .utils import exceptions as err
 
 log = logging.getLogger(__name__)
@@ -75,6 +75,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
                 app_name='Firefox',
                 app_options=FIREFOX_OPTIONS,
                 theme_url=firefox_url,
+                installer=installers.firefox_installer
             )
 
             self.firefox_page = AddWaterPage(
@@ -152,4 +153,5 @@ class AddWaterWindow(Adw.ApplicationWindow):
             )
         )
         return statuspage
+
 

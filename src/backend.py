@@ -1,9 +1,9 @@
-
+# TODO type app_options
 
 import logging, os, shutil, requests
 
 from os.path import join, exists
-from typing import Optional
+from typing import Optional, Callable
 from configparser import ConfigParser
 
 from gi.repository import Gio
@@ -22,13 +22,22 @@ class AddWaterBackend():
         app_path = path to where profiles and
         theme_url = url to github releases api page
     """
-    def __init__(self, app_name: str, app_path: str, app_options, theme_url: str,):
+
+    app_options = None
+    theme_url = None
+    app_path = None
+    installer = None
+
+    def __init__(self, app_name: str, app_path: str, app_options, installer: Callable, theme_url: str):
         print("Backend is alive!")
 
         self.settings = Gio.Settings(schema_id=f'dev.qwery.AddWater.{app_name}')
         self.app_options = app_options
         self.theme_url = theme_url
+        self.installer = installer
         self.set_app_path(app_path)
+        if not exists(self.app_path):
+            raise err.FatalBackendException('Path does not exist')
 
         self.installed_version = self.settings.get_int('installed-version')
 
@@ -48,8 +57,8 @@ class AddWaterBackend():
 
 
     """PRIVATE METHODS"""
-
-    def _find_profiles(self, app_path: str):
+    @staticmethod
+    def _find_profiles(app_path: str) -> list[dict[str,str]]:
         """Reads the app configuration files and returns a list of profiles. The user's preferred profiles are first in the list.
 
         Args:
@@ -89,8 +98,8 @@ class AddWaterBackend():
 
         return profiles
 
-
-    def _get_updates(self, gh_url: str, installed_version: int) -> Optional[int]:
+    @staticmethod
+    def _get_updates(gh_url: str, installed_version: int) -> int:
         # TODO Set API limit more strict before flathub release
         # TODO consider making this consider special cases like rollbacks or partial updates
         """Check theme github for new releases"""
@@ -126,7 +135,7 @@ class AddWaterBackend():
         log.info("No update available.")
         return update_version
 
-    # TODO type this arg
+
     def _set_theme_prefs(self, profile_path: str, options) -> None:
         # Set all user.js options according to gsettings
         user_js = join(profile_path, "user.js")
@@ -154,88 +163,19 @@ class AddWaterBackend():
 
         log.info("Theme installed successfully.")
 
-
-    def _install_theme_files(self, theme_path: str, profile_path: str, theme: str="adwaita") -> None:
-        """FIREFOX ONLY
-        Replaces the included theme installer
-
-        Arguments:
-            theme_path = path to the extracted theme folder. Likely inside `[app_path]/cache/add-water/downloads/`
-            profile_path = path to the profile folder in which the theme will be installed.
-            theme = user selected color theme
-        """
-        # Check paths to ensure they exist
-        try:
-            if not exists(profile_path):
-                raise FileNotFoundError('Install failed. Profile path not found.')
-
-            if not exists(theme_path):
-                raise FileNotFoundError('Install failed. Cannot find theme files.')
-        except (TypeError, FileNotFoundError) as e:
-            log.critical(e)
-            # FIXME error here occurs when handling the error. Passing e to raise is illegal?
-            raise err.InstallException("Install failed")
-
-        # Make chrome folder if it doesn't already exist
-        chrome_path = join(profile_path, "chrome")
-        try:
-            os.mkdir(chrome_path)
-        except FileNotFoundError:
-            log.critical("Install path does not exist. Install canceled.")
-            raise err.InstallException('Profile doesn\'t exist.')
-        except FileExistsError:
-            pass
-
-        # Copy theme repo into chrome folder
-        shutil.copytree(
-            src=theme_path,
-            dst=join(chrome_path, "firefox-gnome-theme"),
-            dirs_exist_ok=True
-        )
-
-        # Add import lines to CSS files, and creates them if necessary.
-        css_files = ["userChrome.css", "userContent.css"]
-
-        for each in css_files:
-            p = join(chrome_path, each)
-            try:
-                with open(file=p, mode="r", encoding='utf-8') as file:
-                    lines = file.readlines()
-            except FileNotFoundError:
-                lines = []
-
-            with open(file=p, mode="w", encoding='utf-8') as file:
-                # Remove old import lines
-                remove_list = []
-                for line in lines:
-                    if "firefox-gnome-theme" in line:
-                        lines.remove(line)
-
-                # Add new import lines
-                # FIXME inserting like this puts all three imports onto the same line. Doesn't seem to cause issues though.
-                if theme != "adwaita":
-                    lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/light-{theme}.css";')
-                    lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/dark-{theme}.css";')
-                    log.debug(f"Installing the {theme} theme")
-                import_line = f'@import "firefox-gnome-theme/{each}";'
-                lines.insert(0, import_line)
-
-                file.writelines(lines)
-            log.debug(f"{each} finished")
-
         # Backup user.js and replace with provided version that includes the prerequisite prefs
-        user_js = join(profile_path, "user.js")
-        user_js_backup = join(profile_path, "user.js.bak")
+        user_js = join(profile_path, 'user.js')
+        user_js_backup = join(profile_path, 'user.js.bak')
         if join(user_js) is True and join(user_js_backup) is False:
             os.rename(user_js, user_js_backup)
 
-        template = join(chrome_path, "firefox-gnome-theme", "configuration", "user.js")
+        template = join(profile_path, 'chrome', 'firefox-gnome-theme', 'configuration', 'user.js')
         shutil.copy(template, profile_path)
 
         log.info("Install successful")
 
-
-    def _do_uninstall_theme(self, profile_path: str):
+    @staticmethod
+    def _do_uninstall_theme(profile_path: str) -> None:
         # Delete theme folder
         try:
             chrome_path = join(profile_path, "chrome", "firefox-gnome-theme")
@@ -290,9 +230,9 @@ class AddWaterBackend():
 
         # Run install script
         try:
-            self._install_theme_files(
+            self.installer(
                 profile_path=profile_path,
-                theme=colors,
+                theme_color=colors,
                 theme_path=join(
                     DOWNLOAD_DIR, f'firefox-{version}-extracted', 'firefox-gnome-theme'
                 ),
@@ -300,6 +240,7 @@ class AddWaterBackend():
             self._set_theme_prefs(profile_path, self.app_options)
         except err.InstallException as e:
             print(e)
+
 
     def get_app_options(self):
         return self.app_options
@@ -331,9 +272,9 @@ class AddWaterBackend():
 
         # Run install script
         try:
-            self._install_theme_files(
+            self.installer(
                 profile_path=profile_path,
-                theme=colors,
+                theme_color=colors,
                 theme_path=join(
                     DOWNLOAD_DIR, f'firefox-{version}-extracted', 'firefox-gnome-theme'
                 ),
@@ -347,9 +288,9 @@ class AddWaterBackend():
         profile_path = join(self.app_path, self.settings.get_string('last-profile'))
         self._do_uninstall_theme(profile_path)
 
-
     def set_app_path(self, new_path: str):
         if exists(new_path):
             self.app_path = new_path
             log.info('Set app path to %s', new_path)
+
 
