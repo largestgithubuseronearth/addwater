@@ -64,32 +64,25 @@ class AddWaterPage(Adw.Bin):
 
 
 
-    def __init__(self, app_path: str, app_options, app_name: str, theme_url: str, backend=None):
+    def __init__(self, app_name: str, backend=None):
         super().__init__()
-        if app_path is None:
-            raise err.FatalPageException
         try:
             self.backend = backend
         except:
             print("CRITICAL: Backend initialization FAILED")
 
-        self.app_path = app_path
-        self.app_options = app_options
         self.app_name = app_name
-        self.theme_url = theme_url
 
         self.settings = Gio.Settings(schema_id=f"dev.qwery.AddWater.{self.app_name}")
         self.settings.delay()
         self.installed_version = self.settings.get_int("installed-version")
 
         # Profiles and Colors lists
-        self.selected_profile = self.settings.get_string("last-profile")
-
-        self.profiles = self.backend.get_profiles()
-
         self.colors = self.settings.get_string("color-theme")
+        self.selected_profile = self.settings.get_string("last-profile")
+        self.profile_list = self.backend.get_profiles()
 
-        self._init_gui(app_options)
+        self._init_gui(self.backend.get_app_options(), self.profile_list)
 
         self.profile_combobox.notify("selected-item")
         self.profile_combobox.connect("notify::selected-item", self._set_profile)
@@ -113,44 +106,33 @@ class AddWaterPage(Adw.Bin):
         )
 
         # Check for updates and install if new available and theme is already enabled
-        try:
-            self.update_version = self.backend.get_updates(URL=self.theme_url, installed_version=self.installed_version)
-        except err.NetworkException as e:
-            self.update_version = self.installed_version
-            self.send_toast(e, timeout=3, priority=1)
+        value = self.backend.get_update_available()
 
-        if (self.update_version > self.installed_version) and self.settings.get_boolean("theme-enabled") == True:
+        if value and self.settings.get_boolean("theme-enabled"):
             self.apply_changes()
-            self.send_toast(f"Updated to v{self.update_version}")
+            self.send_toast(f"Updated to v{self.backend.update_version}")
 
 
-    def _init_gui(self, OPTIONS_LIST):
+    def _init_gui(self, option_list, profile_list):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
         Args:
-            OPTIONS_LIST: a json-style list of dictionaries which include all option groups
+            option_list: a json-style list of dictionaries which include all option groups
                 and options that the theme supports. Included in theme_options.py
         """
         # App options
         self.settings.bind(
-            "theme-enabled",
-            self.enable_button,
-            "active",
-            Gio.SettingsBindFlags.DEFAULT
+            "theme-enabled", self.enable_button, "active", Gio.SettingsBindFlags.DEFAULT
         )
-
         # Theme options
-        for each in OPTIONS_LIST:
+        for each in option_list:
             group = Adw.PreferencesGroup(
-                title=each["group_name"],
-                margin_start=30,
-                margin_end=30
+                title=each["group_name"], margin_start=30, margin_end=30
             )
 
             for option in each["options"]:
                 button = Adw.SwitchRow(
-                    title=option["summary"],
-                    subtitle=option["description"]
+                    title=option["summary"], subtitle=option["description"]
                 )
                 # TODO If possible, make this tooltip an actual info suffix button (i)
                 try:
@@ -158,17 +140,11 @@ class AddWaterPage(Adw.Bin):
                 except KeyError:
                     pass
                 self.settings.bind(
-                    option["key"],
-                    button,
-                    "active",
-                    Gio.SettingsBindFlags.DEFAULT
+                    option["key"], button, "active", Gio.SettingsBindFlags.DEFAULT
                 )
                 # Disables theme-specific options if theme isn't enabled.
                 self.enable_button.bind_property(
-                    "active",
-                    button,
-                    "sensitive",
-                    GObject.BindingFlags.SYNC_CREATE
+                    "active", button, "sensitive", GObject.BindingFlags.SYNC_CREATE
                 )
 
                 group.add(button)
@@ -180,34 +156,24 @@ class AddWaterPage(Adw.Bin):
         self.reset_color_combobox()
 
         # Profile list
-        for each in self.profiles:
+        for each in profile_list:
             self.profile_combobox_list.append(each["name"])
         self.reset_profile_combobox()
 
 
-
-
-    def apply_changes(self, _=None, action=None, __=None):
+    def apply_changes(self, *_):
         # TODO Refactor how I use update_version and installed_version so that there's never a disconnect between them that causes unexpected issues
         """FRONT: Apply changes to GSettings and call the proper install or uninstall method"""
         self.settings.apply()
-        version = self.update_version
-
-        profile_path = os.path.join(self.app_path, self.selected_profile)
 
         try:
             if self.settings.get_boolean("theme-enabled"):
                 log.info(f'Installing theme to {self.selected_profile}...')
-                self.backend.full_install(
-                    profile_path=profile_path,
-                    options=self.app_options,
-                    version=version,
-                    colors=self.colors
-                )
+                self.backend.full_install()
                 msg = "Installed Theme. Restart Firefox to see changes."
             else:
                 log.info(f'Uninstalling theme from {self.selected_profile}...')
-                self.backend.uninstall_theme(profile_path=profile_path)
+                self.backend.remove_theme()
                 msg = "Removed Theme. Restart Firefox to see changes."
         except err.FatalPageException as e:
             log.critical(e)
@@ -221,7 +187,7 @@ class AddWaterPage(Adw.Bin):
         self.send_toast(msg, 3, 1)
 
 
-    def discard_changes(self, _, action, __):
+    def discard_changes(self, *_):
         """FRONT: Revert changes made to GSettings and notify user"""
         # Revert must ALWAYS be first
         self.settings.revert()
@@ -234,7 +200,7 @@ class AddWaterPage(Adw.Bin):
 
     def _set_profile(self, row, _=None):
         profile_display_name = row.get_selected_item().get_string()
-        for each in self.profiles:
+        for each in self.profile_list:
             if each["name"] == profile_display_name:
                 self.selected_profile = each["id"]
                 log.debug(f'set profile to {each["id"]}')
@@ -263,24 +229,17 @@ class AddWaterPage(Adw.Bin):
 
         self.toast_overlay.add_toast(
             Adw.Toast(
-                title=msg,
-                timeout=timeout,
-                priority=priority
+                title=msg, timeout=timeout, priority=priority
             )
         )
         self.enable_button.grab_focus()
 
 
-    # TODO remove this later and have window call backend directly
-    def full_uninstall(self, *args):
-        self.backend.full_uninstall()
-
-
     def reset_profile_combobox(self,):
         last_profile = self.settings.get_string("last-profile")
-        for each in self.profiles:
+        for each in self.profile_list:
             if each["id"] == last_profile:
-                self.profile_combobox.set_selected(self.profiles.index(each))
+                self.profile_combobox.set_selected(self.profile_list.index(each))
                 return
 
         raise FileNotFoundError('Profile combo box reset failed')
