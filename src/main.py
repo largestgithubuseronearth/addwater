@@ -122,3 +122,4 @@ def main(version):
     """The application's entry point."""
     app = AddWaterApplication()
     return app.run(sys.argv)
+

@@ -17,7 +17,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import gi, logging
+import gi
+import logging
 
 gi.require_version('Xdp', '1.0')
 gi.require_version('XdpGtk4', '1.0')
@@ -25,7 +26,6 @@ gi.require_version('XdpGtk4', '1.0')
 from gi.repository import Adw, Gtk, Gio, GLib, Xdp, XdpGtk4
 from .utils.paths import FIREFOX_PATHS
 
-# TODO Make set_custom_firefox_path handler
 
 log = logging.getLogger(__name__)
 
@@ -35,9 +35,8 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 
     FIREFOX_VERSIONS = FIREFOX_PATHS
 
-    # TODO is there a better word than version? To avoid confusion with update version
-    firefox_version_switcher = Gtk.Template.Child()
-    firefox_version_list = Gtk.Template.Child()
+    firefox_package_combobox = Gtk.Template.Child()
+    firefox_package_combobox_list = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
@@ -50,16 +49,13 @@ class AddWaterPreferences(Adw.PreferencesDialog):
         self._init_firefox_combobox()
 
         # TODO notify of selected_item changing and deal with it in the handler
-        self.firefox_version_switcher.notify("selected-item")
-        self.firefox_version_switcher.connect("notify::selected-item", self._set_firefox_version)
+        self.firefox_package_combobox.notify("selected-item")
+        self.firefox_package_combobox.connect("notify::selected-item", self._set_firefox_package)
 
-        # Portal stuff
-        self.parent = XdpGtk4.parent_new_gtk(Gtk.Window.new())
-        self.portal = Xdp.Portal.initable_new()
 
     def _init_firefox_combobox(self):
         for each in self.FIREFOX_VERSIONS:
-            self.firefox_version_list.append(each["name"])
+            self.firefox_package_combobox_list.append(each["name"])
 
         if self.settings.get_boolean("autofind-paths") is False:
             user_path = self.firefox_path
@@ -68,12 +64,12 @@ class AddWaterPreferences(Adw.PreferencesDialog):
                 if each["path"] == user_path:
                     i = self.FIREFOX_VERSIONS.index(each) + 1
 
-            self.firefox_version_switcher.set_selected(i)
+            self.firefox_package_combobox.set_selected(i)
 
 
-
-    def _set_firefox_version(self, row, _):
+    def _set_firefox_package(self, row, _):
         selected_index = row.get_selected()
+        # First option is always Automatically Discover
         if selected_index == 0:
             self.settings.set_boolean("autofind-paths", True)
             log.warning("Autofind paths enabled")
@@ -90,6 +86,4 @@ class AddWaterPreferences(Adw.PreferencesDialog):
                 print(f'User specified path: {each["path"]}')
                 self.settings.set_string("firefox-path", each["path"])
                 self.firefox_path = each["path"]
-
-        # TODO trigger app to reset the gui
 

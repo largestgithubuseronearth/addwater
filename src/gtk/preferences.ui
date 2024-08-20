@@ -10,11 +10,10 @@
 						<property name="title">Firefox</property>
 
 						<child>
-							<!-- TODO make this a drop down of the supported locations -->
-							<object class="AdwComboRow" id="firefox_version_switcher">
+							<object class="AdwComboRow" id="firefox_package_combobox">
 								<property name="title" translatable="yes">Package Type</property>
 								<property name="model">
-									<object class="GtkStringList" id="firefox_version_list">
+									<object class="GtkStringList" id="firefox_package_combobox_list">
 										<items>
 											<item>Automatically Discover</item>
 										</items>
@@ -25,7 +24,7 @@
 					</object>
 				</child>
 				<child>
-					<!-- This section's styling is borrowed from cartridges to workaround not having button rows yet -->
+					<!-- This section's styling is borrowed from Cartridges to workaround not having button rows yet -->
 					<object class="AdwPreferencesGroup">
 						<property name="margin-bottom">30</property>
 						<property name="title">Danger Zone</property>

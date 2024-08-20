@@ -7,13 +7,11 @@
 * Add all Thunderbird and Firefox paths to Flatpak manifest
 * Properly set up Meson
 * Make unit tests for app, especially in sections where data loss could occur
-* Find a good formatting solution
+* Find a good auto linter/formatter
     * Pylint
     * Black 
 * Finish major refactor to separate front and back end more cleanly
-    * Backend should be able to stand on its own. This allows for an easier way to implement the background feature
-    * Backend methods should be more functional instead of modifying object attributes directly
-        * This is less feasible for the frontend with its reliance on object attribute references to gui elements, and actions. But when calling backend methods, it should supply everything the backend needs via args, or request the object it needs for its task
+    * Instead of path, it may make sense to have some sort of app_details object that abstracts away the technical details like package format and its respective profile path.
 
 ## FLATHUB GOALS:
 * Make sure Flatpak is configured properly
@@ -35,7 +33,7 @@
 
 ### Accessibility:
 [X] Large Text
-[~] Screen Reader.
+[~] Screen Reader tests
     Could find everything except:
     * Can't find label for the bottom action bar
     * Some SwitchRow subtitles are not read aloud. Orca bug?
