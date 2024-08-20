@@ -57,7 +57,8 @@ class AddWaterPage(Adw.Bin):
         try:
             self.backend = backend
         except:
-            print("CRITICAL: Backend initialization FAILED")
+            log.critical("Backend initialization failed")
+            raise exc.FatalPageException('Backend failed to init')
 
         self.app_name = app_name
 
@@ -111,7 +112,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def on_apply_action(self, *_):
-        print('apply action activated')
+        log.info('apply action activated')
         """FRONT: Apply changes to GSettings and call the proper install or uninstall method"""
         self.settings.apply()
         theme_enabled = self.settings.get_boolean("theme-enabled")
@@ -138,7 +139,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def on_discard_action(self, *_):
-        print('discard action activated')
+        log.info('discard action activated')
         """FRONT: Revert changes made to GSettings and notify user"""
         # Revert must ALWAYS be first
         self.settings.revert()
@@ -153,7 +154,6 @@ class AddWaterPage(Adw.Bin):
         # Workaround for libadwaita bug which cause toasts to display forever
         if not msg:
             log.error("Tried to send a toast of None")
-            print("Tried to send a toast of None")
             return
 
         self.toast_overlay.add_toast(

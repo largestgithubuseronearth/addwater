@@ -19,6 +19,7 @@
 
 import sys
 import gi
+import logging
 
 
 gi.require_version('Gtk', '4.0')
@@ -28,7 +29,7 @@ from gi.repository import Gtk, Gio, Adw, Gdk
 from .window import AddWaterWindow
 from .preferences import AddWaterPreferences
 
-from .utils.logs import logging, init_logs
+from .utils.logs import init_logs
 from .utils import paths
 
 log = logging.getLogger(__name__)
@@ -43,12 +44,6 @@ class AddWaterApplication(Adw.Application):
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action, ['<Ctrl>comma'])
         self.create_action('open-help-page', self.on_help_action)
-
-        print("-------------------------")
-        print("ADD WATER — GNOME theme installer for Firefox and Thunderbird")
-        print(f"Gtk: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}")
-        print(f"Adw: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}")
-        print("-------------------------")
 
         paths.init_paths()
         init_logs()
@@ -92,7 +87,7 @@ class AddWaterApplication(Adw.Application):
         """Callback for the app.preferences action."""
         pref = AddWaterPreferences()
         pref.present(self.props.active_window)
-        print('app.preferences action activated')
+        log.info('preferences action activated')
 
 
     def create_action(self, name, callback, shortcuts=None):
@@ -113,9 +108,9 @@ class AddWaterApplication(Adw.Application):
 
     def on_help_action(self, action, _):
         # TODO is there a better link than this?
+        log.info("help page action activated")
         weblaunch = Gtk.UriLauncher.new("https://github.com/largestgithubuseronearth/addwater/blob/7b405a417356346fd1d93d3d2090a090cf27ecbf/docs/user-help.md")
         weblaunch.launch(None, None, None, None)
-        print("app.open-help-page action activated")
 
 
 def main(version):

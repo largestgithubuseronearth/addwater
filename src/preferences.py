@@ -73,17 +73,15 @@ class AddWaterPreferences(Adw.PreferencesDialog):
         if selected_index == 0:
             self.settings.set_boolean("autofind-paths", True)
             log.warning("Autofind paths enabled")
-            print("Autofind paths enabled")
             return
 
         self.settings.set_boolean("autofind-paths", False)
         log.warning("Autofind paths disabled")
-        print("Autofind paths disabled")
         selected = row.get_selected_item().get_string()
 
         for each in self.FIREFOX_VERSIONS:
             if selected == each["name"]:
-                print(f'User specified path: {each["path"]}')
+                log.info(f'User specified path: {each["path"]}')
                 self.settings.set_string("firefox-path", each["path"])
                 self.firefox_path = each["path"]
 

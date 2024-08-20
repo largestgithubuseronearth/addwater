@@ -56,7 +56,7 @@ class AddWaterBackend():
     online_status: Enum
 
     def __init__(self, app_name: str, app_path: str, app_options: list[dict], installer: Callable, theme_url: str):
-        print("Backend is alive!")
+        log.info("Backend is alive!")
 
         if not exists(app_path):
             raise exc.FatalBackendException('Profile path does not exist')
@@ -136,7 +136,7 @@ class AddWaterBackend():
             )
             self._set_theme_prefs(profile_path, self.app_options, self.settings)
         except exc.InstallException as err:
-            print(err)
+            log.error(err)
 
 
     def get_app_options(self):
@@ -254,15 +254,13 @@ class AddWaterBackend():
             # TODO make sure this request is complaint with github's specification
             response = requests.get((gh_url))
         except requests.RequestException as err:
-            log.error("Update request failed: %s", err)
+            log.error(f"Update request failed: {err}")
             raise exc.NetworkException('Unable to check for an update due to a network issue')
 
         api_calls_left = int(response.headers["x-ratelimit-remaining"])
         log.debug(f'Remaining Github API calls for the next hour: {api_calls_left}')
-        print("Github calls left:", api_calls_left)
         if api_calls_left < 10:
-            log.error("Limiting polling in order to not overstep Github API rate limits")
-            print("Limiting polling so to not overstep Github API rate limits")
+            log.warning("Limiting polling in order to not overstep Github API rate limits")
             raise exc.NetworkException('Unable to check for updates. Please try again later.')
 
         latest_release = response.json()[0]
@@ -272,7 +270,6 @@ class AddWaterBackend():
         # issue with that is the tarball_url. Maybe I need an "update_info" object and to return that?
         if update_version > installed_version:
             try:
-                print('hello')
                 download.get_release(
                     base_name=f'{app_name.lower()}-{update_version}',
                     final_path=f'{app_name.lower()}-gnome-theme',
@@ -353,7 +350,6 @@ class AddWaterBackend():
     # safe and the uninstaller is fully settled on
     def _reset_full_uninstall(self):
         # TODO is there a cleaner way to implement this?
-        print(f"Removing theme from all profiles in path [{self.app_path}]")
         log.info(f"Removing theme from all profiles in path [{self.app_path}]")
         for each in self.profile_list:
             profile_path = join(self.app_path, each["id"])
