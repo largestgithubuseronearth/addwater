@@ -1,4 +1,4 @@
-# TODO is there a simpler way to do this? .in files?
+# TODO is there a simpler way to do this? .in files? json?
 
 FIREFOX_OPTIONS = [
     {

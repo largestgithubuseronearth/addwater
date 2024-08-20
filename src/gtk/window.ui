@@ -14,7 +14,6 @@
 		<property name="content">
 
 				<object class="AdwToolbarView" id="main_toolbar_view">
-
 						<!-- HEADER BAR -->
 					<child type="top">
 						<object class="AdwHeaderBar" id="header_bar">
@@ -28,9 +27,7 @@
 							</child>
 						</object>
 					</child>
-
-
-					<!-- WINDOW CONTENT -->
+					<!-- WINDOW CONTENT PLACED BY CODE-->
 				</object>
 
 		</property>

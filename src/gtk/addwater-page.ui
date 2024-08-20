@@ -10,6 +10,45 @@
 
 
 						<!-- Change Confirmation Bar -->
+
+						<!-- Main Content -->
+						<property name="content">
+							<object class="AdwPreferencesPage" id="preferences_page">
+								<child>
+									<object class="AdwPreferencesGroup">
+										<property name="margin-start">30</property>
+										<property name="margin-end">30</property>
+										<child>
+											<object class="AdwSwitchRow" id="enable_button">
+												<property name="title" translatable="yes">Enable Theme</property>
+											</object>
+										</child>
+										<child>
+											<object class="AdwComboRow" id="profile_combobox">
+												<property name="title" translatable="yes">Profile</property>
+												<property name="model">
+													<object class="GtkStringList" id="profile_combobox_list">
+														<items></items>
+													</object>
+												</property>
+												<property name="tooltip-text">Select which user profile to install to</property>
+											</object>
+										</child>
+										<child>
+											<object class="AdwComboRow" id="color_combobox">
+												<property name="title" translatable="yes">Color Theme</property>
+												<property name="model">
+													<object class="GtkStringList" id="color_combobox_list">
+														<items></items>
+													</object>
+												</property>
+											</object>
+										</child>
+									</object>
+								</child>
+							</object>
+						</property>
+
 						<child type="bottom">
 							<object class="GtkActionBar" id="change_confirm_bar">
 								<child type="start">
@@ -47,47 +86,6 @@
 							</object>
 						</child>
 
-						<!-- Main Content -->
-						<property name="content">
-
-							<object class="AdwPreferencesPage" id="preferences_page">
-								<child>
-									<object class="AdwPreferencesGroup">
-										<property name="margin-start">30</property>
-										<property name="margin-end">30</property>
-										<child>
-											<object class="AdwSwitchRow" id="enable_button">
-												<property name="title" translatable="yes">Enable Theme</property>
-											</object>
-										</child>
-										<child>
-											<object class="AdwComboRow" id="profile_combobox">
-												<property name="title" translatable="yes">Profile</property>
-												<property name="model">
-													<object class="GtkStringList" id="profile_combobox_list">
-														<items></items>
-													</object>
-												</property>
-												<property name="tooltip-text">Select which user profile to install to</property>
-											</object>
-										</child>
-										<child>
-											<object class="AdwComboRow" id="color_combobox">
-												<!-- TODO connect this to logic -->
-												<property name="title" translatable="yes">Color Theme</property>
-												<property name="model">
-													<object class="GtkStringList" id="color_combobox_list">
-														<!-- TODO add color options via code in theme_options.py -->
-														<items></items>
-													</object>
-												</property>
-											</object>
-										</child>
-									</object>
-								</child>
-							</object>
-
-						</property>
 					</object>
 
 				</child>

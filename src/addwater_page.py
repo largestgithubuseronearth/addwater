@@ -17,17 +17,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# TODO make app_path a class property that can be edited easily
-# FIXME If the app updates but the user doesn't install it, then the theme update is downloaded in full repeatedly until user manually installs it
 
-
-import logging, json, os.path, shutil
+import logging
+from datetime import timedelta
 from typing import Optional
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 from .utils import paths
-from .utils import exceptions as err
+from .utils import exceptions as exc
 from .theme_options import FIREFOX_COLORS
-from .backend import AddWaterBackend
+from .backend import AddWaterBackend, OnlineStatus
 
 log = logging.getLogger(__name__)
 
@@ -79,14 +77,13 @@ class AddWaterPage(Adw.Bin):
         self.color_combobox.connect("notify::selected-item", self._set_colors)
 
         # Change Confirmation bar
-        # TODO try using an action group instead
+        # TODO try using an action group instead. Would that make actions easier?
         self.install_action(
-            "water.apply-changes", None, self.apply_changes
+            "water.apply-changes", None, self.on_apply_action
         )
         self.install_action(
-            "water.discard-changes", None, self.discard_changes
+            "water.discard-changes", None, self.on_discard_action
         )
-
         self.settings.bind_property(
             "has-unapplied",
             self.change_confirm_bar,
@@ -94,12 +91,99 @@ class AddWaterPage(Adw.Bin):
             GObject.BindingFlags.SYNC_CREATE
         )
 
-        # Check for updates and install if new available and theme is already enabled
-        value = self.backend.get_update_available()
+        self.request_update_status()
 
-        if value and self.settings.get_boolean("theme-enabled"):
-            self.apply_changes()
-            self.send_toast(f"Updated to v{self.backend.update_version}")
+    def request_update_status(self):
+        update_status = self.backend.get_update_status()
+        match update_status:
+            case OnlineStatus.UPDATED:
+                version = self.backend.update_version
+                msg = f'Updated theme to v{version}'
+            case OnlineStatus.DISCONNECTED:
+                msg = 'Updated failed due to a network issue'
+            case OnlineStatus.API_RATELIMITED:
+                msg = 'Update failed due to Github rate limits. Please try again later.'
+            case _:
+                msg = None
+        if msg:
+            self.send_toast(msg)
+
+
+
+    def on_apply_action(self, *_):
+        print('apply action activated')
+        """FRONT: Apply changes to GSettings and call the proper install or uninstall method"""
+        self.settings.apply()
+        theme_enabled = self.settings.get_boolean("theme-enabled")
+
+        try:
+            if theme_enabled:
+                log.info(f'Installing theme to {self.selected_profile}...')
+                self.backend.full_install()
+                toast_msg = "Installed Theme. Restart Firefox to see changes."
+            else:
+                log.info(f'Uninstalling theme from {self.selected_profile}...')
+                self.backend.remove_theme()
+                toast_msg = "Removed Theme. Restart Firefox to see changes."
+        except exc.FatalPageException as err:
+            log.critical(err)
+            raise exc.FatalPageException(err)
+        except exc.InstallException as err:
+            log.critical(err)
+            toast_msg = e.user_msg
+        else:
+            log.info('SUCCESS')
+
+        self.send_toast(toast_msg, 3, 1)
+
+
+    def on_discard_action(self, *_):
+        print('discard action activated')
+        """FRONT: Revert changes made to GSettings and notify user"""
+        # Revert must ALWAYS be first
+        self.settings.revert()
+
+        self._reset_color_combobox()
+        self._reset_profile_combobox()
+
+        self.send_toast("Changes reverted")
+
+
+    def send_toast(self, msg: str, timeout_seconds: int=2, priority: int=0):
+        # Workaround for libadwaita bug which cause toasts to display forever
+        if not msg:
+            log.error("Tried to send a toast of None")
+            print("Tried to send a toast of None")
+            return
+
+        self.toast_overlay.add_toast(
+            Adw.Toast(title=msg, timeout=timeout_seconds, priority=priority)
+        )
+        self.enable_button.grab_focus()
+
+
+
+    """PRIVATE METHODS"""
+
+    def _set_profile(self, row, _=None):
+        profile_display_name = row.get_selected_item().get_string()
+        for each in self.profile_list:
+            if each["name"] == profile_display_name:
+                self.selected_profile = each["id"]
+                log.debug('set profile to %s', each["id"])
+                break
+
+        # This compare check avoids triggering "has-unapplied" at app launch
+        if self.selected_profile != self.settings.get_string("last-profile"):
+            self.settings.set_string("last-profile", self.selected_profile)
+
+
+    def _set_colors(self, row, _=None):
+        self.selected_color = row.get_selected_item().get_string().lower()
+
+        # This compare check avoids triggering "has-unapplied" at app launch
+        if self.selected_color != self.settings.get_string("color-theme"):
+            self.settings.set_string("color-theme", self.selected_color)
 
 
     def _init_gui(self, option_list, profile_list):
@@ -142,102 +226,30 @@ class AddWaterPage(Adw.Bin):
         # Colors list
         for each in FIREFOX_COLORS:
             self.color_combobox_list.append(each)
-        self.reset_color_combobox()
+        self._reset_color_combobox()
 
         # Profile list
         for each in profile_list:
             self.profile_combobox_list.append(each["name"])
-        self.reset_profile_combobox()
+        self._reset_profile_combobox()
 
 
-    def apply_changes(self, *_):
-        """FRONT: Apply changes to GSettings and call the proper install or uninstall method"""
-        self.settings.apply()
-
-        try:
-            if self.settings.get_boolean("theme-enabled"):
-                log.info(f'Installing theme to {self.selected_profile}...')
-                self.backend.full_install()
-                msg = "Installed Theme. Restart Firefox to see changes."
-            else:
-                log.info(f'Uninstalling theme from {self.selected_profile}...')
-                self.backend.remove_theme()
-                msg = "Removed Theme. Restart Firefox to see changes."
-        except err.FatalPageException as e:
-            log.critical(e)
-            raise err.FatalPageException(e)
-        except err.InstallException as e:
-            log.critical(e)
-            msg = e.user_msg
-        else:
-            log.info('SUCCESS')
-
-        self.send_toast(msg, 3, 1)
-
-
-    def discard_changes(self, *_):
-        """FRONT: Revert changes made to GSettings and notify user"""
-        # Revert must ALWAYS be first
-        self.settings.revert()
-
-        self.reset_color_combobox()
-        self.reset_profile_combobox()
-
-        self.send_toast("Changes reverted")
-
-
-    def _set_profile(self, row, _=None):
-        profile_display_name = row.get_selected_item().get_string()
-        for each in self.profile_list:
-            if each["name"] == profile_display_name:
-                self.selected_profile = each["id"]
-                log.debug('set profile to %s', each["id"])
-                break
-
-        # This compare check avoids triggering "has-unapplied" at app launch
-        if self.selected_profile != self.settings.get_string("last-profile"):
-            self.settings.set_string("last-profile", self.selected_profile)
-
-
-    def _set_colors(self, row, _):
-        self.selected_color = row.get_selected_item().get_string().lower()
-
-        # This compare check avoids triggering "has-unapplied" at app launch
-        if self.selected_color != self.settings.get_string("color-theme"):
-            self.settings.set_string("color-theme", self.selected_color)
-
-
-    # TODO consider using timedelta on timeout arg
-    def send_toast(self, msg: str, timeout: int=2, priority: int=0):
-        # Workaround for libadwaita bug which cause toasts to display forever
-        if not msg:
-            log.error("Tried to send a toast of None")
-            print("Tried to send a toast of None")
-            return
-
-        self.toast_overlay.add_toast(
-            Adw.Toast(
-                title=msg, timeout=timeout, priority=priority
-            )
-        )
-        self.enable_button.grab_focus()
-
-
-    def reset_profile_combobox(self,):
+    def _reset_profile_combobox(self,):
         last_profile = self.settings.get_string("last-profile")
         for each in self.profile_list:
             if each["id"] == last_profile:
                 self.profile_combobox.set_selected(self.profile_list.index(each))
                 return
-
+        # TODO find better exception for this
         raise FileNotFoundError('Profile combo box reset failed')
 
 
-    def reset_color_combobox(self,):
+    def _reset_color_combobox(self,):
         selected = self.settings.get_string("color-theme").title()
         for each in FIREFOX_COLORS:
             if each == selected:
                 self.color_combobox.set_selected(FIREFOX_COLORS.index(each))
                 return
 
-        raise FileNotFoundError('Profile combo box reset failed')
+        # TODO find better exception for this
+        raise FileNotFoundError('Color combo box reset failed')

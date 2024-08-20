@@ -18,13 +18,15 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-import logging, os.path, shutil
+import logging
+import os.path
+import shutil
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .addwater_page import AddWaterPage
 from .backend import AddWaterBackend
 from .theme_options import FIREFOX_OPTIONS
 from .utils import logs, paths, installers
-from .utils import exceptions as err
+from .utils import exceptions as exc
 
 log = logging.getLogger(__name__)
 
@@ -82,7 +84,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
                 app_name='Firefox',
                 backend=self.firefox_backend
             )
-        except err.FatalPageException as e:
+        except exc.FatalPageException as err:
             log.critical("Could not find Firefox path. Displaying error page to user.")
             self.firefox_page = self.error_status_page("Firefox")
 
@@ -106,7 +108,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
 
     def on_reset_action(self, action, _):
-        # TODO make this actually close the app completely. It's awkward to ask the user to relaunch the app.
+        # TODO refactor this to actually close the app completely. It's awkward to ask the user to relaunch the app.
+
         # Delete Download cache. Always keep the logs!
         log.warning("App is being reset...")
         try:
@@ -153,5 +156,4 @@ class AddWaterWindow(Adw.ApplicationWindow):
             )
         )
         return statuspage
-
 

@@ -20,8 +20,9 @@
 # TODO standardize all logs to make info logs more meaningful. Debug should include the tech details and info should only communicate the actual purpose and action that's being done and whether it was successful or not.
 
 import logging
+import os
+import os.path
 from datetime import datetime, timezone, timedelta
-import os, os.path
 from gi.repository import Gtk, Adw
 from . import paths
 
