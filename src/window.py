@@ -17,6 +17,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# TODO refactor this whole class and how it creates the page
 
 import logging
 import os.path
@@ -139,7 +140,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
         )
 
         log.info("Reset done")
-        print("reset action activated")
 
 
     def error_status_page(self, app_name):

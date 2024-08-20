@@ -22,6 +22,7 @@
 import logging
 import os
 import os.path
+import sys
 from datetime import datetime, timezone, timedelta
 from gi.repository import Gtk, Adw
 from . import paths
@@ -29,17 +30,23 @@ from . import paths
 def init_logs():
     LOG_DIR = paths.LOG_DIR
     try:
-        # TODO can this send to both log file AND to console?
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        LOGFILE = os.path.join(LOG_DIR, f"addwater_{now}.log")
-        logging.basicConfig(filename=LOGFILE,
-                            filemode="a",
-                            style="{",
-                            format="[{levelname}] {name} — {asctime} || {message}",
-                            datefmt="%H:%M",
-                            level=logging.DEBUG)
-    except:
-        print("Couldn't initialize log file")
+        logfile = os.path.join(LOG_DIR, f"addwater_{now}.log")
+
+        file_handler = logging.FileHandler(logfile)
+        file_handler.setLevel(logging.DEBUG)
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setLevel(logging.INFO)
+
+        logging.basicConfig(
+            handlers=[file_handler, console_handler],
+            style="{",
+            format="[{levelname}] {name} — {asctime} || {message}",
+            datefmt="%H:%M",
+            level=logging.DEBUG
+        )
+    except Exception as err:
+        print("Couldn't initialize log file: ", err)
 
 
     # Delete logs that are over two weeks old

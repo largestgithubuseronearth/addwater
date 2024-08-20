@@ -68,7 +68,6 @@ def _download_release(dl_url: str, result: str) -> None:
         dl_url = url to the file to download
         result = path to write the contents of the downloaded file
     """
-    print('download')
     if exists(result):
         log.debug('Already downloaded this release. Skipping download.')
         return
@@ -79,7 +78,6 @@ def _download_release(dl_url: str, result: str) -> None:
     with open(file=result, mode="wb") as file:
         file.write(response.content)
 
-    print('download2')
     log.debug("Successfully downloaded release from Github")
 
 
