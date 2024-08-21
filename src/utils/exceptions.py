@@ -31,9 +31,6 @@ class AddWaterException(Exception):
 class InstallException(AddWaterException):
     pass
 
-class NetworkException(AddWaterException):
-    pass
-
 class APIException(AddWaterException):
     pass
 

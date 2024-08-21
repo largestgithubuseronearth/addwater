@@ -28,13 +28,11 @@ from typing import Optional, Callable
 from configparser import ConfigParser
 
 from gi.repository import Gio
-from .utils import download
+from .components.online import OnlineManager
 from .utils import exceptions as exc
 from .utils.paths import DOWNLOAD_DIR
 
 log = logging.getLogger(__name__)
-
-# FIXME If the app updates but the user doesn't install it, then the theme update is downloaded in full repeatedly until user manually installs it
 
 # FIXME if the theme files get lost, there is no way for the app to ever install until another update or the user resets the app
 # It should attempt to re-download it
@@ -49,11 +47,16 @@ class AddWaterBackend():
         theme_url = url to github releases api page
     """
 
+    installed_version: int
+    update_version: int
+
     app_options: list[dict]
-    theme_url: str
     app_path: str
     installer: callable # This is passed in to allow for the backend to support both apps, and to easily swap out install methods
-    online_status: Enum
+
+    profile_list: list[dict[str,str]]
+
+    online_manager: callable
 
     def __init__(self, app_name: str, app_path: str, app_options: list[dict], installer: Callable, theme_url: str):
         log.info("Backend is alive!")
@@ -62,10 +65,11 @@ class AddWaterBackend():
             raise exc.FatalBackendException('Profile path does not exist')
 
         self.app_options = app_options
-        self.theme_url = theme_url
         self.installer = installer
         self.app_name = app_name
         self.set_app_path(app_path)
+
+        self.online_manager = OnlineManager(theme_url=theme_url)
 
         self.settings = Gio.Settings(schema_id=f'dev.qwery.AddWater.{app_name}')
         self.installed_version = self.settings.get_int('installed-version')
@@ -76,8 +80,6 @@ class AddWaterBackend():
             log.critical(err)
             raise exc.FatalPageException(err)
 
-        self.get_updates()
-
 
     """PUBLIC METHODS
 
@@ -87,29 +89,10 @@ class AddWaterBackend():
     """
 
     def get_updates(self):
-        # TODO finish this to tell the different between no internet and api errors
-        try:
-            self.update_version = self._do_get_updates(
-                gh_url=self.theme_url,
-                installed_version=self.installed_version,
-                app_name=self.app_name
-            )
-        except:
-            self.update_version = self.installed_version
-            self.online_status = OnlineStatus.DISCONNECTED
-            pass
-
-        theme_updated = bool(self.update_version > self.installed_version)
-        theme_enabled = self.settings.get_boolean('theme-enabled')
-
-        if theme_updated:
-            self.online_status = OnlineStatus.UPDATED
-            if theme_enabled:
-                self.quick_install()
-        else:
-            self.online_status = OnlineStatus.NO_UPDATE
-
-        # TODO should this return the online_status?
+        return self.online_manager.get_updates_online(
+            installed_version=self.installed_version,
+            app_name=self.app_name,
+        )
 
 
     def full_install(self):
@@ -118,7 +101,7 @@ class AddWaterBackend():
         app_name = self.app_name.lower()
         colors = self.settings.get_string('color-theme')
         profile_path = join(self.app_path, self.settings.get_string('last-profile'))
-        version = self.update_version
+        version = self.online_manager.get_update_version()
 
         if not exists(profile_path):
             raise exc.FatalPageException('Install failed. Profile doesn\'t exist.')
@@ -143,12 +126,8 @@ class AddWaterBackend():
         return self.app_options
 
 
-    def get_profiles(self):
+    def get_profile_list(self):
         return self.profile_list
-
-
-    def get_update_status(self):
-        return self.online_status
 
 
     def quick_install(self):
@@ -186,6 +165,12 @@ class AddWaterBackend():
         if exists(new_path):
             self.app_path = new_path
             log.info('Set app path to %s', new_path)
+            return
+
+        log.error('Tried to set app_path to non-existant path')
+        raise InterfaceMisuseError('Path given does not exist')
+
+
 
 
 
@@ -243,45 +228,6 @@ class AddWaterBackend():
             log.critical('Could not find any profiles.')
             raise FileNotFoundError('Could not find any profiles.')
         return profiles
-
-
-    @staticmethod
-    def _do_get_updates(gh_url: str, installed_version: int, app_name: str) -> int:
-        # TODO Set API limit more strict before flathub release
-        # TODO consider making this consider special cases like rollbacks or partial updates
-        """Check theme github for new releases"""
-        try:
-            # TODO make sure this request is complaint with github's specification
-            response = requests.get((gh_url))
-        except requests.RequestException as err:
-            log.error(f"Update request failed: {err}")
-            raise exc.NetworkException('Unable to check for an update due to a network issue')
-
-        api_calls_left = int(response.headers["x-ratelimit-remaining"])
-        log.debug(f'Remaining Github API calls for the next hour: {api_calls_left}')
-        if api_calls_left < 10:
-            log.warning("Limiting polling in order to not overstep Github API rate limits")
-            raise exc.NetworkException('Unable to check for updates. Please try again later.')
-
-        latest_release = response.json()[0]
-        update_version = int(latest_release["tag_name"].lstrip("v"))
-
-        # TODO extract the download step into the public get_update method. Main
-        # issue with that is the tarball_url. Maybe I need an "update_info" object and to return that?
-        if update_version > installed_version:
-            try:
-                download.get_release(
-                    base_name=f'{app_name.lower()}-{update_version}',
-                    final_path=f'{app_name.lower()}-gnome-theme',
-                    tarball_url=latest_release["tarball_url"],
-                )
-            except exc.NetworkException as err:
-                raise exc.NetworkException(err)
-
-            return update_version
-
-        log.info("No update available.")
-        return update_version
 
 
     @staticmethod
@@ -357,9 +303,12 @@ class AddWaterBackend():
 
 
 
-class OnlineStatus(Enum):
-    NO_UPDATE = 0
-    UPDATED = 1
-    DISCONNECTED = 2
-    API_RATELIMITED = 3
 
+
+class InstallStatus(Enum):
+    SUCCESS = 0
+    FAILURE = 1
+
+
+class InterfaceMisuseError(Exception):
+    pass
