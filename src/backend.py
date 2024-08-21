@@ -58,7 +58,7 @@ class AddWaterBackend():
 
     online_manager: callable
 
-    def __init__(self, app_name: str, app_path: str, app_options: list[dict], installer: Callable, theme_url: str):
+    def __init__(self, app_name: str, app_path: str, app_options: list[dict], installer: callable, theme_url: str):
         log.info("Backend is alive!")
 
         if not exists(app_path):
@@ -117,7 +117,7 @@ class AddWaterBackend():
                     DOWNLOAD_DIR, f'{app_name}-{version}-extracted', f'{app_name}-gnome-theme'
                 ),
             )
-            self._set_theme_prefs(profile_path, self.app_options, self.settings)
+            self.installer._set_theme_prefs(profile_path, self.app_options, self.settings)
         except exc.InstallException as err:
             log.error(err)
 
@@ -158,7 +158,7 @@ class AddWaterBackend():
 
     def remove_theme(self):
         profile_path = join(self.app_path, self.settings.get_string('last-profile'))
-        self._do_uninstall_theme(profile_path)
+        self.installer_do_uninstall_theme(profile_path)
 
 
     def set_app_path(self, new_path: str):
@@ -230,64 +230,8 @@ class AddWaterBackend():
         return profiles
 
 
-    @staticmethod
-    def _set_theme_prefs(profile_path: str, options: list[dict], settings) -> None:
-        # Set all user.js options according to gsettings
-        user_js = join(profile_path, "user.js")
-        with open(file=user_js, mode="r", encoding='utf-8') as file:
-            lines = file.readlines()
-
-        with open(file=user_js, mode="w", encoding='utf-8') as file:
-            for group in options:
-                for option in group["options"]:
-                    pref_name = f'gnomeTheme.{option["js_key"]}'
-                    pref_value = str(settings.get_boolean(option["key"])).lower()
-                    full_line = f"""user_pref("{pref_name}", {pref_value});\n"""
-
-                    found = False
-                    for i in range(len(lines)):
-                        # This is easier than a for-each
-                        if pref_name in lines[i]:
-                            lines[i] = full_line
-                            found = True
-                            break
-                    if found is False:
-                        lines.append(full_line)
-
-            file.writelines(lines)
-
-        log.info("Theme preferences set")
 
 
-    @staticmethod
-    def _do_uninstall_theme(profile_path: str) -> None:
-        # Delete theme folder
-        try:
-            chrome_path = join(profile_path, "chrome", "firefox-gnome-theme")
-            shutil.rmtree(chrome_path)
-        except FileNotFoundError:
-            pass
-
-        # TODO remove css import lines
-
-        # Set all user_prefs to false
-        user_js = join(profile_path, "user.js")
-        try:
-            with open(file=user_js, mode="r", encoding='utf-8') as file:
-                lines = file.readlines()
-        except FileNotFoundError:
-            log.info("Theme uninstalled successfully.")
-            return
-
-        with open(file=user_js, mode="w", encoding='utf-8') as file:
-            # This is easier than a foreach
-            for i in range(len(lines)):
-                if "gnomeTheme" in lines[i]:
-                    lines[i] = lines[i].replace("true", "false")
-
-            file.writelines(lines)
-
-        log.info("Theme uninstalled successfully.")
 
 
     """ OTHER """
@@ -299,7 +243,7 @@ class AddWaterBackend():
         log.info(f"Removing theme from all profiles in path [{self.app_path}]")
         for each in self.profile_list:
             profile_path = join(self.app_path, each["id"])
-            self._do_uninstall_theme(profile_path=profile_path)
+            self.installer._do_uninstall_theme(profile_path=profile_path)
 
 
 
