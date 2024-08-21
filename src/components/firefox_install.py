@@ -1,4 +1,4 @@
-# installers.py
+# firefox_install.py
 #
 # Copyright 2024 Qwery
 #
@@ -21,13 +21,12 @@ import os
 import logging
 import shutil
 from os.path import join, exists
-from . import exceptions as exc
+from ..utils import exceptions as exc
 
 log = logging.getLogger(__name__)
 
-def firefox_installer(profile_path: str, theme_path: str, theme_color: str="adwaita") -> None:
-    """FIREFOX ONLY
-    Replaces the included theme installer
+def install_for_firefox(profile_path: str, theme_path: str, theme_color: str="adwaita") -> None:
+    """Copy theme files into the user's profile.
 
     Arguments:
         theme_path = path to the extracted theme folder. Likely inside `[app_path]/cache/add-water/downloads/`
@@ -35,6 +34,7 @@ def firefox_installer(profile_path: str, theme_path: str, theme_color: str="adwa
         theme = user selected color theme
     """
     # Check paths to ensure they exist
+    log.info('Installing theme file for Firefox...')
     try:
         if not exists(profile_path):
             raise FileNotFoundError('Install failed. Profile path not found.')
@@ -45,12 +45,25 @@ def firefox_installer(profile_path: str, theme_path: str, theme_color: str="adwa
         log.critical(err)
         raise exc.InstallException("Install failed")
 
+    chrome_path = join(profile_path, 'chrome')
+
+    _copy_files(chrome_path, theme_path)
+    _import_css(chrome_path, theme_color)
+
+    userjs_template = join(chrome_path, 'firefox-gnome-theme', 'configuration', 'user.js')
+    _copy_userjs(profile_path, userjs_template)
+
+    log.info('Firefox installation done.')
+
+
+
+def _copy_files(chrome_path: str, theme_path: str):
     # Make chrome folder if it doesn't already exist
-    chrome_path = join(profile_path, "chrome")
+    log.debug('Copying theme files into profile path...')
     try:
         os.mkdir(chrome_path)
     except FileNotFoundError:
-        log.critical("Install path does not exist. Install canceled.")
+        log.critical("Profile path does not exist. Install canceled.")
         raise exc.InstallException('Profile doesn\'t exist.')
     except FileExistsError:
         pass
@@ -61,8 +74,11 @@ def firefox_installer(profile_path: str, theme_path: str, theme_color: str="adwa
         dst=join(chrome_path, "firefox-gnome-theme"),
         dirs_exist_ok=True
     )
+    log.debug('Done.')
 
-    # Add import lines to CSS files, and creates them if necessary.
+
+def _import_css(chrome_path: str, theme_color: str):
+    log.debug('Adding CSS imports...')
     css_files = ["userChrome.css", "userContent.css"]
 
     for each in css_files:
@@ -71,6 +87,7 @@ def firefox_installer(profile_path: str, theme_path: str, theme_color: str="adwa
             with open(file=p, mode="r", encoding='utf-8') as file:
                 lines = file.readlines()
         except FileNotFoundError:
+            log.debug(f'{each} does not exist. Creating it from scratch')
             lines = []
 
         with open(file=p, mode="w", encoding='utf-8') as file:
@@ -80,26 +97,32 @@ def firefox_installer(profile_path: str, theme_path: str, theme_color: str="adwa
                 if "firefox-gnome-theme" in line:
                     lines.remove(line)
 
-            # Add new import lines
             # FIXME inserting like this puts all three imports onto the same line. Doesn't seem to cause issues though.
             if theme_color != "adwaita":
                 lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/light-{theme_color}.css";')
                 lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/dark-{theme_color}.css";')
-                log.debug('Installing the %s theme', theme_color)
+                log.debug(f'User is using {theme_color} color theme')
             import_line = f'@import "firefox-gnome-theme/{each}";'
             lines.insert(0, import_line)
 
             file.writelines(lines)
-        log.debug("%s finished", each)
 
+        log.debug(f'Finished importing {each}')
+    log.debug('Done.')
+
+
+def _copy_userjs(profile_path: str, template_path: str) -> None:
     # Backup user.js and replace with provided version that includes the prerequisite prefs
+    log.debug('Copying user.js from theme...')
     user_js = join(profile_path, 'user.js')
     user_js_backup = join(profile_path, 'user.js.bak')
+
     if exists(user_js) is True and exists(user_js_backup) is False:
+        log.debug('Backing up user\'s previous user.js file')
         os.rename(user_js, user_js_backup)
 
-    # TODO make this app agnostic ↓↓
-    template = join(profile_path, 'chrome', 'firefox-gnome-theme', 'configuration', 'user.js')
-    shutil.copy(template, profile_path)
+    shutil.copy(template_path, profile_path)
 
-    log.info("Install successful")
+    log.debug('Done.')
+
+

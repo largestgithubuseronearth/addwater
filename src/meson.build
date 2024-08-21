@@ -25,6 +25,7 @@ configure_file(
   install_dir: get_option('bindir'),
   install_mode: 'r-xr-xr-x'
 )
+install_subdir('components', install_dir: moduledir)
 install_subdir('utils', install_dir: moduledir)
 
 addwater_sources = [
@@ -36,9 +37,11 @@ addwater_sources = [
   'addwater_page.py',
   'backend.py',
 
+  'components/online.py',
+  'components/install.py',
+  'components/firefox_install.py',
+
   'utils/paths.py',
-  'utils/installers.py',
-  'utils/download.py',
   'utils/logs.py',
   'utils/exceptions.py'
 ]

@@ -7,6 +7,7 @@
 * Add all Thunderbird and Firefox paths to Flatpak manifest
 * Properly set up Meson
 * Make unit tests for app, especially in sections where data loss could occur
+    * Make profiles that allow testing easily but using mock components. e.g. mock OnlineManager to avoid polluting Github while testing 
 * Find a good auto linter/formatter
     * Pylint
     * Black 

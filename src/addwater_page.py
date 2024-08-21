@@ -25,7 +25,8 @@ from gi.repository import Gtk, Adw, Gio, GLib, GObject
 from .utils import paths
 from .utils import exceptions as exc
 from .theme_options import FIREFOX_COLORS
-from .backend import AddWaterBackend, OnlineStatus
+from .backend import AddWaterBackend, InstallStatus
+from .components.online import OnlineStatus
 
 log = logging.getLogger(__name__)
 
@@ -65,17 +66,16 @@ class AddWaterPage(Adw.Bin):
         self.settings = Gio.Settings(schema_id=f"dev.qwery.AddWater.{self.app_name}")
         self.settings.delay()
 
-        # Profiles and Colors lists
-        self.selected_color = self.settings.get_string("color-theme")
+        # Profiles
         self.selected_profile = self.settings.get_string("last-profile")
-        self.profile_list = self.backend.get_profiles()
+        self.profile_list = self.backend.get_profile_list()
 
         self._init_gui(self.backend.get_app_options(), self.profile_list)
 
         self.profile_combobox.notify("selected-item")
         self.profile_combobox.connect("notify::selected-item", self._set_profile)
         self.color_combobox.notify("selected-item")
-        self.color_combobox.connect("notify::selected-item", self._set_colors)
+        self.color_combobox.connect("notify::selected-item", self._set_colors_gsettingss)
 
         # Change Confirmation bar
         # TODO try using an action group instead. Would that make actions easier?
@@ -95,14 +95,14 @@ class AddWaterPage(Adw.Bin):
         self.request_update_status()
 
     def request_update_status(self):
-        update_status = self.backend.get_update_status()
+        update_status = self.backend.get_updates()
         match update_status:
             case OnlineStatus.UPDATED:
                 version = self.backend.update_version
                 msg = f'Updated theme to v{version}'
             case OnlineStatus.DISCONNECTED:
                 msg = 'Updated failed due to a network issue'
-            case OnlineStatus.API_RATELIMITED:
+            case OnlineStatus.RATELIMITED:
                 msg = 'Update failed due to Github rate limits. Please try again later.'
             case _:
                 msg = None
@@ -136,7 +136,6 @@ class AddWaterPage(Adw.Bin):
             log.info('SUCCESS')
 
         self.send_toast(toast_msg, 3, 1)
-
 
     def on_discard_action(self, *_):
         log.info('discard action activated')
@@ -177,13 +176,12 @@ class AddWaterPage(Adw.Bin):
         if self.selected_profile != self.settings.get_string("last-profile"):
             self.settings.set_string("last-profile", self.selected_profile)
 
-
-    def _set_colors(self, row, _=None):
-        self.selected_color = row.get_selected_item().get_string().lower()
+    def _set_colors_gsettingss(self, row, _=None):
+        selected_color = row.get_selected_item().get_string().lower()
 
         # This compare check avoids triggering "has-unapplied" at app launch
-        if self.selected_color != self.settings.get_string("color-theme"):
-            self.settings.set_string("color-theme", self.selected_color)
+        if selected_color != self.settings.get_string("color-theme"):
+            self.settings.set_string("color-theme", selected_color)
 
 
     def _init_gui(self, option_list, profile_list):
@@ -204,23 +202,20 @@ class AddWaterPage(Adw.Bin):
             )
 
             for option in each["options"]:
-                button = Adw.SwitchRow(
-                    title=option["summary"], subtitle=option["description"]
+                row = self.test_create_option_switch(
+                    title=option["summary"], subtitle=option["description"], extra_info=option["tooltip"]
                 )
-                # TODO If possible, make this tooltip an actual info suffix button (i)
-                try:
-                    button.set_tooltip_text(option["tooltip"])
-                except KeyError:
-                    pass
+
+                row_switch = row.get_activatable_widget()
                 self.settings.bind(
-                    option["key"], button, "active", Gio.SettingsBindFlags.DEFAULT
+                    option["key"], row_switch, "active", Gio.SettingsBindFlags.DEFAULT
                 )
                 # Disables theme-specific options if theme isn't enabled.
                 self.enable_button.bind_property(
-                    "active", button, "sensitive", GObject.BindingFlags.SYNC_CREATE
+                    "active", row, "sensitive", GObject.BindingFlags.SYNC_CREATE
                 )
 
-                group.add(button)
+                group.add(row)
             self.preferences_page.add(group)
 
         # Colors list
@@ -232,6 +227,50 @@ class AddWaterPage(Adw.Bin):
         for each in profile_list:
             self.profile_combobox_list.append(each["name"])
         self._reset_profile_combobox()
+
+
+    @staticmethod
+    def _create_option_switch(title: str, subtitle: str, extra_info: str=None):
+        # TODO make this a bespoke preference row and add an info button in front of the switch when there's extra info to show
+        row = Adw.SwitchRow(
+            title=title,
+            subtitle=subtitle,
+        )
+        if extra_info:
+            row.set_tooltip_text(extra_info)
+
+        return row
+
+    @staticmethod
+    def test_create_option_switch(title: str, subtitle: str, extra_info: str=None):
+        # Everything about this seems to work perfect. Just need to fix the info button
+        row = Adw.ActionRow(
+            title=title,
+            subtitle=subtitle,
+        )
+        # TODO make this popover appear when clicking the info button
+        if extra_info:
+            info_popup = Gtk.Popover(
+                autohide=True,
+                child=Gtk.Label(label=extra_info),
+            )
+            info_button = Gtk.Button(
+                has_frame=False,
+                icon_name='info-outline-symbolic',
+                valign="center",
+                vexpand=False,
+            )
+            row.add_suffix(info_button)
+
+
+        switch = Gtk.Switch(
+            valign="center",
+            vexpand=False,
+        )
+        row.add_suffix(switch)
+        row.set_activatable_widget(switch)
+
+        return row
 
 
     def _reset_profile_combobox(self,):

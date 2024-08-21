@@ -11,7 +11,7 @@
 
 						<child>
 							<object class="AdwComboRow" id="firefox_package_combobox">
-								<property name="title" translatable="yes">Package Type</property>
+								<property name="title" translatable="yes">Package Format</property>
 								<property name="model">
 									<object class="GtkStringList" id="firefox_package_combobox_list">
 										<items>
