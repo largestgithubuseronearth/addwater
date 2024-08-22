@@ -28,9 +28,12 @@ from datetime import timedelta
 from typing import Optional
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 from .utils import paths
-from .utils import exceptions as exc
 from .theme_options import FIREFOX_COLORS
+
 from .backend import AddWaterBackend
+from .components.details import AppDetails
+from .components.install import InstallManager
+from .components.online import OnlineManager
 
 log = logging.getLogger(__name__)
 
@@ -63,7 +66,7 @@ class AddWaterPage(Adw.Bin):
             self.backend = backend
         except:
             log.critical("Backend initialization failed")
-            raise exc.FatalPageException('Backend failed to init')
+            raise FatalPageException('Backend failed to init')
 
         self.app_name = app_name
 

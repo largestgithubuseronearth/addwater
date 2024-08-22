@@ -14,6 +14,14 @@
 * Finish major refactor to separate front and back end more cleanly
     * Refactor all backend classes to know how to use AppDetails 
 
+
+## SECONDARY GOALS:
+* Find good documentation solution
+    * doxygen
+    * gitbook (service bleh)
+    * sphinx
+    * read the docs
+
 ## FLATHUB GOALS:
 * Make sure Flatpak is configured properly
     * Ensure flatpak manifest permissions are correct

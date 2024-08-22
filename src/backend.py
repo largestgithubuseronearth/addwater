@@ -28,7 +28,6 @@ from typing import Optional, Callable
 
 from gi.repository import Gio
 from .components.online import OnlineManager
-from .utils import exceptions as exc
 from .utils.paths import DOWNLOAD_DIR
 
 log = logging.getLogger(__name__)

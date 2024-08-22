@@ -207,7 +207,6 @@ def _do_uninstall_theme(profile_path: str) -> None:
         log.info("Done.")
         return
 
-    # TODO find relevant exceptions for writing to a file
     try:
         with open(file=user_js, mode="w", encoding='utf-8') as file:
             # This is easier than a foreach

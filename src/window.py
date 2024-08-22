@@ -21,16 +21,17 @@
 import logging
 import os.path
 import shutil
+
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
 from .addwater_page import AddWaterPage
-from .backend import AddWaterBackend
 from .theme_options import FIREFOX_OPTIONS
 from .utils import logs, paths
-from .utils import exceptions as exc
-from .components.apps.firefox import firefox_install
-from .components import install
-from .components import online
+
+from .backend import AddWaterBackend
 from .components.details import AppDetails
+from .components.install import InstallManager
+from .components.apps.firefox.firefox_install import install_for_firefox
+from .components.online import OnlineManager
 
 log = logging.getLogger(__name__)
 
@@ -94,7 +95,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
                 app_name='Firefox',
                 backend=self.firefox_backend
             )
-        except exc.FatalPageException as err:
+        except FatalPageException as err:
             log.critical("Could not find Firefox path. Displaying error page to user.")
             self.firefox_page = self.error_status_page("Firefox")
 
@@ -171,11 +172,11 @@ class AddWaterWindow(Adw.ApplicationWindow):
     # TODO extract this process somewhere else
     @staticmethod
     def _construct_backend(theme_url, app_name, app_options, app_path, installed_version):
-        install_manager = install.InstallManager(
-            installer=firefox_install.install_for_firefox,
+        install_manager = InstallManager(
+            installer=install_for_firefox,
         )
 
-        online_manager = online.OnlineManager(
+        online_manager = OnlineManager(
             theme_url=theme_url,
         )
 
