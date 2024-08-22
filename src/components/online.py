@@ -17,8 +17,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# TODO Maybe it would make sense to make this an object that can monitor the download
-# itself. This may make it easier to manage async downloading.
 
 import os
 import tarfile
@@ -27,7 +25,7 @@ import requests
 
 from enum import Enum
 from os.path import join, exists
-from ..utils.paths import DOWNLOAD_DIR
+from addwater.utils.paths import DOWNLOAD_DIR
 from typing import Optional
 
 log = logging.getLogger(__name__)
@@ -36,8 +34,7 @@ class OnlineManager():
 
     installed_version: int
     update_version: int
-    theme_url: str
-    online_status: Enum # TODO should this class keep track of its own network status? Would that help?
+    theme_url: str # TODO should online manager keep this or AppDetails?
 
     def __init__(self, theme_url: str):
         log.debug('online manager is now alive')
@@ -180,7 +177,7 @@ class OnlineManager():
         """Poll Github url and check if a new release of the theme is available
 
         Args:
-            gh_url = full url to a github releases api call (api.github.com/...)
+            gh_url = fully-qualified url to a github releases api call (https://api.github.com/...)
 
         Returns:
             release_info = dict including "version" as int, "ratelimit_remaining" as int, and "tarball_url" as str
@@ -191,10 +188,16 @@ class OnlineManager():
         # Include all the applicable headers
         response = requests.get((gh_url))
 
-        latest_release = response.json()[0]
         api_calls_left = int(response.headers["x-ratelimit-remaining"])
-        version = int(latest_release["tag_name"].lstrip("v"))
-        tarball_url = latest_release["tarball_url"]
+        try:
+            latest_release = response.json()[0]
+            version = int(latest_release["tag_name"].lstrip("v"))
+            tarball_url = latest_release["tarball_url"]
+        # TODO make sure this error is correct
+        except request.JSONDecodeError as err:
+            log.err(err)
+            version = None
+            tarball_url = None
 
         release_info = {
             "version" : version,
@@ -205,7 +208,7 @@ class OnlineManager():
 
 
     @staticmethod
-    def _is_ratelimit_exceeded(api_calls_left: int):
+    def _is_ratelimit_exceeded(api_calls_left: int) -> bool:
         # TODO Set API limit more robust and strict before flathub release
         CHOSEN_LIMIT = 10
         log.debug(f'Remaining Github API calls for the next hour: {api_calls_left}')
@@ -213,7 +216,7 @@ class OnlineManager():
 
 
     @staticmethod
-    def _is_update_available(current: int, new: int):
+    def _is_update_available(current: int, new: int) -> bool:
         # TODO consider making this consider special cases like rollbacks or partial updates
         return bool(new > current)
 

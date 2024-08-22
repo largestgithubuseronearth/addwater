@@ -12,7 +12,7 @@
     * Pylint
     * Black 
 * Finish major refactor to separate front and back end more cleanly
-    * Instead of path, it may make sense to have some sort of app_details object that abstracts away the technical details like package format and its respective profile path.
+    * Refactor all backend classes to know how to use AppDetails 
 
 ## FLATHUB GOALS:
 * Make sure Flatpak is configured properly

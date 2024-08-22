@@ -37,9 +37,10 @@ addwater_sources = [
   'addwater_page.py',
   'backend.py',
 
-  'components/online.py',
+  'components/apps/firefox/firefox_install.py',
+  'components/details.py',
   'components/install.py',
-  'components/firefox_install.py',
+  'components/online.py',
 
   'utils/paths.py',
   'utils/logs.py',

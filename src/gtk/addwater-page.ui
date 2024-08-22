@@ -16,8 +16,8 @@
 							<object class="AdwPreferencesPage" id="preferences_page">
 								<child>
 									<object class="AdwPreferencesGroup">
-										<property name="margin-start">30</property>
-										<property name="margin-end">30</property>
+										<property name="margin-start">20</property>
+										<property name="margin-end">20</property>
 										<child>
 											<object class="AdwSwitchRow" id="enable_button">
 												<property name="title" translatable="yes">Enable Theme</property>
@@ -26,17 +26,19 @@
 										<child>
 											<object class="AdwComboRow" id="profile_combobox">
 												<property name="title" translatable="yes">Profile</property>
+												<property name="subtitle">Select profile to apply changes toward</property>
 												<property name="model">
 													<object class="GtkStringList" id="profile_combobox_list">
 														<items></items>
 													</object>
 												</property>
-												<property name="tooltip-text">Select which user profile to install to</property>
 											</object>
 										</child>
 										<child>
 											<object class="AdwComboRow" id="color_combobox">
 												<property name="title" translatable="yes">Color Theme</property>
+												<!-- TODO check for other areas where this color appears -->
+												<property name="subtitle" translatable="yes">Select primary color for Search Bar</property>
 												<property name="model">
 													<object class="GtkStringList" id="color_combobox_list">
 														<items></items>

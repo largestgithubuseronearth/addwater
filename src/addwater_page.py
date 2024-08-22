@@ -18,29 +18,26 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
+# TODO separate binding switches and applying/discard from all other GSet use cases.
+# In other cases, they can just create their own temp settings object
+
+
 import logging
+
 from datetime import timedelta
 from typing import Optional
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 from .utils import paths
 from .utils import exceptions as exc
 from .theme_options import FIREFOX_COLORS
-from .backend import AddWaterBackend, InstallStatus
-from .components.online import OnlineStatus
+from .backend import AddWaterBackend
 
 log = logging.getLogger(__name__)
 
-
+# TODO add variable to count number of errors. After a threshold, ask the user to report the issue.
 @Gtk.Template(resource_path="/dev/qwery/AddWater/gtk/addwater-page.ui")
 class AddWaterPage(Adw.Bin):
     __gtype_name__ = "AddWaterPage"
-
-    # Class Attributes
-    app_name: str     # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
-    selected_color: str       # User's chosen color theme
-    selected_profile: str        # User's chosen profile to install theme to
-
-    profile_list: list[dict[str,str]]
 
     # Widget controls
     toast_overlay = Gtk.Template.Child()
@@ -52,6 +49,13 @@ class AddWaterPage(Adw.Bin):
     profile_combobox_list = Gtk.Template.Child()
     color_combobox = Gtk.Template.Child()
     color_combobox_list = Gtk.Template.Child()
+
+
+    # Class Attributes
+    app_name: str     # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
+    selected_profile: str        # User's chosen profile to install theme to
+
+    profile_list: list[dict[str,str]]
 
     def __init__(self, app_name: str, backend=None):
         super().__init__()
@@ -70,7 +74,8 @@ class AddWaterPage(Adw.Bin):
         self.selected_profile = self.settings.get_string("last-profile")
         self.profile_list = self.backend.get_profile_list()
 
-        self._init_gui(self.backend.get_app_options(), self.profile_list)
+        options = self.backend.get_app_options()
+        self._init_gui(options, self.profile_list)
 
         self.profile_combobox.notify("selected-item")
         self.profile_combobox.connect("notify::selected-item", self._set_profile)
@@ -94,15 +99,19 @@ class AddWaterPage(Adw.Bin):
 
         self.request_update_status()
 
+
+
+    """PUBLIC METHODS"""
+
     def request_update_status(self):
         update_status = self.backend.get_updates()
         match update_status:
-            case OnlineStatus.UPDATED:
+            case update_status.UPDATED:
                 version = self.backend.update_version
                 msg = f'Updated theme to v{version}'
-            case OnlineStatus.DISCONNECTED:
+            case update_status.DISCONNECTED:
                 msg = 'Updated failed due to a network issue'
-            case OnlineStatus.RATELIMITED:
+            case update_status.RATELIMITED:
                 msg = 'Update failed due to Github rate limits. Please try again later.'
             case _:
                 msg = None
@@ -110,41 +119,47 @@ class AddWaterPage(Adw.Bin):
             self.send_toast(msg)
 
 
-
     def on_apply_action(self, *_):
-        log.info('apply action activated')
-        """FRONT: Apply changes to GSettings and call the proper install or uninstall method"""
-        self.settings.apply()
-        theme_enabled = self.settings.get_boolean("theme-enabled")
+        """Apply changes to GSettings and call the proper install or uninstall method"""
+        log.info('Applied changes')
 
-        try:
-            if theme_enabled:
-                log.info(f'Installing theme to {self.selected_profile}...')
-                self.backend.full_install()
-                toast_msg = "Installed Theme. Restart Firefox to see changes."
-            else:
-                log.info(f'Uninstalling theme from {self.selected_profile}...')
-                self.backend.remove_theme()
-                toast_msg = "Removed Theme. Restart Firefox to see changes."
-        except exc.FatalPageException as err:
-            log.critical(err)
-            raise exc.FatalPageException(err)
-        except exc.InstallException as err:
-            log.critical(err)
-            toast_msg = e.user_msg
+        self.settings.apply()
+
+        theme_enabled = self.settings.get_boolean('theme-enabled')
+        color_palette = self.settings.get_string('color-theme')
+        if theme_enabled:
+            log.info(f'GUI calling for install..')
+            install_status = self.backend.full_install(
+                self.selected_profile, color_palette
+            )
+            toast_msg = "Installed Theme. Restart Firefox to see changes."
         else:
-            log.info('SUCCESS')
+            log.info(f'GUI calling for uninstall...')
+            install_status = self.backend.remove_theme(self.selected_profile)
+            toast_msg = "Removed Theme. Restart Firefox to see changes."
+
+        match install_status:
+            case install_status.FAILURE:
+                toast_msg = 'Installation failed. Please report issue in About Menu'
+            case _:
+                pass
 
         self.send_toast(toast_msg, 3, 1)
 
+
     def on_discard_action(self, *_):
-        log.info('discard action activated')
-        """FRONT: Revert changes made to GSettings and notify user"""
+        """Revert changes made to GSettings and notify user"""
+        log.info('Discarded unapplied changes')
+
         # Revert must ALWAYS be first
         self.settings.revert()
 
-        self._reset_color_combobox()
-        self._reset_profile_combobox()
+        try:
+            self._reset_color_combobox()
+            self._reset_profile_combobox()
+        except PageException as err:
+            log.error(err)
+            self.send_toast('The interface had an error. Please report if this occurs multiple times.')
 
         self.send_toast("Changes reverted")
 
@@ -176,6 +191,7 @@ class AddWaterPage(Adw.Bin):
         if self.selected_profile != self.settings.get_string("last-profile"):
             self.settings.set_string("last-profile", self.selected_profile)
 
+
     def _set_colors_gsettingss(self, row, _=None):
         selected_color = row.get_selected_item().get_string().lower()
 
@@ -184,11 +200,11 @@ class AddWaterPage(Adw.Bin):
             self.settings.set_string("color-theme", selected_color)
 
 
-    def _init_gui(self, option_list, profile_list):
+    def _init_gui(self, options, profile_list):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
         Args:
-            option_list: a json-style list of dictionaries which include all option groups
+            options: a json-style list of dictionaries which include all option groups
                 and options that the theme supports. Included in theme_options.py
         """
         # App options
@@ -196,53 +212,59 @@ class AddWaterPage(Adw.Bin):
             "theme-enabled", self.enable_button, "active", Gio.SettingsBindFlags.DEFAULT
         )
         # Theme options
-        for each in option_list:
-            group = Adw.PreferencesGroup(
-                title=each["group_name"], margin_start=30, margin_end=30
+        for each_group in options:
+            group = self._create_option_group(
+                group_schematic=each_group,
+                gui_switch_factory=self._create_option_switch,
+                settings=self.settings,
+                enable_button=self.enable_button
             )
-
-            for option in each["options"]:
-                row = self.test_create_option_switch(
-                    title=option["summary"], subtitle=option["description"], extra_info=option["tooltip"]
-                )
-
-                row_switch = row.get_activatable_widget()
-                self.settings.bind(
-                    option["key"], row_switch, "active", Gio.SettingsBindFlags.DEFAULT
-                )
-                # Disables theme-specific options if theme isn't enabled.
-                self.enable_button.bind_property(
-                    "active", row, "sensitive", GObject.BindingFlags.SYNC_CREATE
-                )
-
-                group.add(row)
             self.preferences_page.add(group)
 
         # Colors list
         for each in FIREFOX_COLORS:
             self.color_combobox_list.append(each)
-        self._reset_color_combobox()
 
         # Profile list
         for each in profile_list:
             self.profile_combobox_list.append(each["name"])
-        self._reset_profile_combobox()
+        try:
+            self._reset_color_combobox()
+            self._reset_profile_combobox()
+        except PageException as err:
+            log.error(err)
+            self.send_toast('The interface had an error. Please report if this occurs often.')
+
+
+    @staticmethod
+    def _create_option_group(group_schematic: dict[str,list[dict]], gui_switch_factory: callable, settings, enable_button) -> None:
+        """Creates a PreferencesGroup with the included switch options, and binds all the switches to gsettings"""
+        # TODO these margins are arbitrary. Toy & try to find a better margin value.
+        group = Adw.PreferencesGroup(
+            title=group_schematic["group_name"], margin_start=20, margin_end=20
+        )
+
+        for option in group_schematic["options"]:
+            row = gui_switch_factory(
+                title=option["summary"], subtitle=option["description"], extra_info=option["tooltip"]
+            )
+
+            row_switch = row.get_activatable_widget()
+            settings.bind(
+                option["key"], row_switch, "active", Gio.SettingsBindFlags.DEFAULT
+            )
+            # disable row if theme isn't enabled.
+            enable_button.bind_property(
+                "active", row, "sensitive", GObject.BindingFlags.SYNC_CREATE
+            )
+
+            group.add(row)
+
+        return group
 
 
     @staticmethod
     def _create_option_switch(title: str, subtitle: str, extra_info: str=None):
-        # TODO make this a bespoke preference row and add an info button in front of the switch when there's extra info to show
-        row = Adw.SwitchRow(
-            title=title,
-            subtitle=subtitle,
-        )
-        if extra_info:
-            row.set_tooltip_text(extra_info)
-
-        return row
-
-    @staticmethod
-    def test_create_option_switch(title: str, subtitle: str, extra_info: str=None):
         # Everything about this seems to work perfect. Just need to fix the info button
         row = Adw.ActionRow(
             title=title,
@@ -279,8 +301,7 @@ class AddWaterPage(Adw.Bin):
             if each["id"] == last_profile:
                 self.profile_combobox.set_selected(self.profile_list.index(each))
                 return
-        # TODO find better exception for this
-        raise FileNotFoundError('Profile combo box reset failed')
+        raise PageException('Profile combo box reset failed')
 
 
     def _reset_color_combobox(self,):
@@ -290,5 +311,13 @@ class AddWaterPage(Adw.Bin):
                 self.color_combobox.set_selected(FIREFOX_COLORS.index(each))
                 return
 
-        # TODO find better exception for this
-        raise FileNotFoundError('Color combo box reset failed')
+        raise PageException('Color combo box reset failed')
+
+
+
+# Generic to use for any basic GUI failure
+class PageException(Exception):
+    pass
+
+class FatalPageException(Exception):
+    pass

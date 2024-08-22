@@ -28,9 +28,6 @@ class AddWaterException(Exception):
         print(self.log_info)
 
 
-class InstallException(AddWaterException):
-    pass
-
 class APIException(AddWaterException):
     pass
 
