@@ -44,7 +44,6 @@ addwater_sources = [
 
   'utils/paths.py',
   'utils/logs.py',
-  'utils/exceptions.py'
 ]
 
 install_data(addwater_sources, install_dir: moduledir)
