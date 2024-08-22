@@ -17,7 +17,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# TODO refactor this whole class and how it creates the page
 
 import logging
 import os.path
@@ -27,14 +26,17 @@ from .addwater_page import AddWaterPage
 from .backend import AddWaterBackend
 from .theme_options import FIREFOX_OPTIONS
 from .utils import logs, paths
-from .components import firefox_install
 from .utils import exceptions as exc
+from .components.apps.firefox import firefox_install
+from .components import install
+from .components import online
+from .components.details import AppDetails
 
 log = logging.getLogger(__name__)
 
 firefox_url = "https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases"
 
-
+# TODO refactor this whole class to only focus on the GUI
 @Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
 class AddWaterWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'AddWaterWindow'
@@ -48,6 +50,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
+
+        # TODO bind window size to GSettings
 
         reset_action = Gio.SimpleAction.new("reset-app")
         reset_action.connect("activate", self.on_reset_action)
@@ -74,12 +78,16 @@ class AddWaterWindow(Adw.ApplicationWindow):
         # Add page to window
         try:
             self.settings.set_string("firefox-path", firefox_path)
-            self.firefox_backend = AddWaterBackend(
-                app_path=firefox_path,
+
+            # TODO extract this whole step into main or elsewhere
+            firefox_settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
+            installed_version = firefox_settings.get_int('installed-version')
+            self.firefox_backend = self._construct_backend(
+                theme_url=firefox_url,
                 app_name='Firefox',
                 app_options=FIREFOX_OPTIONS,
-                theme_url=firefox_url,
-                installer=firefox_install.install_for_firefox
+                app_path=firefox_path,
+                installed_version=installed_version,
             )
 
             self.firefox_page = AddWaterPage(
@@ -92,7 +100,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
         self.main_toolbar_view.set_content(self.firefox_page)
 
-
+    # TODO move into AppDetails
     def find_app_path(self, path_list):
         """Iterates over all common Firefox config directories and returns which one exists.
 
@@ -108,7 +116,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
         log.error("Could not find any of the common Firefox paths")
         return None
 
-
+    # TODO extract this into main or somewhere else
     def on_reset_action(self, action, _):
         # TODO refactor this to actually close the app completely. It's awkward to ask the user to relaunch the app.
 
@@ -142,7 +150,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
         log.info("Reset done")
 
-
+    # TODO redo this to accept multiple types of errors
     def error_status_page(self, app_name):
         statuspage = Adw.StatusPage(
             title=f"Can't Find {app_name} Data",
@@ -158,3 +166,29 @@ class AddWaterWindow(Adw.ApplicationWindow):
         )
         return statuspage
 
+
+    """PRIVATE METHODS"""
+    # TODO extract this process somewhere else
+    @staticmethod
+    def _construct_backend(theme_url, app_name, app_options, app_path, installed_version):
+        install_manager = install.InstallManager(
+            installer=firefox_install.install_for_firefox,
+        )
+
+        online_manager = online.OnlineManager(
+            theme_url=theme_url,
+        )
+
+        app_details = AppDetails(
+            name=app_name,
+            options=app_options,
+            data_path=app_path,
+            installed_version=installed_version,
+        )
+
+        firefox_backend = AddWaterBackend(
+            app_details=app_details,
+            install_manager=install_manager,
+            online_manager=online_manager,
+        )
+        return firefox_backend

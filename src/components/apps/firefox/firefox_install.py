@@ -17,21 +17,29 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+
 import os
 import logging
 import shutil
 from os.path import join, exists
-from ..utils import exceptions as exc
+from addwater.components.install import InstallException
 
 log = logging.getLogger(__name__)
 
-def install_for_firefox(profile_path: str, theme_path: str, theme_color: str="adwaita") -> None:
-    """Copy theme files into the user's profile.
+# TODO is it possible to add this to app_details? And pass the function into InstallManager
+# TODO simplify the connection between this and the InstallManager
+def install_for_firefox(profile_path: str, theme_path: str, color_palette: str="adwaita") -> None:
+    """Install the Firefox theme. This method should be injected into the
+    InstallManager at runtime. If it isn't obvious, this should not be reused for
+    installing other app themes.
 
-    Arguments:
+    Args:
         theme_path = path to the extracted theme folder. Likely inside `[app_path]/cache/add-water/downloads/`
         profile_path = path to the profile folder in which the theme will be installed.
-        theme = user selected color theme
+        color_palette = color palette to import. Default is Adwaita.
+
+    Returns:
+        None
     """
     # Check paths to ensure they exist
     log.info('Installing theme file for Firefox...')
@@ -40,15 +48,15 @@ def install_for_firefox(profile_path: str, theme_path: str, theme_color: str="ad
             raise FileNotFoundError('Install failed. Profile path not found.')
 
         if not exists(theme_path):
-            raise FileNotFoundError('Install failed. Cannot find theme files.')
+            raise FileNotFoundError('Install failed. Theme files not found.')
     except (TypeError, FileNotFoundError) as err:
         log.critical(err)
-        raise exc.InstallException("Install failed")
+        raise InstallException("Install failed")
 
     chrome_path = join(profile_path, 'chrome')
 
     _copy_files(chrome_path, theme_path)
-    _import_css(chrome_path, theme_color)
+    _import_css(chrome_path, color_palette)
 
     userjs_template = join(chrome_path, 'firefox-gnome-theme', 'configuration', 'user.js')
     _copy_userjs(profile_path, userjs_template)
@@ -64,7 +72,7 @@ def _copy_files(chrome_path: str, theme_path: str):
         os.mkdir(chrome_path)
     except FileNotFoundError:
         log.critical("Profile path does not exist. Install canceled.")
-        raise exc.InstallException('Profile doesn\'t exist.')
+        raise InstallException('Profile doesn\'t exist.')
     except FileExistsError:
         pass
 
@@ -77,7 +85,7 @@ def _copy_files(chrome_path: str, theme_path: str):
     log.debug('Done.')
 
 
-def _import_css(chrome_path: str, theme_color: str):
+def _import_css(chrome_path: str, color_palette: str):
     log.debug('Adding CSS imports...')
     css_files = ["userChrome.css", "userContent.css"]
 
@@ -98,10 +106,10 @@ def _import_css(chrome_path: str, theme_color: str):
                     lines.remove(line)
 
             # FIXME inserting like this puts all three imports onto the same line. Doesn't seem to cause issues though.
-            if theme_color != "adwaita":
-                lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/light-{theme_color}.css";')
-                lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/dark-{theme_color}.css";')
-                log.debug(f'User is using {theme_color} color theme')
+            if color_palette != "adwaita":
+                lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/light-{color_palette}.css";')
+                lines.insert(0, f'@import "firefox-gnome-theme/theme/colors/dark-{color_palette}.css";')
+                log.debug(f'User is using {color_palette} color theme')
             import_line = f'@import "firefox-gnome-theme/{each}";'
             lines.insert(0, import_line)
 
@@ -124,5 +132,6 @@ def _copy_userjs(profile_path: str, template_path: str) -> None:
     shutil.copy(template_path, profile_path)
 
     log.debug('Done.')
+
 
 

@@ -107,8 +107,8 @@ class AddWaterApplication(Adw.Application):
 
 
     def on_help_action(self, action, _):
-        # TODO is there a better link than this?
         log.info("help page action activated")
+        # TODO is there a better link than this?
         weblaunch = Gtk.UriLauncher.new("https://github.com/largestgithubuseronearth/addwater/blob/7b405a417356346fd1d93d3d2090a090cf27ecbf/docs/user-help.md")
         weblaunch.launch(None, None, None, None)
 

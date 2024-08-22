@@ -29,7 +29,7 @@ FIREFOX_OPTIONS = [
             "key": "bookmarks-toolbar-under-tabs",
             "js_key": "bookmarksToolbarUnderTabs",
             "summary": "Bookmarks Toolbar Under Tabs",
-            "description": "Move Bookmarks Bar underneath Tab Bar",
+            "description": "Place Bookmarks Bar underneath Tab Bar",
             "tooltip" : ""
           },
           {
@@ -62,7 +62,7 @@ FIREFOX_OPTIONS = [
             "key": "symbolic-tab-icons",
             "js_key": "symbolicTabIcons",
             "summary": "Symbolic Tab Icons",
-            "description": "Make all tab icons look similar to symbolic icons",
+            "description": "Make all tab icons appear similar to symbolic icons",
             "tooltip" : ""
           }
         ]
