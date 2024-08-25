@@ -1,4 +1,4 @@
-# addwater_page.py
+# page.py
 #
 # Copyright 2024 Qwery
 #
@@ -110,10 +110,10 @@ class AddWaterPage(Adw.Bin):
         update_status = self.backend.get_updates()
         match update_status:
             case update_status.UPDATED:
-                version = self.backend.update_version
+                version = self.backend.get_update_version()
                 msg = f'Updated theme to v{version}'
             case update_status.DISCONNECTED:
-                msg = 'Updated failed due to a network issue'
+                msg = 'Checking for updates failed due to a network issue'
             case update_status.RATELIMITED:
                 msg = 'Update failed due to Github rate limits. Please try again later.'
             case _:
@@ -300,15 +300,23 @@ class AddWaterPage(Adw.Bin):
 
     def _reset_profile_combobox(self,):
         last_profile = self.settings.get_string("last-profile")
+        if not last_profile:
+            return
         for each in self.profile_list:
             if each["id"] == last_profile:
                 self.profile_combobox.set_selected(self.profile_list.index(each))
                 return
+
+        log.error('Profile combo box reset failed')
+        log.debug(f'last_profile: {last_profile}')
         raise PageException('Profile combo box reset failed')
 
 
     def _reset_color_combobox(self,):
-        selected = self.settings.get_string("color-theme").title()
+        selected = self.settings.get_string("color-theme")
+        if not selected:
+            return
+        selected = selected.title()
         for each in FIREFOX_COLORS:
             if each == selected:
                 self.color_combobox.set_selected(FIREFOX_COLORS.index(each))

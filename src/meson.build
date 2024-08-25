@@ -11,9 +11,13 @@ gnome.compile_resources('addwater',
 
 python = import('python')
 
+profile = get_option('profile')
+# TODO set up app_id and everything else to make it easier
+
 conf = configuration_data()
 conf.set('PYTHON', python.find_installation('python3').full_path())
 conf.set('VERSION', meson.project_version())
+conf.set('PROFILE', profile)
 conf.set('localedir', get_option('prefix') / get_option('localedir'))
 conf.set('pkgdatadir', pkgdatadir)
 
@@ -34,7 +38,7 @@ addwater_sources = [
   'window.py',
   'preferences.py',
   'theme_options.py',
-  'addwater_page.py',
+  'page.py',
   'backend.py',
 
   'components/apps/firefox/firefox_install.py',
@@ -44,6 +48,8 @@ addwater_sources = [
 
   'utils/paths.py',
   'utils/logs.py',
+
+  configure_file(input: 'info.py.in', output: 'info.py', configuration: conf),
 ]
 
 install_data(addwater_sources, install_dir: moduledir)

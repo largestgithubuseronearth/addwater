@@ -32,9 +32,10 @@ log = logging.getLogger(__name__)
 
 class OnlineManager():
 
+    # TODO should online manager keep these details or AppDetails?
     installed_version: int
     update_version: int
-    theme_url: str # TODO should online manager keep this or AppDetails?
+    theme_url: str
 
     def __init__(self, theme_url: str):
         log.debug('online manager is now alive')
@@ -43,16 +44,14 @@ class OnlineManager():
 
 
     """PUBLIC METHODS"""
-    def get_update_version(self,):
-        return self.update_version
-
 
     def get_updates_online(self, installed_version: int, app_name: str) -> Enum:
+        app_name = app_name.lower()
         log.info('Checking for updates...')
         try:
             update_info = self._get_release_info(self.theme_url)
         except NetworkException as err:
-            log.error(err)
+            self.update_version = installed_version
             return OnlineStatus.DISCONNECTED
 
         update_version = update_info["version"]
@@ -68,17 +67,25 @@ class OnlineManager():
             log.info('Update available. Getting it now...')
             base_name = f'{app_name}-{update_version}'
             final_name = f'{app_name}-gnome-theme'
-            self.get_release(
-                base_name=base_name,
-                final_name=final_name,
-                tarball_url=tarball_url
-            )
+            try:
+                self.get_release(
+                    base_name=base_name,
+                    final_name=final_name,
+                    tarball_url=tarball_url
+                )
+            except NetworkException as err:
+                return OnlineStatus.DISCONNECTED
+            except ExtractionException as err:
+                log.error(err)
+                # TODO recover from this more cleanly
+                raise OnlineManagerError('Could not extract theme release tarball. ')
+
             return OnlineStatus.UPDATED
 
         log.info('No update available.')
         return OnlineStatus.NO_UPDATE
 
-
+    # TODO improve to allow files to be downloaded that aren't necessarily zipped or are of different ziptypes
     def get_release(self, base_name: str, final_name: str, tarball_url: str):
         """Download and prep a theme release for installation
         Args:
@@ -89,23 +96,35 @@ class OnlineManager():
         """
         zipfile = join(DOWNLOAD_DIR, f'{base_name}.tar.gz')
         extract_path = join(DOWNLOAD_DIR, f'{base_name}-extracted')
+        final_path = join(extract_path, final_name.lower())
+        if exists(final_path):
+            log.info(f"{base_name} already ready to install. Skipping.")
+            return
 
-        log.info(f'Getting release: {base_name}')
 
-        if not exists(extract_path):
+        log.info(f'Getting release: {base_name}...')
+
+        if not exists(zipfile) or not exists(extract_path):
             try:
                 self._download_release(tarball_url, zipfile)
-            except requests.RequestException as err:
+            except (requests.RequestException, requests.ConnectionError) as err:
+                log.error(err)
                 raise NetworkException(err)
 
+        if not exists(extract_path):
             try:
                 self._extract_release(zipfile, extract_path)
             except (FileNotFoundError, tarfile.TarError) as err:
                 # TODO find a better error to throw
-                raise ('Theme files failed to extract')
+                raise ExtractionException('Theme files failed to extract')
 
         # rename inner folder
         self._rename_theme_folder(extract_path, final_name)
+        log.info('Update files downloaded and ready to install.')
+
+    def get_update_version(self,):
+        return self.update_version
+
 
 
     """PRIVATE FUNCTIONS"""
@@ -166,7 +185,7 @@ class OnlineManager():
 
         with os.scandir(path=parent_dir) as scan:
             for each in scan:
-                if each.name.startswith(f"rafaelmardojai-{new_name}"):
+                if each.name.startswith(f"rafaelmardojai"):
                     old_path = join(parent_dir, each.name)
                     os.rename(old_path, final_path)
         log.debug('Successfully renamed inner folder')
@@ -186,7 +205,11 @@ class OnlineManager():
 
         # TODO make sure this request is complaint with github's specification
         # Include all the applicable headers
-        response = requests.get((gh_url))
+        try:
+            response = requests.get((gh_url))
+        except requests.RequestException as err:
+            log.error(f'Could not connect to Github to grab release info: {err}')
+            raise NetworkException(err)
 
         api_calls_left = int(response.headers["x-ratelimit-remaining"])
         try:
@@ -217,6 +240,8 @@ class OnlineManager():
 
     @staticmethod
     def _is_update_available(current: int, new: int) -> bool:
+        if type(current) is not int or type(new) is not int:
+            raise ValueError
         # TODO consider making this consider special cases like rollbacks or partial updates
         return bool(new > current)
 
@@ -229,6 +254,9 @@ class OnlineStatus(Enum):
 
 
 class NetworkException(Exception):
+    pass
+
+class OnlineManagerError(Exception):
     pass
 
 class ExtractionException(Exception):

@@ -33,7 +33,7 @@ from .utils.paths import DOWNLOAD_DIR
 log = logging.getLogger(__name__)
 
 # FIXME if the theme files get lost, there is no way for the app to ever install until another update or the user resets the app
-# It should attempt to re-download it
+# It should attempt to re-download it every time but stop early if the files already exist
 
 class AddWaterBackend():
     """The interface by which this app can complete important tasks like installing, updating, etc.
@@ -132,6 +132,9 @@ class AddWaterBackend():
     def get_app_options(self) -> list[dict[str,any]]:
         return self.app_details.get_options()
 
+    def get_update_version(self,):
+        return self.online_manager.get_update_version()
+
 
     def get_updates(self) -> Enum:
         app_name = self.app_details.get_name()
@@ -156,7 +159,6 @@ class AddWaterBackend():
 
 
 
-
     """PRIVATE METHODS
 
     All private methods should be static and not rely on modifying the object state;
@@ -167,15 +169,13 @@ class AddWaterBackend():
     # safe and the uninstaller is fully settled on
     def _reset_full_uninstall(self):
         # TODO is there a cleaner way to implement this?
-        log.warning(f"Removing theme from all profiles in path [{self.app_path}]...")
-        for each in self.profile_list:
+        log.warning(f"Uninstalling theme from all know profiles...")
+        profiles = self.app_details.get_profiles()
+        for each in profiles:
             profile_id = each["id"]
             self.remove_theme(profile_id)
 
-        log.info('Full uninstall from all themes done.')
-
-
-
+        log.info('Full uninstall done.')
 
 
 

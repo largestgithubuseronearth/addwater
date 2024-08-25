@@ -36,8 +36,9 @@
 										</child>
 										<child>
 											<object class="AdwComboRow" id="color_combobox">
+										  <!-- TODO dev doesn't actively support color palette themes so this will be invisible for now. Change this once there's more support.-->
+											  <property name="visible">false</property>
 												<property name="title" translatable="yes">Color Theme</property>
-												<!-- TODO check for other areas where this color appears -->
 												<property name="subtitle" translatable="yes">Select primary color for Search Bar</property>
 												<property name="model">
 													<object class="GtkStringList" id="color_combobox_list">
