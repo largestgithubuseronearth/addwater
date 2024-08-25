@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<!-- TODO bind window sizes in gschema -->
-	<!-- TODO set min window size -->
 <interface>
 <requires lib="gtk" version="4.0"/>
 <requires lib="Adw" version="1.0"/>
@@ -8,9 +6,6 @@
 		<property name="default-width">500</property>
 		<property name="default-height">700</property>
 		<property name="title">Add Water to Firefox</property>
-		<style>
-			<class name="devel"/>
-		</style>
 		<property name="content">
 
 				<object class="AdwToolbarView" id="main_toolbar_view">
@@ -27,7 +22,7 @@
 							</child>
 						</object>
 					</child>
-					<!-- WINDOW CONTENT PLACED BY CODE-->
+					<!-- WINDOW CONTENT PLACED BY CODE -->
 				</object>
 
 		</property>

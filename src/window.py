@@ -23,10 +23,11 @@ import os.path
 import shutil
 
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
-from .addwater_page import AddWaterPage
+from .page import AddWaterPage
 from .theme_options import FIREFOX_OPTIONS
 from .utils import logs, paths
 
+from addwater import info
 from .backend import AddWaterBackend
 from .components.details import AppDetails
 from .components.install import InstallManager
@@ -50,7 +51,22 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        if info.PROFILE == 'developer':
+            self.add_css_class('devel')
+
+        self.set_size_request(375, 425) # Minimum size of window Width x Height
+
         self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
+        if info.PROFILE == 'user':
+            self.settings.bind(
+                'window-height', self, 'default-height', Gio.SettingsBindFlags.DEFAULT
+            )
+            self.settings.bind(
+                'window-width', self, 'default-width', Gio.SettingsBindFlags.DEFAULT
+            )
+            self.settings.bind(
+                'window-maximized', self, 'maximized', Gio.SettingsBindFlags.DEFAULT
+            )
 
         # TODO bind window size to GSettings
 
@@ -77,27 +93,24 @@ class AddWaterWindow(Adw.ApplicationWindow):
         log.info(f"Found Firefox Path: {firefox_path}")
 
         # Add page to window
-        try:
-            self.settings.set_string("firefox-path", firefox_path)
+        self.settings.set_string("firefox-path", firefox_path)
 
-            # TODO extract this whole step into main or elsewhere
-            firefox_settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
-            installed_version = firefox_settings.get_int('installed-version')
-            self.firefox_backend = self._construct_backend(
-                theme_url=firefox_url,
-                app_name='Firefox',
-                app_options=FIREFOX_OPTIONS,
-                app_path=firefox_path,
-                installed_version=installed_version,
-            )
+        # TODO extract this whole step into main or elsewhere
+        firefox_settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
+        installed_version = firefox_settings.get_int('installed-version')
+        self.firefox_backend = self._construct_backend(
+            theme_url=firefox_url,
+            app_name='Firefox',
+            app_options=FIREFOX_OPTIONS,
+            app_path=firefox_path,
+            installed_version=installed_version,
+        )
 
-            self.firefox_page = AddWaterPage(
-                app_name='Firefox',
-                backend=self.firefox_backend
-            )
-        except FatalPageException as err:
-            log.critical("Could not find Firefox path. Displaying error page to user.")
-            self.firefox_page = self.error_status_page("Firefox")
+        self.firefox_page = AddWaterPage(
+            app_name='Firefox',
+            backend=self.firefox_backend
+        )
+
 
         self.main_toolbar_view.set_content(self.firefox_page)
 

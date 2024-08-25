@@ -29,6 +29,7 @@ from gi.repository import Gtk, Gio, Adw, Gdk
 from .window import AddWaterWindow
 from .preferences import AddWaterPreferences
 
+from addwater import info
 from .utils.logs import init_logs
 from .utils import paths
 
@@ -64,10 +65,10 @@ class AddWaterApplication(Adw.Application):
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
         # TODO info.py.in seems like a good model for how to do this. But requires meson tinkering
-        about = Adw.AboutDialog(application_name='AddWater',
+        about = Adw.AboutDialog(application_name='Add Water',
                                 application_icon='dev.qwery.AddWater',
                                 developer_name='qwery',
-                                version="alpha",
+                                version=info.VERSION,
                                 developers=['Qwery'],
                                 copyright='© 2024 Qwery',
                                 license_type=Gtk.License.GPL_3_0)

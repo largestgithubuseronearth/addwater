@@ -21,6 +21,7 @@ from os.path import join, exists
 from typing import Optional
 from enum import Enum
 from configparser import ConfigParser
+from addwater.utils import paths
 import logging
 
 log = logging.getLogger(__name__)
@@ -46,11 +47,14 @@ class AppDetails():
 
     name: str
     options: list[dict[any]]
-    data_path: str
-    autofind_data_path: bool
 
+    data_path: str
     profiles_list: list[dict[str,str]]
+
+    autofind_data_path: bool
     installed_version: int
+
+    theme_download_path: str = join(paths.DOWNLOAD_DIR, 'firefox', 'firefox-gnome-theme')
 
     def __init__(self, name: str, options: list[dict[any]], data_path: str, installed_version: int):
         self.name = name
@@ -63,6 +67,10 @@ class AppDetails():
         except FileNotFoundError as err:
             log.critical(err)
             raise FatalBackendError(f'App cannot continue without profile data: {err}')
+
+    def new_from_json(self, config_file):
+        print('created App Details from json')
+        pass
 
 
 
@@ -103,6 +111,9 @@ class AppDetails():
 
 
     """PRIVATE METHODS"""
+    # TODO When firefox renames a profile, it keeps the original path but changes the name field in
+    # profiles.ini. By relying on the path to find the name, the name shown in my app does
+    # not match the user's actual profile name. Change this method to account for this.
     @staticmethod
     def _find_profiles(app_path: str) -> list[dict[str,str]]:
         """Reads the app profile data files and returns a list of known profiles.
@@ -126,35 +137,41 @@ class AppDetails():
         if not exists(profiles_file):
             raise FileNotFoundError('profiles.ini file not found')
 
-        # Find preferred profile first so it's always at top of list
+        # Find preferred profile paths
         cfg.read(install_file)
         for each in cfg.sections():
             default_profile = cfg[each]["Default"]
             defaults.append(default_profile)
-            profiles.append({
-                "id" : default_profile,
-                "name" : default_profile.partition(".")[2] + " (Preferred)"
-            })
-            log.debug(f"User's default profile is {default_profile}")
+            log.debug(f"Preferred profile: {default_profile}")
 
-        # Find all others
+        # Find all paths and names
         cfg.read(profiles_file)
         for each in cfg.sections():
             try:
-                s = cfg[each]["path"]
-                if s in defaults:
+                path = cfg[each]["path"]
+                name = cfg[each]["name"]
+                if path in defaults:
+                    name = name + ' (Preferred)'
                     pass
+
                 profiles.append({
-                    "id" : s,
-                    "name" : s.partition(".")[2]
+                    "id" : path, "name" : name
                 })
-            # TODO find a way to be more explicit instead of relying on this except pass
             except KeyError:
                 pass
+
+        # Sort so preferred names are first
+        # TODO also sort alphabetically
+        profiles.sort(reverse=True, key=_sort_profile_by_preferred)
+
+        print(profiles)
 
         if profiles is None:
             raise FileNotFoundError('installs.ini and profiles.ini exist but do not have any profiles.')
         return profiles
+
+def _sort_profile_by_preferred(item: str) -> bool:
+    return item["name"].endswith(" (Preferred)")
 
 
 

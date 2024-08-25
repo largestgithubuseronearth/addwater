@@ -1,6 +1,4 @@
-#!@PYTHON@
-
-# addwater.in
+# info.py.in
 #
 # Copyright 2024 Qwery
 #
@@ -19,29 +17,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import os
-import sys
-import signal
-import locale
-import gettext
-
 VERSION = '@VERSION@'
-pkgdatadir = '@pkgdatadir@'
-localedir = '@localedir@'
 PROFILE = '@PROFILE@'
 
-sys.path.insert(1, pkgdatadir)
-signal.signal(signal.SIGINT, signal.SIG_DFL)
-locale.bindtextdomain('addwater', localedir)
-locale.textdomain('addwater')
-gettext.install('addwater', localedir)
-
-if __name__ == '__main__':
-    import gi
-
-    from gi.repository import Gio
-    resource = Gio.Resource.load(os.path.join(pkgdatadir, 'addwater.gresource'))
-    resource._register()
-
-    from addwater import main
-    sys.exit(main.main(VERSION))

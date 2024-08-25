@@ -2,3 +2,9 @@
 # testing profile
 # production
 # development
+option(
+	'profile',
+	type : 'combo',
+	choices : ['user', 'developer'],
+	value : 'user'
+)
