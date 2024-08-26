@@ -33,7 +33,7 @@ log = logging.getLogger(__name__)
 class AddWaterPreferences(Adw.PreferencesDialog):
     __gtype_name__ = "AddWaterPreferences"
 
-    FIREFOX_VERSIONS = FIREFOX_PATHS
+    FIREFOX_FORMATS = FIREFOX_PATHS
 
     firefox_package_combobox = Gtk.Template.Child()
     firefox_package_combobox_list = Gtk.Template.Child()
@@ -48,21 +48,20 @@ class AddWaterPreferences(Adw.PreferencesDialog):
         self.firefox_path = self.settings.get_string("firefox-path")
         self._init_firefox_combobox()
 
-        # TODO notify of selected_item changing and deal with it in the handler
         self.firefox_package_combobox.notify("selected-item")
         self.firefox_package_combobox.connect("notify::selected-item", self._set_firefox_package)
 
 
     def _init_firefox_combobox(self):
-        for each in self.FIREFOX_VERSIONS:
+        for each in self.FIREFOX_FORMATS:
             self.firefox_package_combobox_list.append(each["name"])
 
         if self.settings.get_boolean("autofind-paths") is False:
             user_path = self.firefox_path
 
-            for each in self.FIREFOX_VERSIONS:
+            for each in self.FIREFOX_FORMATS:
                 if each["path"] == user_path:
-                    i = self.FIREFOX_VERSIONS.index(each) + 1
+                    i = self.FIREFOX_FORMATS.index(each) + 1
 
             self.firefox_package_combobox.set_selected(i)
 
@@ -79,7 +78,7 @@ class AddWaterPreferences(Adw.PreferencesDialog):
         log.warning("Autofind paths disabled")
         selected = row.get_selected_item().get_string()
 
-        for each in self.FIREFOX_VERSIONS:
+        for each in self.FIREFOX_FORMATS:
             if selected == each["name"]:
                 log.info(f'User specified path: {each["path"]}')
                 self.settings.set_string("firefox-path", each["path"])

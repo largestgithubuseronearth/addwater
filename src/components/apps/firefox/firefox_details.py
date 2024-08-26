@@ -17,6 +17,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from gi.repository import Gio
+
 from os.path import join, exists
 from typing import Optional
 from enum import Enum
@@ -24,11 +26,23 @@ from configparser import ConfigParser
 from addwater.utils import paths
 import logging
 
+from addwater.theme_options import FIREFOX_OPTIONS
+from addwater.theme_options import FIREFOX_COLORS
+from addwater.utils.paths import FIREFOX_PATHS
+
 log = logging.getLogger(__name__)
 
 # TODO would it make sense to create "tickets" that are a copy of the original
 # instance — only without ability to be modified — rather than passing in the
-# original object? This would allow for
+# original object? This would allow for only passing part of the app and worrying less about modifying the state.
+
+
+# TODO specialize this into Firefox first and then make it an injectible,
+# dynamic class in the future once the app's core logic has settled and it's
+# clearer what exact variables and roles AppDetails should take responsibility
+# for.
+
+
 class AppDetails():
     """Conveniently stores important app info to reduce how many arguments
     need to be passed around. If a method requires more than three pieces of info,
@@ -45,32 +59,33 @@ class AppDetails():
                         as well as profiles.ini and installs.ini
     """
 
-    name: str
-    options: list[dict[any]]
-
+    # primary
+    name: str = 'Firefox'
+    installed_version: int
+    theme_download_path: str = join(paths.DOWNLOAD_DIR, 'firefox', 'firefox-gnome-theme')
+    # install
+    options: list[dict[any]] = FIREFOX_OPTIONS
+    autofind_data_path: bool
     data_path: str
     profiles_list: list[dict[str,str]]
+    # online
+    theme_gh_url = 'https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases'
 
-    autofind_data_path: bool
-    installed_version: int
 
-    theme_download_path: str = join(paths.DOWNLOAD_DIR, 'firefox', 'firefox-gnome-theme')
 
-    def __init__(self, name: str, options: list[dict[any]], data_path: str, installed_version: int):
-        self.name = name
-        self.options = options
-        self.set_data_path(data_path)
-        self.set_installed_version(installed_version)
+    def __init__(self,):
+        self.settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
+        self.autofind_data_path = self.settings.get_boolean('autofind-paths')
+        self.set_installed_version(self.settings.get_int('installed-version'))
+
+        data_paths = self._find_data_paths(FIREFOX_PATHS)
+        self.set_data_path(data_paths[0]["path"])
 
         try:
             self.profiles_list = self._find_profiles(self.data_path)
         except FileNotFoundError as err:
             log.critical(err)
             raise FatalBackendError(f'App cannot continue without profile data: {err}')
-
-    def new_from_json(self, config_file):
-        print('created App Details from json')
-        pass
 
 
 
@@ -111,9 +126,6 @@ class AppDetails():
 
 
     """PRIVATE METHODS"""
-    # TODO When firefox renames a profile, it keeps the original path but changes the name field in
-    # profiles.ini. By relying on the path to find the name, the name shown in my app does
-    # not match the user's actual profile name. Change this method to account for this.
     @staticmethod
     def _find_profiles(app_path: str) -> list[dict[str,str]]:
         """Reads the app profile data files and returns a list of known profiles.
@@ -164,11 +176,30 @@ class AppDetails():
         # TODO also sort alphabetically
         profiles.sort(reverse=True, key=_sort_profile_by_preferred)
 
-        print(profiles)
-
         if profiles is None:
-            raise FileNotFoundError('installs.ini and profiles.ini exist but do not have any profiles.')
+            raise FatalAppDetailsError('installs.ini and profiles.ini exist but do not have any profiles available.')
         return profiles
+
+
+    def _find_data_paths(self, path_list):
+        """Iterates over all common Firefox config directories and returns which one exists.
+
+        Args:
+            path_list = Either of the list of dicts from the paths module to make it easy to iterate over
+        """
+        found = []
+        for each in path_list:
+            path = each["path"]
+            if exists(path):
+                name = each["name"]
+                log.info(f"Found Firefox path: {name} — {path}")
+                found.append(each)
+        if not found:
+            log.error('Could not find any valid data paths. App cannot function.')
+            raise FatalAppDetailsError('Could not find any valid data paths')
+
+        return found
+
 
 def _sort_profile_by_preferred(item: str) -> bool:
     return item["name"].endswith(" (Preferred)")
@@ -176,5 +207,8 @@ def _sort_profile_by_preferred(item: str) -> bool:
 
 
 class AppDetailsException(Exception):
+    pass
+
+class FatalAppDetailsError(Exception):
     pass
 

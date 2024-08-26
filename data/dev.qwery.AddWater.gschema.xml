@@ -18,17 +18,19 @@
 		<key name="thunderbird-path" type="s">
 			<default>""</default>
 		</key>
-		<key name="autofind-paths" type="b">
-			<default>true</default>
-			<summary>Automatically Discover Package Type</summary>
-		</key>
 	</schema>
 
 
 	<!-- Firefox -->
 	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox/">
+		<key name="autofind-paths" type="b">
+			<default>true</default>
+			<summary>Automatically Discover Package Type</summary>
+		</key>
+
 		<key name="installed-version" type="i">
 			<default>0</default>
+		  <summary>Most recently installed version of the firefox gnome theme</summary>
 		</key>
 
 		<!-- General -->
@@ -36,10 +38,10 @@
 			<default>false</default>
 
 		</key>
-		<key name="last-profile" type="s">
+		<key name="profile-selected" type="s">
 			<default>""</default>
 		</key>
-		<key name="color-theme" type="s">
+		<key name="palette-selected" type="s">
 			<default>"Adwaita"</default>
 		</key>
 

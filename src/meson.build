@@ -11,12 +11,19 @@ gnome.compile_resources('addwater',
 
 python = import('python')
 
-profile = get_option('profile')
 # TODO set up app_id and everything else to make it easier
+profile = get_option('profile')
+if profile == 'user'
+	app_id = 'dev.qwery.AddWater'
+elif profile =='developer'
+	app_id = 'dev.qwery.AddWater.devel'
+endif
+
 
 conf = configuration_data()
 conf.set('PYTHON', python.find_installation('python3').full_path())
 conf.set('VERSION', meson.project_version())
+conf.set('APP_ID', 'dev.qwery.AddWater')
 conf.set('PROFILE', profile)
 conf.set('localedir', get_option('prefix') / get_option('localedir'))
 conf.set('pkgdatadir', pkgdatadir)
@@ -42,7 +49,8 @@ addwater_sources = [
   'backend.py',
 
   'components/apps/firefox/firefox_install.py',
-  'components/details.py',
+  'components/apps/firefox/firefox_details.py',
+  # 'components/details.py',
   'components/install.py',
   'components/online.py',
 

@@ -18,8 +18,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-# TODO separate binding switches and applying/discard from all other GSet use cases.
+# TODO separate (binding switches and applying/discard) from all other GSet use cases.
 # In other cases, they can just create their own temp settings object
+
+# FIXME if profile is deleted and user doesn't change the profile combo box,
+# installations will fail because the now-deleted "selected profile" can't be installed to.
 
 
 import logging
@@ -27,13 +30,9 @@ import logging
 from datetime import timedelta
 from typing import Optional
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
-from .utils import paths
-from .theme_options import FIREFOX_COLORS
 
-from .backend import AddWaterBackend
-from .components.details import AppDetails
-from .components.install import InstallManager
-from .components.online import OnlineManager
+# TODO grab colors from appdetails not import
+from .theme_options import FIREFOX_COLORS
 
 log = logging.getLogger(__name__)
 
@@ -74,7 +73,7 @@ class AddWaterPage(Adw.Bin):
         self.settings.delay()
 
         # Profiles
-        self.selected_profile = self.settings.get_string("last-profile")
+        self.selected_profile = self.settings.get_string("profile-selected")
         self.profile_list = self.backend.get_profile_list()
 
         options = self.backend.get_app_options()
@@ -116,7 +115,8 @@ class AddWaterPage(Adw.Bin):
                 msg = 'Checking for updates failed due to a network issue'
             case update_status.RATELIMITED:
                 msg = 'Update failed due to Github rate limits. Please try again later.'
-            case _:
+            case _update_status.NO_UPDATE:
+                # TODO test this case, if it still always returns updated, fix in online_manager
                 msg = None
         if msg:
             self.send_toast(msg)
@@ -129,7 +129,8 @@ class AddWaterPage(Adw.Bin):
         self.settings.apply()
 
         theme_enabled = self.settings.get_boolean('theme-enabled')
-        color_palette = self.settings.get_string('color-theme')
+        color_palette = self.settings.get_string('palette-selected')
+
         if theme_enabled:
             log.info(f'GUI calling for install..')
             install_status = self.backend.full_install(
@@ -191,16 +192,16 @@ class AddWaterPage(Adw.Bin):
                 break
 
         # This compare check avoids triggering "has-unapplied" at app launch
-        if self.selected_profile != self.settings.get_string("last-profile"):
-            self.settings.set_string("last-profile", self.selected_profile)
+        if self.selected_profile != self.settings.get_string("profile-selected"):
+            self.settings.set_string("profile-selected", self.selected_profile)
 
 
     def _set_colors_gsettingss(self, row, _=None):
         selected_color = row.get_selected_item().get_string().lower()
 
         # This compare check avoids triggering "has-unapplied" at app launch
-        if selected_color != self.settings.get_string("color-theme"):
-            self.settings.set_string("color-theme", selected_color)
+        if selected_color != self.settings.get_string("palette-selected"):
+            self.settings.set_string("palette-selected", selected_color)
 
 
     def _init_gui(self, options, profile_list):
@@ -273,7 +274,7 @@ class AddWaterPage(Adw.Bin):
             title=title,
             subtitle=subtitle,
         )
-        # TODO make this popover appear when clicking the info button
+        # TODO test to ensure info button shows the proper text popover when clicked
         if extra_info:
             info_popup = Gtk.Popover(
                 autohide=True,
@@ -284,7 +285,9 @@ class AddWaterPage(Adw.Bin):
                 icon_name='info-outline-symbolic',
                 valign="center",
                 vexpand=False,
+                # child=info_popup,
             )
+            # info_button.connect('clicked', info_popup.present)
             row.add_suffix(info_button)
 
 
@@ -299,7 +302,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def _reset_profile_combobox(self,):
-        last_profile = self.settings.get_string("last-profile")
+        last_profile = self.settings.get_string("profile-selected")
         if not last_profile:
             return
         for each in self.profile_list:
@@ -313,7 +316,7 @@ class AddWaterPage(Adw.Bin):
 
 
     def _reset_color_combobox(self,):
-        selected = self.settings.get_string("color-theme")
+        selected = self.settings.get_string("palette-selected")
         if not selected:
             return
         selected = selected.title()

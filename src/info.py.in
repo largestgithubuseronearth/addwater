@@ -17,6 +17,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+
+APP_ID = '@APP_ID@'
 VERSION = '@VERSION@'
 PROFILE = '@PROFILE@'
 
