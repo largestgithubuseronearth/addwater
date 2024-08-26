@@ -20,18 +20,27 @@
 import sys
 import gi
 import logging
-
+import os, os.path
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
+
 from gi.repository import Gtk, Gio, Adw, Gdk
 
 from .window import AddWaterWindow
 from .preferences import AddWaterPreferences
 
 from addwater import info
-from .utils.logs import init_logs
 from .utils import paths
+from .utils.logs import init_logs
+
+from addwater.theme_options import FIREFOX_OPTIONS, FIREFOX_COLORS
+from addwater.components.apps.firefox.firefox_install import install_for_firefox
+from addwater.backend import AddWaterBackend
+from .components.online import OnlineManager
+from .components.install import InstallManager
+# from .components.details import AppDetails, FatalAppDetailsError
+from addwater.components.apps.firefox.firefox_details import AppDetails, FatalAppDetailsError
 
 log = logging.getLogger(__name__)
 
@@ -56,10 +65,72 @@ class AddWaterApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
+
+        backend = self._setup_logic_part()
+        print('ahhhhhhhhhhhhhhhh', backend)
+
         win = self.props.active_window
         if not win:
-            win = AddWaterWindow(application=self)
+            win = AddWaterWindow(application=self, backends=[backend,])
         win.present()
+
+###################################################################################
+
+    # TODO refactor all this garbage to make some sense. rn i just need it out
+    # of the window class for now
+    def _setup_logic_part(self):
+        self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
+
+        firefox_path = os.path.expanduser(self.settings.get_string("firefox-path"))
+        if os.path.exists(firefox_path) is False:
+            log.warning(f"Prior Firefox path no longer exists {firefox_path}")
+        log.info(f"Found Firefox Path: {firefox_path}")
+
+        # Add page to window
+        self.settings.set_string("firefox-path", firefox_path)
+
+        # TODO extract this whole step into main or elsewhere
+        firefox_settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
+        installed_version = firefox_settings.get_int('installed-version')
+        return self._construct_backend(
+            theme_url='lorem ipsum',
+            app_name='Firefox',
+            app_options=FIREFOX_OPTIONS,
+            app_path=firefox_path,
+            installed_version=installed_version,
+        )
+
+    @staticmethod
+    def _construct_backend(theme_url, app_name, app_options, app_path, installed_version):
+        install_manager = InstallManager(
+            installer=install_for_firefox,
+        )
+
+        online_manager = OnlineManager(
+            theme_url=theme_url,
+        )
+
+        # app_details = AppDetails(
+        #     name=app_name,
+        #     options=app_options,
+        #     data_path=app_path,
+        #     installed_version=installed_version,
+        # )
+        app_details = AppDetails()
+
+        firefox_backend = AddWaterBackend(
+            app_details=app_details,
+            install_manager=install_manager,
+            online_manager=online_manager,
+        )
+        print('weeeee', firefox_backend)
+        return firefox_backend
+
+    # TODO set up reset action again
+
+
+###################################################################################
+
 
 
     def on_about_action(self, widget, _):
