@@ -69,9 +69,7 @@ class OnlineManager():
             final_name = f'{app_name}-gnome-theme'
             try:
                 self.get_release(
-                    base_name=base_name,
-                    final_name=final_name,
-                    tarball_url=tarball_url
+                    base_name=base_name, final_name=final_name, tarball_url=tarball_url
                 )
             except NetworkException as err:
                 return OnlineStatus.DISCONNECTED
@@ -106,14 +104,14 @@ class OnlineManager():
 
         if not exists(zipfile) or not exists(extract_path):
             try:
-                self._download_release(tarball_url, zipfile)
+                self._download_tarball(tarball_url, zipfile)
             except (requests.RequestException, requests.ConnectionError) as err:
                 log.error(err)
                 raise NetworkException(err)
 
         if not exists(extract_path):
             try:
-                self._extract_release(zipfile, extract_path)
+                self._extract_tarball(zipfile, extract_path)
             except (FileNotFoundError, tarfile.TarError) as err:
                 # TODO find a better error to throw
                 raise ExtractionException('Theme files failed to extract')
@@ -130,7 +128,7 @@ class OnlineManager():
     """PRIVATE FUNCTIONS"""
     # TODO how to make download asynchronous?
     @staticmethod
-    def _download_release(dl_url: str, result: str) -> None:
+    def _download_tarball(dl_url: str, result: str) -> None:
         """Download file and write to a file
 
         Args:
@@ -151,7 +149,7 @@ class OnlineManager():
 
 
     @staticmethod
-    def _extract_release(zipfile_path: str, result_path: str) -> None:
+    def _extract_tarball(zipfile_path: str, result_path: str) -> None:
         """Extracts tar.gz files. It's important to know that this destroys the tar after the extraction is done.
 
         Args:
@@ -233,6 +231,7 @@ class OnlineManager():
     @staticmethod
     def _is_ratelimit_exceeded(api_calls_left: int) -> bool:
         # TODO Set API limit more robust and strict before flathub release
+        # Maybe set the time and api calls remaining in gsettings
         CHOSEN_LIMIT = 10
         log.debug(f'Remaining Github API calls for the next hour: {api_calls_left}')
         return bool(api_calls_left < CHOSEN_LIMIT)
@@ -242,7 +241,7 @@ class OnlineManager():
     def _is_update_available(current: int, new: int) -> bool:
         if type(current) is not int or type(new) is not int:
             raise ValueError
-        # TODO consider making this consider special cases like rollbacks or partial updates
+        # TODO consider making this handle special cases like rollbacks or minor updates
         return bool(new > current)
 
 

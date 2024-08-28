@@ -20,6 +20,7 @@
 import sys
 import gi
 import logging
+import shutil
 import os, os.path
 
 gi.require_version('Gtk', '4.0')
@@ -34,13 +35,9 @@ from addwater import info
 from .utils import paths
 from .utils.logs import init_logs
 
-from addwater.theme_options import FIREFOX_OPTIONS, FIREFOX_COLORS
-from addwater.components.apps.firefox.firefox_install import install_for_firefox
-from addwater.backend import AddWaterBackend
-from .components.online import OnlineManager
-from .components.install import InstallManager
+from addwater.backend import BackendFactory
 # from .components.details import AppDetails, FatalAppDetailsError
-from addwater.components.apps.firefox.firefox_details import AppDetails, FatalAppDetailsError
+from addwater.components.apps.firefox.firefox_details import FirefoxAppDetails, FatalAppDetailsError
 
 log = logging.getLogger(__name__)
 
@@ -54,6 +51,7 @@ class AddWaterApplication(Adw.Application):
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action, ['<Ctrl>comma'])
         self.create_action('open-help-page', self.on_help_action)
+        self.create_action('reset-app', self.on_reset_app_action)
 
         paths.init_paths()
         init_logs()
@@ -66,68 +64,38 @@ class AddWaterApplication(Adw.Application):
         necessary.
         """
 
-        backend = self._setup_logic_part()
-        print('ahhhhhhhhhhhhhhhh', backend)
+        # Create logic backend
+        self.backends = []
+        firefox_backend = self._setup_logic_part()
+        self.backends.append(firefox_backend)
 
+        # Create window with the logic it needs
         win = self.props.active_window
         if not win:
-            win = AddWaterWindow(application=self, backends=[backend,])
+            win = AddWaterWindow(application=self, backends=self.backends)
         win.present()
 
 ###################################################################################
 
-    # TODO refactor all this garbage to make some sense. rn i just need it out
-    # of the window class for now
     def _setup_logic_part(self):
-        self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
+        # TODO This needs to eventually allow for multiple apps.
+        # How would it check for which to add? Would this be manual?
+        return BackendFactory.new_from_appdetails(FirefoxAppDetails())
 
-        firefox_path = os.path.expanduser(self.settings.get_string("firefox-path"))
-        if os.path.exists(firefox_path) is False:
-            log.warning(f"Prior Firefox path no longer exists {firefox_path}")
-        log.info(f"Found Firefox Path: {firefox_path}")
 
-        # Add page to window
-        self.settings.set_string("firefox-path", firefox_path)
+    def on_reset_app_action(self, *_):
+        log.warning('Resetting the entire app...')
 
-        # TODO extract this whole step into main or elsewhere
-        firefox_settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
-        installed_version = firefox_settings.get_int('installed-version')
-        return self._construct_backend(
-            theme_url='lorem ipsum',
-            app_name='Firefox',
-            app_options=FIREFOX_OPTIONS,
-            app_path=firefox_path,
-            installed_version=installed_version,
-        )
+        # TODO temporarily indexing until app can support multiple backends
+        backend = self.backends[0]
+        backend._reset_settings()
 
-    @staticmethod
-    def _construct_backend(theme_url, app_name, app_options, app_path, installed_version):
-        install_manager = InstallManager(
-            installer=install_for_firefox,
-        )
 
-        online_manager = OnlineManager(
-            theme_url=theme_url,
-        )
+        # TODO delete download path
+        shutil.rmtree(paths.DOWNLOAD_DIR)
 
-        # app_details = AppDetails(
-        #     name=app_name,
-        #     options=app_options,
-        #     data_path=app_path,
-        #     installed_version=installed_version,
-        # )
-        app_details = AppDetails()
-
-        firefox_backend = AddWaterBackend(
-            app_details=app_details,
-            install_manager=install_manager,
-            online_manager=online_manager,
-        )
-        print('weeeee', firefox_backend)
-        return firefox_backend
-
-    # TODO set up reset action again
-
+        log.info('App has been reset and will be closed now.')
+        self.quit()
 
 ###################################################################################
 

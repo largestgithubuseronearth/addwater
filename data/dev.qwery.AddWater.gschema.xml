@@ -11,18 +11,14 @@
 	  <key name="window-maximized" type="b">
       <default>false</default>
 	  </key>
-
-		<key name="firefox-path" type="s">
-			<default>""</default>
-		</key>
-		<key name="thunderbird-path" type="s">
-			<default>""</default>
-		</key>
 	</schema>
 
 
 	<!-- Firefox -->
 	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox/">
+		<key name="data-path" type="s">
+			<default>""</default>
+		</key>
 		<key name="autofind-paths" type="b">
 			<default>true</default>
 			<summary>Automatically Discover Package Type</summary>
@@ -88,5 +84,9 @@
 
 	<!-- Thunderbird (finish when ready to support)-->
 	<schema path="/dev/qwery/AddWater/Thunderbird/" id="dev.qwery.AddWater.Thunderbird">
+		<key name="thunderbird-path" type="s">
+			<default>""</default>
+		</key>
+
 	</schema>
 </schemalist>

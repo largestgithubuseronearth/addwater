@@ -17,18 +17,19 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gio
+import logging
 
 from os.path import join, exists
 from typing import Optional
 from enum import Enum
 from configparser import ConfigParser
-from addwater.utils import paths
-import logging
 
-from addwater.theme_options import FIREFOX_OPTIONS
-from addwater.theme_options import FIREFOX_COLORS
-from addwater.utils.paths import FIREFOX_PATHS
+from gi.repository import Gio
+
+from addwater.utils import paths
+from .firefox_options import FIREFOX_OPTIONS, FIREFOX_COLORS
+from .firefox_paths import FIREFOX_PATHS
+from .firefox_install import install_for_firefox
 
 log = logging.getLogger(__name__)
 
@@ -43,7 +44,7 @@ log = logging.getLogger(__name__)
 # for.
 
 
-class AppDetails():
+class FirefoxAppDetails():
     """Conveniently stores important app info to reduce how many arguments
     need to be passed around. If a method requires more than three pieces of info,
     just pass this object into managers and let them find what they need.
@@ -59,26 +60,35 @@ class AppDetails():
                         as well as profiles.ini and installs.ini
     """
 
+    package_formats: list[dict[str,str]] = FIREFOX_PATHS
+
     # primary
     name: str = 'Firefox'
     installed_version: int
-    theme_download_path: str = join(paths.DOWNLOAD_DIR, 'firefox', 'firefox-gnome-theme')
+
     # install
+    installer: callable = install_for_firefox
     options: list[dict[any]] = FIREFOX_OPTIONS
+    color_palettes: list = FIREFOX_COLORS
     autofind_data_path: bool
     data_path: str
     profiles_list: list[dict[str,str]]
+
     # online
-    theme_gh_url = 'https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases'
+    theme_gh_url: str = 'https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases'
 
 
 
     def __init__(self,):
         self.settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
-        self.autofind_data_path = self.settings.get_boolean('autofind-paths')
-        self.set_installed_version(self.settings.get_int('installed-version'))
 
-        data_paths = self._find_data_paths(FIREFOX_PATHS)
+        version = self.settings.get_int('installed-version')
+        self.set_installed_version(version)
+        self.set_update_version(version)
+
+        self.autofind_data_path = self.settings.get_boolean('autofind-paths')
+        data_paths = self._find_data_paths(self.package_formats)
+        # TODO make this handle having multiple available paths
         self.set_data_path(data_paths[0]["path"])
 
         try:
@@ -90,8 +100,25 @@ class AppDetails():
 
 
     """PUBLIC METHODS"""
+    def _reset_settings(self,):
+        log.info(f'Resetting all gsettings for {self.app_name}')
+        self.settings.reset("data-path")
+        self.settings.reset("autofind-paths")
+        self.settings.reset("installed-version")
+
+        for each in self.options:
+            gset_key = each['key']
+            self.settings.reset(gset_key)
+        log.info('Done')
+
 
     """Getters"""
+    def get_theme_download_path(self,):
+        return self.theme_download_path
+
+    def get_color_palettes(self,):
+        return self.color_palettes
+
     def get_name(self,):
         return self.name
 
@@ -107,6 +134,15 @@ class AppDetails():
     def get_profiles(self,):
         return self.profiles_list
 
+    def get_info_url(self,):
+        return self.theme_gh_url
+
+    def set_update_version(self, version):
+        # TODO sloppy way to do this, should be more explicit and intuitive
+        self.theme_download_path = join(
+            paths.DOWNLOAD_DIR, f'firefox-{version}-extracted', 'firefox-gnome-theme'
+        )
+
 
     """Setters"""
     def set_data_path(self, new_path: str):
@@ -118,6 +154,7 @@ class AppDetails():
 
         log.error(f'Tried to set app_path to non-existant path. Path given: {new_path}')
         raise AppDetailsException('Data path given does not exist')
+
 
     def set_installed_version(self, new_version: int,) -> None:
         log.info(f'Set installed version number to {new_version}')
@@ -180,8 +217,8 @@ class AppDetails():
             raise FatalAppDetailsError('installs.ini and profiles.ini exist but do not have any profiles available.')
         return profiles
 
-
-    def _find_data_paths(self, path_list):
+    @staticmethod
+    def _find_data_paths(path_list: list[dict[str,str]]) -> list[dict[str,str]]:
         """Iterates over all common Firefox config directories and returns which one exists.
 
         Args:

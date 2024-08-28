@@ -36,7 +36,7 @@
 										<property name="title">Remove Water</property>
 										<property name="activatable">true</property>
 										<property name="selectable">false</property>
-								  		<property name="action-name">win.reset-app</property>
+								  		<property name="action-name">app.reset-app</property>
 										<child>
 											<object class="GtkBox">
 												<property name="spacing">6</property>

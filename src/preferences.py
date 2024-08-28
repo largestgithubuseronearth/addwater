@@ -42,10 +42,9 @@ class AddWaterPreferences(Adw.PreferencesDialog):
         super().__init__()
         log.info("Preferences Window activated")
 
-        self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
         self.settings_firefox = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
 
-        self.firefox_path = self.settings.get_string("firefox-path")
+        self.firefox_path = self.settings_firefox.get_string("data-path")
         self._init_firefox_combobox()
 
         self.firefox_package_combobox.notify("selected-item")
@@ -56,7 +55,7 @@ class AddWaterPreferences(Adw.PreferencesDialog):
         for each in self.FIREFOX_FORMATS:
             self.firefox_package_combobox_list.append(each["name"])
 
-        if self.settings.get_boolean("autofind-paths") is False:
+        if self.settings_firefox.get_boolean("autofind-paths") is False:
             user_path = self.firefox_path
 
             for each in self.FIREFOX_FORMATS:
@@ -70,17 +69,17 @@ class AddWaterPreferences(Adw.PreferencesDialog):
         selected_index = row.get_selected()
         # First option is always Automatically Discover
         if selected_index == 0:
-            self.settings.set_boolean("autofind-paths", True)
+            self.settings_firefox.set_boolean("autofind-paths", True)
             log.warning("Autofind paths enabled")
             return
 
-        self.settings.set_boolean("autofind-paths", False)
+        self.settings_firefox.set_boolean("autofind-paths", False)
         log.warning("Autofind paths disabled")
         selected = row.get_selected_item().get_string()
 
         for each in self.FIREFOX_FORMATS:
             if selected == each["name"]:
                 log.info(f'User specified path: {each["path"]}')
-                self.settings.set_string("firefox-path", each["path"])
+                self.settings_firefox.set_string("data-path", each["path"])
                 self.firefox_path = each["path"]
 

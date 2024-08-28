@@ -60,7 +60,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
             self.settings.bind(
                 'window-maximized', self, 'maximized', Gio.SettingsBindFlags.DEFAULT
             )
-        print('ppoooooooooooooooh,',  backends)
         for each in backends:
             self.create_firefox_page(each)
 
