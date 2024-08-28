@@ -22,7 +22,7 @@ import os
 import logging
 import shutil
 from os.path import join, exists
-from addwater.components.install import InstallException
+# from addwater.components.install import InstallException
 
 log = logging.getLogger(__name__)
 

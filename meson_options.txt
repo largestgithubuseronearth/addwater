@@ -6,5 +6,5 @@ option(
 	'profile',
 	type : 'combo',
 	choices : ['user', 'developer'],
-	value : 'user'
+	value : 'developer'
 )

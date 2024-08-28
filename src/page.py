@@ -32,7 +32,6 @@ from typing import Optional
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 
 # TODO grab colors from appdetails not import
-from .theme_options import FIREFOX_COLORS
 
 log = logging.getLogger(__name__)
 
@@ -76,6 +75,8 @@ class AddWaterPage(Adw.Bin):
         self.selected_profile = self.settings.get_string("profile-selected")
         self.profile_list = self.backend.get_profile_list()
 
+        self.color_palettes = self.backend.get_colors_list()
+
         options = self.backend.get_app_options()
         self._init_gui(options, self.profile_list)
 
@@ -115,7 +116,7 @@ class AddWaterPage(Adw.Bin):
                 msg = 'Checking for updates failed due to a network issue'
             case update_status.RATELIMITED:
                 msg = 'Update failed due to Github rate limits. Please try again later.'
-            case _update_status.NO_UPDATE:
+            case update_status.NO_UPDATE:
                 # TODO test this case, if it still always returns updated, fix in online_manager
                 msg = None
         if msg:
@@ -204,12 +205,14 @@ class AddWaterPage(Adw.Bin):
             self.settings.set_string("palette-selected", selected_color)
 
 
-    def _init_gui(self, options, profile_list):
+    def _init_gui(self, options, profile_list, ):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
         Args:
             options: a json-style list of dictionaries which include all option groups
-                and options that the theme supports. Included in theme_options.py
+                and options that the theme supports.
+            profile_list = list of dicts with "name" and "id"
+            colors = list of strings of all color palettes the theme supports
         """
         # App options
         self.settings.bind(
@@ -226,7 +229,7 @@ class AddWaterPage(Adw.Bin):
             self.preferences_page.add(group)
 
         # Colors list
-        for each in FIREFOX_COLORS:
+        for each in self.color_palettes:
             self.color_combobox_list.append(each)
 
         # Profile list
@@ -317,12 +320,13 @@ class AddWaterPage(Adw.Bin):
 
     def _reset_color_combobox(self,):
         selected = self.settings.get_string("palette-selected")
+        colors_list = self.color_palettes
         if not selected:
             return
         selected = selected.title()
-        for each in FIREFOX_COLORS:
+        for each in colors_list:
             if each == selected:
-                self.color_combobox.set_selected(FIREFOX_COLORS.index(each))
+                self.color_combobox.set_selected(colors_list.index(each))
                 return
 
         raise PageException('Color combo box reset failed')

@@ -44,7 +44,6 @@ addwater_sources = [
   'main.py',
   'window.py',
   'preferences.py',
-  'theme_options.py',
   'page.py',
   'backend.py',
 

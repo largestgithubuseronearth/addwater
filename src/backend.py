@@ -27,8 +27,12 @@ from os.path import join, exists
 from typing import Optional, Callable
 
 from gi.repository import Gio
-from .components.online import OnlineManager
-from .utils.paths import DOWNLOAD_DIR
+
+from addwater import info
+from addwater.components.online import OnlineManager
+from addwater.components.install import InstallManager
+from addwater.utils.paths import DOWNLOAD_DIR
+# from addwater.utils.tests.mocks import mock_online
 
 log = logging.getLogger(__name__)
 
@@ -40,7 +44,6 @@ class AddWaterBackend():
     Relies on injected components that manage those actual processes. This class
     just connects and abstracts those details into easy public methods that can be
     used anywhere.
-
 
     This class can live without a GUI frontend to allow for background updating.
 
@@ -93,7 +96,7 @@ class AddWaterBackend():
     def full_install(self, profile_id: str, color_palette: str="adwaita",) -> Enum:
         version = self.online_manager.get_update_version()
 
-        # TODO remove this GioSEttings and add it to app_details or something
+        # TODO remove this GioSettings and add it to app_details or something
         gset = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
 
         install_status = self.install_manager.full_install(
@@ -132,6 +135,9 @@ class AddWaterBackend():
     def get_app_options(self) -> list[dict[str,any]]:
         return self.app_details.get_options()
 
+    def get_colors_list(self) -> list:
+        return self.app_details.get_color_palettes()
+
     def get_update_version(self,):
         return self.online_manager.get_update_version()
 
@@ -144,6 +150,10 @@ class AddWaterBackend():
             installed_version=installed_version,
             app_name=app_name,
         )
+        # TODO sloppy to do this here. would prefer a cleaner, natural solution
+        new_version = self.get_update_version()
+        self.app_details.set_update_version(new_version)
+
         return update_status
 
     def get_profile_list(self):
@@ -186,3 +196,36 @@ class InterfaceMisuseError(Exception):
 # TODO should I inherit from Exception or an Error?
 class FatalInterfaceError(Exception):
     pass
+
+
+
+
+class BackendFactory():
+
+    @staticmethod
+    def new_from_appdetails(app_details):
+
+        install_method = app_details.installer
+        install_manager = InstallManager(
+            installer=install_method,
+        )
+
+        # TODO figure this out later when I figure out how to set this up with meson
+        # if info.PROFILE == 'developer':
+        #     online_manager = mock_online.MockOnlineManager(False)
+        # elif info.PROFILE == 'user':
+        #     theme_url = app_details.get_info_url()
+        #     online_manager = OnlineManager(
+        #         theme_url=theme_url,
+        theme_url = app_details.get_info_url()
+        online_manager = OnlineManager(
+            theme_url=theme_url,
+        )
+
+        firefox_backend = AddWaterBackend(
+            app_details=app_details,
+            install_manager=install_manager,
+            online_manager=online_manager,
+        )
+        return firefox_backend
+

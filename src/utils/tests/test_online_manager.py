@@ -1,5 +1,6 @@
 # TODO
 import pytest
+import addwater
 
 from addwater.components.online import OnlineManager
 
@@ -17,3 +18,6 @@ def test_is_update_available():
         test_manager._is_update_available([4,79])
 
     assert test_manager.is_update_available(398, 398) == False
+
+if __name__ == "__main__":
+    pytest.main(['test_online_manager.py'])

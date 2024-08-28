@@ -26,6 +26,7 @@ from typing import Optional, Callable
 from enum import Enum
 
 from addwater.utils.paths import DOWNLOAD_DIR
+from addwater.components.apps.firefox.firefox_install import install_for_firefox
 
 log = logging.getLogger(__name__)
 
@@ -41,6 +42,9 @@ class InstallManager():
 
     def __init__(self, installer: callable, preference_handler: callable=None, uninstaller: callable=None):
         self._install_theme = installer
+
+        # TODO DEBUGGING. Find a way to grab this from AppDetails
+        self._install_theme = install_for_firefox
 
         if preference_handler:
             self._set_preferences = preferences_handler
@@ -68,26 +72,23 @@ class InstallManager():
         log.debug(f'Version: v{version}')
         log.debug(f'Color Palette: {color_palette}')
 
-        app_name = app_details.get_name().lower()
         app_path = app_details.get_data_path()
         color_palette = color_palette.lower()
         profile_path = join(app_path, profile_id)
+        theme_path = app_details.get_theme_download_path()
 
         app_options = app_details.get_options()
 
         if not exists(profile_path):
             raise FatalBackendException('Install failed. Profile folder doesn\'t exist.')
 
-
+        log.error(f'profile apth: {profile_path}')
         # Run install script
         try:
             self._install_theme(
                 profile_path=profile_path,
                 color_palette=color_palette,
-                # TODO move this theme_path to app_details
-                theme_path=join(
-                    DOWNLOAD_DIR, f'{app_name}-{version}-extracted', f'{app_name}-gnome-theme'
-                ),
+                theme_path=theme_path
             )
             self._set_preferences(profile_path, app_options, gset_reader)
         except InstallException as err:
@@ -107,7 +108,6 @@ class InstallManager():
         log.debug(f'Version: v{version}')
         log.debug(f'Color Palette: {color_palette}')
 
-        app_name = app_details.get_name.lower()
         app_path = app_details.get_data_path()
         color_palette = color_palette.lower()
         profile_path = join(app_path, profile_id)
@@ -119,10 +119,7 @@ class InstallManager():
             self._install_theme(
                 profile_path=profile_path,
                 color_palette=color_palette,
-                # TODO move this theme_path to app_details
-                theme_path=join(
-                    DOWNLOAD_DIR, f'{app_name}-{version}-extracted', f'{app_name}-gnome-theme'
-                ),
+                theme_path=theme_path,
             )
         except (InstallException, FileNotFoundError) as err:
             log.critical(err)
