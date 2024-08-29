@@ -88,7 +88,7 @@ class AddWaterApplication(Adw.Application):
 
         # TODO temporarily indexing until app can support multiple backends
         backend = self.backends[0]
-        backend._reset_settings()
+        backend.reset_app()
 
 
         # TODO delete download path

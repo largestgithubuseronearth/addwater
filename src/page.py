@@ -35,7 +35,7 @@ from gi.repository import Gtk, Adw, Gio, GLib, GObject
 
 log = logging.getLogger(__name__)
 
-# TODO add variable to count number of errors. After a threshold, ask the user to report the issue.
+# TODO grey out enable theme switch when there's no package to install (first launch, no internet)
 @Gtk.Template(resource_path="/dev/qwery/AddWater/gtk/addwater-page.ui")
 class AddWaterPage(Adw.Bin):
     __gtype_name__ = "AddWaterPage"
@@ -113,9 +113,9 @@ class AddWaterPage(Adw.Bin):
                 version = self.backend.get_update_version()
                 msg = f'Updated theme to v{version}'
             case update_status.DISCONNECTED:
-                msg = 'Checking for updates failed due to a network issue'
+                msg = 'Failed to check for updates due to a network issue'
             case update_status.RATELIMITED:
-                msg = 'Update failed due to Github rate limits. Please try again later.'
+                msg = 'Failed to check for updates. Please try again later.'
             case update_status.NO_UPDATE:
                 # TODO test this case, if it still always returns updated, fix in online_manager
                 msg = None
@@ -125,7 +125,7 @@ class AddWaterPage(Adw.Bin):
 
     def on_apply_action(self, *_):
         """Apply changes to GSettings and call the proper install or uninstall method"""
-        log.info('Applied changes')
+        log.debug('Applied changes')
 
         self.settings.apply()
 
@@ -133,13 +133,13 @@ class AddWaterPage(Adw.Bin):
         color_palette = self.settings.get_string('palette-selected')
 
         if theme_enabled:
-            log.info(f'GUI calling for install..')
+            log.debug(f'GUI calling for install..')
             install_status = self.backend.full_install(
                 self.selected_profile, color_palette
             )
             toast_msg = "Installed Theme. Restart Firefox to see changes."
         else:
-            log.info(f'GUI calling for uninstall...')
+            log.debug(f'GUI calling for uninstall...')
             install_status = self.backend.remove_theme(self.selected_profile)
             toast_msg = "Removed Theme. Restart Firefox to see changes."
 
@@ -171,6 +171,7 @@ class AddWaterPage(Adw.Bin):
 
     def send_toast(self, msg: str, timeout_seconds: int=2, priority: int=0):
         # Workaround for libadwaita bug which cause toasts to display forever
+        # TODO When a toast is displayed at the window launch, it still stays on screen forever
         if not msg:
             log.error("Tried to send a toast of None")
             return
@@ -178,6 +179,7 @@ class AddWaterPage(Adw.Bin):
         self.toast_overlay.add_toast(
             Adw.Toast(title=msg, timeout=timeout_seconds, priority=priority)
         )
+
         self.enable_button.grab_focus()
 
 
@@ -298,6 +300,7 @@ class AddWaterPage(Adw.Bin):
                 valign="center",
                 vexpand=False,
                 popover=info_popup,
+                tooltip_text='More Information',
             )
             row.add_suffix(info_button)
 

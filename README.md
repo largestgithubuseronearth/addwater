@@ -21,6 +21,7 @@
     * gitbook (service bleh)
     * sphinx
     * read the docs
+* Change all type hints to use pathlike
 
 ## FLATHUB GOALS:
 * Make sure Flatpak is configured properly

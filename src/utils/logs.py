@@ -26,6 +26,7 @@ import sys
 from datetime import datetime, timezone, timedelta
 from gi.repository import Gtk, Adw
 from . import paths
+from addwater import info
 
 def init_logs():
     LOG_DIR = paths.LOG_DIR
@@ -35,9 +36,15 @@ def init_logs():
 
         # TODO set the log level in the dev build profile
         file_handler = logging.FileHandler(logfile)
-        file_handler.setLevel(logging.DEBUG)
         console_handler = logging.StreamHandler(sys.stdout)
+
+        file_handler.setLevel(logging.DEBUG)
         console_handler.setLevel(logging.DEBUG)
+        # TODO why is this not working? info not associated with a variable?
+        # if info.PROFILE == 'developer':
+        #     console_handler.setLevel(logging.DEBUG)
+        # elif info.PROFILE == 'user':
+        #     console_handler.setLevel(logging.INFO)
 
         logging.basicConfig(
             handlers=[file_handler, console_handler],

@@ -36,7 +36,8 @@ log = logging.getLogger(__name__)
 
 # TODO would it make sense to create "tickets" that are a copy of the original
 # instance — only without ability to be modified — rather than passing in the
-# original object? This would allow for only passing part of the app and worrying less about modifying the state.
+# original object? This would allow for only passing part of the app and worrying
+# less about modifying the state.
 
 
 # TODO specialize this into Firefox first and then make it an injectible,
@@ -78,6 +79,10 @@ class FirefoxAppDetails():
     # online
     theme_gh_url: str = 'https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases'
 
+    final_theme_name = 'firefox-gnome-theme'
+    # theme_zip_name = f'firefox-{version}'
+
+
 
 
     def __init__(self,):
@@ -103,13 +108,15 @@ class FirefoxAppDetails():
     """PUBLIC METHODS"""
     def _reset_settings(self,):
         log.info(f'Resetting all gsettings for {self.name}')
+        self.settings.reset('theme-enabled')
         self.settings.reset("data-path")
         self.settings.reset("autofind-paths")
         self.settings.reset("installed-version")
 
-        for each in self.options:
-            gset_key = each['key']
-            self.settings.reset(gset_key)
+        for group in self.options:
+            for option in group['options']:
+                gset_key = option['key']
+                self.settings.reset(gset_key)
         log.info('done. gsettings reset')
 
 
@@ -140,8 +147,9 @@ class FirefoxAppDetails():
 
     def set_update_version(self, version):
         # TODO sloppy way to do this, should be more explicit and intuitive
+        # TODO make sure BOTH installmanager and onlinemanager are using this so they don't get out of sync
         self.theme_download_path = join(
-            paths.DOWNLOAD_DIR, f'firefox-{version}-extracted', 'firefox-gnome-theme'
+            paths.DOWNLOAD_DIR, f'firefox-{version}-extracted', self.final_theme_name
         )
 
 
@@ -159,6 +167,7 @@ class FirefoxAppDetails():
 
     def set_installed_version(self, new_version: int,) -> None:
         log.info(f'Set installed version number to {new_version}')
+        self.settings.set_int('installed-version', new_version)
         self.installed_version = new_version
 
 
