@@ -27,6 +27,7 @@ from configparser import ConfigParser
 from gi.repository import Gio
 
 from addwater.utils import paths
+
 from .firefox_options import FIREFOX_OPTIONS, FIREFOX_COLORS
 from .firefox_paths import FIREFOX_PATHS
 from .firefox_install import install_for_firefox
@@ -101,7 +102,7 @@ class FirefoxAppDetails():
 
     """PUBLIC METHODS"""
     def _reset_settings(self,):
-        log.info(f'Resetting all gsettings for {self.app_name}')
+        log.info(f'Resetting all gsettings for {self.name}')
         self.settings.reset("data-path")
         self.settings.reset("autofind-paths")
         self.settings.reset("installed-version")
@@ -109,7 +110,7 @@ class FirefoxAppDetails():
         for each in self.options:
             gset_key = each['key']
             self.settings.reset(gset_key)
-        log.info('Done')
+        log.info('done. gsettings reset')
 
 
     """Getters"""

@@ -24,6 +24,8 @@ gi.require_version('Xdp', '1.0')
 gi.require_version('XdpGtk4', '1.0')
 
 from gi.repository import Adw, Gtk, Gio, GLib, Xdp, XdpGtk4
+
+# TODO migrate this to use the appdetail class paths
 from .utils.paths import FIREFOX_PATHS
 
 

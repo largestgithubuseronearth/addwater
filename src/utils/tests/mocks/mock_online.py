@@ -17,23 +17,32 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import logging
 
 from enum import Enum
 from typing import Optional
+
+from gi.repository import Gio
+
+log = logging.getLogger(__name__)
 
 class MockOnlineManager():
 
     """PUBLIC METHODS"""
 
-    def __init__(self, fails: bool):
-        self.fails = fails
+    def __init__(self, update_return_code: int):
+        log.debug('Mock online manager created!!!')
+        self.online_status = OnlineStatus(update_return_code)
+
+        self.settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
+
+        self.update_version = self.settings.get_int('installed-version')
 
 
     def get_updates_online(self, installed_version: int, app_name: str) -> Enum:
-        if self.fails:
-            return OnlineStatus.DISCONNECTED
-        elif not self.fails:
-            return OnlineStatus.NO_UPDATE
+        log.debug(f'returning fake status code of {self.online_status}')
+        return self.online_status
+
 
     # TODO improve to allow files to be downloaded that aren't necessarily zipped or are of different ziptypes
     def get_release(self, base_name: str, final_name: str, tarball_url: str):

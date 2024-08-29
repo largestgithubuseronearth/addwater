@@ -37,6 +37,7 @@ DOWNLOAD_DIR = join(APP_CACHE, "downloads")
 LOG_DIR = join(APP_CACHE, "logs")
 
 
+# TODO remove all firefox paths from here once all consumers have migrated to appdetails
 # FIREFOX PATHS
 FIREFOX_BASE = expanduser("~/.mozilla/firefox/")
 FIREFOX_FLATPAK = expanduser("~/.var/app/org.mozilla.firefox/.mozilla/firefox/")

@@ -246,7 +246,7 @@ class AddWaterPage(Adw.Bin):
     @staticmethod
     def _create_option_group(group_schematic: dict[str,list[dict]], gui_switch_factory: callable, settings, enable_button) -> None:
         """Creates a PreferencesGroup with the included switch options, and binds all the switches to gsettings"""
-        # TODO these margins are arbitrary. Toy & try to find a better margin value.
+        # TODO these margins are arbitrary. Toy around & try to find a better margin value.
         group = Adw.PreferencesGroup(
             title=group_schematic["group_name"], margin_start=20, margin_end=20
         )
@@ -272,25 +272,33 @@ class AddWaterPage(Adw.Bin):
 
     @staticmethod
     def _create_option_switch(title: str, subtitle: str, extra_info: str=None):
-        # Everything about this seems to work perfect. Just need to fix the info button
         row = Adw.ActionRow(
             title=title,
             subtitle=subtitle,
         )
-        # TODO test to ensure info button shows the proper text popover when clicked
+        # This styling is taken from the GNOME settings app (Mouse Acceleration)
         if extra_info:
+            label = Gtk.Label(
+                label=extra_info,
+                margin_top=6,
+                margin_bottom=6,
+                margin_start=6,
+                margin_end=6,
+                max_width_chars=50,
+                wrap=True,
+            )
             info_popup = Gtk.Popover(
                 autohide=True,
-                child=Gtk.Label(label=extra_info),
+                child=label,
+                hexpand=False,
             )
-            info_button = Gtk.Button(
+            info_button = Gtk.MenuButton(
                 has_frame=False,
                 icon_name='info-outline-symbolic',
                 valign="center",
                 vexpand=False,
-                # child=info_popup,
+                popover=info_popup,
             )
-            # info_button.connect('clicked', info_popup.present)
             row.add_suffix(info_button)
 
 
@@ -302,6 +310,8 @@ class AddWaterPage(Adw.Bin):
         row.set_activatable_widget(switch)
 
         return row
+
+
 
 
     def _reset_profile_combobox(self,):

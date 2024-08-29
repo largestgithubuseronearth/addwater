@@ -9,7 +9,7 @@ FIREFOX_OPTIONS = [
             "js_key": "hideSingleTab",
             "summary": "Hide Single Tab",
             "description": "Hide Tab Bar when only one tab is open",
-            "tooltip" :'Consider modifying the Toolbar to move the New Tab button near the Search Bar. Otherwise it may get lost when only one tab is open.',
+            "tooltip" :'Consider placing the New Tab button near the Search Bar. Otherwise it may get lost when only one tab is open.',
           },
           {
             "key": "normal-width-tabs",
@@ -75,8 +75,8 @@ FIREFOX_OPTIONS = [
         "key": "hide-webrtc-indicator",
         "js_key": "hideWebrtcIndicator",
         "summary": "Hide Privacy Indicators",
-        "description": "Hide microphone, screen share, and camera indicators. GNOME provides privacy warnings in the top bar.",
-        "tooltip" : ""
+        "description": "Hide microphone, screen share, and camera indicators",
+        "tooltip" : "GNOME also shows privacy indicators in the Top Bar"
       },
       {
         "key": "oled-black",

@@ -32,7 +32,7 @@ from addwater import info
 from addwater.components.online import OnlineManager
 from addwater.components.install import InstallManager
 from addwater.utils.paths import DOWNLOAD_DIR
-# from addwater.utils.tests.mocks import mock_online
+from addwater.utils.tests.mocks import mock_online
 
 log = logging.getLogger(__name__)
 
@@ -60,15 +60,6 @@ class AddWaterBackend():
                             those releases to be installed.
     """
 
-    installed_version: int
-    update_version: int
-
-    app_options: list[dict]
-    app_path: str
-    app_name: str
-
-    profile_list: list[dict[str,str]]
-
     app_details: callable
     online_manager: callable
     install_manager: callable
@@ -76,7 +67,6 @@ class AddWaterBackend():
     def __init__(self, app_details, install_manager, online_manager):
         log.info("Backend is alive!")
 
-        # TODO refactor backend to not be concerned with these details
         self.app_details = app_details
         self.install_manager = install_manager
         self.online_manager = online_manager
@@ -90,14 +80,14 @@ class AddWaterBackend():
     as possible.
     """
 
+    # TODO Should the install manager make the decision on quick or full install?
     """Install actions"""
-    # TODO move all the log thats in these methods into the install manager. Let it
-    # make the call as to what a full vs quick install is.
     def full_install(self, profile_id: str, color_palette: str="adwaita",) -> Enum:
-        version = self.online_manager.get_update_version()
+        version = self.get_update_version()
 
         # TODO remove this GioSettings and add it to app_details or something
-        gset = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
+        app_name = self.app_details.get_name().title()
+        gset = Gio.Settings(schema_id=f'dev.qwery.AddWater.{app_name}')
 
         install_status = self.install_manager.full_install(
             app_details=self.app_details,
@@ -108,10 +98,11 @@ class AddWaterBackend():
         )
         return install_status
 
+
     def quick_install(self, profile_id: str, color_palette: str="adwaita",) -> Enum:
         """Installs theme files but doesn't change any user preferences. This is
         useful for updating in the background."""
-        version = self.online_manager.get_update_version()
+        version = self.get_update_version()
 
         install_status = self.install_manager.quick_install(
             app_details=self.app_details,
@@ -120,7 +111,6 @@ class AddWaterBackend():
             version=version,
         )
         return install_status
-
 
 
     def remove_theme(self, profile_id) -> Enum:
@@ -150,7 +140,7 @@ class AddWaterBackend():
             installed_version=installed_version,
             app_name=app_name,
         )
-        # TODO sloppy to do this here. would prefer a cleaner, natural solution
+        # TODO sloppy to do this assignment here. would prefer a cleaner, natural solution
         new_version = self.get_update_version()
         self.app_details.set_update_version(new_version)
 
@@ -168,32 +158,38 @@ class AddWaterBackend():
             raise InterfaceMisuseError(err)
 
 
+    """Dangerous"""
+    def reset_app(self,):
+        app_name = self.app_details.get_name()
+        log.warning(f'{app_name} is now being reset...')
+        self._uninstall_all_profiles()
+        self.app_details._reset_settings()
+        log.info(f'done. {app_name} has been reset to default state')
+
+
 
     """PRIVATE METHODS
 
-    All private methods should be static and not rely on modifying the object state;
+    All private methods should ideally be static or at least not modify the object state;
     this helps avoid unexpected behavior and aid in testing these important methods.
     """
 
-    # TODO move this to public and rename when I'm confident when it's fully
-    # safe and the uninstaller is fully settled on
-    def _reset_full_uninstall(self):
-        # TODO is there a cleaner way to implement this?
-        log.warning(f"Uninstalling theme from all know profiles...")
+    def _uninstall_all_profiles(self):
+        log.warning(f"uninstalling theme from all known profiles...")
         profiles = self.app_details.get_profiles()
         for each in profiles:
             profile_id = each["id"]
             self.remove_theme(profile_id)
 
-        log.info('Full uninstall done.')
+        log.info('done. theme removed from all profiles')
 
 
 
 
+# TODO should I inherit from Exception or is an Error object?
 class InterfaceMisuseError(Exception):
     pass
 
-# TODO should I inherit from Exception or an Error?
 class FatalInterfaceError(Exception):
     pass
 
@@ -210,17 +206,14 @@ class BackendFactory():
             installer=install_method,
         )
 
-        # TODO figure this out later when I figure out how to set this up with meson
-        # if info.PROFILE == 'developer':
-        #     online_manager = mock_online.MockOnlineManager(False)
-        # elif info.PROFILE == 'user':
-        #     theme_url = app_details.get_info_url()
-        #     online_manager = OnlineManager(
-        #         theme_url=theme_url,
-        theme_url = app_details.get_info_url()
-        online_manager = OnlineManager(
-            theme_url=theme_url,
-        )
+        # TODO clean up mock selection and meson
+        if info.PROFILE == 'developer':
+            online_manager = mock_online.MockOnlineManager(2)
+        elif info.PROFILE == 'user':
+            theme_url = app_details.get_info_url()
+            online_manager = OnlineManager(
+                theme_url=theme_url,
+            )
 
         firefox_backend = AddWaterBackend(
             app_details=app_details,
@@ -228,4 +221,5 @@ class BackendFactory():
             online_manager=online_manager,
         )
         return firefox_backend
+
 
