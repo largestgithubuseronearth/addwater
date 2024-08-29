@@ -96,6 +96,8 @@ class AddWaterBackend():
             version=version,
             gset_reader=gset
         )
+        if install_status.SUCCESS:
+            self.app_details.set_installed_version(version)
         return install_status
 
 
@@ -110,14 +112,17 @@ class AddWaterBackend():
             color_palette=color_palette,
             version=version,
         )
+        if install_status.SUCCESS:
+            self.app_details.set_installed_version(version)
         return install_status
 
 
     def remove_theme(self, profile_id) -> Enum:
         app_path = self.app_details.get_data_path()
+        folder_name = self.app_details.final_theme_name
         profile_path = join(app_path, profile_id)
 
-        install_status = self.install_manager.uninstall(profile_path)
+        install_status = self.install_manager.uninstall(profile_path, folder_name)
         return install_status
 
 
@@ -137,8 +142,7 @@ class AddWaterBackend():
         installed_version = self.app_details.get_installed_version()
 
         update_status = self.online_manager.get_updates_online(
-            installed_version=installed_version,
-            app_name=app_name,
+            app_details=self.app_details
         )
         # TODO sloppy to do this assignment here. would prefer a cleaner, natural solution
         new_version = self.get_update_version()
@@ -162,7 +166,7 @@ class AddWaterBackend():
     def reset_app(self,):
         app_name = self.app_details.get_name()
         log.warning(f'{app_name} is now being reset...')
-        self._uninstall_all_profiles()
+        # self._uninstall_all_profiles()
         self.app_details._reset_settings()
         log.info(f'done. {app_name} has been reset to default state')
 

@@ -7,4 +7,5 @@ option(
 	type : 'combo',
 	choices : ['user', 'developer'],
 	value : 'developer'
+	# value : 'user'
 )

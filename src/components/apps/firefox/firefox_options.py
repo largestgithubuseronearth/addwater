@@ -75,14 +75,14 @@ FIREFOX_OPTIONS = [
         "key": "hide-webrtc-indicator",
         "js_key": "hideWebrtcIndicator",
         "summary": "Hide Privacy Indicators",
-        "description": "Hide microphone, screen share, and camera indicators",
-        "tooltip" : "GNOME also shows privacy indicators in the Top Bar"
+        "description": "Hide microphone, screen share, and camera warnings",
+        "tooltip" : "GNOME will still show these privacy indicators in the Top Bar"
       },
       {
         "key": "oled-black",
         "js_key": "oledBlack",
         "summary": "True Black Dark Theme",
-        "description": "Change dark theme into an OLED black variant",
+        "description": "Use an OLED-friendly, deep black when dark theme is enabled",
         "tooltip" : ""
       },
       {

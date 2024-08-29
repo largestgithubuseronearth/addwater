@@ -17,7 +17,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import os
 import shutil
 import logging
 
@@ -82,7 +81,6 @@ class InstallManager():
         if not exists(profile_path):
             raise FatalBackendException('Install failed. Profile folder doesn\'t exist.')
 
-        log.error(f'profile apth: {profile_path}')
         # Run install script
         try:
             self._install_theme(
@@ -128,9 +126,9 @@ class InstallManager():
         log.info('Quick install done.')
         return InstallStatus.SUCCESS
 
-    def uninstall(self, profile_path: str) -> Enum:
+    def uninstall(self, profile_path: str, folder_name: str) -> Enum:
         try:
-            self._uninstall_theme(profile_path)
+            self._uninstall_theme(profile_path, folder_name)
         except InstallException as err:
             log.critical(err)
             return InstallStatus.FAILURE
@@ -146,7 +144,10 @@ def _set_theme_prefs(profile_path: str, options: list[dict], gset_reader) -> Non
     """Update user preferences in user.js according to GSettings.
 
     Args:
-        settings = Gio.Settings object to read the values of the keys
+        profile_path = full file path to the profile that the theme will be installed to
+        options = the theme options list dicts
+        gset_reader = Gio.Settings object preconfigured for the correct schema
+                        to read the values of the keys
 
     """
     log.info('Setting theme preferences in profile data...')
@@ -182,13 +183,13 @@ def _set_theme_prefs(profile_path: str, options: list[dict], gset_reader) -> Non
     log.info("Done.")
 
 
-def _do_uninstall_theme(profile_path: str) -> None:
+def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
     log.info('Uninstalling theme from profile...')
     log.debug(f'Profile path: {profile_path}')
     # Delete theme folder
     try:
         # TODO make this app agnostic. Pass this in from app_details or something.
-        chrome_path = join(profile_path, "chrome", "firefox-gnome-theme")
+        chrome_path = join(profile_path, "chrome", theme_folder)
         shutil.rmtree(chrome_path)
     except FileNotFoundError:
         pass

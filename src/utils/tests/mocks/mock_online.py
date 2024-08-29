@@ -39,7 +39,7 @@ class MockOnlineManager():
         self.update_version = self.settings.get_int('installed-version')
 
 
-    def get_updates_online(self, installed_version: int, app_name: str) -> Enum:
+    def get_updates_online(self, *args, **kwargs,) -> Enum:
         log.debug(f'returning fake status code of {self.online_status}')
         return self.online_status
 

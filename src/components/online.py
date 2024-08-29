@@ -45,28 +45,33 @@ class OnlineManager():
 
     """PUBLIC METHODS"""
 
-    def get_updates_online(self, installed_version: int, app_name: str) -> Enum:
-        app_name = app_name.lower()
+    def get_updates_online(self, app_details: callable) -> Enum:
         log.info('Checking for updates...')
+
+        installed_version = app_details.get_installed_version()
         try:
             update_info = self._get_release_info(self.theme_url)
         except NetworkException as err:
             self.update_version = installed_version
             return OnlineStatus.DISCONNECTED
 
-        update_version = update_info["version"]
-        self.update_version = update_version
-        ratelimit_remaining = update_info["ratelimit_remaining"]
-        tarball_url=update_info["tarball_url"]
-
-        if self._is_ratelimit_exceeded(ratelimit_remaining):
-            log.warning('Rate limiting self to avoid angering Github')
+        calls_left = update_info["ratelimit_remaining"]
+        if self._is_ratelimit_exceeded(calls_left):
+            log.warning('rate limiting self to avoid angering Github')
             return OnlineStatus.RATELIMITED
 
-        if self._is_update_available(new=update_version, current=installed_version):
-            log.info('Update available. Getting it now...')
+        update_version = update_info["version"]
+        self.update_version = update_version
+        tarball_url=update_info["tarball_url"]
+        app_name = app_details.get_name().lower()
+
+        files_downloaded = exists(app_details.get_theme_download_path())
+        update_available = self._is_update_available(new=update_version, current=installed_version)
+        if update_available or not files_downloaded:
+            log.info('update available. getting it now...')
+            # TODO find a way for appdetails to store this path so it's easy to stay consistent between managers. Is that even worth it?
             base_name = f'{app_name}-{update_version}'
-            final_name = f'{app_name}-gnome-theme'
+            final_name = app_details.final_theme_name
             try:
                 self.get_release(
                     base_name=base_name, final_name=final_name, tarball_url=tarball_url
@@ -76,12 +81,13 @@ class OnlineManager():
             except ExtractionException as err:
                 log.error(err)
                 # TODO recover from this more cleanly
-                raise OnlineManagerError('Could not extract theme release tarball. ')
+                raise OnlineManagerError('could not extract theme release tarball')
 
             return OnlineStatus.UPDATED
 
         log.info('No update available.')
         return OnlineStatus.NO_UPDATE
+
 
     # TODO improve to allow files to be downloaded that aren't necessarily zipped or are of different ziptypes
     def get_release(self, base_name: str, final_name: str, tarball_url: str):
@@ -241,7 +247,10 @@ class OnlineManager():
     def _is_update_available(current: int, new: int) -> bool:
         if type(current) is not int or type(new) is not int:
             raise ValueError
-        # TODO consider making this handle special cases like rollbacks or minor updates
+
+        # TODO consider making this handle special cases like minor updates or maybe rollbacks
+        # This could work by parsing a string and separating them by the dots. MAJOR.MINOR.MICRO
+        # And if any of them are higher, then the release is downloaded
         return bool(new > current)
 
 
@@ -260,3 +269,4 @@ class OnlineManagerError(Exception):
 
 class ExtractionException(Exception):
     pass
+

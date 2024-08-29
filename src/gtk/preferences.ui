@@ -28,7 +28,7 @@
 					<object class="AdwPreferencesGroup">
 						<property name="margin-bottom">30</property>
 						<property name="title">Danger Zone</property>
-						<property name="description" translatable="yes">This will remove the theme from all known Firefox profiles and reset Add Water to its default state</property>
+						<property name="description" translatable="yes">Remove the theme from all known profiles and reset Add Water to its default state. This will close Add Water.</property>
 						<child>
 							<object class="GtkListBox">
 							 	<child>
