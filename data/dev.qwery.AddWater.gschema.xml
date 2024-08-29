@@ -84,8 +84,11 @@
 
 	<!-- Thunderbird (finish when ready to support)-->
 	<schema path="/dev/qwery/AddWater/Thunderbird/" id="dev.qwery.AddWater.Thunderbird">
-		<key name="thunderbird-path" type="s">
+		<key name="data-path" type="s">
 			<default>""</default>
+		</key>
+		<key name="autofind-paths" type="b">
+			<default>true</default>
 		</key>
 
 	</schema>
