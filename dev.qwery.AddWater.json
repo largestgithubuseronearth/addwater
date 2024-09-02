@@ -11,11 +11,13 @@
         "--device=dri",
         "--socket=wayland",
         "--filesystem=~/.mozilla/firefox/:rw",
-        "--filesystem=~/.var/app/org.mozilla.Thunderbird/.thunderbird/:rw",
         "--filesystem=~/.var/app/org.mozilla.firefox/.mozilla/firefox/:rw",
         "--filesystem=~/.var/app/org.mozilla.firefox/.mozilla/Firefox/:rw",
+        "--filesystem=~/snap/firefox/common/.mozilla/firefox/",
         "--filesystem=~/.librewolf:rw",
-        "--filesystem=~/.var/app/io.gitlab.librewolf-community/.librewolf:rw"
+        "--filesystem=~/.var/app/io.gitlab.librewolf-community/.librewolf:rw",
+        "--filesystem=~/.floorp",
+        "--filesystem=~/.var/app/one.ablaze.floorp/.floorp"
     ],
     "cleanup" : [
         "/include",

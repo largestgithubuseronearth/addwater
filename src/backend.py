@@ -80,14 +80,18 @@ class AddWaterBackend():
 	as possible.
 	"""
 
-	# TODO Should the install manager make the decision on quick or full install?
+	# TODO the install manager should make the decision on quick or full install
 	"""Install actions"""
 	def full_install(self, profile_id: str, color_palette: str="adwaita",) -> Enum:
 		version = self.get_update_version()
+		gset = self.get_app_settings()
 
-		# TODO remove this GioSettings and add it to app_details or something
-		app_name = self.get_app_name().title()
-		gset = Gio.Settings(schema_id=f'dev.qwery.AddWater.{app_name}')
+		# FIXME flesh out this check on both install methods to ENSURE that you can never pass an empty profile_id
+		if not profile_id:
+			profile_id = gset.get_string('profile-selected')
+			if not profile_id:
+				raise ValueError('Trying to install but there is no available profile id')
+
 
 		install_status = self.install_manager.full_install(
 			app_details=self.app_details,
@@ -105,6 +109,11 @@ class AddWaterBackend():
 		"""Installs theme files but doesn't change any user preferences. This is
 		useful for updating in the background."""
 		version = self.get_update_version()
+		if not profile_id:
+			profile_id = gset.get_string('profile-selected')
+			if not profile_id:
+				raise ValueError('Trying to install but there is no available profile id')
+
 
 		install_status = self.install_manager.quick_install(
 			app_details=self.app_details,
@@ -143,6 +152,9 @@ class AddWaterBackend():
 	"""Info Getters"""
 	def get_app_name(self,) -> str:
 		return self.app_details.get_name()
+
+	def get_app_settings(self,):
+		return self.app_details.get_gsettings()
 
 	def get_app_options(self) -> list[dict[str,any]]:
 		return self.app_details.get_options()
@@ -216,19 +228,13 @@ class BackendFactory():
 			installer=install_method,
 		)
 
-		# TODO clean up mock selection and meson
-		# if info.PROFILE == 'developer':
-		#     online_manager = mock_online.MockOnlineManager(2)
-		# elif info.PROFILE == 'user':
-		#     theme_url = app_details.get_info_url()
-		#     online_manager = OnlineManager(
-		#         theme_url=theme_url,
-		#     )
-
-		theme_url = app_details.get_info_url()
-		online_manager = OnlineManager(
-			theme_url=theme_url,
-		)
+		if info.USE_API == 'True':
+			theme_url = app_details.get_info_url()
+			online_manager = OnlineManager(
+		    	theme_url=theme_url,
+			)
+		else:
+			online_manager = mock_online.MockOnlineManager(2)
 
 		firefox_backend = AddWaterBackend(
 			app_details=app_details,

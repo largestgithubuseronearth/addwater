@@ -7,8 +7,18 @@
 				<property name="icon-name">globe-symbolic</property>
 				<child>
 					<object class="AdwPreferencesGroup">
+						<property name="title">General</property>
+						<child>
+							<object class="AdwSwitchRow" id="background_update_switch">
+								<property name="title">Background Update</property>
+								<property name="subtitle">Automatically update theme in the background</property>
+							</object>
+						</child>
+					</object>
+				</child>
+				<child>
+					<object class="AdwPreferencesGroup">
 						<property name="title">Firefox</property>
-
 						<child>
 							<object class="AdwComboRow" id="firefox_package_combobox">
 								<property name="title" translatable="yes">Package Format</property>
@@ -26,7 +36,6 @@
 				<child>
 					<!-- This section's styling is borrowed from Cartridges to workaround not having button rows yet -->
 					<object class="AdwPreferencesGroup">
-						<property name="margin-bottom">30</property>
 						<property name="title">Danger Zone</property>
 						<property name="description" translatable="yes">Remove the theme from all known profiles and reset Add Water to its default state. This will close Add Water.</property>
 						<child>

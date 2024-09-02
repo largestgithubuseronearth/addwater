@@ -21,9 +21,8 @@ import gi
 import logging
 
 gi.require_version('Xdp', '1.0')
-gi.require_version('XdpGtk4', '1.0')
 
-from gi.repository import Adw, Gtk, Gio, GLib, Xdp, XdpGtk4
+from gi.repository import Adw, Gtk, Gio, GLib, Xdp
 
 # TODO migrate this to use the appdetail class paths
 from .utils.paths import FIREFOX_PATHS
@@ -37,20 +36,51 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 
 	FIREFOX_FORMATS = FIREFOX_PATHS
 
+	background_update_switch = Gtk.Template.Child()
 	firefox_package_combobox = Gtk.Template.Child()
 	firefox_package_combobox_list = Gtk.Template.Child()
+
 
 	def __init__(self):
 		super().__init__()
 		log.info("Preferences Window activated")
-
+		self.settings_app = Gio.Settings(schema_id="dev.qwery.AddWater")
 		self.settings_firefox = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
+
+		try:
+			self.settings_app.bind(
+				'background-update', self.background_update_switch, 'active', Gio.SettingsBindFlags.DEFAULT
+			)
+			self.background_update_switch.connect('activated', self.background_portal)
+		except Exception as err:
+			log.error(err)
 
 		self.firefox_path = self.settings_firefox.get_string("data-path")
 		self._init_firefox_combobox()
 
 		self.firefox_package_combobox.notify("selected-item")
 		self.firefox_package_combobox.connect("notify::selected-item", self._set_firefox_package)
+
+	# TODO rename this
+	# TODO finish this to work properly on login
+	def background_portal(self, _):
+		print('backkkkkkkkkkkkkkkkkkkkkkkkkkkk')
+		self.portal = Xdp.Portal()
+		bg_enabled = self.settings_app.get_boolean('background-update')
+		if bg_enabled:
+			flag = Xdp.BackgroundFlags.AUTOSTART
+		else:
+			flag = Xdp.BackgroundFlags.NONE
+
+		self.portal.request_background(
+			None,
+			'Checking for theme updates',
+			['addwater', '--quick-update'],
+			flag,
+			None,
+			None,
+			None,
+		)
 
 
 	def _init_firefox_combobox(self):
@@ -63,8 +93,7 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 			for each in self.FIREFOX_FORMATS:
 				if each["path"] == user_path:
 					i = self.FIREFOX_FORMATS.index(each) + 1
-
-			self.firefox_package_combobox.set_selected(i)
+					self.firefox_package_combobox.set_selected(i)
 
 
 	def _set_firefox_package(self, row, _):
@@ -72,7 +101,7 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 		# First option is always Automatically Discover
 		if selected_index == 0:
 			self.settings_firefox.set_boolean("autofind-paths", True)
-			log.warning("Autofind paths enabled")
+			log.info("Autofind paths enabled")
 			return
 
 		self.settings_firefox.set_boolean("autofind-paths", False)

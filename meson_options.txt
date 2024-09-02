@@ -2,18 +2,19 @@ option(
 	'profile',
 	type : 'combo',
 	choices : ['user', 'developer'],
-	value : 'developer'
-	# value : 'user'
+	value : 'user'
 )
-# TODO option for use real onlinemanager or mock
+
+# Testing options!
+# profile 'user' overrides all of these options to prevent accidentally disabling features for users.
 option(
 	'use-real-api',
 	type: 'boolean',
-	value: 'true'
+	value: false
 )
 
 option(
-	'force-bg-update',
+	'force-background',
 	type: 'boolean',
-	value: 'true'
+	value: false
 )

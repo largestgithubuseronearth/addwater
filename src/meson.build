@@ -12,21 +12,29 @@ gnome.compile_resources('addwater',
 python = import('python')
 
 # TODO set up app_id and everything else to make it easier
+# Get profile and if user release, disable ALL testing options
 profile = get_option('profile')
 if profile == 'user'
 	app_id = 'dev.qwery.AddWater'
-# elif profile =='developer'
-# 	app_id = 'dev.qwery.AddWater.Devel'
-# TODO remove this temp else and uncomment above
-else
-	app_id = 'dev.qwery.AddWater'
+	use_api = true
+	force_bg = false
+elif profile =='developer'
+	app_id = 'dev.qwery.AddWater.Devel'
+	use_api = get_option('use-real-api')
+	force_bg = get_option('force-background')
 endif
 
 
 conf = configuration_data()
 conf.set('PYTHON', python.find_installation('python3').full_path())
 conf.set('VERSION', meson.project_version())
-conf.set('APP_ID', 'dev.qwery.AddWater')
+conf.set('APP_ID', 'dev.qwery.AddWater') # TODO use the app_id var above ONLY when all real code is ready to use it
+
+# TODO move these types of testing checks into their own dedicated file that doesn't get made if profile == 'user'
+conf.set('USE_API', use_api)
+conf.set('FORCE_BG', force_bg)
+############################
+
 conf.set('PROFILE', profile)
 conf.set('localedir', get_option('prefix') / get_option('localedir'))
 conf.set('pkgdatadir', pkgdatadir)

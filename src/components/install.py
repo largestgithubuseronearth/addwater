@@ -109,6 +109,7 @@ class InstallManager():
 		app_path = app_details.get_data_path()
 		color_palette = color_palette.lower()
 		profile_path = join(app_path, profile_id)
+		theme_path = app_details.get_theme_download_path()
 
 		if not exists(profile_path):
 			raise FatalBackendException('Install failed. Profile folder doesn\'t exist.')

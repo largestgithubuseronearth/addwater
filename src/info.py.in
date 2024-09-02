@@ -22,3 +22,7 @@ APP_ID = '@APP_ID@'
 VERSION = '@VERSION@'
 PROFILE = '@PROFILE@'
 
+# NOTE: Meson booleans are strings! Not native python bools
+FORCE_BG = '@FORCE_BG@'
+USE_API = '@USE_API@'
+

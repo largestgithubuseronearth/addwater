@@ -1,4 +1,4 @@
-# download.py
+# online.py
 #
 # Copyright 2024 Qwery
 #
@@ -31,9 +31,15 @@ from typing import Optional
 
 log = logging.getLogger(__name__)
 
-class OnlineManager():
 
-	# TODO should online manager keep these details or AppDetails?
+# TODO make this handle requests asynchronously and use callbacks to report the status
+# This would allow the app to launch instantly, even if internet speed is poor
+
+class OnlineManager():
+	"""Handles everything to do with polling for theme updates and downloading
+	release packages. It will also handle prepping those releases for the installer to use.
+	"""
+
 	installed_version: int
 	update_version: int
 	theme_url: str
@@ -41,7 +47,6 @@ class OnlineManager():
 	def __init__(self, theme_url: str):
 		log.debug('online manager is now alive')
 		self.theme_url = theme_url
-		pass
 
 
 	"""PUBLIC METHODS"""
@@ -103,7 +108,7 @@ class OnlineManager():
 		extract_path = join(DOWNLOAD_DIR, f'{base_name}-extracted')
 		final_path = join(extract_path, final_name.lower())
 		if exists(final_path):
-			log.info(f"{base_name} already ready to install. Skipping.")
+			log.info(f"{base_name} is already ready to install. done.")
 			return
 
 

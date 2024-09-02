@@ -47,7 +47,7 @@ class AddWaterApplication(Adw.Application):
 	"""The main application singleton class."""
 
 	def __init__(self):
-		super().__init__(application_id='dev.qwery.AddWater',
+		super().__init__(application_id=info.APP_ID,
 						 flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE)
 		self.create_action('quit', lambda *_: self.quit(), ['<primary>q', '<primary>w'])
 		self.create_action('about', self.on_about_action)
@@ -71,23 +71,17 @@ class AddWaterApplication(Adw.Application):
 	def do_command_line(self, command_line):
 		options = command_line.get_options_dict()
 		options = options.end().unpack()
-		# GUI Route
-		if not options:
-			self.activate()
-			return 0
 
-		# CLI Route
-		self.backends = []
-		firefox_backend = self._setup_logic_part()
-		self.backends.append(firefox_backend)
+		if options or info.FORCE_BG == 'True':
+			try:
+				self.handle_background_update(options)
+				log.info('background updater finished. exiting now.')
+				return 0
+			except CommandMisuseException as err:
+				log.error(f'Use --help for proper usage notes: {err}')
+				return 1
 
-		background_updater = BackgroundUpdater(self.backends[0])
-		background_updater.quick_update()
-		notif = background_updater.get_update_status()
-		self.send_notification(notif)
-
-
-		log.info('background updater finished. exiting now.')
+		self.activate()
 		return 0
 
 
@@ -99,9 +93,7 @@ class AddWaterApplication(Adw.Application):
 		"""
 
 		# Create logic backend
-		self.backends = []
-		firefox_backend = self._setup_logic_part()
-		self.backends.append(firefox_backend)
+		self.backends = self.construct_backends()
 
 		# Create window with the logic it needs
 		win = self.props.active_window
@@ -109,17 +101,41 @@ class AddWaterApplication(Adw.Application):
 			win = AddWaterWindow(application=self, backends=self.backends)
 		win.present()
 
+
+	def handle_background_update(self, options):
+		print('oooooooooooo', options)
+		# TODO handle the options explicitly and return an error if they do it wrong
+		if info.FORCE_BG == 'True':
+			options = {'quick-update' : True}
+		if 'quick-update' in options and options['quick-update']:
+			self.backends = self.construct_backends()
+
+			background_updater = BackgroundUpdater(self.backends[0])
+			background_updater.quick_update()
+
+			notif = background_updater.get_status_notification()
+			if notif:
+				self.send_notification("addwater-bg-update-status", notif)
+			return
+		else:
+			raise CommandMisuseException(f'Unknown options: {options}')
 ###################################################################################
 
-	# TODO rename this is a terrible name
-	def _setup_logic_part(self):
-		# TODO This needs to eventually allow for multiple apps.
-		# How would it check for which to add? Would this be manual?
-		return BackendFactory.new_from_appdetails(FirefoxAppDetails())
+	def construct_backends(self):
+		# TODO make this dynamic to find all available app details
+		backends = []
+		backends.append(
+			BackendFactory.new_from_appdetails(FirefoxAppDetails())
+		)
+
+		return backends
 
 
 	def on_reset_app_action(self, *_):
 		log.warning('resetting the entire app...')
+
+		settings = Gio.Settings('dev.qwery.AddWater')
+		settings.reset('background-update')
 
 		# TODO temporarily indexing until app can support multiple backends
 		backend = self.backends[0]
@@ -138,7 +154,7 @@ class AddWaterApplication(Adw.Application):
 		"""Callback for the app.about action."""
 		# TODO info.py.in seems like a good model for how to do this. But requires meson tinkering
 		about = Adw.AboutDialog(application_name='Add Water',
-								application_icon='dev.qwery.AddWater',
+								application_icon=info.APP_ID,
 								developer_name='qwery',
 								version=info.VERSION,
 								developers=['Qwery'],
@@ -191,3 +207,6 @@ def main(version):
 	app = AddWaterApplication()
 	return app.run(sys.argv)
 
+
+class CommandMisuseException(Exception):
+	pass

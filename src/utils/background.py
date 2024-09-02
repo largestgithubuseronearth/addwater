@@ -28,10 +28,10 @@ log = logging.getLogger(__name__)
 
 class BackgroundUpdater():
 	def __init__(self, backend: list):
-		log.debug('background updater is alive!')
-		log.debug(f'Quick Updater created for {backend.get_app_name()}')
+		app_name = backend.get_app_name()
+		log.debug(f'BackgroundUpdater created for {app_name}')
 		self.backend = backend
-		self.settings = Gio.Settings(schema_id='dev.qwery.AddWater')
+		self.settings = Gio.Settings(schema_id=f'dev.qwery.AddWater.{app_name}')
 
 
 
@@ -52,12 +52,14 @@ class BackgroundUpdater():
 
 		self.bg_status = status
 
-
 	def silent_install(self,):
 		log.info('Update available. Silently installing')
-
-		profile_id = self.settings.get_string('last-profile')
 		color_palette = self.settings.get_string('palette-selected')
+		profile_id = self.settings.get_string('profile-selected')
+		# TODO Move this check into backend.get_selected_profile()?
+		if not profile_id:
+			profiles = self.backend.get_profile_list()
+			profile_id = profiles[0]['id']
 
 		install_status = self.backend.quick_install(profile_id, color_palette)
 
@@ -73,7 +75,7 @@ class BackgroundUpdater():
 		return self.bg_status
 
 	def get_status_notification(self,):
-		log.debug('Prepping a desktop notification for the bg update/install status')
+		log.debug('prepping a desktop notification for the bg update/install status')
 		status = self.bg_status
 
 		match status:
@@ -89,12 +91,16 @@ class BackgroundUpdater():
 			case _:
 				msg = None
 
+		if msg:
+			log.debug(f'notification text: {msg}')
+			notif = Gio.Notification.new(title)
+			notif.set_body(msg)
+			notif.set_priority(Gio.NotificationPriority.LOW)
+			return notif
 
-		notif = Gio.Notification.new(title)
-		notif.set_body(msg)
-		notif.set_priority(Gio.NotificationPriority.LOW)
+		log.debug(f'nothing to report thus no notification sent')
+		return None
 
-		return notif
 
 
 

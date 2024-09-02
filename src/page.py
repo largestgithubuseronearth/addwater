@@ -70,7 +70,7 @@ class AddWaterPage(Adw.Bin):
 
 		self.app_name = self.backend.get_app_name()
 
-		self.settings = Gio.Settings(schema_id=f"dev.qwery.AddWater.{self.app_name}")
+		self.settings = self.backend.get_app_settings()
 		self.settings.delay()
 
 
@@ -86,7 +86,7 @@ class AddWaterPage(Adw.Bin):
 		self.profile_combobox.notify("selected-item")
 		self.profile_combobox.connect("notify::selected-item", self._set_profile)
 		self.color_combobox.notify("selected-item")
-		self.color_combobox.connect("notify::selected-item", self._set_colors_gsettingss)
+		self.color_combobox.connect("notify::selected-item", self._set_color_palette)
 
 		# Change Confirmation bar
 		# TODO try using an action group instead. Would that make actions easier?
@@ -105,7 +105,6 @@ class AddWaterPage(Adw.Bin):
 		self.send_toast('Checking for updates...', 10)
 		self.request_update_status()
 
-
 	"""PUBLIC METHODS"""
 
 	def request_update_status(self):
@@ -119,15 +118,17 @@ class AddWaterPage(Adw.Bin):
 			case update_status.RATELIMITED:
 				msg = 'Failed to check for updates. Please try again later.'
 			case update_status.NO_UPDATE:
-				# TODO test this case, if it still always returns updated, fix in online_manager
 				msg = None
-		if msg:
-			self.send_toast(msg)
+
+		self.send_toast(msg)
 
 
 	def on_apply_action(self, *_):
 		"""Apply changes to GSettings and call the proper install or uninstall method"""
 		log.debug('Applied changes')
+
+		self._set_profile(self.profile_combobox)
+		self._set_color_palette(self.color_combobox)
 
 		self.settings.apply()
 
@@ -171,14 +172,16 @@ class AddWaterPage(Adw.Bin):
 		self.send_toast("Changes reverted")
 
 
-	def send_toast(self, msg: str, timeout_seconds: int=2, priority: int=0):
+	def send_toast(self, msg: str=None, timeout_seconds: int=2, priority: int=0):
 		# FIXME When a toast is displayed at the window launch, it still stays on screen forever
-		if not msg:
-			log.error("Tried to send a toast of None")
-			return
-
 		if self.current_toast:
 			self.current_toast.dismiss()
+
+		# Pass None as msg to withdraw any toasts already on screen
+		# Use case: asking user to wait for an async operation to finish but
+		# there's nothing to report so just withdraw the toast
+		if not msg:
+			return
 
 		self.current_toast = Adw.Toast(title=msg, timeout=timeout_seconds, priority=priority)
 
@@ -228,7 +231,7 @@ class AddWaterPage(Adw.Bin):
 
 	"""PRIVATE METHODS"""
 
-	def _set_profile(self, row, _=None):
+	def _set_profile(self, row, _=None) -> None:
 		profile_display_name = row.get_selected_item().get_string()
 		for each in self.profile_list:
 			if each["name"] == profile_display_name:
@@ -236,15 +239,15 @@ class AddWaterPage(Adw.Bin):
 				log.debug('set profile to %s', each["id"])
 				break
 
-		# This compare check avoids triggering "has-unapplied" at app launch
+		# This compare avoids triggering "has-unapplied" too often
 		if self.selected_profile != self.settings.get_string("profile-selected"):
 			self.settings.set_string("profile-selected", self.selected_profile)
 
 
-	def _set_colors_gsettingss(self, row, _=None):
+	def _set_color_palette(self, row, _=None) -> None:
 		selected_color = row.get_selected_item().get_string().lower()
 
-		# This compare check avoids triggering "has-unapplied" at app launch
+		# This compare avoids triggering "has-unapplied" too often
 		if selected_color != self.settings.get_string("palette-selected"):
 			self.settings.set_string("palette-selected", selected_color)
 
@@ -252,7 +255,7 @@ class AddWaterPage(Adw.Bin):
 
 
 	@staticmethod
-	def _create_option_group(group_schematic: dict[str,list[dict]], gui_switch_factory: callable, settings, enable_button) -> None:
+	def _create_option_group(group_schematic: dict[str,list[dict]], gui_switch_factory: callable, settings, enable_button):
 		"""Creates a PreferencesGroup with the included switch options, and binds all the switches to gsettings"""
 		# TODO these margins are arbitrary. Toy around & try to find a better margin value.
 		group = Adw.PreferencesGroup(
@@ -284,7 +287,7 @@ class AddWaterPage(Adw.Bin):
 			title=title,
 			subtitle=subtitle,
 		)
-		# This styling is taken from the GNOME settings app (Mouse Acceleration)
+		# This styling was borrowed from GNOME settings > Mouse Acceleration option
 		if extra_info:
 			label = Gtk.Label(
 				label=extra_info,
@@ -306,7 +309,6 @@ class AddWaterPage(Adw.Bin):
 				valign="center",
 				vexpand=False,
 				popover=info_popup,
-				tooltip_text='More Information',
 			)
 			row.add_suffix(info_button)
 

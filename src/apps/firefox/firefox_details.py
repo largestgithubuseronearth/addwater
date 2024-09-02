@@ -1,4 +1,4 @@
-# details.py
+# firefox_details.py
 #
 # Copyright 2024 Qwery
 #
@@ -27,7 +27,7 @@ from configparser import ConfigParser
 from gi.repository import Gio
 
 from addwater.utils import paths
-
+from addwater import info
 from .firefox_options import FIREFOX_OPTIONS, FIREFOX_COLORS
 from .firefox_paths import FIREFOX_PATHS
 from .firefox_install import install_for_firefox
@@ -93,6 +93,7 @@ class FirefoxAppDetails():
 		self.set_update_version(version)
 
 		self.autofind_data_path = self.settings.get_boolean('autofind-paths')
+		# TODO ensure this handles autofind paths
 		data_paths = self._find_data_paths(self.package_formats)
 		# TODO make this handle having multiple available paths
 		self.set_data_path(data_paths[0]["path"])
@@ -112,6 +113,8 @@ class FirefoxAppDetails():
 		self.settings.reset("data-path")
 		self.settings.reset("autofind-paths")
 		self.settings.reset("installed-version")
+		self.settings.reset("profile-selected")
+		self.settings.reset("palette-selected")
 
 		for group in self.options:
 			for option in group['options']:
@@ -121,6 +124,11 @@ class FirefoxAppDetails():
 
 
 	"""Getters"""
+	def get_gsettings(self,):
+		# TODO make sure this is secure
+		schema_id = (info.APP_ID + '.' + self.get_name())
+		return Gio.Settings(schema_id=schema_id)
+
 	def get_theme_download_path(self,):
 		return self.theme_download_path
 
@@ -158,6 +166,7 @@ class FirefoxAppDetails():
 		log.info(f'Setting {self.name} data path: {new_path}')
 		if exists(new_path):
 			self.data_path = new_path
+			self.settings.set_string('data-path', self.data_path)
 			log.info(f'Valid path. Done.')
 			return
 
