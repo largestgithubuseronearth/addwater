@@ -3,10 +3,10 @@ moduledir = pkgdatadir / 'addwater'
 gnome = import('gnome')
 
 gnome.compile_resources('addwater',
-  'addwater.gresource.xml',
-  gresource_bundle: true,
-  install: true,
-  install_dir: pkgdatadir,
+	'addwater.gresource.xml',
+	gresource_bundle: true,
+	install: true,
+	install_dir: pkgdatadir,
 )
 
 python = import('python')
@@ -15,8 +15,11 @@ python = import('python')
 profile = get_option('profile')
 if profile == 'user'
 	app_id = 'dev.qwery.AddWater'
-elif profile =='developer'
-	app_id = 'dev.qwery.AddWater.devel'
+# elif profile =='developer'
+# 	app_id = 'dev.qwery.AddWater.Devel'
+# TODO remove this temp else and uncomment above
+else
+	app_id = 'dev.qwery.AddWater'
 endif
 
 
@@ -29,34 +32,39 @@ conf.set('localedir', get_option('prefix') / get_option('localedir'))
 conf.set('pkgdatadir', pkgdatadir)
 
 configure_file(
-  input: 'addwater.in',
-  output: 'addwater',
-  configuration: conf,
-  install: true,
-  install_dir: get_option('bindir'),
-  install_mode: 'r-xr-xr-x'
+	input: 'addwater.in',
+	output: 'addwater',
+	configuration: conf,
+	install: true,
+	install_dir: get_option('bindir'),
+	install_mode: 'r-xr-xr-x'
 )
+
+install_subdir('apps', install_dir: moduledir)
 install_subdir('components', install_dir: moduledir)
 install_subdir('utils', install_dir: moduledir)
 
 addwater_sources = [
-  '__init__.py',
-  'main.py',
-  'window.py',
-  'preferences.py',
-  'page.py',
-  'backend.py',
+	'__init__.py',
+	'main.py',
+	'window.py',
+	'preferences.py',
+	'page.py',
+	'backend.py',
 
-  'components/apps/firefox/firefox_install.py',
-  'components/apps/firefox/firefox_details.py',
-  # 'components/details.py',
-  'components/install.py',
-  'components/online.py',
+	'apps/firefox/firefox_install.py',
+	'apps/firefox/firefox_details.py',
+	'apps/firefox/firefox_options.py',
+	'apps/firefox/firefox_paths.py',
 
-  'utils/paths.py',
-  'utils/logs.py',
+	'components/install.py',
+	'components/online.py',
 
-  configure_file(input: 'info.py.in', output: 'info.py', configuration: conf),
+	'utils/paths.py',
+	'utils/logs.py',
+	'utils/background.py',
+
+	configure_file(input: 'info.py.in', output: 'info.py', configuration: conf),
 ]
 
 install_data(addwater_sources, install_dir: moduledir)

@@ -9,7 +9,7 @@
 		<property name="content">
 
 				<object class="AdwToolbarView" id="main_toolbar_view">
-						<!-- HEADER BAR -->
+					<!-- HEADER BAR -->
 					<child type="top">
 						<object class="AdwHeaderBar" id="header_bar">
 							<child type="end">

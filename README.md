@@ -5,14 +5,14 @@
 * Give app functionality to run at startup, in the background, and check for + install updates automatically
     * Is the libportal manifest import okay? I copied from AdwSteamGtk 
 * Add all Thunderbird and Firefox paths to Flatpak manifest
-* Properly set up Meson
-* Make unit tests for app, especially in sections where data loss could occur
-    * Make profiles that allow testing easily but using mock components. e.g. mock OnlineManager to avoid polluting Github while testing 
+    * Does Flatpak/Flathub allow for changing file permissions after release?
 * Find a good auto linter/formatter
     * Pylint
     * Black 
-* Finish major refactor to separate front and back end more cleanly
-    * Refactor all backend classes to know how to use AppDetails 
+* Improve implementation of AppDetails and make a generic factory for this
+* Properly set up Meson
+    * Set up options to enable mocks and easy tests, but disable ALL of these when profile == user
+    * Set up properly use my basic unit tests. Kept hitting an error
 
 
 ## SECONDARY GOALS:

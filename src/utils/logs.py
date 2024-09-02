@@ -29,61 +29,61 @@ from . import paths
 from addwater import info
 
 def init_logs():
-    LOG_DIR = paths.LOG_DIR
-    try:
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        logfile = os.path.join(LOG_DIR, f"addwater_{now}.log")
+	LOG_DIR = paths.LOG_DIR
+	try:
+		now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+		logfile = os.path.join(LOG_DIR, f"addwater_{now}.log")
 
-        # TODO set the log level in the dev build profile
-        file_handler = logging.FileHandler(logfile)
-        console_handler = logging.StreamHandler(sys.stdout)
+		# TODO set the log level in the dev build profile
+		file_handler = logging.FileHandler(logfile)
+		console_handler = logging.StreamHandler(sys.stdout)
 
-        file_handler.setLevel(logging.DEBUG)
-        console_handler.setLevel(logging.DEBUG)
-        # TODO why is this not working? info not associated with a variable?
-        # if info.PROFILE == 'developer':
-        #     console_handler.setLevel(logging.DEBUG)
-        # elif info.PROFILE == 'user':
-        #     console_handler.setLevel(logging.INFO)
+		file_handler.setLevel(logging.DEBUG)
+		console_handler.setLevel(logging.DEBUG)
+		# TODO why is this not working? info not associated with a variable?
+		# if info.PROFILE == 'developer':
+		#     console_handler.setLevel(logging.DEBUG)
+		# elif info.PROFILE == 'user':
+		#     console_handler.setLevel(logging.INFO)
 
-        logging.basicConfig(
-            handlers=[file_handler, console_handler],
-            style="{",
-            format="[{levelname}] {name} — {asctime} || {message}",
-            datefmt="%H:%M",
-            level=logging.DEBUG
-        )
-    except Exception as err:
-        print("Couldn't initialize log file: ", err)
+		logging.basicConfig(
+			handlers=[file_handler, console_handler],
+			style="{",
+			format="[{levelname}] {name} — {asctime} || {message}",
+			datefmt="%H:%M",
+			level=logging.DEBUG
+		)
+	except Exception as err:
+		print("Couldn't initialize log file: ", err)
 
 
-    # Delete logs that are over two weeks old
-    with os.scandir(path=LOG_DIR) as scan:
-        oldest = ""
-        for each in scan:
-            time = datetime.strptime(
-                each.name,
-                "addwater_%Y-%m-%d.log",
-            )
-            time = time.replace(tzinfo=timezone.utc)
-            difference = datetime.now(timezone.utc) - time
-            if difference.days > 7:
-                os.remove(os.path.join(LOG_DIR, each.name))
+	# Delete logs that are over two weeks old
+	with os.scandir(path=LOG_DIR) as scan:
+		oldest = ""
+		for each in scan:
+			time = datetime.strptime(
+				each.name,
+				"addwater_%Y-%m-%d.log",
+			)
+			time = time.replace(tzinfo=timezone.utc)
+			difference = datetime.now(timezone.utc) - time
+			if difference.days > 7:
+				os.remove(os.path.join(LOG_DIR, each.name))
 
-    # TODO Add to top of log file information about system and dependencies such as:
-    # distro
-    # app version
-    # flatpak or not?
-    info = f"""
-    ------------------------------------------------------------------------
-    System Info:
-    Add Water — An installer for the GNOME theme for Firefox and Thunderbird
-    Version:
-    Time (UTC): {datetime.now(timezone.utc)}
-    GTK version: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}
-    ADW version: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}
-    ------------------------------------------------------------------------
-    """
-    logging.debug(info)
+	# TODO Add to top of log file information about system and dependencies such as:
+	# distro
+	# app version
+	# flatpak or not?
+	info = f"""
+	------------------------------------------------------------------------
+	System Info:
+	Add Water — An installer for the GNOME theme for Firefox and Thunderbird
+	Version:
+	Time (UTC): {datetime.now(timezone.utc)}
+	GTK version: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}
+	ADW version: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}
+	------------------------------------------------------------------------
+	"""
+	logging.debug(info)
 
-    # TODO make function to zip up log files to make an issue
+	# TODO make function to zip up log files to make an issue

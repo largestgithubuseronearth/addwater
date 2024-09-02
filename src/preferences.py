@@ -33,55 +33,55 @@ log = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path="/dev/qwery/AddWater/gtk/preferences.ui")
 class AddWaterPreferences(Adw.PreferencesDialog):
-    __gtype_name__ = "AddWaterPreferences"
+	__gtype_name__ = "AddWaterPreferences"
 
-    FIREFOX_FORMATS = FIREFOX_PATHS
+	FIREFOX_FORMATS = FIREFOX_PATHS
 
-    firefox_package_combobox = Gtk.Template.Child()
-    firefox_package_combobox_list = Gtk.Template.Child()
+	firefox_package_combobox = Gtk.Template.Child()
+	firefox_package_combobox_list = Gtk.Template.Child()
 
-    def __init__(self):
-        super().__init__()
-        log.info("Preferences Window activated")
+	def __init__(self):
+		super().__init__()
+		log.info("Preferences Window activated")
 
-        self.settings_firefox = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
+		self.settings_firefox = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
 
-        self.firefox_path = self.settings_firefox.get_string("data-path")
-        self._init_firefox_combobox()
+		self.firefox_path = self.settings_firefox.get_string("data-path")
+		self._init_firefox_combobox()
 
-        self.firefox_package_combobox.notify("selected-item")
-        self.firefox_package_combobox.connect("notify::selected-item", self._set_firefox_package)
-
-
-    def _init_firefox_combobox(self):
-        for each in self.FIREFOX_FORMATS:
-            self.firefox_package_combobox_list.append(each["name"])
-
-        if self.settings_firefox.get_boolean("autofind-paths") is False:
-            user_path = self.firefox_path
-
-            for each in self.FIREFOX_FORMATS:
-                if each["path"] == user_path:
-                    i = self.FIREFOX_FORMATS.index(each) + 1
-
-            self.firefox_package_combobox.set_selected(i)
+		self.firefox_package_combobox.notify("selected-item")
+		self.firefox_package_combobox.connect("notify::selected-item", self._set_firefox_package)
 
 
-    def _set_firefox_package(self, row, _):
-        selected_index = row.get_selected()
-        # First option is always Automatically Discover
-        if selected_index == 0:
-            self.settings_firefox.set_boolean("autofind-paths", True)
-            log.warning("Autofind paths enabled")
-            return
+	def _init_firefox_combobox(self):
+		for each in self.FIREFOX_FORMATS:
+			self.firefox_package_combobox_list.append(each["name"])
 
-        self.settings_firefox.set_boolean("autofind-paths", False)
-        log.warning("Autofind paths disabled")
-        selected = row.get_selected_item().get_string()
+		if self.settings_firefox.get_boolean("autofind-paths") is False:
+			user_path = self.firefox_path
 
-        for each in self.FIREFOX_FORMATS:
-            if selected == each["name"]:
-                log.info(f'User specified path: {each["path"]}')
-                self.settings_firefox.set_string("data-path", each["path"])
-                self.firefox_path = each["path"]
+			for each in self.FIREFOX_FORMATS:
+				if each["path"] == user_path:
+					i = self.FIREFOX_FORMATS.index(each) + 1
+
+			self.firefox_package_combobox.set_selected(i)
+
+
+	def _set_firefox_package(self, row, _):
+		selected_index = row.get_selected()
+		# First option is always Automatically Discover
+		if selected_index == 0:
+			self.settings_firefox.set_boolean("autofind-paths", True)
+			log.warning("Autofind paths enabled")
+			return
+
+		self.settings_firefox.set_boolean("autofind-paths", False)
+		log.warning("Autofind paths disabled")
+		selected = row.get_selected_item().get_string()
+
+		for each in self.FIREFOX_FORMATS:
+			if selected == each["name"]:
+				log.info(f'User specified path: {each["path"]}')
+				self.settings_firefox.set_string("data-path", each["path"])
+				self.firefox_path = each["path"]
 

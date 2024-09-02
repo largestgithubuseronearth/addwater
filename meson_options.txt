@@ -1,11 +1,19 @@
-# TODO
-# testing profile
-# production
-# development
 option(
 	'profile',
 	type : 'combo',
 	choices : ['user', 'developer'],
 	value : 'developer'
 	# value : 'user'
+)
+# TODO option for use real onlinemanager or mock
+option(
+	'use-real-api',
+	type: 'boolean',
+	value: 'true'
+)
+
+option(
+	'force-bg-update',
+	type: 'boolean',
+	value: 'true'
 )

@@ -25,115 +25,115 @@ from typing import Optional, Callable
 from enum import Enum
 
 from addwater.utils.paths import DOWNLOAD_DIR
-from addwater.components.apps.firefox.firefox_install import install_for_firefox
+from addwater.apps.firefox.firefox_install import install_for_firefox
 
 log = logging.getLogger(__name__)
 
 # TODO rework to use AppDetails
 class InstallManager():
 
-    _install_theme: callable
-    _set_preferences: callable
-    _uninstall_theme: callable
+	_install_theme: callable
+	_set_preferences: callable
+	_uninstall_theme: callable
 
    # TODO ensure that this class can never create its own GSettings objects. If
    # it really needs it, it must be injected in the args. Minimize cases of that.
 
-    def __init__(self, installer: callable, preference_handler: callable=None, uninstaller: callable=None):
-        self._install_theme = installer
+	def __init__(self, installer: callable, preference_handler: callable=None, uninstaller: callable=None):
+		self._install_theme = installer
 
-        # TODO DEBUGGING. Find a way to grab this from AppDetails
-        self._install_theme = install_for_firefox
+		# TODO DEBUGGING. Find a way to grab this from AppDetails
+		self._install_theme = install_for_firefox
 
-        if preference_handler:
-            self._set_preferences = preferences_handler
-        else:
-            self._set_preferences = _set_theme_prefs
+		if preference_handler:
+			self._set_preferences = preferences_handler
+		else:
+			self._set_preferences = _set_theme_prefs
 
-        if uninstaller:
-            self._uninstall_theme = uninstaller
-        self._uninstall_theme = _do_uninstall_theme
-
-
-    """PUBLIC METHODS"""
-
-    def full_install(self, app_details: callable, profile_id: str, color_palette: str, version: int, gset_reader):
-        """Kick off installing theme and setting its user.js preferences.
-
-        Args:
-            app_details = AppDetails instance set up for this app
-            profile_id = id of the profile as it appears in filesystem.
-            color_palette = name of the color palette to import
-            version = theme version to install
-        """
-        log.info('Starting a full install...')
-        log.debug(f'Profile: {profile_id}')
-        log.debug(f'Version: v{version}')
-        log.debug(f'Color Palette: {color_palette}')
-
-        app_path = app_details.get_data_path()
-        color_palette = color_palette.lower()
-        profile_path = join(app_path, profile_id)
-        theme_path = app_details.get_theme_download_path()
-
-        app_options = app_details.get_options()
-
-        if not exists(profile_path):
-            raise FatalBackendException('Install failed. Profile folder doesn\'t exist.')
-
-        # Run install script
-        try:
-            self._install_theme(
-                profile_path=profile_path,
-                color_palette=color_palette,
-                theme_path=theme_path
-            )
-            self._set_preferences(profile_path, app_options, gset_reader)
-        except InstallException as err:
-            log.critical(err)
-            return InstallStatus.FAILURE
-
-        log.info('Full install done.')
-        return InstallStatus.SUCCESS
+		if uninstaller:
+			self._uninstall_theme = uninstaller
+		self._uninstall_theme = _do_uninstall_theme
 
 
-    def quick_install(self, app_details: callable, profile_id: str, color_palette: str, version: int,):
-        """Installs theme files but doesn't change any user preferences. This is
-        useful for updating in the background."""
+	"""PUBLIC METHODS"""
 
-        log.info('Starting a quick install...')
-        log.debug(f'Profile: {profile_id}')
-        log.debug(f'Version: v{version}')
-        log.debug(f'Color Palette: {color_palette}')
+	def full_install(self, app_details: callable, profile_id: str, color_palette: str, version: int, gset_reader):
+		"""Kick off installing theme and setting its user.js preferences.
 
-        app_path = app_details.get_data_path()
-        color_palette = color_palette.lower()
-        profile_path = join(app_path, profile_id)
+		Args:
+			app_details = AppDetails instance set up for this app
+			profile_id = id of the profile as it appears in filesystem.
+			color_palette = name of the color palette to import
+			version = theme version to install
+		"""
+		log.info('Starting a full install...')
+		log.debug(f'Profile: {profile_id}')
+		log.debug(f'Version: v{version}')
+		log.debug(f'Color Palette: {color_palette}')
 
-        if not exists(profile_path):
-            raise FatalBackendException('Install failed. Profile folder doesn\'t exist.')
+		app_path = app_details.get_data_path()
+		color_palette = color_palette.lower()
+		profile_path = join(app_path, profile_id)
+		theme_path = app_details.get_theme_download_path()
 
-        try:
-            self._install_theme(
-                profile_path=profile_path,
-                color_palette=color_palette,
-                theme_path=theme_path,
-            )
-        except (InstallException, FileNotFoundError) as err:
-            log.critical(err)
-            return InstallStatus.FAILURE
+		app_options = app_details.get_options()
 
-        log.info('Quick install done.')
-        return InstallStatus.SUCCESS
+		if not exists(profile_path):
+			raise FatalBackendException('Install failed. Profile folder doesn\'t exist.')
 
-    def uninstall(self, profile_path: str, folder_name: str) -> Enum:
-        try:
-            self._uninstall_theme(profile_path, folder_name)
-        except InstallException as err:
-            log.critical(err)
-            return InstallStatus.FAILURE
+		# Run install script
+		try:
+			self._install_theme(
+				profile_path=profile_path,
+				color_palette=color_palette,
+				theme_path=theme_path
+			)
+			self._set_preferences(profile_path, app_options, gset_reader)
+		except InstallException as err:
+			log.critical(err)
+			return InstallStatus.FAILURE
 
-        return InstallStatus.SUCCESS
+		log.info('Full install done.')
+		return InstallStatus.SUCCESS
+
+
+	def quick_install(self, app_details: callable, profile_id: str, color_palette: str, version: int,):
+		"""Installs theme files but doesn't change any user preferences. This is
+		useful for updating in the background."""
+
+		log.info('Starting a quick install...')
+		log.debug(f'Profile: {profile_id}')
+		log.debug(f'Version: v{version}')
+		log.debug(f'Color Palette: {color_palette}')
+
+		app_path = app_details.get_data_path()
+		color_palette = color_palette.lower()
+		profile_path = join(app_path, profile_id)
+
+		if not exists(profile_path):
+			raise FatalBackendException('Install failed. Profile folder doesn\'t exist.')
+
+		try:
+			self._install_theme(
+				profile_path=profile_path,
+				color_palette=color_palette,
+				theme_path=theme_path,
+			)
+		except (InstallException, FileNotFoundError) as err:
+			log.critical(err)
+			return InstallStatus.FAILURE
+
+		log.info('Quick install done.')
+		return InstallStatus.SUCCESS
+
+	def uninstall(self, profile_path: str, folder_name: str) -> Enum:
+		try:
+			self._uninstall_theme(profile_path, folder_name)
+		except InstallException as err:
+			log.critical(err)
+			return InstallStatus.FAILURE
+
+		return InstallStatus.SUCCESS
 
 
 
@@ -141,89 +141,89 @@ class InstallManager():
 
 """Default install handlers. Can be overridden at InstallManager construction."""
 def _set_theme_prefs(profile_path: str, options: list[dict], gset_reader) -> None:
-    """Update user preferences in user.js according to GSettings.
+	"""Update user preferences in user.js according to GSettings.
 
-    Args:
-        profile_path = full file path to the profile that the theme will be installed to
-        options = the theme options list dicts
-        gset_reader = Gio.Settings object preconfigured for the correct schema
-                        to read the values of the keys
+	Args:
+		profile_path = full file path to the profile that the theme will be installed to
+		options = the theme options list dicts
+		gset_reader = Gio.Settings object preconfigured for the correct schema
+						to read the values of the keys
 
-    """
-    log.info('Setting theme preferences in profile data...')
+	"""
+	log.info('Setting theme preferences in profile data...')
 
-    user_js = join(profile_path, "user.js")
-    # FIXME If the user.js file is gone, the other required prefs won't be set here
-    # and thus the theme will not work properly
-    try:
-        with open(file=user_js, mode="r", encoding='utf-8') as file:
-            lines = file.readlines()
-    except FileNotFoundError:
-        lines = []
-    with open(file=user_js, mode="w", encoding='utf-8') as file:
-        for group in options:
-            for option in group["options"]:
-                pref_name = f'gnomeTheme.{option["js_key"]}'
-                pref_value = str(gset_reader.get_boolean(option["key"])).lower()
-                full_line = f"""user_pref("{pref_name}", {pref_value});\n"""
+	user_js = join(profile_path, "user.js")
+	# FIXME If the user.js file is gone, the other required prefs won't be set here
+	# and thus the theme will not work properly
+	try:
+		with open(file=user_js, mode="r", encoding='utf-8') as file:
+			lines = file.readlines()
+	except FileNotFoundError:
+		lines = []
+	with open(file=user_js, mode="w", encoding='utf-8') as file:
+		for group in options:
+			for option in group["options"]:
+				pref_name = f'gnomeTheme.{option["js_key"]}'
+				pref_value = str(gset_reader.get_boolean(option["key"])).lower()
+				full_line = f"""user_pref("{pref_name}", {pref_value});\n"""
 
-                found = False
-                for i in range(len(lines)):
-                    # This is easier than a for-each
-                    if pref_name in lines[i]:
-                        lines[i] = full_line
-                        found = True
-                        break
-                if found is False:
-                    lines.append(full_line)
-                log.debug(f'{pref_name} -> {pref_value}')
+				found = False
+				for i in range(len(lines)):
+					# This is easier than a for-each
+					if pref_name in lines[i]:
+						lines[i] = full_line
+						found = True
+						break
+				if found is False:
+					lines.append(full_line)
+				log.debug(f'{pref_name} -> {pref_value}')
 
-        file.writelines(lines)
+		file.writelines(lines)
 
-    log.info("Done.")
+	log.info("Done.")
 
 
 def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
-    log.info('Uninstalling theme from profile...')
-    log.debug(f'Profile path: {profile_path}')
-    # Delete theme folder
-    try:
-        # TODO make this app agnostic. Pass this in from app_details or something.
-        chrome_path = join(profile_path, "chrome", theme_folder)
-        shutil.rmtree(chrome_path)
-    except FileNotFoundError:
-        pass
+	log.info('Uninstalling theme from profile...')
+	log.debug(f'Profile path: {profile_path}')
+	# Delete theme folder
+	try:
+		# TODO make this app agnostic. Pass this in from app_details or something.
+		chrome_path = join(profile_path, "chrome", theme_folder)
+		shutil.rmtree(chrome_path)
+	except FileNotFoundError:
+		pass
 
-    # TODO remove css import lines
+	# TODO remove css import lines
 
-    # Set all user_prefs to false
-    user_js = join(profile_path, "user.js")
-    try:
-        with open(file=user_js, mode="r", encoding='utf-8') as file:
-            lines = file.readlines()
-    except FileNotFoundError:
-        log.info("Done.")
-        return
+	# Set all user_prefs to false
+	user_js = join(profile_path, "user.js")
+	try:
+		with open(file=user_js, mode="r", encoding='utf-8') as file:
+			lines = file.readlines()
+	except FileNotFoundError:
+		log.info("Done.")
+		return
 
-    try:
-        with open(file=user_js, mode="w", encoding='utf-8') as file:
-            # This is easier than a foreach
-            for i in range(len(lines)):
-                if "gnomeTheme" in lines[i]:
-                    lines[i] = lines[i].replace("true", "false")
+	try:
+		with open(file=user_js, mode="w", encoding='utf-8') as file:
+			# This is easier than a foreach
+			for i in range(len(lines)):
+				if "gnomeTheme" in lines[i]:
+					lines[i] = lines[i].replace("true", "false")
 
-            file.writelines(lines)
-    except OSError as err:
-        log.error(f'Resetting user.js prefs to false failed: {err}')
-        raise InstallException('Uninstall failed')
+			file.writelines(lines)
+	except OSError as err:
+		log.error(f'Resetting user.js prefs to false failed: {err}')
+		raise InstallException('Uninstall failed')
 
-    log.info('Done.')
+	log.info('Done.')
 
 
 
 class InstallStatus(Enum):
-    SUCCESS = 0
-    FAILURE = 1
+	SUCCESS = 0
+	FAILURE = 1
 
 class InstallException(Exception):
-    pass
+	pass

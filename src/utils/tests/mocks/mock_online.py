@@ -28,44 +28,44 @@ log = logging.getLogger(__name__)
 
 class MockOnlineManager():
 
-    """PUBLIC METHODS"""
+	"""PUBLIC METHODS"""
 
-    def __init__(self, update_return_code: int):
-        log.debug('Mock online manager created!!!')
-        self.online_status = OnlineStatus(update_return_code)
+	def __init__(self, update_return_code: int):
+		log.debug('Mock online manager created!!!')
+		self.online_status = OnlineStatus(update_return_code)
 
-        self.settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
+		self.settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
 
-        self.update_version = self.settings.get_int('installed-version')
-
-
-    def get_updates_online(self, *args, **kwargs,) -> Enum:
-        log.debug(f'returning fake status code of {self.online_status}')
-        return self.online_status
+		self.update_version = self.settings.get_int('installed-version')
 
 
-    # TODO improve to allow files to be downloaded that aren't necessarily zipped or are of different ziptypes
-    def get_release(self, base_name: str, final_name: str, tarball_url: str):
-        pass
+	def get_updates_online(self, *args, **kwargs,) -> Enum:
+		log.debug(f'returning fake status code of {self.online_status}')
+		return self.online_status
 
 
-    def get_update_version(self,):
-        return self.update_version
+	# TODO improve to allow files to be downloaded that aren't necessarily zipped or are of different ziptypes
+	def get_release(self, base_name: str, final_name: str, tarball_url: str):
+		pass
+
+
+	def get_update_version(self,):
+		return self.update_version
 
 
 
 class OnlineStatus(Enum):
-    NO_UPDATE = 0
-    UPDATED = 1
-    DISCONNECTED = 2
-    RATELIMITED = 3
+	NO_UPDATE = 0
+	UPDATED = 1
+	DISCONNECTED = 2
+	RATELIMITED = 3
 
 
 class NetworkException(Exception):
-    pass
+	pass
 
 class OnlineManagerError(Exception):
-    pass
+	pass
 
 class ExtractionException(Exception):
-    pass
+	pass
