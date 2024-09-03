@@ -1,7 +1,7 @@
 # Add Water
-### An installer for the fantastic GNOME for Firefox theme by [Rafael Mardojai CM](https://github.com/rafaelmardojai/firefox-gnome-theme)
+#### An installer for the fantastic GNOME for Firefox theme by [Rafael Mardojai CM](https://github.com/rafaelmardojai/firefox-gnome-theme)
 
-## PRIMARY GOALS:
+### PRIMARY GOALS:
 * Give app functionality to run at startup, in the background, and check for + install updates automatically
 * Find a good auto linter/formatter
     * Pylint
@@ -13,14 +13,14 @@
     * Set up properly use my basic unit tests. Kept hitting an error
 
 
-## SECONDARY GOALS:
+### SECONDARY GOALS:
 * Find good documentation solution
     * doxygen
     * sphinx
     * read the docs
 * Change all type hints to use pathlike when needed
 
-## FLATHUB GOALS:
+### FLATHUB GOALS:
 * Make sure Flatpak is configured properly
     * Ensure flatpak manifest permissions are correct
     * Give permission to run in background at login time
@@ -32,13 +32,13 @@
 * Smooth out all accessibility issues
 
 
-## Wrap up
+### Wrap up
 * Set up project for i18n work
 * Write better docstrings for the classes and methods
 * Write help page for user troubleshooting
 
 
-## Accessibility Test Results:
+### Accessibility Test Results:
 <!-- TODO redo these tests! -->
 [X] Large Text
 [~] Screen Reader tests
@@ -52,7 +52,7 @@
 [] Accerciser test (need to resolve imp issue)
 
 
-### What needs to happen for Thunderbird support:
+#### What needs to happen for Thunderbird support:
 * Be able to clone the Github repo in Python easily
 * Set up self-restricting limits and timings on when to clone to avoid Github api ratelimits
 * Make another pass through all modules to ensure they can support multiple pages and backends at a single time
@@ -60,6 +60,6 @@
 * Set up Thunderbird GSettings schema and keys 
 
 
-### Other Notes:
+#### Other Notes:
 * I will not support Experimental options at this time. Users must enable those manually.
 
