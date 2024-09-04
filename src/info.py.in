@@ -24,5 +24,10 @@ PROFILE = '@PROFILE@'
 
 # NOTE: Meson booleans are strings! Not native python bools
 FORCE_BG = '@FORCE_BG@'
-USE_API = '@USE_API@'
+MOCK_API = '@MOCK_API@'
 
+
+
+# About Menu
+ISSUE_TRACKER = 'https://github.com/largestgithubuseronearth/addwater/issues/new/choose'
+WEBSITE = 'https://addwater.qwery.dev/'

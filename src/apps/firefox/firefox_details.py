@@ -79,18 +79,16 @@ class FirefoxAppDetails():
 	# online
 	theme_gh_url: str = 'https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases'
 
-	final_theme_name = 'firefox-gnome-theme'
-	# theme_zip_name = f'firefox-{version}'
-
-
+	theme_parent_folder = join(paths.DOWNLOAD_DIR, 'firefox')
+	theme_folder = 'firefox-gnome-theme'
+	full_theme_path = join(theme_parent_folder, theme_folder)
 
 
 	def __init__(self,):
-		self.settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
+		self.settings = self.get_new_gsettings()
 
 		version = self.settings.get_int('installed-version')
 		self.set_installed_version(version)
-		self.set_update_version(version)
 
 		self.autofind_data_path = self.settings.get_boolean('autofind-paths')
 		# TODO ensure this handles autofind paths
@@ -124,13 +122,16 @@ class FirefoxAppDetails():
 
 
 	"""Getters"""
-	def get_gsettings(self,):
-		# TODO make sure this is secure
+	def get_new_gsettings(self,):
+		# TODO make sure this is safe
 		schema_id = (info.APP_ID + '.' + self.get_name())
 		return Gio.Settings(schema_id=schema_id)
 
+	def get_theme_folder_name(self,):
+		return self.theme_folder
+
 	def get_theme_download_path(self,):
-		return self.theme_download_path
+		return self.full_theme_path
 
 	def get_color_palettes(self,):
 		return self.color_palettes
@@ -140,6 +141,9 @@ class FirefoxAppDetails():
 
 	def get_data_path(self,):
 		return self.data_path
+
+	def get_installer(self,):
+		return self.installer
 
 	def get_installed_version(self,):
 		return self.installed_version
@@ -152,13 +156,6 @@ class FirefoxAppDetails():
 
 	def get_info_url(self,):
 		return self.theme_gh_url
-
-	def set_update_version(self, version):
-		# TODO sloppy way to do this, should be more explicit and intuitive
-		# TODO make sure BOTH installmanager and onlinemanager are using this so they don't get out of sync
-		self.theme_download_path = join(
-			paths.DOWNLOAD_DIR, f'firefox-{version}-extracted', self.final_theme_name
-		)
 
 
 	"""Setters"""
@@ -222,9 +219,7 @@ class FirefoxAppDetails():
 					name = name + ' (Preferred)'
 					pass
 
-				profiles.append({
-					"id" : path, "name" : name
-				})
+				profiles.append({"id" : path, "name" : name})
 			except KeyError:
 				pass
 
@@ -235,6 +230,7 @@ class FirefoxAppDetails():
 		if profiles is None:
 			raise FatalAppDetailsError('installs.ini and profiles.ini exist but do not have any profiles available.')
 		return profiles
+
 
 	@staticmethod
 	def _find_data_paths(path_list: list[dict[str,str]]) -> list[dict[str,str]]:

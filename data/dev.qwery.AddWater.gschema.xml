@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO make a dev-specific copy of this schema to separate dev gsettings from user gsettings -->
+<!-- Check how Cartridges does it -->
 <schemalist gettext-domain="addwater">
 	<!-- Add Water -->
 	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater/">

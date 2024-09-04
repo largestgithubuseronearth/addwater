@@ -22,12 +22,11 @@ import os
 import logging
 import shutil
 from os.path import join, exists
-# from addwater.components.install import InstallException
+from addwater.components.install import InstallException
 
 log = logging.getLogger(__name__)
 
-# TODO is it possible to add this to app_details? And pass the function into InstallManager
-# TODO simplify the connection between this and the InstallManager
+@staticmethod
 def install_for_firefox(profile_path: str, theme_path: str, color_palette: str="adwaita") -> None:
 	"""Install the Firefox theme. This method should be injected into the
 	InstallManager at runtime. If it isn't obvious, this should not be reused for

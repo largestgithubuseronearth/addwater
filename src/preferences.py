@@ -24,8 +24,8 @@ gi.require_version('Xdp', '1.0')
 
 from gi.repository import Adw, Gtk, Gio, GLib, Xdp
 
-# TODO migrate this to use the appdetail class paths
-from .utils.paths import FIREFOX_PATHS
+
+from addwater import info
 
 
 log = logging.getLogger(__name__)
@@ -34,24 +34,23 @@ log = logging.getLogger(__name__)
 class AddWaterPreferences(Adw.PreferencesDialog):
 	__gtype_name__ = "AddWaterPreferences"
 
-	FIREFOX_FORMATS = FIREFOX_PATHS
-
 	background_update_switch = Gtk.Template.Child()
 	firefox_package_combobox = Gtk.Template.Child()
 	firefox_package_combobox_list = Gtk.Template.Child()
 
 
-	def __init__(self):
+	def __init__(self, firefox_backend):
 		super().__init__()
 		log.info("Preferences Window activated")
-		self.settings_app = Gio.Settings(schema_id="dev.qwery.AddWater")
-		self.settings_firefox = Gio.Settings(schema_id="dev.qwery.AddWater.Firefox")
+		self.settings_app = Gio.Settings(schema_id=info.APP_ID)
+		self.settings_firefox = firefox_backend.get_app_settings()
+		self.FIREFOX_FORMATS = firefox_backend.get_package_formats()
 
 		try:
 			self.settings_app.bind(
 				'background-update', self.background_update_switch, 'active', Gio.SettingsBindFlags.DEFAULT
 			)
-			self.background_update_switch.connect('activated', self.background_portal)
+			self.background_update_switch.connect('activated', self._do_background_request)
 		except Exception as err:
 			log.error(err)
 
@@ -61,10 +60,9 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 		self.firefox_package_combobox.notify("selected-item")
 		self.firefox_package_combobox.connect("notify::selected-item", self._set_firefox_package)
 
-	# TODO rename this
-	# TODO finish this to work properly on login
-	def background_portal(self, _):
-		print('backkkkkkkkkkkkkkkkkkkkkkkkkkkk')
+
+	# TODO test to make sure this works consistently on different machines
+	def _do_background_request(self, _):
 		self.portal = Xdp.Portal()
 		bg_enabled = self.settings_app.get_boolean('background-update')
 		if bg_enabled:
@@ -113,4 +111,5 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 				log.info(f'User specified path: {each["path"]}')
 				self.settings_firefox.set_string("data-path", each["path"])
 				self.firefox_path = each["path"]
+
 

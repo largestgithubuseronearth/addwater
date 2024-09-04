@@ -20,30 +20,23 @@
 import shutil
 import logging
 
+from os import PathLike
 from os.path import join, exists
 from typing import Optional, Callable
 from enum import Enum
 
 from addwater.utils.paths import DOWNLOAD_DIR
-from addwater.apps.firefox.firefox_install import install_for_firefox
 
 log = logging.getLogger(__name__)
 
-# TODO rework to use AppDetails
 class InstallManager():
 
 	_install_theme: callable
 	_set_preferences: callable
 	_uninstall_theme: callable
 
-   # TODO ensure that this class can never create its own GSettings objects. If
-   # it really needs it, it must be injected in the args. Minimize cases of that.
-
 	def __init__(self, installer: callable, preference_handler: callable=None, uninstaller: callable=None):
 		self._install_theme = installer
-
-		# TODO DEBUGGING. Find a way to grab this from AppDetails
-		self._install_theme = install_for_firefox
 
 		if preference_handler:
 			self._set_preferences = preferences_handler
@@ -57,36 +50,29 @@ class InstallManager():
 
 	"""PUBLIC METHODS"""
 
-	def full_install(self, app_details: callable, profile_id: str, color_palette: str, version: int, gset_reader):
+	def full_install(self, theme_path: PathLike, profile_path: PathLike, color_palette: str, app_options, gset_reader) -> Enum:
 		"""Kick off installing theme and setting its user.js preferences.
 
 		Args:
-			app_details = AppDetails instance set up for this app
-			profile_id = id of the profile as it appears in filesystem.
+			theme_path = full path to the folder that will be copied to the profile
+			profile_path = full path to the profile.
 			color_palette = name of the color palette to import
-			version = theme version to install
+			gset_reader = gsettings object for the app
 		"""
 		log.info('Starting a full install...')
-		log.debug(f'Profile: {profile_id}')
-		log.debug(f'Version: v{version}')
 		log.debug(f'Color Palette: {color_palette}')
 
-		app_path = app_details.get_data_path()
 		color_palette = color_palette.lower()
-		profile_path = join(app_path, profile_id)
-		theme_path = app_details.get_theme_download_path()
-
-		app_options = app_details.get_options()
 
 		if not exists(profile_path):
-			raise FatalBackendException('Install failed. Profile folder doesn\'t exist.')
+			raise InstallException('Install failed. Profile folder doesn\'t exist.')
 
 		# Run install script
 		try:
 			self._install_theme(
 				profile_path=profile_path,
+				theme_path=theme_path,
 				color_palette=color_palette,
-				theme_path=theme_path
 			)
 			self._set_preferences(profile_path, app_options, gset_reader)
 		except InstallException as err:
@@ -97,22 +83,17 @@ class InstallManager():
 		return InstallStatus.SUCCESS
 
 
-	def quick_install(self, app_details: callable, profile_id: str, color_palette: str, version: int,):
+	def quick_install(self, theme_path: PathLike, profile_path: PathLike, color_palette: str,) -> Enum:
 		"""Installs theme files but doesn't change any user preferences. This is
 		useful for updating in the background."""
 
 		log.info('Starting a quick install...')
-		log.debug(f'Profile: {profile_id}')
-		log.debug(f'Version: v{version}')
 		log.debug(f'Color Palette: {color_palette}')
 
-		app_path = app_details.get_data_path()
 		color_palette = color_palette.lower()
-		profile_path = join(app_path, profile_id)
-		theme_path = app_details.get_theme_download_path()
 
 		if not exists(profile_path):
-			raise FatalBackendException('Install failed. Profile folder doesn\'t exist.')
+			raise InstallException('Install failed. Profile folder doesn\'t exist.')
 
 		try:
 			self._install_theme(
@@ -127,6 +108,7 @@ class InstallManager():
 		log.info('Quick install done.')
 		return InstallStatus.SUCCESS
 
+
 	def uninstall(self, profile_path: str, folder_name: str) -> Enum:
 		try:
 			self._uninstall_theme(profile_path, folder_name)
@@ -140,7 +122,7 @@ class InstallManager():
 
 """PRIVATE FUNCTIONS"""
 
-"""Default install handlers. Can be overridden at InstallManager construction."""
+"""Default install handlers. Can be overridden by injecting functions at construction."""
 def _set_theme_prefs(profile_path: str, options: list[dict], gset_reader) -> None:
 	"""Update user preferences in user.js according to GSettings.
 
@@ -187,9 +169,9 @@ def _set_theme_prefs(profile_path: str, options: list[dict], gset_reader) -> Non
 def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
 	log.info('Uninstalling theme from profile...')
 	log.debug(f'Profile path: {profile_path}')
+
 	# Delete theme folder
 	try:
-		# TODO make this app agnostic. Pass this in from app_details or something.
 		chrome_path = join(profile_path, "chrome", theme_folder)
 		shutil.rmtree(chrome_path)
 	except FileNotFoundError:

@@ -16,11 +16,11 @@ python = import('python')
 profile = get_option('profile')
 if profile == 'user'
 	app_id = 'dev.qwery.AddWater'
-	use_api = true
+	mock_api = false
 	force_bg = false
 elif profile =='developer'
 	app_id = 'dev.qwery.AddWater.Devel'
-	use_api = get_option('use-real-api')
+	mock_api = get_option('use-mock-api')
 	force_bg = get_option('force-background')
 endif
 
@@ -31,7 +31,7 @@ conf.set('VERSION', meson.project_version())
 conf.set('APP_ID', 'dev.qwery.AddWater') # TODO use the app_id var above ONLY when all real code is ready to use it
 
 # TODO move these types of testing checks into their own dedicated file that doesn't get made if profile == 'user'
-conf.set('USE_API', use_api)
+conf.set('MOCK_API', mock_api)
 conf.set('FORCE_BG', force_bg)
 ############################
 

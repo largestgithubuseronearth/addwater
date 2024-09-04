@@ -39,6 +39,8 @@ log = logging.getLogger(__name__)
 # FIXME if the theme files get lost, there is no way for the app to ever install until another update or the user resets the app
 # It should attempt to re-download it every time but stop early if the files already exist
 
+# TODO find a more intuitive name than just 'backend'
+
 class AddWaterBackend():
 	"""The interface by which this app can complete important tasks like installing, updating, etc.
 	Relies on injected components that manage those actual processes. This class
@@ -92,12 +94,15 @@ class AddWaterBackend():
 			if not profile_id:
 				raise ValueError('Trying to install but there is no available profile id')
 
+		profile_path = join(self.get_data_path(), profile_id)
+		theme_path = self.app_details.get_theme_download_path()
+		app_options = self.get_app_options()
 
 		install_status = self.install_manager.full_install(
-			app_details=self.app_details,
-			profile_id=profile_id,
+			theme_path=theme_path,
+			profile_path=profile_path,
 			color_palette=color_palette,
-			version=version,
+			app_options=app_options,
 			gset_reader=gset
 		)
 		if install_status.SUCCESS:
@@ -109,15 +114,18 @@ class AddWaterBackend():
 		"""Installs theme files but doesn't change any user preferences. This is
 		useful for updating in the background."""
 		version = self.get_update_version()
+		gset = self.get_app_settings()
 		if not profile_id:
 			profile_id = gset.get_string('profile-selected')
 			if not profile_id:
 				raise ValueError('Trying to install but there is no available profile id')
 
+		profile_path = join(self.get_data_path(), profile_id)
+		theme_path = self.app_details.get_theme_download_path()
 
 		install_status = self.install_manager.quick_install(
-			app_details=self.app_details,
-			profile_id=profile_id,
+			theme_path=theme_path,
+			profile_path=profile_path,
 			color_palette=color_palette,
 			version=version,
 		)
@@ -127,8 +135,8 @@ class AddWaterBackend():
 
 
 	def remove_theme(self, profile_id) -> Enum:
-		app_path = self.app_details.get_data_path()
-		folder_name = self.app_details.final_theme_name
+		app_path = self.get_data_path()
+		folder_name = self.app_details.get_theme_folder_name()
 		profile_path = join(app_path, profile_id)
 
 		install_status = self.install_manager.uninstall(profile_path, folder_name)
@@ -137,24 +145,15 @@ class AddWaterBackend():
 	"""Online Actions"""
 
 	def update_theme(self) -> Enum:
-		app_name = self.get_app_name()
-		installed_version = self.app_details.get_installed_version()
+		return self.online_manager.get_updates_online(self.app_details)
 
-		update_status = self.online_manager.get_updates_online(
-			app_details=self.app_details
-		)
-		# TODO sloppy to do this assignment here. would prefer a cleaner, natural solution
-		new_version = self.get_update_version()
-		self.app_details.set_update_version(new_version)
-
-		return update_status
 
 	"""Info Getters"""
 	def get_app_name(self,) -> str:
 		return self.app_details.get_name()
 
 	def get_app_settings(self,):
-		return self.app_details.get_gsettings()
+		return self.app_details.get_new_gsettings()
 
 	def get_app_options(self) -> list[dict[str,any]]:
 		return self.app_details.get_options()
@@ -170,6 +169,9 @@ class AddWaterBackend():
 
 	def get_profile_list(self):
 		return self.app_details.get_profiles()
+
+	def get_package_formats(self,):
+		return self.app_details.package_formats
 
 
 	"""Info Setters"""
@@ -208,7 +210,6 @@ class AddWaterBackend():
 
 
 
-# TODO should I inherit from Exception or is an Error object?
 class InterfaceMisuseError(Exception):
 	pass
 
@@ -223,18 +224,18 @@ class BackendFactory():
 	@staticmethod
 	def new_from_appdetails(app_details):
 
-		install_method = app_details.installer
+		install_method = app_details.get_installer()
 		install_manager = InstallManager(
 			installer=install_method,
 		)
 
-		if info.USE_API == 'True':
+		if info.MOCK_API == 'True':
+			online_manager = mock_online.MockOnlineManager(2)
+		else:
 			theme_url = app_details.get_info_url()
 			online_manager = OnlineManager(
 		    	theme_url=theme_url,
 			)
-		else:
-			online_manager = mock_online.MockOnlineManager(2)
 
 		firefox_backend = AddWaterBackend(
 			app_details=app_details,
