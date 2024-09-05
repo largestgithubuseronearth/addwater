@@ -31,12 +31,14 @@ from datetime import timedelta
 from typing import Optional
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 
+from addwater import info
+
 # TODO grab colors from appdetails not import
 
 log = logging.getLogger(__name__)
 
 # TODO grey out enable theme switch when there's no package to install (first launch, no internet)
-@Gtk.Template(resource_path="/dev/qwery/AddWater/gtk/addwater-page.ui")
+@Gtk.Template(resource_path=info.PREFIX + '/gtk/addwater-page.ui')
 class AddWaterPage(Adw.Bin):
 	__gtype_name__ = "AddWaterPage"
 

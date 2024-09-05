@@ -2,15 +2,6 @@
 
 moduledir = pkgdatadir / 'addwater'
 
-gnome.compile_resources('addwater',
-	'addwater.gresource.xml',
-	gresource_bundle: true,
-	install: true,
-	install_dir: pkgdatadir,
-)
-
-
-
 
 
 configure_file(
@@ -48,5 +39,4 @@ addwater_sources = [
 
 	configure_file(input: 'info.py.in', output: 'info.py', configuration: conf),
 ]
-
 install_data(addwater_sources, install_dir: moduledir)

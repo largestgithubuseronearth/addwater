@@ -30,7 +30,7 @@ from addwater import info
 
 log = logging.getLogger(__name__)
 
-@Gtk.Template(resource_path="/dev/qwery/AddWater/gtk/preferences.ui")
+@Gtk.Template(resource_path=info.PREFIX + '/gtk/preferences.ui')
 class AddWaterPreferences(Adw.PreferencesDialog):
 	__gtype_name__ = "AddWaterPreferences"
 

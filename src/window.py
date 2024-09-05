@@ -29,7 +29,7 @@ from addwater.page import AddWaterPage
 
 log = logging.getLogger(__name__)
 
-@Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
+@Gtk.Template(resource_path=info.PREFIX + '/gtk/window.ui')
 class AddWaterWindow(Adw.ApplicationWindow):
 	__gtype_name__ = 'AddWaterWindow'
 

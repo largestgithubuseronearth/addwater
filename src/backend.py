@@ -32,7 +32,7 @@ from addwater import info
 from addwater.components.online import OnlineManager
 from addwater.components.install import InstallManager
 from addwater.utils.paths import DOWNLOAD_DIR
-from addwater.utils.tests.mocks import mock_online
+from addwater.utils.mocks import mock_online
 
 log = logging.getLogger(__name__)
 

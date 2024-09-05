@@ -10,8 +10,6 @@ python = import('python')
 
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 
-
-# TODO set up app_id and everything else to make it easier
 # Get profile and if user release, disable ALL testing options
 profile = get_option('profile')
 if profile == 'user'
@@ -27,20 +25,21 @@ elif profile =='developer'
 endif
 
 
-conf = configuration_data()
-conf.set('PYTHON', python.find_installation('python3').full_path())
-conf.set('VERSION', meson.project_version())
-conf.set('APP_ID', app_id)
-conf.set('PREFIX', prefix)
-
-# TODO move these types of testing checks into their own dedicated file that doesn't get made if profile == 'user'
+conf = configuration_data({
+	'PYTHON' : python.find_installation('python3').full_path(),
+	'VERSION' : meson.project_version(),
+	'APP_ID' : app_id,
+	'PREFIX' : prefix,
+	'PROFILE': profile,
+	'localedir' : get_option('prefix') / get_option('localedir'),
+	'pkgdatadir': pkgdatadir
+})
+# TODO move these types of testing options into their own dedicated file that doesn't get made if profile == 'user'
+# I want to avoid cluttering the code if these options aren't necessary for
+# the user but that may not be possible since it would likey break the Python
+# code and imports
 conf.set('MOCK_API', mock_api)
 conf.set('FORCE_BG', force_bg)
-############################
-
-conf.set('PROFILE', profile)
-conf.set('localedir', get_option('prefix') / get_option('localedir'))
-conf.set('pkgdatadir', pkgdatadir)
 
 
 subdir('data')

@@ -1,5 +1,20 @@
 # data/
 
+# GResource
+gresource_file = configure_file(
+	input: 'addwater.gresource.xml.in',
+	output:'addwater.gresource.xml',
+	configuration: conf
+)
+
+gnome.compile_resources('addwater',
+	gresource_file,
+	gresource_bundle: true,
+	install: true,
+	install_dir: pkgdatadir,
+)
+
+
 # Desktop file
 desktop_file = i18n.merge_file(
 				input: 'dev.qwery.AddWater.desktop.in',
