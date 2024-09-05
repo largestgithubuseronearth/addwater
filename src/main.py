@@ -69,6 +69,9 @@ class AddWaterApplication(Adw.Application):
 
 
 	def do_command_line(self, command_line):
+		"""Handles command line args and options if given, or starts the GUI
+		window if none are provided.
+		"""
 		options = command_line.get_options_dict()
 		options = options.end().unpack()
 
@@ -103,9 +106,10 @@ class AddWaterApplication(Adw.Application):
 
 
 	def handle_background_update(self, options):
-		# TODO handle the options explicitly and return an error if they do it wrong
 		if info.FORCE_BG == 'True':
 			options = {'quick-update' : True}
+
+		# TODO handle the option better and handle the error better
 		if 'quick-update' in options and options['quick-update']:
 			self.backends = self.construct_backends()
 
@@ -203,8 +207,7 @@ class AddWaterApplication(Adw.Application):
 
 	def on_help_action(self, action, _):
 		log.info("help page action activated")
-		# TODO is there a better link than this?
-		weblaunch = Gtk.UriLauncher.new("https://github.com/largestgithubuseronearth/addwater/blob/7b405a417356346fd1d93d3d2090a090cf27ecbf/docs/user-help.md")
+		weblaunch = Gtk.UriLauncher.new("https://github.com/largestgithubuseronearth/addwater/blob/main/docs/user-help.md")
 		weblaunch.launch(None, None, None, None)
 
 

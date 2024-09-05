@@ -1,3 +1,5 @@
+# data/icons/
+
 application_id = 'dev.qwery.AddWater'
 
 scalable_dir = 'hicolor' / 'scalable' / 'apps'

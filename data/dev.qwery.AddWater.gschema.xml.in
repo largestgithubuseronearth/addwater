@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO make a dev-specific copy of this schema to separate dev gsettings from user gsettings -->
-<!-- Check how Cartridges does it -->
 <schemalist gettext-domain="addwater">
 	<!-- Add Water -->
-	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater/">
+	<schema id="@APP_ID@" path="@PREFIX@">
 		<key name="window-height" type="i">
 			<default>700</default>
 		</key>
@@ -17,13 +15,11 @@
 		<key name="background-update" type="b">
 			<default>false</default>
 		</key>
-
-
 	</schema>
 
 
 	<!-- Firefox -->
-	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox/">
+	<schema id="@APP_ID@.Firefox" path="@PREFIX@/Firefox/">
 		<key name="data-path" type="s">
 			<default>""</default>
 		</key>
@@ -46,7 +42,7 @@
 			<default>""</default>
 		</key>
 		<key name="palette-selected" type="s">
-			<default>"Adwaita"</default>
+			<default>"adwaita"</default>
 		</key>
 
 		<!-- Tab Positioning -->
@@ -91,7 +87,7 @@
 
 
 	<!-- Thunderbird (finish when ready to support)-->
-	<schema path="/dev/qwery/AddWater/Thunderbird/" id="dev.qwery.AddWater.Thunderbird">
+	<schema id="@PREFIX@.Thunderbird" path="@PREFIX@/Thunderbird/">
 		<key name="data-path" type="s">
 			<default>""</default>
 		</key>
@@ -101,3 +97,4 @@
 
 	</schema>
 </schemalist>
+

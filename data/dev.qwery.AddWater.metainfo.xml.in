@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO Write this metadata stuff-->
 <component type="desktop">
-	<id>dev.qwery.AddWater.desktop</id>
-	<launchable type="desktop-id">dev.qwery.AddWater.desktop</launchable>
+	<id>@APP_ID@</id>
+	<launchable type="desktop-id">@APP_ID@.desktop</launchable>
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
 
@@ -15,7 +14,7 @@
 	  <p>Add Water automatically installs and updates the GNOME theme for Firefox. Conveniently customize the many style options available, and let Add Water update the app for you in the background.</p>
 		<p>Supports Flatpak, Snap, Librewolf, and Floorp</p>
 		<p>The GNOME for Firefox theme is developed and maintained by Rafael Mardojai CM</p>
-		<p>Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries.</p>
+		<p>This project is not affiliated or endorsed by the Mozilla Foundation. Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries.</p>
 	</description>
 
 	<branding>
@@ -27,7 +26,7 @@
 		<!-- TODO add images -->
 		<screenshot type="default">
 			<caption>Add Water Window</caption>
-			<!-- <image></image> -->
+			<image>https://github.com/largestgithubuseronearth/addwater/blob/6c8c1d53e4963903c923960f96e26ee13ab0dddc/.github/images/draft/addwater-combo.png</image>
 		</screenshot>
 		<screenshot>
 			<caption>Firefox Window Preview -- Light</caption>
@@ -68,7 +67,7 @@
 
 	<url type="homepage">https://addwater.qwery.dev/</url>
 	<url type="bugtracker">https://github.com/largestgithubuseronearth/addwater/issues</url>
-	<url type="vcs-browser">https://github.com/largestgithubuseronearth</url>
+	<url type="vcs-browser">https://github.com/largestgithubuseronearth/addwater</url>
 
 	<!-- Technical Details -->
 	<recommends>

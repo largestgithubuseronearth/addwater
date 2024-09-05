@@ -22,6 +22,8 @@ import logging
 from enum import Enum
 from typing import Optional
 
+from addwater import info
+
 from gi.repository import Gio
 
 log = logging.getLogger(__name__)
@@ -33,8 +35,8 @@ class MockOnlineManager():
 	def __init__(self, update_return_code: int):
 		log.debug('Mock online manager created!!!')
 		self.online_status = OnlineStatus(update_return_code)
-
-		self.settings = Gio.Settings(schema_id='dev.qwery.AddWater.Firefox')
+		schema_id = (info.APP_ID + '.Firefox')
+		self.settings = Gio.Settings(schema_id=schema_id)
 
 		self.update_version = self.settings.get_int('installed-version')
 

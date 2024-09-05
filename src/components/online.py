@@ -26,6 +26,7 @@ import json
 import shutil
 
 from enum import Enum
+from addwater import info
 from os.path import join, exists
 from addwater.utils.paths import DOWNLOAD_DIR
 from typing import Optional
@@ -166,7 +167,7 @@ class OnlineManager():
 
 		headers = {
 			'X-Github-Api-Version': '2022-11-28',
-			'User-Agent' : 'dev.qwery.AddWater/pre-alpha',
+			'User-Agent' : (info.APP_ID + '/pre-alpha'),
 			# TODO is this the proper accept header for gzip?
 			'Accept' : 'application/vnd.github.x-gzip+json'
 		}
@@ -231,7 +232,7 @@ class OnlineManager():
 
 		headers = {
 			'X-Github-Api-Version': '2022-11-28',
-			'User-Agent' : 'dev.qwery.AddWater/pre-alpha',
+			'User-Agent' : (info.APP_ID + '/pre-alpha'),
 			'Accept': 'application/vnd.github+json'
 		}
 		try:
