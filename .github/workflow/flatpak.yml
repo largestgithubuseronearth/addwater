@@ -1,0 +1,16 @@
+name: Flatpak (WIP)
+run-name: Flatpak Builder WIP
+on: [push, pull_request]
+jobs:
+  Flatpak-Builder-Action:
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-46
+      options: --privileged
+    steps:
+      - run:
+      - uses: actions/checkout@v4
+      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: dev.qwery.AddWater.Devel.flatpak
+          manifest-path: dev.qwery.AddWater.json
