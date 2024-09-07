@@ -46,7 +46,7 @@
     * Label for Changes Bottom Bar isn't read
     The GNOME settings page I took these styles from also has these same issues. Any fix?
 [/] Full keyboard navigation
-    * Must press esc to exist info button
+    * Must press esc to exit info button
 [/] Contrast
 [] Touch screen support. Can't test this myself.
 [] Accerciser test (need to resolve imp issue)

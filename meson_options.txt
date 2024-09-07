@@ -2,7 +2,7 @@ option(
 	'profile',
 	type : 'combo',
 	choices : ['user', 'developer'],
-	value : 'developer'
+	value : 'user'
 )
 
 # Testing options!
@@ -10,7 +10,7 @@ option(
 option(
 	'use-mock-api',
 	type: 'boolean',
-	value: false
+	value: true
 )
 
 option(

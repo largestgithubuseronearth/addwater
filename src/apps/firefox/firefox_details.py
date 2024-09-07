@@ -172,7 +172,7 @@ class FirefoxAppDetails():
 
 
 	def set_installed_version(self, new_version: int,) -> None:
-		log.info(f'Set installed version number to {new_version}')
+		log.debug(f'Set installed version number to {new_version}')
 		self.settings.set_int('installed-version', new_version)
 		self.installed_version = new_version
 
@@ -244,7 +244,7 @@ class FirefoxAppDetails():
 			path = each["path"]
 			if exists(path):
 				name = each["name"]
-				log.info(f"Found Firefox path: {name} — {path}")
+				log.debug(f"Found Firefox path: {name} — {path}")
 				found.append(each)
 		if not found:
 			log.error('Could not find any valid data paths. App cannot function.')

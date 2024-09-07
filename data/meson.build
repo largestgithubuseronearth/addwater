@@ -16,11 +16,16 @@ gnome.compile_resources('addwater',
 
 
 # Desktop file
+desktop_file = configure_file(
+	input: 'dev.qwery.AddWater.desktop.in',
+	output: app_id + '.desktop.in',
+	configuration: conf
+)
 desktop_file = i18n.merge_file(
-				input: 'dev.qwery.AddWater.desktop.in',
-			 output: 'dev.qwery.AddWater.desktop',
-				 type: 'desktop',
-			 po_dir: '../po',
+			input: desktop_file,
+		 	output: 'dev.qwery.AddWater.desktop',
+		 	type: 'desktop',
+		 	po_dir: '../po',
 			install: true,
 	install_dir: get_option('datadir') / 'applications'
 )

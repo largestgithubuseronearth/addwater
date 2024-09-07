@@ -186,7 +186,6 @@ class AddWaterApplication(Adw.Application):
 		"""Callback for the app.preferences action."""
 		pref = AddWaterPreferences(self.backends[0])
 		pref.present(self.props.active_window)
-		log.info('preferences action activated')
 
 
 	def create_action(self, name, callback, shortcuts=None):

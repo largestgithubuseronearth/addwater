@@ -2,7 +2,7 @@
 Name=Add Water
 Exec=addwater
 Comment=Browse fashionably
-Icon=dev.qwery.AddWater
+Icon=@APP_ID@
 Terminal=false
 Type=Application
 Keywords=theme;adwaita;firefox;
