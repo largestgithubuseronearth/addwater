@@ -49,6 +49,11 @@ class InstallManager():
 
 
 	"""PUBLIC METHODS"""
+	# TODO reduce how many arguments need to be passed into the , it's so messy
+
+	def begin_install(self, theme_path: PathLike, profile_path: PathLike, color_palette: str, app_options, gset_reader) -> Enum:
+		# TODO make this decide whether to use the full or quick install based on an enum flag
+		pass
 
 	def full_install(self, theme_path: PathLike, profile_path: PathLike, color_palette: str, app_options, gset_reader) -> Enum:
 		"""Kick off installing theme and setting its user.js preferences.
@@ -150,10 +155,11 @@ def _set_theme_prefs(profile_path: str, options: list[dict], gset_reader) -> Non
 				pref_value = str(gset_reader.get_boolean(option["key"])).lower()
 				full_line = f"""user_pref("{pref_name}", {pref_value});\n"""
 
+				# TODO simplify this section
 				found = False
-				for i in range(len(lines)):
+				for i, line in enumerate(lines):
 					# This is easier than a for-each
-					if pref_name in lines[i]:
+					if pref_name in line:
 						lines[i] = full_line
 						found = True
 						break
@@ -190,10 +196,10 @@ def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
 
 	try:
 		with open(file=user_js, mode="w", encoding='utf-8') as file:
-			# This is easier than a foreach
-			for i in range(len(lines)):
-				if "gnomeTheme" in lines[i]:
-					lines[i] = lines[i].replace("true", "false")
+			# TODO find a way to avoid using the index and just edit the line in the list directly
+			for i, line in enumerate(lines):
+				if "gnomeTheme" in line:
+					lines[i] = line.replace('true', 'false')
 
 			file.writelines(lines)
 	except OSError as err:
@@ -203,6 +209,10 @@ def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
 	log.info('Done.')
 
 
+
+class InstallTypeFlag(Enum):
+	QUICK = 0
+	FULL = 1
 
 class InstallStatus(Enum):
 	SUCCESS = 0

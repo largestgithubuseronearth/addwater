@@ -1,5 +1,5 @@
 project('addwater',
-	version: 'Pre-Alpha',
+	version: 'alpha',
 	meson_version: '>= 0.62.0',
 	default_options: [ 'warning_level=2', 'werror=false', ],
 )
@@ -36,8 +36,8 @@ conf = configuration_data({
 })
 # TODO move these types of testing options into their own dedicated file that doesn't get made if profile == 'user'
 # I want to avoid cluttering the code if these options aren't necessary for
-# the user but that may not be possible since it would likey break the Python
-# code and imports
+# the user but that may not be possible since it would likely break the Python
+# code and imports. Any way to disable those errors and just ignore it?
 conf.set('MOCK_API', mock_api)
 conf.set('FORCE_BG', force_bg)
 

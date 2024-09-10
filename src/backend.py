@@ -36,8 +36,7 @@ from addwater.utils.mocks import mock_online
 
 log = logging.getLogger(__name__)
 
-# FIXME if the theme files get lost, there is no way for the app to ever install until another update or the user resets the app
-# It should attempt to re-download it every time but stop early if the files already exist
+# TODO make sure that if user doesn't have the necessary files, they will be redownloaded automatically.
 
 # TODO find a more intuitive name than just 'backend'
 
@@ -83,6 +82,7 @@ class AddWaterBackend():
 	"""
 
 	# TODO the install manager should make the decision on quick or full install
+	# so this doesn't need to be duplicated
 	"""Install actions"""
 	def full_install(self, profile_id: str, color_palette: str="adwaita",) -> Enum:
 		version = self.get_update_version()
@@ -95,7 +95,7 @@ class AddWaterBackend():
 				raise ValueError('Trying to install but there is no available profile id')
 
 		profile_path = join(self.get_data_path(), profile_id)
-		theme_path = self.app_details.get_theme_download_path()
+		theme_path = self.app_details.get_full_theme_path()
 		app_options = self.get_app_options()
 
 		install_status = self.install_manager.full_install(
@@ -121,7 +121,7 @@ class AddWaterBackend():
 				raise ValueError('Trying to install but there is no available profile id')
 
 		profile_path = join(self.get_data_path(), profile_id)
-		theme_path = self.app_details.get_theme_download_path()
+		theme_path = self.app_details.get_full_theme_path()
 
 		install_status = self.install_manager.quick_install(
 			theme_path=theme_path,
@@ -135,8 +135,9 @@ class AddWaterBackend():
 
 
 	def remove_theme(self, profile_id) -> Enum:
-		app_path = self.get_data_path()
 		folder_name = self.app_details.get_theme_folder_name()
+
+		app_path = self.get_data_path()
 		profile_path = join(app_path, profile_id)
 
 		install_status = self.install_manager.uninstall(profile_path, folder_name)
@@ -144,11 +145,15 @@ class AddWaterBackend():
 
 	"""Online Actions"""
 
+
 	def update_theme(self) -> Enum:
-		return self.online_manager.get_updates_online(self.app_details)
+		path_info = self.app_details.get_download_path_info()
+		version = self.get_installed_version()
+		return self.online_manager.get_updates_online(version, path_info)
 
 
 	"""Info Getters"""
+	# TODO make a new getter and setter here for installed version so you don't have to call appdetails directly
 	def get_app_name(self,) -> str:
 		return self.app_details.get_name()
 
@@ -163,6 +168,9 @@ class AddWaterBackend():
 
 	def get_colors_list(self) -> list:
 		return self.app_details.get_color_palettes()
+
+	def get_installed_version(self,):
+		return self.app_details.get_installed_version()
 
 	def get_update_version(self,):
 		return self.online_manager.get_update_version()

@@ -79,9 +79,11 @@ class FirefoxAppDetails():
 	# online
 	theme_gh_url: str = 'https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases'
 
-	theme_parent_folder = join(paths.DOWNLOAD_DIR, 'firefox')
+
+	save_to = paths.DOWNLOAD_DIR
+	app_folder = 'firefox'
 	theme_folder = 'firefox-gnome-theme'
-	full_theme_path = join(theme_parent_folder, theme_folder)
+	full_path = join(save_to, app_folder, theme_folder)
 
 
 	def __init__(self,):
@@ -123,15 +125,21 @@ class FirefoxAppDetails():
 
 	"""Getters"""
 	def get_new_gsettings(self,):
-		# TODO make sure this is safe
 		schema_id = (info.APP_ID + '.' + self.get_name())
 		return Gio.Settings(schema_id=schema_id)
 
 	def get_theme_folder_name(self,):
 		return self.theme_folder
 
-	def get_theme_download_path(self,):
-		return self.full_theme_path
+	def get_download_path_info(self,):
+		"""Returns a tuple of ([download cache], [app folder], [theme files folder])
+
+		Join these together to get the full path to the theme files for installation.
+		"""
+		return (self.save_to, self.app_folder, self.theme_folder)
+
+	def get_full_theme_path(self,):
+		return self.full_path
 
 	def get_color_palettes(self,):
 		return self.color_palettes

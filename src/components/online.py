@@ -55,10 +55,8 @@ class OnlineManager():
 
 	"""PUBLIC METHODS"""
 
-	def get_updates_online(self, app_details: callable) -> Enum:
+	def get_updates_online(self, installed_version: int, path_info: tuple) -> Enum:
 		log.info('Checking for updates...')
-		# TODO pass installed version in at init
-		installed_version = app_details.get_installed_version()
 		self.update_version = installed_version
 
 		try:
@@ -78,7 +76,8 @@ class OnlineManager():
 			log.info('no update available')
 			return OnlineStatus.NO_UPDATE
 
-		files_downloaded = exists(app_details.get_theme_download_path())
+		# TODO is there anyway to make this tuple join cleaner?
+		files_downloaded = exists(join(path_info[0], path_info[1], path_info[2]))
 		if files_downloaded:
 			log.info('update available but files already downloaded. skipping download.')
 			return OnlineStatus.UPDATED
@@ -86,11 +85,11 @@ class OnlineManager():
 		log.info('update available. getting it now...')
 
 		tarball_url=update_info["tarball_url"]
-		# TODO simplify how this method gets these paths from app_details
-		base_path = app_details.theme_parent_folder
-		final_name = app_details.get_theme_folder_name()
+		# TODO simplify to just pass the path info into get_release
+		base_path = join(path_info[0], path_info[1])
+		final_name = path_info[2]
 		try:
-			self.get_release(
+			self._get_release(
 				base_path=base_path, final_name=final_name, tarball_url=tarball_url
 			)
 		except NetworkException as err:
@@ -103,8 +102,15 @@ class OnlineManager():
 		return OnlineStatus.UPDATED
 
 
+	def get_update_version(self,):
+		return self.update_version
+
+
+
+	"""PRIVATE FUNCTIONS"""
+
 	# TODO improve to allow files to be downloaded that aren't necessarily zipped or are of different ziptypes
-	def get_release(self, base_path: str, final_name: str, tarball_url: str):
+	def _get_release(self, base_path: str, final_name: str, tarball_url: str):
 		"""Download and prep a theme release for installation
 		Args:
 			base_name = the naming convention for the download zipfile and extracted path
@@ -147,12 +153,6 @@ class OnlineManager():
 		log.info('Update files downloaded and ready to install.')
 
 
-	def get_update_version(self,):
-		return self.update_version
-
-
-
-	"""PRIVATE FUNCTIONS"""
 	@staticmethod
 	def _download_tarball(dl_url: str, result: str) -> None:
 		"""Download file and write to a file
@@ -299,4 +299,5 @@ class OnlineManagerError(Exception):
 
 class ExtractionException(Exception):
 	pass
+
 
