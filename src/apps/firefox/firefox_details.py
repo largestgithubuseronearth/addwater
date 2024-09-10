@@ -132,7 +132,7 @@ class FirefoxAppDetails():
 		return self.theme_folder
 
 	def get_download_path_info(self,):
-		"""Returns a tuple of ([download cache], [app folder], [theme files folder])
+		"""Returns a tuple of ([download cache path], [app folder], [theme files folder])
 
 		Join these together to get the full path to the theme files for installation.
 		"""

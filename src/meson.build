@@ -2,8 +2,6 @@
 
 moduledir = pkgdatadir / 'addwater'
 
-
-
 configure_file(
 	input: 'addwater.in',
 	output: 'addwater',

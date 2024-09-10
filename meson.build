@@ -8,6 +8,7 @@ i18n = import('i18n')
 gnome = import('gnome')
 python = import('python')
 
+# TODO try copying this to make the unit tests package
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 
 # Get profile and if user release, disable ALL testing options
@@ -44,7 +45,9 @@ conf.set('FORCE_BG', force_bg)
 
 subdir('data')
 subdir('src')
+subdir('tests')
 subdir('po')
+
 
 gnome.post_install(
 	glib_compile_schemas: true,
