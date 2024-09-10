@@ -19,7 +19,6 @@
 
 
 import logging
-import os.path
 import shutil
 
 from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
@@ -30,13 +29,10 @@ from addwater.page import AddWaterPage
 
 log = logging.getLogger(__name__)
 
-# TODO refactor this whole class to only focus on the GUI
-@Gtk.Template(resource_path='/dev/qwery/AddWater/gtk/window.ui')
+@Gtk.Template(resource_path=info.PREFIX + '/gtk/window.ui')
 class AddWaterWindow(Adw.ApplicationWindow):
 	__gtype_name__ = 'AddWaterWindow'
 
-	firefox_page = None     # Keep a reference to the page to call it in case of reset app.
-	firefox_backend = None
 
 	# Use when only one page is available
 	# TODO make it dynamically use a ViewStack when there are multiple pages/app plugins to display
@@ -49,7 +45,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
 		self.set_size_request(375, 425) # Minimum size of window Width x Height
 
-		self.settings = Gio.Settings(schema_id="dev.qwery.AddWater")
+		self.settings = Gio.Settings(schema_id=info.APP_ID)
 		if info.PROFILE == 'user':
 			self.settings.bind(
 				'window-height', self, 'default-height', Gio.SettingsBindFlags.DEFAULT
@@ -68,11 +64,11 @@ class AddWaterWindow(Adw.ApplicationWindow):
 	def create_firefox_page(self, firefox_backend):
 		self.main_toolbar_view.set_content(None)
 
-		self.firefox_page = AddWaterPage(
+		firefox_page = AddWaterPage(
 			backend=firefox_backend
 		)
 
-		self.main_toolbar_view.set_content(self.firefox_page)
+		self.main_toolbar_view.set_content(firefox_page)
 
 
 	# TODO redo this to accept multiple types of errors

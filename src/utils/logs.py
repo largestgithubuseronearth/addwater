@@ -26,7 +26,7 @@ import sys
 from datetime import datetime, timezone, timedelta
 from gi.repository import Gtk, Adw
 from . import paths
-from addwater import info
+from addwater.info import PROFILE, VERSION
 
 def init_logs():
 	LOG_DIR = paths.LOG_DIR
@@ -34,17 +34,14 @@ def init_logs():
 		now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 		logfile = os.path.join(LOG_DIR, f"addwater_{now}.log")
 
-		# TODO set the log level in the dev build profile
 		file_handler = logging.FileHandler(logfile)
 		console_handler = logging.StreamHandler(sys.stdout)
 
 		file_handler.setLevel(logging.DEBUG)
-		console_handler.setLevel(logging.DEBUG)
-		# TODO why is this not working? info not associated with a variable?
-		# if info.PROFILE == 'developer':
-		#     console_handler.setLevel(logging.DEBUG)
-		# elif info.PROFILE == 'user':
-		#     console_handler.setLevel(logging.INFO)
+		if PROFILE == 'developer':
+		    console_handler.setLevel(logging.DEBUG)
+		elif PROFILE == 'user':
+		    console_handler.setLevel(logging.INFO)
 
 		logging.basicConfig(
 			handlers=[file_handler, console_handler],
@@ -76,9 +73,10 @@ def init_logs():
 	# flatpak or not?
 	info = f"""
 	------------------------------------------------------------------------
+	------------------------------------------------------------------------
 	System Info:
 	Add Water — An installer for the GNOME theme for Firefox and Thunderbird
-	Version:
+	Version: v{VERSION}
 	Time (UTC): {datetime.now(timezone.utc)}
 	GTK version: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}
 	ADW version: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}

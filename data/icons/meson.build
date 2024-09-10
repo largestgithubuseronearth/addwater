@@ -1,4 +1,7 @@
-application_id = 'dev.qwery.AddWater'
+# data/icons/
+
+# application_id = 'dev.qwery.AddWater'
+application_id = app_id
 
 scalable_dir = 'hicolor' / 'scalable' / 'apps'
 install_data(

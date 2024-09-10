@@ -8,9 +8,9 @@ option(
 # Testing options!
 # profile 'user' overrides all of these options to prevent accidentally disabling features for users.
 option(
-	'use-real-api',
+	'use-mock-api',
 	type: 'boolean',
-	value: false
+	value: true
 )
 
 option(

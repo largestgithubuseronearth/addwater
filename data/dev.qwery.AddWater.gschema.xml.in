@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="addwater">
 	<!-- Add Water -->
-	<schema id="dev.qwery.AddWater" path="/dev/qwery/AddWater/">
+	<!-- The slash at the end of the prefix is important! -->
+	<schema id="@APP_ID@" path="@PREFIX@/">
 		<key name="window-height" type="i">
 			<default>700</default>
 		</key>
@@ -15,13 +16,11 @@
 		<key name="background-update" type="b">
 			<default>false</default>
 		</key>
-
-
 	</schema>
 
 
 	<!-- Firefox -->
-	<schema id="dev.qwery.AddWater.Firefox" path="/dev/qwery/AddWater/Firefox/">
+	<schema id="@APP_ID@.Firefox" path="@PREFIX@/Firefox/">
 		<key name="data-path" type="s">
 			<default>""</default>
 		</key>
@@ -44,7 +43,7 @@
 			<default>""</default>
 		</key>
 		<key name="palette-selected" type="s">
-			<default>"Adwaita"</default>
+			<default>"adwaita"</default>
 		</key>
 
 		<!-- Tab Positioning -->
@@ -87,15 +86,14 @@
 		</key>
 	</schema>
 
-
 	<!-- Thunderbird (finish when ready to support)-->
-	<schema path="/dev/qwery/AddWater/Thunderbird/" id="dev.qwery.AddWater.Thunderbird">
+	<schema id="@APP_ID@.Thunderbird" path="@PREFIX@/Thunderbird/">
 		<key name="data-path" type="s">
 			<default>""</default>
 		</key>
 		<key name="autofind-paths" type="b">
 			<default>true</default>
 		</key>
-
 	</schema>
 </schemalist>
+

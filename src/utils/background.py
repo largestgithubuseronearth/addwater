@@ -31,7 +31,7 @@ class BackgroundUpdater():
 		app_name = backend.get_app_name()
 		log.debug(f'BackgroundUpdater created for {app_name}')
 		self.backend = backend
-		self.settings = Gio.Settings(schema_id=f'dev.qwery.AddWater.{app_name}')
+		self.settings = self.backend.get_app_settings()
 
 
 

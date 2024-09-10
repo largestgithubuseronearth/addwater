@@ -31,12 +31,14 @@ from datetime import timedelta
 from typing import Optional
 from gi.repository import Gtk, Adw, Gio, GLib, GObject
 
+from addwater import info
+
 # TODO grab colors from appdetails not import
 
 log = logging.getLogger(__name__)
 
 # TODO grey out enable theme switch when there's no package to install (first launch, no internet)
-@Gtk.Template(resource_path="/dev/qwery/AddWater/gtk/addwater-page.ui")
+@Gtk.Template(resource_path=info.PREFIX + '/gtk/addwater-page.ui')
 class AddWaterPage(Adw.Bin):
 	__gtype_name__ = "AddWaterPage"
 
@@ -89,7 +91,6 @@ class AddWaterPage(Adw.Bin):
 		self.color_combobox.connect("notify::selected-item", self._set_color_palette)
 
 		# Change Confirmation bar
-		# TODO try using an action group instead. Would that make actions easier?
 		self.install_action(
 			"water.apply-changes", None, self.on_apply_action
 		)
@@ -173,13 +174,11 @@ class AddWaterPage(Adw.Bin):
 
 
 	def send_toast(self, msg: str=None, timeout_seconds: int=2, priority: int=0):
-		# FIXME When a toast is displayed at the window launch, it still stays on screen forever
+		# FIXME When a toast is displayed at the app launch, it still stays on screen forever
 		if self.current_toast:
 			self.current_toast.dismiss()
 
 		# Pass None as msg to withdraw any toasts already on screen
-		# Use case: asking user to wait for an async operation to finish but
-		# there's nothing to report so just withdraw the toast
 		if not msg:
 			return
 
@@ -271,7 +270,7 @@ class AddWaterPage(Adw.Bin):
 			settings.bind(
 				option["key"], row_switch, "active", Gio.SettingsBindFlags.DEFAULT
 			)
-			# disable row if theme isn't enabled.
+			# Grey-out row if theme isn't enabled.
 			enable_button.bind_property(
 				"active", row, "sensitive", GObject.BindingFlags.SYNC_CREATE
 			)
@@ -283,10 +282,7 @@ class AddWaterPage(Adw.Bin):
 
 	@staticmethod
 	def _create_option_switch(title: str, subtitle: str, extra_info: str=None):
-		row = Adw.ActionRow(
-			title=title,
-			subtitle=subtitle,
-		)
+		row = Adw.ActionRow(title=title, subtitle=subtitle)
 		# This styling was borrowed from GNOME settings > Mouse Acceleration option
 		if extra_info:
 			label = Gtk.Label(
@@ -299,9 +295,7 @@ class AddWaterPage(Adw.Bin):
 				wrap=True,
 			)
 			info_popup = Gtk.Popover(
-				autohide=True,
-				child=label,
-				hexpand=False,
+				autohide=True, child=label, hexpand=False
 			)
 			info_button = Gtk.MenuButton(
 				has_frame=False,
@@ -312,11 +306,7 @@ class AddWaterPage(Adw.Bin):
 			)
 			row.add_suffix(info_button)
 
-
-		switch = Gtk.Switch(
-			valign="center",
-			vexpand=False,
-		)
+		switch = Gtk.Switch(valign="center", vexpand=False,)
 		row.add_suffix(switch)
 		row.set_activatable_widget(switch)
 

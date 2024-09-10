@@ -1,9 +1,9 @@
 ## PRIMARY GOALS:
-* Give app functionality to run at startup, in the background, and check for + install updates automatically
 * Find a good auto linter/formatter
     * Pylint
     * Black 
-* Improve implementation of AppDetails and make a generic factory for this
+* Improve implementation of AppDetails and/or make a generic factory for this
+* Set up workflow actions to easily separate dev and user builds
 * Properly set up Meson
     * Set up options to enable mocks and easy tests, but disable ALL of these when profile == user
         * Integrate these in the real code cleaner. Like with the force_bg and use_api 
@@ -16,6 +16,8 @@
     * sphinx
     * read the docs
 * Change all type hints to use pathlike when needed
+* Consider possibility of a "Restart Firefox" button
+* Is there a built-in GTK logging tool? How do cartridges and others do the debugging page?
 
 ## FLATHUB GOALS:
 * Make sure Flatpak is configured properly
@@ -36,22 +38,23 @@
 
 
 ## Accessibility Test Results:
-<!-- TODO redo these tests! -->
-[X] Large Text
+[/] Large Text
 [~] Screen Reader tests
-    Could find everything except:
-    * Can't find label for the bottom action bar
-    * Some SwitchRow subtitles are not read aloud. Orca bug?
-    * Toasts are not read out
-[X] Full keyboard navigation
-[X] Contrast
-[] Touch screen support
+    * When selecting a row, it wouldn't say the control type for my custom switch rows or the state of the switch. Doesn't notify when you change activate the switch from here.
+    * Wouldn't mention the info button exists.
+    * The info button's popover label isn't read
+    * Label for Changes Bottom Bar isn't read
+    The GNOME settings page I took these styles from also has these same issues. Any fix?
+[/] Full keyboard navigation
+    * Must press esc to exit info button
+[/] Contrast
+[] Touch screen support. Can't test this myself.
 [] Accerciser test (need to resolve imp issue)
 
 
 ### What needs to happen for Thunderbird support:
-* Be able to clone the Github repo in Python easily
-* Set up self-restricting limits and timings on when to clone to avoid Github api ratelimits
+* Be able to clone the Github repo in Python easily OR dev finishes it and makes actual releases
+    * Set up self-restricting limits and timings on when to clone to avoid Github api ratelimits
 * Make another pass through all modules to ensure they can support multiple pages and backends at a single time
 * Set up Thunderbird AppDetails(paths, options, url, etc)
 * Set up Thunderbird GSettings schema and keys 

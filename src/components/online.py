@@ -23,8 +23,10 @@ import tarfile
 import logging
 import requests
 import json
+import shutil
 
 from enum import Enum
+from addwater import info
 from os.path import join, exists
 from addwater.utils.paths import DOWNLOAD_DIR
 from typing import Optional
@@ -34,6 +36,8 @@ log = logging.getLogger(__name__)
 
 # TODO make this handle requests asynchronously and use callbacks to report the status
 # This would allow the app to launch instantly, even if internet speed is poor
+
+# TODO add a method to delete the previous theme files after the download and before the extract
 
 class OnlineManager():
 	"""Handles everything to do with polling for theme updates and downloading
@@ -51,52 +55,62 @@ class OnlineManager():
 
 	"""PUBLIC METHODS"""
 
-	def get_updates_online(self, app_details: callable) -> Enum:
+	def get_updates_online(self, installed_version: int, path_info: tuple) -> Enum:
 		log.info('Checking for updates...')
+		self.update_version = installed_version
 
-		installed_version = app_details.get_installed_version()
 		try:
 			update_info = self._get_release_info(self.theme_url)
 		except NetworkException as err:
-			self.update_version = installed_version
 			return OnlineStatus.DISCONNECTED
 
+		# TODO try to break up all these checks into individual methods. This method is messy rn
 		calls_left = update_info["ratelimit_remaining"]
 		if self._is_ratelimit_exceeded(calls_left):
 			log.warning('rate limiting self to avoid angering Github')
 			return OnlineStatus.RATELIMITED
 
-		update_version = update_info["version"]
-		self.update_version = update_version
-		tarball_url=update_info["tarball_url"]
-		app_name = app_details.get_name().lower()
+		self.update_version = update_info["version"]
+		update_available = self._is_update_available(new=self.update_version, current=installed_version)
+		if not update_available:
+			log.info('no update available')
+			return OnlineStatus.NO_UPDATE
 
-		files_downloaded = exists(app_details.get_theme_download_path())
-		update_available = self._is_update_available(new=update_version, current=installed_version)
-		if update_available or not files_downloaded:
-			log.info('update available. getting it now...')
-			# TODO find a way for appdetails to store this path so it's easy to stay consistent between managers. Is that even worth it?
-			base_name = f'{app_name}-{update_version}'
-			final_name = app_details.final_theme_name
-			try:
-				self.get_release(
-					base_name=base_name, final_name=final_name, tarball_url=tarball_url
-				)
-			except NetworkException as err:
-				return OnlineStatus.DISCONNECTED
-			except ExtractionException as err:
-				log.error(err)
-				# TODO recover from this more cleanly
-				raise OnlineManagerError('could not extract theme release tarball')
-
+		# TODO is there anyway to make this tuple join cleaner?
+		files_downloaded = exists(join(path_info[0], path_info[1], path_info[2]))
+		if files_downloaded:
+			log.info('update available but files already downloaded. skipping download.')
 			return OnlineStatus.UPDATED
 
-		log.info('No update available.')
-		return OnlineStatus.NO_UPDATE
+		log.info('update available. getting it now...')
 
+		tarball_url=update_info["tarball_url"]
+		# TODO simplify to just pass the path info into get_release
+		base_path = join(path_info[0], path_info[1])
+		final_name = path_info[2]
+		try:
+			self._get_release(
+				base_path=base_path, final_name=final_name, tarball_url=tarball_url
+			)
+		except NetworkException as err:
+			return OnlineStatus.DISCONNECTED
+		except ExtractionException as err:
+			log.error(err)
+			# TODO recover from this more cleanly
+			raise OnlineManagerError('could not extract theme release tarball')
+
+		return OnlineStatus.UPDATED
+
+
+	def get_update_version(self,):
+		return self.update_version
+
+
+
+	"""PRIVATE FUNCTIONS"""
 
 	# TODO improve to allow files to be downloaded that aren't necessarily zipped or are of different ziptypes
-	def get_release(self, base_name: str, final_name: str, tarball_url: str):
+	def _get_release(self, base_path: str, final_name: str, tarball_url: str):
 		"""Download and prep a theme release for installation
 		Args:
 			base_name = the naming convention for the download zipfile and extracted path
@@ -104,15 +118,15 @@ class OnlineManager():
 				this is '{app_name}-gnome-theme'. This means you can find the theme
 				folder at "{base-name}-extracted/{final_path}"
 		"""
-		zipfile = join(DOWNLOAD_DIR, f'{base_name}.tar.gz')
-		extract_path = join(DOWNLOAD_DIR, f'{base_name}-extracted')
+		zipfile = f'{base_path}.tar.gz'
+		extract_path = f'{base_path}'
 		final_path = join(extract_path, final_name.lower())
 		if exists(final_path):
-			log.info(f"{base_name} is already ready to install. done.")
+			log.info(f"The theme files are already ready to install. done.")
 			return
 
 
-		log.info(f'Getting release: {base_name}...')
+		log.info(f'Getting release...')
 
 		if not exists(zipfile) or not exists(extract_path):
 			try:
@@ -121,24 +135,24 @@ class OnlineManager():
 				log.error(err)
 				raise NetworkException(err)
 
-		if not exists(extract_path):
+		# TODO monitor this to ensure it's not excessively removing and downloading
+		try:
+			shutil.rmtree(final_path)
+		except FileNotFoundError:
+			pass
+
+		if not exists(final_path):
 			try:
 				self._extract_tarball(zipfile, extract_path)
 			except (FileNotFoundError, tarfile.TarError) as err:
-				# TODO find a better error to throw
 				raise ExtractionException('Theme files failed to extract')
 
 		# rename inner folder
 		self._rename_theme_folder(extract_path, final_name)
+
 		log.info('Update files downloaded and ready to install.')
 
-	def get_update_version(self,):
-		return self.update_version
 
-
-
-	"""PRIVATE FUNCTIONS"""
-	# TODO how to make download asynchronous?
 	@staticmethod
 	def _download_tarball(dl_url: str, result: str) -> None:
 		"""Download file and write to a file
@@ -153,8 +167,8 @@ class OnlineManager():
 
 		headers = {
 			'X-Github-Api-Version': '2022-11-28',
-			'User-Agent' : 'dev.qwery.AddWater/pre-alpha',
-			# TODO is this the proper accept header?
+			'User-Agent' : (info.APP_ID + '/pre-alpha'),
+			# TODO is this the proper accept header for gzip?
 			'Accept' : 'application/vnd.github.x-gzip+json'
 		}
 		# TODO test with the streaming feature
@@ -177,9 +191,6 @@ class OnlineManager():
 
 		if not exists(zipfile_path):
 			raise FileNotFoundError('Zipfile does not exist to be extracted. It must have been lost since downloading it')
-		if exists(result_path):
-			log.debug('Unzipped directory already exists. Skipping extraction.')
-			return
 
 		with tarfile.open(zipfile_path) as tf:
 			tf.extractall(path=result_path, filter="data")
@@ -212,23 +223,24 @@ class OnlineManager():
 		"""Poll Github url and check if a new release of the theme is available
 
 		Args:
-			gh_url = fully-qualified url to a github releases api call (https://api.github.com/...)
+			gh_url = fully-qualified url to a github api releases endpoint
 
 		Returns:
 			release_info = dict including "version" as int, "ratelimit_remaining" as int, and "tarball_url" as str
 		"""
-		# TODO If you can check Firefox version easily, check that before requesting from GH
+		# TODO If you can check Firefox version easily, check that before polling GH
 
-		# TODO make sure this request is complaint with github's specification
-		# Include all the applicable headers
 		headers = {
 			'X-Github-Api-Version': '2022-11-28',
-			'User-Agent' : 'dev.qwery.AddWater/pre-alpha',
+			'User-Agent' : (info.APP_ID + '/pre-alpha'),
 			'Accept': 'application/vnd.github+json'
 		}
 		try:
 			response = requests.get(gh_url, headers=headers)
 		except requests.RequestException as err:
+			# TODO use specific exceptions to handle being disconnected. It'll
+			# 	be more helpful if the issue isn't just being offline but an API or
+			# 	programmer error
 			log.error(f'Could not connect to Github to grab release info: {err}')
 			raise NetworkException(err)
 
@@ -237,7 +249,6 @@ class OnlineManager():
 			latest_release = response.json()[0]
 			version = int(latest_release["tag_name"].lstrip("v"))
 			tarball_url = latest_release["tarball_url"]
-		# TODO make sure this error is correct
 		except request.JSONDecodeError as err:
 			log.err(err)
 			version = None
@@ -254,7 +265,9 @@ class OnlineManager():
 	@staticmethod
 	def _is_ratelimit_exceeded(api_calls_left: int) -> bool:
 		# TODO Set API limit more robust and strict before flathub release
-		# Maybe set the time and api calls remaining in gsettings
+		# Maybe set the time and api calls remaining in gsettings. Otherwise it's
+		# possible for the user to continue spammnig Github even while rate
+		# limited.
 		CHOSEN_LIMIT = 10
 		log.debug(f'Remaining Github API calls for the next hour: {api_calls_left}')
 		return bool(api_calls_left < CHOSEN_LIMIT)
@@ -267,7 +280,7 @@ class OnlineManager():
 
 		# TODO consider making this handle special cases like minor updates or maybe rollbacks
 		# This could work by parsing a string and separating them by the dots. MAJOR.MINOR.MICRO
-		# And if any of them are higher, then the release is downloaded
+		# And if any of them are greater than current, then the release is downloaded
 		return bool(new > current)
 
 
@@ -286,4 +299,5 @@ class OnlineManagerError(Exception):
 
 class ExtractionException(Exception):
 	pass
+
 

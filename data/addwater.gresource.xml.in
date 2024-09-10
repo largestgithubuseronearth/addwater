@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+	<gresource prefix="@PREFIX@">
+		<file preprocess="xml-stripblanks">gtk/window.ui</file>
+		<file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
+		<file preprocess="xml-stripblanks">gtk/preferences.ui</file>
+		<file preprocess="xml-stripblanks">gtk/addwater-page.ui</file>
+	</gresource>
+
+	<gresource prefix="@PREFIX@/icons/scalable/actions">
+		<file preprocess="xml-stripblanks" alias="checkmark-symbolic.svg">icons/hicolor/scalable/actions/checkmark-symbolic.svg</file>
+		<file preprocess="xml-stripblanks" alias="cross-large-symbolic.svg">icons/hicolor/scalable/actions/cross-large-symbolic.svg</file>
+		<file preprocess="xml-stripblanks" alias="cross-small-symbolic.svg">icons/hicolor/scalable/actions/cross-small-symbolic.svg</file>
+		<file preprocess="xml-stripblanks" alias="globe-symbolic.svg">icons/hicolor/scalable/actions/globe-symbolic.svg</file>
+		<file preprocess="xml-stripblanks" alias="info-outline-symbolic.svg">icons/hicolor/scalable/actions/info-outline-symbolic.svg</file>
+		<file preprocess="xml-stripblanks" alias="mail-symbolic.svg">icons/hicolor/scalable/actions/mail-symbolic.svg</file>
+	</gresource>
+</gresources>

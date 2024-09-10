@@ -8,7 +8,8 @@ test_manager = OnlineManager(themeurl="www.example.com")
 
 def test_is_update_available():
 	assert test_manager._is_update_available(45, 60) == True
-	assert test_manager.__is_update_available(90, 10) == False
+	assert test_manager._is_update_available(90, 10) == False
+	assert test_manager._is_update_available()
 	with pytest.raises(ValueError):
 		test_manager._is_update_available("meat", 50)
 		test_manager._is_update_available(42958, "a")
@@ -20,4 +21,4 @@ def test_is_update_available():
 	assert test_manager.is_update_available(398, 398) == False
 
 if __name__ == "__main__":
-	pytest.main(['test_online_manager.py'])
+	self.test_is_update_available()

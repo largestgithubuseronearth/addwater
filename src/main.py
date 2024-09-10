@@ -69,6 +69,9 @@ class AddWaterApplication(Adw.Application):
 
 
 	def do_command_line(self, command_line):
+		"""Handles command line args and options if given, or starts the GUI
+		window if none are provided.
+		"""
 		options = command_line.get_options_dict()
 		options = options.end().unpack()
 
@@ -103,10 +106,10 @@ class AddWaterApplication(Adw.Application):
 
 
 	def handle_background_update(self, options):
-		print('oooooooooooo', options)
-		# TODO handle the options explicitly and return an error if they do it wrong
 		if info.FORCE_BG == 'True':
 			options = {'quick-update' : True}
+
+		# TODO handle the option better and handle the error better
 		if 'quick-update' in options and options['quick-update']:
 			self.backends = self.construct_backends()
 
@@ -134,14 +137,17 @@ class AddWaterApplication(Adw.Application):
 	def on_reset_app_action(self, *_):
 		log.warning('resetting the entire app...')
 
-		settings = Gio.Settings('dev.qwery.AddWater')
+		settings = Gio.Settings(info.APP_ID)
 		settings.reset('background-update')
 
-		# TODO temporarily indexing until app can support multiple backends
-		backend = self.backends[0]
-		backend.reset_app()
+		for each in self.backends:
+			each.reset_app()
 
-		shutil.rmtree(paths.DOWNLOAD_DIR)
+		try:
+			shutil.rmtree(paths.DOWNLOAD_DIR)
+		except FileNotFoundError:
+			pass
+		log.info('deleted download folder')
 
 		log.info('app has been reset and will now exit')
 		self.quit()
@@ -155,6 +161,10 @@ class AddWaterApplication(Adw.Application):
 		# TODO info.py.in seems like a good model for how to do this. But requires meson tinkering
 		about = Adw.AboutDialog(application_name='Add Water',
 								application_icon=info.APP_ID,
+								# TODO make a custom issue page that bundles log files, the help page link, and the issue link
+								# in a single navpage. The debugging page doesn't work for me because the logs are already a file.
+								issue_url=info.ISSUE_TRACKER,
+								website=info.WEBSITE,
 								developer_name='qwery',
 								version=info.VERSION,
 								developers=['Qwery'],
@@ -174,9 +184,8 @@ class AddWaterApplication(Adw.Application):
 
 	def on_preferences_action(self, widget, _):
 		"""Callback for the app.preferences action."""
-		pref = AddWaterPreferences()
+		pref = AddWaterPreferences(self.backends[0])
 		pref.present(self.props.active_window)
-		log.info('preferences action activated')
 
 
 	def create_action(self, name, callback, shortcuts=None):
@@ -197,8 +206,7 @@ class AddWaterApplication(Adw.Application):
 
 	def on_help_action(self, action, _):
 		log.info("help page action activated")
-		# TODO is there a better link than this?
-		weblaunch = Gtk.UriLauncher.new("https://github.com/largestgithubuseronearth/addwater/blob/7b405a417356346fd1d93d3d2090a090cf27ecbf/docs/user-help.md")
+		weblaunch = Gtk.UriLauncher.new("https://github.com/largestgithubuseronearth/addwater/blob/main/docs/user-help.md")
 		weblaunch.launch(None, None, None, None)
 
 

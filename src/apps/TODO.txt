@@ -1,6 +1,0 @@
-TODO
-
-Move all firefox-specific details into data folder and then import it as a plugin.
-Construct a Firefox AppDetails instance from that plugin and then add it to
-the page constructor. Move this entire folder into addwater/data/plugins/ and
-install with Meson.
