@@ -18,13 +18,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
-
 from enum import Enum
 from typing import Optional
 
-from addwater import info
-
 from gi.repository import Gio
+
+from addwater import info
 
 log = logging.getLogger(__name__)
 

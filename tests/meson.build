@@ -16,3 +16,6 @@ install_data(test_sources, install_dir: moduledir)
 # FIXME no module named pytest
 # interpreter = python.find_installation('python3')
 # test('Test Online Provider', interpreter, args: ['-m', 'pytest', 'tests'])
+
+# Try finding pytest first?
+# pytest = find_program('pytest', dirs: , required: false)

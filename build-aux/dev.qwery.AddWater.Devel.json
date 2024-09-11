@@ -94,7 +94,7 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "url" : "file:///var/home/qwery/Projects/dev/gnome/fireaddwater"
+                    "url" : "file:///../.."
                 }
             ],
             "builddir" : true

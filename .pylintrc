@@ -1,0 +1,6 @@
+[MESSAGES CONTROL]
+
+disable=fixme,
+	bad-indentation,
+	no-name-in-module,
+	no-member

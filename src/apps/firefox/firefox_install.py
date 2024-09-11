@@ -18,10 +18,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-import os
 import logging
+import os
 import shutil
-from os.path import join, exists
+from os.path import exists, join
+
 from addwater.components.install import InstallException
 
 log = logging.getLogger(__name__)

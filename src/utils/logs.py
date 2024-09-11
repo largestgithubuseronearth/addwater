@@ -23,10 +23,14 @@ import logging
 import os
 import os.path
 import sys
-from datetime import datetime, timezone, timedelta
-from gi.repository import Gtk, Adw
-from . import paths
+from datetime import datetime, timedelta, timezone
+
+from gi.repository import Adw, Gtk
+
 from addwater.info import PROFILE, VERSION
+
+from . import paths
+
 
 def init_logs():
 	LOG_DIR = paths.LOG_DIR

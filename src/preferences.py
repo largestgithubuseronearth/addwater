@@ -17,16 +17,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import gi
 import logging
+
+import gi
 
 gi.require_version('Xdp', '1.0')
 
-from gi.repository import Adw, Gtk, Gio, GLib, Xdp
-
+from gi.repository import Adw, Gio, Gtk, Xdp
 
 from addwater import info
-
 
 log = logging.getLogger(__name__)
 
@@ -42,6 +41,7 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 	def __init__(self, firefox_backend):
 		super().__init__()
 		log.info("Preferences Window activated")
+		# TODO use gset getter instead
 		self.settings_app = Gio.Settings(schema_id=info.APP_ID)
 		self.settings_firefox = firefox_backend.get_app_settings()
 		self.FIREFOX_FORMATS = firefox_backend.get_package_formats()

@@ -19,7 +19,6 @@
 
 
 import logging
-
 from enum import Enum
 
 from gi.repository import Gio

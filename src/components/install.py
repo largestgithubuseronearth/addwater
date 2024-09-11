@@ -17,13 +17,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import shutil
 import logging
-
-from os import PathLike
-from os.path import join, exists
-from typing import Optional, Callable
+import shutil
 from enum import Enum
+from os import PathLike
+from os.path import exists, join
+from typing import Callable, Optional
 
 from addwater.utils.paths import DOWNLOAD_DIR
 

@@ -19,10 +19,8 @@
 
 
 import logging
-import shutil
 
-from gi.repository import Adw, Gtk, GLib, Gio, Gdk, GObject
-from .utils import logs, paths
+from gi.repository import Adw, Gio, Gtk
 
 from addwater import info
 from addwater.page import AddWaterPage
@@ -88,4 +86,3 @@ class AddWaterWindow(Adw.ApplicationWindow):
 			child=help_page_button
 		)
 		return statuspage
-

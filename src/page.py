@@ -26,10 +26,9 @@
 
 
 import logging
-
-from datetime import timedelta
 from typing import Optional
-from gi.repository import Gtk, Adw, Gio, GLib, GObject
+
+from gi.repository import Adw, Gio, GObject, Gtk
 
 from addwater import info
 
@@ -40,6 +39,12 @@ log = logging.getLogger(__name__)
 # TODO grey out enable theme switch when there's no package to install (first launch, no internet)
 @Gtk.Template(resource_path=info.PREFIX + '/gtk/addwater-page.ui')
 class AddWaterPage(Adw.Bin):
+	"""The container that holds the GUI that allows the user to configure the
+	theme.
+
+	args:
+		backend = an addwaterbackend interface object
+	"""
 	__gtype_name__ = "AddWaterPage"
 
 	# Widget controls
@@ -62,13 +67,10 @@ class AddWaterPage(Adw.Bin):
 
 	current_toast = None
 
-	def __init__(self, backend=None):
+	def __init__(self, backend):
 		super().__init__()
-		try:
-			self.backend = backend
-		except:
-			log.critical("Backend initialization failed")
-			raise FatalPageException('Backend failed to init')
+
+		self.backend = backend
 
 		self.app_name = self.backend.get_app_name()
 
@@ -106,6 +108,8 @@ class AddWaterPage(Adw.Bin):
 		self.send_toast('Checking for updates...', 10)
 		self.request_update_status()
 
+
+
 	"""PUBLIC METHODS"""
 
 	def request_update_status(self):
@@ -137,13 +141,13 @@ class AddWaterPage(Adw.Bin):
 		color_palette = self.settings.get_string('palette-selected')
 
 		if theme_enabled:
-			log.debug(f'GUI calling for install..')
+			log.debug('GUI calling for install..')
 			install_status = self.backend.full_install(
 				self.selected_profile, color_palette
 			)
 			toast_msg = "Installed Theme. Restart Firefox to see changes."
 		else:
-			log.debug(f'GUI calling for uninstall...')
+			log.debug('GUI calling for uninstall...')
 			install_status = self.backend.remove_theme(self.selected_profile)
 			toast_msg = "Removed Theme. Restart Firefox to see changes."
 
@@ -254,7 +258,8 @@ class AddWaterPage(Adw.Bin):
 
 
 	@staticmethod
-	def _create_option_group(group_schematic: dict[str,list[dict]], gui_switch_factory: callable, settings, enable_button):
+	def _create_option_group(group_schematic: dict[str,list[dict]],
+			gui_switch_factory: callable, settings, enable_button):
 		"""Creates a PreferencesGroup with the included switch options, and binds all the switches to gsettings"""
 		# TODO these margins are arbitrary. Toy around & try to find a better margin value.
 		group = Adw.PreferencesGroup(

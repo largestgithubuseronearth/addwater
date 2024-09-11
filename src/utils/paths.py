@@ -21,8 +21,8 @@
 
 import os
 from os.path import expanduser, join
-from gi.repository import GLib
 
+from gi.repository import GLib
 
 # APP PATHS
 XDG_CACHE_DIR = GLib.get_user_cache_dir()
