@@ -11,5 +11,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          bundle: dev.qwery.AddWater.Devel.flatpak
-          manifest-path: build-aux/dev.qwery.AddWater.Devel.json
+          bundle: dev.qwery.AddWater.flatpak
+          manifest-path: build-aux/dev.qwery.AddWater.json
