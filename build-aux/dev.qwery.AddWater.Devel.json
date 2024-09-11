@@ -87,6 +87,7 @@
         },
         {
             "name" : "addwater",
+            "builddir" : true,
             "buildsystem" : "meson",
             "config-opts" : [
                 "-Dprofile=developer"
@@ -94,10 +95,9 @@
             "sources" : [
                 {
                     "type" : "dir",
-                    "url" : "../.."
+                    "path" : "../.."
                 }
             ],
-            "builddir" : true
         }
     ],
     "build-options" : {

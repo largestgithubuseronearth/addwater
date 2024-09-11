@@ -87,6 +87,7 @@
         },
         {
             "name" : "addwater",
+            "builddir" : true,
             "buildsystem" : "meson",
             "config-opts" : [
                 "-Dprofile=user"
@@ -97,10 +98,6 @@
                     "url" : "https://github.com/largestgithubuseronearth/addwater"
                 }
             ],
-            "builddir" : true
         }
     ],
-    "build-options" : {
-        "env" : {        }
-    }
 }
