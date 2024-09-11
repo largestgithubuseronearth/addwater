@@ -8,7 +8,6 @@ jobs:
       image: bilelmoussaoui/flatpak-github-actions:gnome-46
       options: --privileged
     steps:
-      - run:
       - uses: actions/checkout@v4
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
