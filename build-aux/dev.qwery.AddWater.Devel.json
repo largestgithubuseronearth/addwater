@@ -97,10 +97,7 @@
                     "type" : "dir",
                     "path" : "../.."
                 }
-            ],
+            ]
         }
-    ],
-    "build-options" : {
-        "env" : {        }
-    }
+    ]
 }
