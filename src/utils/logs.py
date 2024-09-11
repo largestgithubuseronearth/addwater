@@ -31,7 +31,6 @@ from addwater.info import PROFILE, VERSION
 
 from . import paths
 
-
 def init_logs():
 	LOG_DIR = paths.LOG_DIR
 	try:

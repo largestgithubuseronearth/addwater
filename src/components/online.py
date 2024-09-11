@@ -28,8 +28,12 @@ from os.path import exists, join
 from typing import Optional
 
 import requests
+import json
+import shutil
 
+from enum import Enum
 from addwater import info
+from os.path import join, exists
 from addwater.utils.paths import DOWNLOAD_DIR
 
 log = logging.getLogger(__name__)

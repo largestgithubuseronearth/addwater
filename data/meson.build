@@ -36,7 +36,6 @@ if desktop_utils.found()
 endif
 
 
-
 # Appstream
 appstream_file = configure_file(
 	input: 'dev.qwery.AddWater.metainfo.xml.in',

@@ -49,10 +49,10 @@ class InstallManager():
 
 	"""PUBLIC METHODS"""
 	# TODO reduce how many arguments need to be passed into the , it's so messy
-
 	def begin_install(self, theme_path: PathLike, profile_path: PathLike, color_palette: str, app_options, gset_reader) -> Enum:
 		# TODO make this decide whether to use the full or quick install based on an enum flag
 		pass
+  
 
 	def full_install(self, theme_path: PathLike, profile_path: PathLike, color_palette: str, app_options, gset_reader) -> Enum:
 		"""Kick off installing theme and setting its user.js preferences.

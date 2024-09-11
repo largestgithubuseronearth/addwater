@@ -32,6 +32,8 @@ from gi.repository import Adw, Gio, GObject, Gtk
 
 from addwater import info
 
+from addwater import info
+
 # TODO grab colors from appdetails not import
 
 log = logging.getLogger(__name__)
