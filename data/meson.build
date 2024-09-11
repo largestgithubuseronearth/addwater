@@ -35,6 +35,7 @@ if desktop_utils.found()
 	test('Validate desktop file', desktop_utils, args: [desktop_file])
 endif
 
+
 # Appstream
 appstream_file = configure_file(
 	input: 'dev.qwery.AddWater.metainfo.xml.in',
@@ -49,8 +50,11 @@ appstream_file = i18n.merge_file(
 	install_dir: get_option('datadir') / 'metainfo'
 )
 appstreamcli = find_program('appstreamcli', required: false, disabler: true)
-test('Validate appstream file', appstreamcli,
-	args: ['validate', '--no-net', '--explain', appstream_file])
+test('Validate appstream file',
+	appstreamcli,
+	args: ['validate', '--no-net', '--explain', appstream_file]
+)
+
 
 
 # GSchema

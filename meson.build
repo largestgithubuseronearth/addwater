@@ -47,6 +47,8 @@ subdir('data')
 subdir('src')
 subdir('tests')
 subdir('po')
+# subdir('build-aux')
+
 
 
 gnome.post_install(

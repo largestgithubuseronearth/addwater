@@ -18,9 +18,15 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-import os
-import tarfile
+import json
 import logging
+import os
+import shutil
+import tarfile
+from enum import Enum
+from os.path import exists, join
+from typing import Optional
+
 import requests
 import json
 import shutil
@@ -29,7 +35,6 @@ from enum import Enum
 from addwater import info
 from os.path import join, exists
 from addwater.utils.paths import DOWNLOAD_DIR
-from typing import Optional
 
 log = logging.getLogger(__name__)
 

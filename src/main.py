@@ -17,28 +17,27 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import sys
-import gi
 import logging
 import shutil
-import os, os.path
+import sys
+
+import gi
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
-from gi.repository import Gtk, Gio, Adw, Gdk, GLib
-
-from .window import AddWaterWindow
-from .preferences import AddWaterPreferences
+from gi.repository import Adw, Gio, GLib, Gtk
 
 from addwater import info
-from .utils import paths
-from .utils.logs import init_logs
-from .utils.background import BackgroundUpdater
-
+from addwater.apps.firefox.firefox_details import (FatalAppDetailsError,
+                                                   FirefoxAppDetails)
 from addwater.backend import BackendFactory
-from addwater.apps.firefox.firefox_details import FirefoxAppDetails, FatalAppDetailsError
 
+from .preferences import AddWaterPreferences
+from .utils import paths
+from .utils.background import BackgroundUpdater
+from .utils.logs import init_logs
+from .window import AddWaterWindow
 
 log = logging.getLogger(__name__)
 
@@ -57,6 +56,8 @@ class AddWaterApplication(Adw.Application):
 
 		paths.init_paths()
 		init_logs()
+
+		# TODO create backends here
 
 		self.add_main_option(
 			'quick-update',
@@ -120,9 +121,9 @@ class AddWaterApplication(Adw.Application):
 			if notif:
 				self.send_notification("addwater-bg-update-status", notif)
 			return
-		else:
-			raise CommandMisuseException(f'Unknown options: {options}')
-###################################################################################
+
+		raise CommandMisuseException(f'Unknown options: {options}')
+
 
 	def construct_backends(self):
 		# TODO make this dynamic to find all available app details
@@ -152,11 +153,8 @@ class AddWaterApplication(Adw.Application):
 		log.info('app has been reset and will now exit')
 		self.quit()
 
-###################################################################################
 
-
-
-	def on_about_action(self, widget, _):
+	def on_about_action(self, *_):
 		"""Callback for the app.about action."""
 		# TODO info.py.in seems like a good model for how to do this. But requires meson tinkering
 		about = Adw.AboutDialog(application_name='Add Water',
@@ -182,7 +180,7 @@ class AddWaterApplication(Adw.Application):
 		about.present(self.props.active_window)
 
 
-	def on_preferences_action(self, widget, _):
+	def on_preferences_action(self, *_):
 		"""Callback for the app.preferences action."""
 		pref = AddWaterPreferences(self.backends[0])
 		pref.present(self.props.active_window)
@@ -204,7 +202,7 @@ class AddWaterApplication(Adw.Application):
 			self.set_accels_for_action(f"app.{name}", shortcuts)
 
 
-	def on_help_action(self, action, _):
+	def on_help_action(self, *_):
 		log.info("help page action activated")
 		weblaunch = Gtk.UriLauncher.new("https://github.com/largestgithubuseronearth/addwater/blob/main/docs/user-help.md")
 		weblaunch.launch(None, None, None, None)

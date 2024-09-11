@@ -18,19 +18,19 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
-
-from os.path import join, exists
-from typing import Optional
-from enum import Enum
 from configparser import ConfigParser
+from enum import Enum
+from os.path import exists, join
+from typing import Optional
 
 from gi.repository import Gio
 
-from addwater.utils import paths
 from addwater import info
-from .firefox_options import FIREFOX_OPTIONS, FIREFOX_COLORS
-from .firefox_paths import FIREFOX_PATHS
+from addwater.utils import paths
+
 from .firefox_install import install_for_firefox
+from .firefox_options import FIREFOX_COLORS, FIREFOX_OPTIONS
+from .firefox_paths import FIREFOX_PATHS
 
 log = logging.getLogger(__name__)
 

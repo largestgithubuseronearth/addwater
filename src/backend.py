@@ -18,21 +18,17 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
-import os
-import shutil
-import requests
-
 from enum import Enum
-from os.path import join, exists
-from typing import Optional, Callable
-
-from gi.repository import Gio
+from os.path import exists, join
+from typing import Callable, Optional
 
 from addwater import info
-from addwater.components.online import OnlineManager
 from addwater.components.install import InstallManager
-from addwater.utils.paths import DOWNLOAD_DIR
+from addwater.components.online import OnlineManager
 from addwater.utils.mocks import mock_online
+from addwater.utils.paths import DOWNLOAD_DIR
+
+from addwater.utils import excepts
 
 log = logging.getLogger(__name__)
 
