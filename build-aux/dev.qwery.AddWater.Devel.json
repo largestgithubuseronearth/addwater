@@ -93,8 +93,8 @@
             ],
             "sources" : [
                 {
-                    "type" : "git",
-                    "url" : "file:///../.."
+                    "type" : "dir",
+                    "url" : "../.."
                 }
             ],
             "builddir" : true
