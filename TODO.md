@@ -4,6 +4,7 @@
     * Black 
 * Improve implementation of AppDetails and/or make a generic factory for this
 * Finish setting up workflow
+* Move to Adw 1.6 🥹
 
 
 ## SECONDARY GOALS:
@@ -23,6 +24,7 @@
 * Write .desktop file
 * Write appstream info
     * Finish preview images to look nicer
+* Create app icon & brand colors
 * Smooth out all accessibility issues
 
 

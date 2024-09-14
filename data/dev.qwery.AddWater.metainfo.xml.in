@@ -9,7 +9,6 @@
 	<!-- Branding Info -->
 	<name>Add Water</name>
 	<summary>Browse fashionably</summary>
-	<!-- <icon>TODO ADD ICON HERE</icon> -->
 	<description>
 	  <p>Add Water automatically installs and updates the GNOME theme for Firefox. Conveniently customize the many style options available, and let Add Water update the app for you in the background.</p>
 		<p>Supports Flatpak, Snap, Librewolf, and Floorp</p>
@@ -27,22 +26,6 @@
 		<screenshot type="default">
 			<caption>Add Water Window</caption>
 			<image>https://github.com/largestgithubuseronearth/addwater/blob/6c8c1d53e4963903c923960f96e26ee13ab0dddc/.github/images/draft/addwater-combo.png</image>
-		</screenshot>
-		<screenshot>
-			<caption>Firefox Window Preview -- Light</caption>
-			<!-- <image></image> -->
-		</screenshot>
-		<screenshot>
-			<caption>Firefox Window Preview -- Dark</caption>
-			<!-- <image></image> -->
-		</screenshot>
-		<screenshot>
-			<caption>Menus Preview -- Light</caption>
-			<!-- <image></image> -->
-		</screenshot>
-		<screenshot>
-			<caption>Menus Preview -- Dark</caption>
-			<!-- <image></image> -->
 		</screenshot>
 	</screenshots>
 

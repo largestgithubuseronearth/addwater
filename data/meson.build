@@ -23,7 +23,7 @@ desktop_file = configure_file(
 )
 desktop_file = i18n.merge_file(
 			input: desktop_file,
-		 	output: 'dev.qwery.AddWater.desktop',
+		 	output: app_id + '.desktop',
 		 	type: 'desktop',
 		 	po_dir: '../po',
 			install: true,
@@ -49,10 +49,10 @@ appstream_file = i18n.merge_file(
 	install: true,
 	install_dir: get_option('datadir') / 'metainfo'
 )
-appstreamcli = find_program('appstreamcli', required: false, disabler: true)
+appstreamcli = find_program('appstreamcli', required: false)
 test('Validate appstream file',
 	appstreamcli,
-	args: ['validate', '--no-net', '--explain', appstream_file]
+	args: ['validate', '--no-net', '--explain', appstream_file, '--pedantic']
 )
 
 
