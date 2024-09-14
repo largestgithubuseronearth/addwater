@@ -44,9 +44,9 @@ conf.set('FORCE_BG', force_bg)
 
 
 subdir('data')
+subdir('po')
 subdir('src')
 subdir('tests')
-subdir('po')
 # subdir('build-aux')
 
 
