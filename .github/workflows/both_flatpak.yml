@@ -17,7 +17,7 @@ jobs:
           manifest-path: build-aux/dev.qwery.AddWater.Devel.json
 
       - name: Build user flatpak
-        uses: flatpak/flatpak-github-actions/flatpak-builder@6.3
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6.3
         with:
           bundle: dev.qwery.AddWater.flatpak
           manifest-path: build-aux/dev.qwery.AddWater.json
