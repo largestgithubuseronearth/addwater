@@ -1,6 +1,6 @@
-name: Devel Flatpak
-run-name: Dev Flatpak Builder
-on: [push, pull_request]
+name: User Flatpak
+run-name: User Flatpak Builder
+on: workflow_dispatch
 jobs:
   Flatpak-Builder-Action:
     runs-on: ubuntu-latest
@@ -11,5 +11,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6.3
         with:
-          bundle: dev.qwery.AddWater.Devel.flatpak
-          manifest-path: build-aux/dev.qwery.AddWater.Devel.json
+          bundle: dev.qwery.AddWater.flatpak
+          manifest-path: build-aux/dev.qwery.AddWater.json

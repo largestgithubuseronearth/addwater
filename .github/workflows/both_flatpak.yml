@@ -1,0 +1,23 @@
+name: both flatpak
+run-name: both Flatpak Builder
+on: [push, pull_request]
+jobs:
+  Flatpak-Builder-Action:
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-46
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Devel flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6.3
+        with:
+          bundle: dev.qwery.AddWater.Devel.flatpak
+          manifest-path: build-aux/dev.qwery.AddWater.Devel.json
+
+      - name: Build user flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@6.3
+        with:
+          bundle: dev.qwery.AddWater.flatpak
+          manifest-path: build-aux/dev.qwery.AddWater.json
