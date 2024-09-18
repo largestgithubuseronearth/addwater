@@ -24,8 +24,16 @@
 	<screenshots>
 		<!-- TODO add images -->
 		<screenshot type="default">
-			<caption>Add Water Window</caption>
-			<image>https://github.com/largestgithubuseronearth/addwater/blob/6c8c1d53e4963903c923960f96e26ee13ab0dddc/.github/images/draft/addwater-combo.png</image>
+			<caption>Add Water</caption>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/draft/addwater-combo.png</image>
+		</screenshot>
+		<screenshot>
+			<caption>Themed Firefox — Dark</caption>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/draft/mainwindow.png</image>
+		</screenshot>
+		<screenshot>
+			<caption>Themed Firefox — Light</caption>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/draft/mainwindow-light.png</image>
 		</screenshot>
 	</screenshots>
 
