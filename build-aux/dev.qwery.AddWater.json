@@ -94,7 +94,8 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "url" : "https://github.com/largestgithubuseronearth/addwater"
+                    "url" : "https://github.com/largestgithubuseronearth/addwater",
+                    "tag" : "beta-1"
                 }
             ],
             "builddir" : true
