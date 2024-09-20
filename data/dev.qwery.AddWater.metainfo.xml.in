@@ -22,18 +22,21 @@
 	</branding>
 
 	<screenshots>
-		<!-- TODO add images -->
 		<screenshot type="default">
-			<caption>Add Water</caption>
-			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/draft/addwater-combo.png</image>
-		</screenshot>
-		<screenshot>
-			<caption>Themed Firefox — Dark</caption>
-			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/draft/mainwindow.png</image>
+			<caption>Add Water and Firefox Preview (light mode)</caption>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/banner-light-noff.png</image>
 		</screenshot>
 		<screenshot>
 			<caption>Themed Firefox — Light</caption>
-			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/draft/mainwindow-light.png</image>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/preview-light.png</image>
+		</screenshot>
+		<screenshot>
+			<caption> Add Water and Firefox Preview (dark mode)</caption>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/banner-dark-noff.png</image>
+		</screenshot>
+		<screenshot>
+			<caption>Themed Firefox — Dark</caption>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/preview-dark.png</image>
 		</screenshot>
 	</screenshots>
 

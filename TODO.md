@@ -4,7 +4,6 @@
     * Black 
 * Improve implementation of AppDetails and/or make a generic factory for this
 * Improve logging
-* Finish setting up workflow
 * Move to Adw 1.6 🥹
 
 
@@ -36,6 +35,9 @@
 
 
 ## Accessibility Test Results:
+
+Note: Try all of these on Gnome 47 since Orca was improved
+
 [/] Large Text
 [~] Screen Reader tests
     * When selecting a row, it wouldn't say the control type for my custom switch rows or the state of the switch. Doesn't notify when you change activate the switch from here.

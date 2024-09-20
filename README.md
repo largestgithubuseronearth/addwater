@@ -12,11 +12,13 @@ Please do not upload this app anywhere for users without my permission as it is 
 
 
 ### Screenshot Previews
-![Preview of Add Water](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/draft/addwater-combo.png)
+![Preview of Add Water (light mode)](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/banner-light-noff.png)
 
-![Preview of themed Firefox (dark mode)](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/draft/mainwindow.png)
+![Preview of themed Firefox (light mode)](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/preview-light.png)
 
-![Preview of themed Firefox (light mode)](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/draft/mainwindow-light.png)
+![Preview of Add Water (dark mode)](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/banner-dark-noff.png)
+
+![Preview of themed Firefox (dark mode)](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/preview-dark.png)
 
 
 ### Additional Notes:
