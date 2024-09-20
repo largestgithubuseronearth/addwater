@@ -8,11 +8,10 @@
 
 	<!-- Branding Info -->
 	<name>Add Water</name>
-	<summary>Browse fashionably</summary>
+	<summary>Keep Firefox in Fashion</summary>
 	<description>
-	  <p>Add Water automatically installs and updates the GNOME theme for Firefox. Conveniently customize the many style options available, and let Add Water update the app for you in the background.</p>
-		<p>Supports Flatpak, Snap, Librewolf, and Floorp</p>
-		<p>The GNOME for Firefox theme is developed and maintained by Rafael Mardojai CM</p>
+		<p>Add Water automatically installs and updates the GNOME theme for Firefox. Conveniently customize the many style options available, and let Add Water update the app for you in the background. Supports Flatpak, Snap, Librewolf, and Floorp.</p>
+		<p>The GNOME for Firefox theme itself is developed and maintained by Rafael Mardojai CM.</p>
 		<p>This project is not affiliated or endorsed by the Mozilla Foundation. Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries.</p>
 	</description>
 
