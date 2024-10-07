@@ -49,8 +49,9 @@ class InstallManager():
 
 	"""PUBLIC METHODS"""
 	# TODO reduce how many arguments need to be passed into the , it's so messy
-	def begin_install(self, theme_path: PathLike, profile_path: PathLike, color_palette: str, app_options, gset_reader) -> Enum:
+	def combined_install(self, theme_path: PathLike, profile_path: PathLike, color_palette: str, options_results: dict[str,bool]) -> Enum:
 		# TODO make this decide whether to use the full or quick install based on an enum flag
+		# The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
 		pass
   
 

@@ -129,6 +129,10 @@ class AddWaterBackend():
 			self.app_details.set_installed_version(version)
 		return install_status
 
+	def prep_install(self, profile_id, color_palette, install_flag):
+		# TODO
+		pass
+
 
 	def remove_theme(self, profile_id) -> Enum:
 		folder_name = self.app_details.get_theme_folder_name()

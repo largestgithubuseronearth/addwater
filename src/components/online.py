@@ -69,6 +69,8 @@ class OnlineManager():
 		except NetworkException as err:
 			return OnlineStatus.DISCONNECTED
 
+		# Decide whether we need to update or not
+
 		# TODO try to break up all these checks into individual methods. This method is messy rn
 		calls_left = update_info["ratelimit_remaining"]
 		if self._is_ratelimit_exceeded(calls_left):
@@ -81,13 +83,15 @@ class OnlineManager():
 			log.info('no update available')
 			return OnlineStatus.NO_UPDATE
 
-		# TODO is there anyway to make this tuple join cleaner?
+		# TODO is there anyway to make this tuple join cleaner? unpack tuple
 		files_downloaded = exists(join(path_info[0], path_info[1], path_info[2]))
 		if files_downloaded:
 			log.info('update available but files already downloaded. skipping download.')
 			return OnlineStatus.UPDATED
 
 		log.info('update available. getting it now...')
+
+		# Update if necessary
 
 		tarball_url=update_info["tarball_url"]
 		# TODO simplify to just pass the path info into get_release
