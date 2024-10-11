@@ -39,39 +39,11 @@
 						<property name="title">Danger Zone</property>
 						<property name="description" translatable="yes">Remove the theme from all known profiles and reset Add Water to its default state. This will close Add Water.</property>
 						<child>
-							<object class="GtkListBox">
-								<child>
-									<object class="AdwPreferencesRow">
-										<property name="title">Remove Water</property>
-										<property name="activatable">true</property>
-										<property name="selectable">false</property>
-										<property name="action-name">app.reset-app</property>
-										<child>
-											<object class="GtkBox">
-												<property name="spacing">6</property>
-												<property name="valign">center</property>
-												<property name="halign">center</property>
-												<child>
-													<object class="GtkLabel">
-														<property name="label">Remove Water</property>
-														<style>
-															<class name="heading"/>
-														</style>
-													</object>
-												</child>
-												<style>
-													<class name="header"/>
-												</style>
-											</object>
-										</child>
-										<style>
-											<class name="error"/>
-										</style>
-									</object>
-								</child>
-								<style>
-									<class name="boxed-list"/>
-								</style>
+							<object class="AdwButtonRow">
+							  <property name="title">Remove Water</property>
+							  <style>
+							    <class name="destructive-action"/>
+							  </style>
 							</object>
 						</child>
 					</object>
