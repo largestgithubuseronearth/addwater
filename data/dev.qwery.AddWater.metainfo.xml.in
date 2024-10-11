@@ -16,8 +16,8 @@
 	</description>
 
 	<branding>
-	  <color type="primary" scheme_preference="light">#3584e4</color>
-	  <color type="primary" scheme_preference="dark">#1a8a74</color>
+		<color type="primary" scheme_preference="light">#ffbe6f</color>
+		<color type="primary" scheme_preference="dark">#1a5fb4</color>
 	</branding>
 
 	<screenshots>
