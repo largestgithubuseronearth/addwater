@@ -16,5 +16,5 @@ option(
 option(
 	'force-background',
 	type: 'boolean',
-	value: false
+	value: true
 )
