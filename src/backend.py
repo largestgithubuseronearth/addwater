@@ -122,8 +122,7 @@ class AddWaterBackend():
 		install_status = self.install_manager.quick_install(
 			theme_path=theme_path,
 			profile_path=profile_path,
-			color_palette=color_palette,
-			version=version,
+			color_palette=color_palette
 		)
 		if install_status.SUCCESS:
 			self.app_details.set_installed_version(version)
@@ -194,17 +193,13 @@ class AddWaterBackend():
 	def reset_app(self,):
 		app_name = self.get_app_name()
 		log.warning(f'{app_name} is now being reset...')
-		# self._uninstall_all_profiles()
+		self._uninstall_all_profiles()
 		self.app_details._reset_settings()
 		log.info(f'done. {app_name} has been reset to default state')
 
 
 
-	"""PRIVATE METHODS
-
-	All private methods should ideally be static or at least not modify the object state;
-	this helps avoid unexpected behavior and aid in testing these important methods.
-	"""
+	"""PRIVATE METHODS"""
 
 	def _uninstall_all_profiles(self):
 		log.warning(f"uninstalling theme from all known profiles...")

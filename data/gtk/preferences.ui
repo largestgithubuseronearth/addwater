@@ -41,6 +41,7 @@
 						<child>
 							<object class="AdwButtonRow">
 							  <property name="title">Remove Water</property>
+							  <property name="action-name">app.reset-app</property>
 							  <style>
 							    <class name="destructive-action"/>
 							  </style>
