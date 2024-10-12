@@ -1,5 +1,7 @@
 # TODO is there a simpler way to do this? .in files? json?
 
+# TODO re-enable the new options in time for Firefox 132
+
 FIREFOX_OPTIONS = [
 	{
 	"group_name": "Tab Position",
@@ -18,6 +20,13 @@ FIREFOX_OPTIONS = [
 			"description": "Use same tab width as standard Firefox",
 			"tooltip" : ""
 		  },
+		  # {
+		  #   "key": "tab-align-left",
+		  #   "js_key": "tabAlignLeft",
+		  #   "summary": "Align Title to Left (*)",
+		  #   "description": "Align tab title and icon to left instead of center",
+		  #   "tooltip": ""
+		  # },
 		  {
 			"key": "swap-tab-close",
 			"js_key": "swapTabClose",
@@ -44,6 +53,14 @@ FIREFOX_OPTIONS = [
 	{
 	"group_name": "Tab Behavior",
 	"options": [
+            # TODO add the extra option for overflow
+		  # {
+		  #   "key": "all-tabs-button",
+		  #   "js_key": "allTabsButton",
+		  #   "summary": "Tab List Button (*)",
+		  #   "description": "Show 'List all tabs' button",
+		  #   "tooltip": ""
+		  # },
 		  {
 			"key": "active-tab-contrast",
 			"js_key": "activeTabContrast",
