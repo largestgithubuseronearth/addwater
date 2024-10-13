@@ -32,8 +32,6 @@ from gi.repository import Adw, Gio, GObject, Gtk
 
 from addwater import info
 
-from addwater import info
-
 # TODO grab colors from appdetails not import
 
 log = logging.getLogger(__name__)
@@ -263,7 +261,6 @@ class AddWaterPage(Adw.Bin):
 	def _create_option_group(group_schematic: dict[str,list[dict]],
 			gui_switch_factory: callable, settings, enable_button):
 		"""Creates a PreferencesGroup with the included switch options, and binds all the switches to gsettings"""
-		# TODO these margins are arbitrary. Toy around & try to find a better margin value.
 		group = Adw.PreferencesGroup(
 			title=group_schematic["group_name"], margin_start=20, margin_end=20
 		)

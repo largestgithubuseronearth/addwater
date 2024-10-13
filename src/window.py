@@ -58,7 +58,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 			self.create_firefox_page(each)
 
 
-	# TODO refactor to support as many pages as possible
+	# TODO refactor to support as many pages as possible. only supports a single page rn
 	def create_firefox_page(self, firefox_backend):
 		self.main_toolbar_view.set_content(None)
 

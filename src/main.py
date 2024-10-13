@@ -156,7 +156,6 @@ class AddWaterApplication(Adw.Application):
 
 	def on_about_action(self, *_):
 		"""Callback for the app.about action."""
-		# TODO info.py.in seems like a good model for how to do this. But requires meson tinkering
 		about = Adw.AboutDialog(application_name='Add Water',
 								application_icon=info.APP_ID,
 								# TODO make a custom issue page that bundles log files, the help page link, and the issue link

@@ -21,7 +21,7 @@
 			<li>Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox</li>
 		</ul>
 		<p>The GNOME for Firefox theme itself is developed and maintained by Rafael Mardojai CM.</p>
-		<p>This project is not affiliated or endorsed by the Mozilla Foundation. Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries.</p>
+		<p>The Firefox browser is not included and must be downloaded separately. This project is not affiliated or endorsed by the Mozilla Foundation. Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries.</p>
 	</description>
 
 	<branding>
@@ -31,19 +31,19 @@
 
 	<screenshots>
 		<screenshot type="default">
-			<caption>Add Water and Firefox Preview (light mode)</caption>
+			<caption>Add Water and Firefox Preview — Light style</caption>
 			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/banner-light-noff.png</image>
 		</screenshot>
 		<screenshot>
-			<caption>Themed Firefox — Light</caption>
+			<caption>Themed Firefox — Light style</caption>
 			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/preview-light.png</image>
 		</screenshot>
 		<screenshot>
-			<caption> Add Water and Firefox Preview (dark mode)</caption>
+			<caption> Add Water and Firefox Preview — Dark style</caption>
 			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/banner-dark-noff.png</image>
 		</screenshot>
 		<screenshot>
-			<caption>Themed Firefox — Dark</caption>
+			<caption>Themed Firefox — Dark style</caption>
 			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/preview-dark.png</image>
 		</screenshot>
 	</screenshots>
@@ -53,6 +53,7 @@
 	<developer id="dev.qwery">
 		<name translate="no">qwery</name>
 	</developer>
+
 	<content_rating type="oars-1.1" />
 
 	<categories>
@@ -65,7 +66,6 @@
 		<keyword>Adwaita</keyword>
 		<keyword>theme</keyword>
 		<keyword>Firefox</keyword>
-		<keyword>water</keyword>
 	</keywords>
 
 	<url type="homepage">https://addwater.qwery.dev/</url>

@@ -3,4 +3,8 @@
 disable=fixme,
 	bad-indentation,
 	no-name-in-module,
-	no-member
+	no-member,
+	import-error,
+	unused-import,
+	missing-class-docstring,
+	missing-function-docstring
