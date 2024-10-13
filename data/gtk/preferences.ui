@@ -22,6 +22,8 @@
 						<child>
 							<object class="AdwComboRow" id="firefox_package_combobox">
 								<property name="title" translatable="yes">Package Format</property>
+								<property name="tooltip-text">Profile data not found at selected location</property>
+								<property name="has-tooltip">false</property>
 								<property name="model">
 									<object class="GtkStringList" id="firefox_package_combobox_list">
 										<items>

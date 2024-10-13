@@ -7,4 +7,7 @@ disable=fixme,
 	import-error,
 	unused-import,
 	missing-class-docstring,
-	missing-function-docstring
+	missing-function-docstring,
+	missing-module-docstring,
+	wrong-import-position,
+	pointless-string-statement

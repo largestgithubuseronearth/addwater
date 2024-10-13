@@ -23,10 +23,10 @@ from enum import Enum
 from os.path import exists, join
 from typing import Optional
 
+from addwater.utils import paths
 from gi.repository import Gio
 
 from addwater import info
-from addwater.utils import paths
 
 from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_COLORS, FIREFOX_OPTIONS
@@ -107,7 +107,7 @@ class FirefoxAppDetails():
 
 
 	"""PUBLIC METHODS"""
-	def _reset_settings(self,):
+	def reset_settings(self,):
 		log.info(f'Resetting all gsettings for {self.name}')
 		self.settings.reset('theme-enabled')
 		self.settings.reset("data-path")

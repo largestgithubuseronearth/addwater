@@ -22,13 +22,15 @@ from enum import Enum
 from os.path import exists, join
 from typing import Callable, Optional
 
-from addwater import info
 from addwater.components.install import InstallManager
 from addwater.components.online import OnlineManager
+from addwater.utils import excepts
 from addwater.utils.mocks import mock_online
 from addwater.utils.paths import DOWNLOAD_DIR
 
-from addwater.utils import excepts
+from addwater.apps.firefox.firefox_details import AppDetailsException
+
+from addwater import info
 
 log = logging.getLogger(__name__)
 
@@ -84,6 +86,7 @@ class AddWaterBackend():
 		version = self.get_update_version()
 		gset = self.get_app_settings()
 
+		# URGENT
 		# FIXME flesh out this check on both install methods to ENSURE that you can never pass an empty profile_id
 		if not profile_id:
 			profile_id = gset.get_string('profile-selected')
@@ -143,8 +146,6 @@ class AddWaterBackend():
 		return install_status
 
 	"""Online Actions"""
-
-
 	def update_theme(self) -> Enum:
 		path_info = self.app_details.get_download_path_info()
 		version = self.get_installed_version()
@@ -186,6 +187,7 @@ class AddWaterBackend():
 		try:
 			self.app_details.set_data_path(new_path)
 		except AppDetailsException as err:
+			log.error(err)
 			raise InterfaceMisuseError(err)
 
 
@@ -194,7 +196,7 @@ class AddWaterBackend():
 		app_name = self.get_app_name()
 		log.warning(f'{app_name} is now being reset...')
 		self._uninstall_all_profiles()
-		self.app_details._reset_settings()
+		self.app_details.reset_settings()
 		log.info(f'done. {app_name} has been reset to default state')
 
 
@@ -246,5 +248,3 @@ class BackendFactory():
 			online_manager=online_manager,
 		)
 		return firefox_backend
-
-

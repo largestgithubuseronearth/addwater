@@ -26,12 +26,12 @@ import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
-from gi.repository import Adw, Gio, GLib, Gtk
-
-from addwater import info
 from addwater.apps.firefox.firefox_details import (FatalAppDetailsError,
                                                    FirefoxAppDetails)
 from addwater.backend import BackendFactory
+from gi.repository import Adw, Gio, GLib, Gtk
+
+from addwater import info
 
 from .preferences import AddWaterPreferences
 from .utils import paths
@@ -154,12 +154,14 @@ class AddWaterApplication(Adw.Application):
 		self.quit()
 
 
+	# TODO make a custom issue page that bundles log files, the help page link,
+	# and the issue link.
+	# in a single navpage. The debugging page doesn't work for me because the
+	# logs are already a file.
 	def on_about_action(self, *_):
 		"""Callback for the app.about action."""
 		about = Adw.AboutDialog(application_name='Add Water',
 								application_icon=info.APP_ID,
-								# TODO make a custom issue page that bundles log files, the help page link, and the issue link
-								# in a single navpage. The debugging page doesn't work for me because the logs are already a file.
 								issue_url=info.ISSUE_TRACKER,
 								website=info.WEBSITE,
 								developer_name='qwery',

@@ -26,6 +26,7 @@ gi.require_version('Xdp', '1.0')
 from gi.repository import Adw, Gio, Gtk, Xdp
 
 from addwater import info
+from addwater.backend import InterfaceMisuseError
 
 log = logging.getLogger(__name__)
 
@@ -45,6 +46,9 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 		self.settings_app = Gio.Settings(schema_id=info.APP_ID)
 		self.settings_firefox = firefox_backend.get_app_settings()
 		self.FIREFOX_FORMATS = firefox_backend.get_package_formats()
+		self.firefox_backend = firefox_backend
+
+		self.portal = Xdp.Portal()
 
 		try:
 			self.settings_app.bind(
@@ -54,7 +58,7 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 		except Exception as err:
 			log.error(err)
 
-		self.firefox_path = self.settings_firefox.get_string("data-path")
+		self.firefox_path = self.firefox_backend.get_data_path()
 		self._init_firefox_combobox()
 
 		self.firefox_package_combobox.notify("selected-item")
@@ -63,7 +67,6 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 
 	# TODO test to make sure this works consistently on different machines
 	def _do_background_request(self, _):
-		self.portal = Xdp.Portal()
 		bg_enabled = self.settings_app.get_boolean('background-update')
 		if bg_enabled:
 			flag = Xdp.BackgroundFlags.AUTOSTART
@@ -100,6 +103,8 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 		if selected_index == 0:
 			self.settings_firefox.set_boolean("autofind-paths", True)
 			log.info("Autofind paths enabled")
+			row.remove_css_class("error")
+			row.set_has_tooltip(False)
 			return
 
 		self.settings_firefox.set_boolean("autofind-paths", False)
@@ -108,8 +113,17 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 
 		for each in self.FIREFOX_FORMATS:
 			if selected == each["name"]:
+				path = each["path"]
 				log.info(f'User specified path: {each["path"]}')
-				self.settings_firefox.set_string("data-path", each["path"])
-				self.firefox_path = each["path"]
 
+				try:
+					self.firefox_backend.set_data_path(path)
+				except InterfaceMisuseError as err:
+					log.error(err)
+					row.add_css_class("error")
+					row.set_has_tooltip(True)
+				else:
+					row.remove_css_class("error")
+					row.set_has_tooltip(False)
 
+				self.firefox_path = path

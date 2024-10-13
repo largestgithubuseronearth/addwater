@@ -260,7 +260,10 @@ class AddWaterPage(Adw.Bin):
 	@staticmethod
 	def _create_option_group(group_schematic: dict[str,list[dict]],
 			gui_switch_factory: callable, settings, enable_button):
-		"""Creates a PreferencesGroup with the included switch options, and binds all the switches to gsettings"""
+		"""Creates a PreferencesGroup with the included switch options, and
+		binds all the switches to gsettings
+		"""
+
 		group = Adw.PreferencesGroup(
 			title=group_schematic["group_name"], margin_start=20, margin_end=20
 		)

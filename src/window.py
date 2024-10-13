@@ -20,10 +20,10 @@
 
 import logging
 
+from addwater.page import AddWaterPage
 from gi.repository import Adw, Gio, Gtk
 
 from addwater import info
-from addwater.page import AddWaterPage
 
 log = logging.getLogger(__name__)
 
@@ -68,7 +68,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
 		self.main_toolbar_view.set_content(firefox_page)
 
-
+	# URGENT
 	# TODO redo this to accept multiple types of errors
 	def error_status_page(self, app_name):
 		help_page_button = Adw.Clamp(
