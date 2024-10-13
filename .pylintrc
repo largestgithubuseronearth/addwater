@@ -10,4 +10,5 @@ disable=fixme,
 	missing-function-docstring,
 	missing-module-docstring,
 	wrong-import-position,
-	pointless-string-statement
+	pointless-string-statement,
+	too-few-public-methods

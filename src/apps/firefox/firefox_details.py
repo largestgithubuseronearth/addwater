@@ -274,4 +274,3 @@ class AppDetailsException(Exception):
 
 class FatalAppDetailsError(Exception):
 	pass
-

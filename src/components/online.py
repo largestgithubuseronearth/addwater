@@ -62,7 +62,7 @@ class OnlineManager():
 
 		try:
 			update_info = self._get_release_info(self.theme_url)
-		except NetworkException as err:
+		except NetworkException:
 			return OnlineStatus.DISCONNECTED
 
 		# Decide whether we need to update or not
@@ -178,6 +178,7 @@ class OnlineManager():
 		}
 		# TODO test with the streaming feature
 		response = requests.get(dl_url, headers=headers)
+		# TODO URGENT Make timeout handler
 
 		with open(file=result, mode="wb") as file:
 			file.write(response.content)
@@ -217,7 +218,7 @@ class OnlineManager():
 
 		with os.scandir(path=parent_dir) as scan:
 			for each in scan:
-				if each.name.startswith(f"rafaelmardojai"):
+				if each.name.startswith("rafaelmardojai"):
 					old_path = join(parent_dir, each.name)
 					os.rename(old_path, final_path)
 		log.debug('Successfully renamed inner folder')
@@ -240,6 +241,7 @@ class OnlineManager():
 			'User-Agent' : (info.APP_ID + '/pre-alpha'),
 			'Accept': 'application/vnd.github+json'
 		}
+		# URGENT TODO use a timeout argument
 		try:
 			response = requests.get(gh_url, headers=headers)
 		except requests.RequestException as err:
@@ -254,7 +256,7 @@ class OnlineManager():
 			latest_release = response.json()[0]
 			version = int(latest_release["tag_name"].lstrip("v"))
 			tarball_url = latest_release["tarball_url"]
-		except request.JSONDecodeError as err:
+		except requests.JSONDecodeError as err:
 			log.err(err)
 			version = None
 			tarball_url = None
@@ -280,7 +282,7 @@ class OnlineManager():
 
 	@staticmethod
 	def _is_update_available(current: int, new: int) -> bool:
-		if type(current) is not int or type(new) is not int:
+		if not isinstance(current, int) or not isinstance(new, int):
 			raise ValueError
 
 		# TODO consider making this handle special cases like minor updates or maybe rollbacks
@@ -304,5 +306,3 @@ class OnlineManagerError(Exception):
 
 class ExtractionException(Exception):
 	pass
-
-

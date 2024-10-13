@@ -100,7 +100,6 @@ def _import_css(chrome_path: str, color_palette: str):
 
 		with open(file=p, mode="w", encoding='utf-8') as file:
 			# Remove old import lines
-			remove_list = []
 			for line in lines:
 				if "firefox-gnome-theme" in line:
 					lines.remove(line)

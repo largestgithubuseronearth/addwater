@@ -24,7 +24,6 @@ from typing import Callable, Optional
 
 from addwater.components.install import InstallManager
 from addwater.components.online import OnlineManager
-from addwater.utils import excepts
 from addwater.utils.mocks import mock_online
 from addwater.utils.paths import DOWNLOAD_DIR
 

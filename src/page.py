@@ -153,7 +153,7 @@ class AddWaterPage(Adw.Bin):
 
 		match install_status:
 			case install_status.FAILURE:
-				toast_msg = 'Installation failed. Please report issue in About Menu'
+				toast_msg = 'Installation failed'
 			case _:
 				pass
 
