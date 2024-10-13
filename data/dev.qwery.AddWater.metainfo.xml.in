@@ -10,7 +10,16 @@
 	<name>Add Water</name>
 	<summary>Keep Firefox in Fashion</summary>
 	<description>
-		<p>Add Water automatically installs and updates the GNOME theme for Firefox. Conveniently customize the many style options available, and let Add Water update the app for you in the background. Supports Flatpak, Snap, Librewolf, and Floorp.</p>
+		<p>A utility app to easily install the GNOME for Firefox theme and automatically update it in the background. This theme keeps Firefox fashionable within the GNOME design ecosystem, and provides many helpful features to customize the interface to make browsing even more pleasant:
+		</p>
+		<ul>
+			<li>Supports light and dark style</li>
+			<li>Hide Tab Bar when only one tab is open</li>
+			<li>Use an OLED-friendly pitch black instead of grey</li>
+			<li>Customize Tab Bar position, position of controls, alignment, and more</li>
+			<li>Hide redundant microphone, webcam, screen share indicators</li>
+			<li>Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox</li>
+		</ul>
 		<p>The GNOME for Firefox theme itself is developed and maintained by Rafael Mardojai CM.</p>
 		<p>This project is not affiliated or endorsed by the Mozilla Foundation. Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries.</p>
 	</description>
@@ -56,11 +65,13 @@
 		<keyword>Adwaita</keyword>
 		<keyword>theme</keyword>
 		<keyword>Firefox</keyword>
+		<keyword>water</keyword>
 	</keywords>
 
 	<url type="homepage">https://addwater.qwery.dev/</url>
 	<url type="bugtracker">https://github.com/largestgithubuseronearth/addwater/issues</url>
 	<url type="vcs-browser">https://github.com/largestgithubuseronearth/addwater</url>
+	<url type="donation">https://paypal.me/RafaelMardojaiCM</url>
 
 	<!-- Technical Details -->
 	<recommends>
@@ -74,6 +85,13 @@
 
 
 	<!-- Release Notes -->
-	<releases></releases>
+	<releases>
+		<release version="rc" date="2024-10-13">
+			<description>
+				<p>This is the final preview release of Add Water before its Flathub release.</p>
+			</description>
+		</release>
+
+	</releases>
 
 </component>
