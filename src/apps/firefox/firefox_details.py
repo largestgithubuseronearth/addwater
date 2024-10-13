@@ -94,7 +94,10 @@ class FirefoxAppDetails():
 
 		self.autofind_data_path = self.settings.get_boolean('autofind-paths')
 		# TODO ensure this handles autofind paths
-		data_paths = self._find_data_paths(self.package_formats)
+		try:
+			data_paths = self._find_data_paths(self.package_formats)
+		except FatalAppDetailsError as err:
+			raise FatalAppDetailsError(err)
 		# TODO make this handle having multiple available paths
 		self.set_data_path(data_paths[0]["path"])
 

@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 class AddWaterWindow(Adw.ApplicationWindow):
 	__gtype_name__ = 'AddWaterWindow'
 
-
+	main_menu = Gtk.Template.Child()
 	# Use when only one page is available
 	# TODO make it dynamically use a ViewStack when there are multiple pages/app plugins to display
 	main_toolbar_view = Gtk.Template.Child()
@@ -54,6 +54,9 @@ class AddWaterWindow(Adw.ApplicationWindow):
 			self.settings.bind(
 				'window-maximized', self, 'maximized', Gio.SettingsBindFlags.DEFAULT
 			)
+		if not backends:
+			return
+
 		for each in backends:
 			self.create_firefox_page(each)
 
@@ -68,11 +71,22 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
 		self.main_toolbar_view.set_content(firefox_page)
 
-	# URGENT
-	# TODO redo this to accept multiple types of errors
-	def error_status_page(self, app_name):
+
+	"""These are only called if no profile data is found"""
+	def error_page(self,):
+		if info.PROFILE == 'developer':
+			self.add_css_class('devel')
+
+		self.set_size_request(375, 425) # Minimum size of window Width x Height
+
+		page = self.create_error_page()
+		self.main_menu.set_sensitive(False)
+		self.main_toolbar_view.set_content(page)
+
+
+
+	def create_error_page(self):
 		help_page_button = Adw.Clamp(
-			# maximum_size=300,
 			hexpand=False,
 			child=Gtk.Button(
 				label="Open Help Page",
@@ -81,8 +95,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
 			)
 		)
 		statuspage = Adw.StatusPage(
-			title=f"Can't Find {app_name} Data",
-			description=f'Please ensure that [Preferences > {app_name}: Package Type] is correctly set to the type of {app_name} you have (Snap, Flatpak, etc.) or to Auto.\n\nFor more troubleshooting support, click the button below.',
+			title=f"Firefox Profile Data Not Found",
+			description='Please ensure Firefox is installed and Add Water has permission to access your profiles.',
 			child=help_page_button
 		)
 		return statuspage

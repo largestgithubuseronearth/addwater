@@ -79,7 +79,6 @@ class AddWaterApplication(Adw.Application):
 		if options or info.FORCE_BG == 'True':
 			try:
 				self.handle_background_update(options)
-				log.info('background updater finished. exiting now.')
 				return 0
 			except CommandMisuseException as err:
 				log.error(f'Use --help for proper usage notes: {err}')
@@ -103,6 +102,10 @@ class AddWaterApplication(Adw.Application):
 		win = self.props.active_window
 		if not win:
 			win = AddWaterWindow(application=self, backends=self.backends)
+
+		# TODO make this error handling better and more explicit
+		if not self.backends:
+			win.error_page()
 		win.present()
 
 
@@ -113,6 +116,10 @@ class AddWaterApplication(Adw.Application):
 		# TODO handle the option better and handle the error better
 		if 'quick-update' in options and options['quick-update']:
 			self.backends = self.construct_backends()
+			if not self.backends:
+				log.error("Cannot find Firefox Profile Data")
+				log.info("Please ensure Firefox is installed and Add Water has permission to access your profiles.")
+				return
 
 			background_updater = BackgroundUpdater(self.backends[0])
 			background_updater.quick_update()
@@ -128,6 +135,11 @@ class AddWaterApplication(Adw.Application):
 	def construct_backends(self):
 		# TODO make this dynamic to find all available app details
 		backends = []
+		try:
+			detail = FirefoxAppDetails()
+		except FatalAppDetailsError:
+			return None
+
 		backends.append(
 			BackendFactory.new_from_appdetails(FirefoxAppDetails())
 		)
@@ -155,9 +167,8 @@ class AddWaterApplication(Adw.Application):
 
 
 	# TODO make a custom issue page that bundles log files, the help page link,
-	# and the issue link.
-	# in a single navpage. The debugging page doesn't work for me because the
-	# logs are already a file.
+	# and the issue link in a single navpage.
+	# The debugging page doesn't work for me because the logs are already a file.
 	def on_about_action(self, *_):
 		"""Callback for the app.about action."""
 		about = Adw.AboutDialog(application_name='Add Water',
