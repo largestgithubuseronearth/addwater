@@ -32,49 +32,48 @@ from . import paths
 
 
 def init_logs():
-	LOG_DIR = paths.LOG_DIR
-	try:
-		now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-		logfile = os.path.join(LOG_DIR, f"addwater_{now}.log")
+    LOG_DIR = paths.LOG_DIR
+    try:
+        now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        logfile = os.path.join(LOG_DIR, f"addwater_{now}.log")
 
-		file_handler = logging.FileHandler(logfile)
-		console_handler = logging.StreamHandler(sys.stdout)
+        file_handler = logging.FileHandler(logfile)
+        console_handler = logging.StreamHandler(sys.stdout)
 
-		file_handler.setLevel(logging.DEBUG)
-		if PROFILE == 'developer':
-		    console_handler.setLevel(logging.DEBUG)
-		elif PROFILE == 'user':
-		    console_handler.setLevel(logging.INFO)
+        file_handler.setLevel(logging.DEBUG)
+        if PROFILE == "developer":
+            console_handler.setLevel(logging.DEBUG)
+        elif PROFILE == "user":
+            console_handler.setLevel(logging.INFO)
 
-		logging.basicConfig(
-			handlers=[file_handler, console_handler],
-			style="{",
-			format="[{levelname}] {name} — {asctime} || {message}",
-			datefmt="%H:%M",
-			level=logging.DEBUG
-		)
-	except Exception as err:
-		print("Couldn't initialize log file: ", err)
+        logging.basicConfig(
+            handlers=[file_handler, console_handler],
+            style="{",
+            format="[{levelname}] {name} — {asctime} || {message}",
+            datefmt="%H:%M",
+            level=logging.DEBUG,
+        )
+    except Exception as err:
+        print("Couldn't initialize log file: ", err)
 
+    # Delete logs that are over two weeks old
+    with os.scandir(path=LOG_DIR) as scan:
+        oldest = ""
+        for each in scan:
+            time = datetime.strptime(
+                each.name,
+                "addwater_%Y-%m-%d.log",
+            )
+            time = time.replace(tzinfo=timezone.utc)
+            difference = datetime.now(timezone.utc) - time
+            if difference.days > 7:
+                os.remove(os.path.join(LOG_DIR, each.name))
 
-	# Delete logs that are over two weeks old
-	with os.scandir(path=LOG_DIR) as scan:
-		oldest = ""
-		for each in scan:
-			time = datetime.strptime(
-				each.name,
-				"addwater_%Y-%m-%d.log",
-			)
-			time = time.replace(tzinfo=timezone.utc)
-			difference = datetime.now(timezone.utc) - time
-			if difference.days > 7:
-				os.remove(os.path.join(LOG_DIR, each.name))
-
-	# TODO Add to top of log file information about system and dependencies such as:
-	# distro
-	# app version
-	# flatpak or not?
-	info = f"""
+    # TODO Add to top of log file information about system and dependencies such as:
+    # distro
+    # app version
+    # flatpak or not?
+    info = f"""
 	------------------------------------------------------------------------
 	------------------------------------------------------------------------
 	System Info:
@@ -85,6 +84,6 @@ def init_logs():
 	ADW version: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}
 	------------------------------------------------------------------------
 	"""
-	logging.debug(info)
+    logging.debug(info)
 
-	# TODO make function to zip up log files to make an issue
+    # TODO make function to zip up log files to make an issue

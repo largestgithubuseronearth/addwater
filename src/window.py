@@ -27,76 +27,74 @@ from addwater import info
 
 log = logging.getLogger(__name__)
 
-@Gtk.Template(resource_path=info.PREFIX + '/gtk/window.ui')
+
+@Gtk.Template(resource_path=info.PREFIX + "/gtk/window.ui")
 class AddWaterWindow(Adw.ApplicationWindow):
-	__gtype_name__ = 'AddWaterWindow'
+    __gtype_name__ = "AddWaterWindow"
 
-	main_menu = Gtk.Template.Child()
-	# Use when only one page is available
-	# TODO make it dynamically use a ViewStack when there are multiple pages/app plugins to display
-	main_toolbar_view = Gtk.Template.Child()
+    main_menu = Gtk.Template.Child()
+    # Use when only one page is available
+    # TODO make it dynamically use a ViewStack when there are multiple pages/app plugins to display
+    main_toolbar_view = Gtk.Template.Child()
 
-	def __init__(self, backends: list, **kwargs):
-		super().__init__(**kwargs)
-		if info.PROFILE == 'developer':
-			self.add_css_class('devel')
+    def __init__(self, backends: list, **kwargs):
+        super().__init__(**kwargs)
+        if info.PROFILE == "developer":
+            self.add_css_class("devel")
 
-		self.set_size_request(375, 425) # Minimum size of window Width x Height
+        self.set_size_request(375, 425)  # Minimum size of window Width x Height
 
-		self.settings = Gio.Settings(schema_id=info.APP_ID)
-		if info.PROFILE == 'user':
-			self.settings.bind(
-				'window-height', self, 'default-height', Gio.SettingsBindFlags.DEFAULT
-			)
-			self.settings.bind(
-				'window-width', self, 'default-width', Gio.SettingsBindFlags.DEFAULT
-			)
-			self.settings.bind(
-				'window-maximized', self, 'maximized', Gio.SettingsBindFlags.DEFAULT
-			)
-		if not backends:
-			return
+        self.settings = Gio.Settings(schema_id=info.APP_ID)
+        if info.PROFILE == "user":
+            self.settings.bind(
+                "window-height", self, "default-height", Gio.SettingsBindFlags.DEFAULT
+            )
+            self.settings.bind(
+                "window-width", self, "default-width", Gio.SettingsBindFlags.DEFAULT
+            )
+            self.settings.bind(
+                "window-maximized", self, "maximized", Gio.SettingsBindFlags.DEFAULT
+            )
+        if not backends:
+            return
 
-		for each in backends:
-			self.create_firefox_page(each)
+        for each in backends:
+            self.create_firefox_page(each)
 
+    # TODO refactor to support as many pages as possible. only supports a single page rn
+    def create_firefox_page(self, firefox_backend):
+        self.main_toolbar_view.set_content(None)
 
-	# TODO refactor to support as many pages as possible. only supports a single page rn
-	def create_firefox_page(self, firefox_backend):
-		self.main_toolbar_view.set_content(None)
+        firefox_page = AddWaterPage(backend=firefox_backend)
 
-		firefox_page = AddWaterPage(
-			backend=firefox_backend
-		)
+        self.main_toolbar_view.set_content(firefox_page)
 
-		self.main_toolbar_view.set_content(firefox_page)
+    """These are only called if no profile data is found"""
 
+    def error_page(
+        self,
+    ):
+        if info.PROFILE == "developer":
+            self.add_css_class("devel")
 
-	"""These are only called if no profile data is found"""
-	def error_page(self,):
-		if info.PROFILE == 'developer':
-			self.add_css_class('devel')
+        self.set_size_request(375, 425)  # Minimum size of window Width x Height
 
-		self.set_size_request(375, 425) # Minimum size of window Width x Height
+        page = self.create_error_page()
+        self.main_menu.set_sensitive(False)
+        self.main_toolbar_view.set_content(page)
 
-		page = self.create_error_page()
-		self.main_menu.set_sensitive(False)
-		self.main_toolbar_view.set_content(page)
-
-
-
-	def create_error_page(self):
-		help_page_button = Adw.Clamp(
-			hexpand=False,
-			child=Gtk.Button(
-				label="Open Help Page",
-				action_name="app.open-help-page",
-				css_classes=["suggested-action", "pill"],
-			)
-		)
-		statuspage = Adw.StatusPage(
-			title=f"Firefox Profile Data Not Found",
-			description='Please ensure Firefox is installed and Add Water has permission to access your profiles.',
-			child=help_page_button
-		)
-		return statuspage
+    def create_error_page(self):
+        help_page_button = Adw.Clamp(
+            hexpand=False,
+            child=Gtk.Button(
+                label="Open Help Page",
+                action_name="app.open-help-page",
+                css_classes=["suggested-action", "pill"],
+            ),
+        )
+        statuspage = Adw.StatusPage(
+            title=f"Firefox Profile Data Not Found",
+            description="Please ensure Firefox is installed and Add Water has permission to access your profiles.",
+            child=help_page_button,
+        )
+        return statuspage
