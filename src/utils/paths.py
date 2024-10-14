@@ -38,16 +38,16 @@ LOG_DIR = join(APP_CACHE, "logs")
 
 
 def init_paths():
-	paths = [APP_CACHE, DOWNLOAD_DIR, LOG_DIR]
-	for each in paths:
-		try:
-			os.mkdir(path=each)
-			print(f"{each} directory created.")
-		except FileExistsError as err:
-			print(f"{each} already exists. Skipped.")
-		except FileNotFoundError as err:
-			print("Couldn't find parent dir when initializing dirs ::", err)
-			return
+    paths = [APP_CACHE, DOWNLOAD_DIR, LOG_DIR]
+    for each in paths:
+        try:
+            os.mkdir(path=each)
+            print(f"{each} directory created.")
+        except FileExistsError as err:
+            print(f"{each} already exists. Skipped.")
+        except FileNotFoundError as err:
+            print("Couldn't find parent dir when initializing dirs ::", err)
+            return
 
-	print("All paths initialized.")
-	print("-------------------------")
+    print("All paths initialized.")
+    print("-------------------------")

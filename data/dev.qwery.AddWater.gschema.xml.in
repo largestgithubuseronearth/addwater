@@ -53,6 +53,9 @@
 		<key name="normal-width-tabs" type="b">
 			<default>false</default>
 		</key>
+	  <key name="tab-align-left" type="b">
+	    <default>false</default>
+	  </key>
 		<key name="swap-tab-close" type="b">
 			<default>false</default>
 		</key>
@@ -64,6 +67,9 @@
 		</key>
 
 		<!-- Tab Behavior -->
+	  <key name="all-tabs-button" type="b">
+	    <default>false</default>
+	  </key>
 		<key name="active-tab-contrast" type="b">
 			 <default>false</default>
 		</key>

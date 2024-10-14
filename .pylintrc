@@ -3,4 +3,12 @@
 disable=fixme,
 	bad-indentation,
 	no-name-in-module,
-	no-member
+	no-member,
+	import-error,
+	unused-import,
+	missing-class-docstring,
+	missing-function-docstring,
+	missing-module-docstring,
+	wrong-import-position,
+	pointless-string-statement,
+	too-few-public-methods

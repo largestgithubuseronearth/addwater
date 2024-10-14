@@ -1,5 +1,5 @@
 project('addwater',
-	version: 'alpha',
+	version: 'rc1',
 	meson_version: '>= 0.62.0',
 	default_options: [ 'warning_level=2', 'werror=false', ],
 )
@@ -46,7 +46,6 @@ conf.set('FORCE_BG', force_bg)
 subdir('data')
 subdir('po')
 subdir('src')
-subdir('tests')
 # subdir('build-aux')
 
 

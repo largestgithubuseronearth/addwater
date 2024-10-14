@@ -21,95 +21,113 @@ import logging
 
 import gi
 
-gi.require_version('Xdp', '1.0')
+gi.require_version("Xdp", "1.0")
 
 from gi.repository import Adw, Gio, Gtk, Xdp
 
 from addwater import info
+from addwater.backend import InterfaceMisuseError
 
 log = logging.getLogger(__name__)
 
-@Gtk.Template(resource_path=info.PREFIX + '/gtk/preferences.ui')
+
+@Gtk.Template(resource_path=info.PREFIX + "/gtk/preferences.ui")
 class AddWaterPreferences(Adw.PreferencesDialog):
-	__gtype_name__ = "AddWaterPreferences"
+    __gtype_name__ = "AddWaterPreferences"
 
-	background_update_switch = Gtk.Template.Child()
-	firefox_package_combobox = Gtk.Template.Child()
-	firefox_package_combobox_list = Gtk.Template.Child()
+    background_update_switch = Gtk.Template.Child()
+    firefox_package_combobox = Gtk.Template.Child()
+    firefox_package_combobox_list = Gtk.Template.Child()
 
+    def __init__(self, firefox_backend):
+        super().__init__()
+        log.info("Preferences Window activated")
+        # TODO use gset getter instead
+        self.settings_app = Gio.Settings(schema_id=info.APP_ID)
+        self.settings_firefox = firefox_backend.get_app_settings()
+        self.FIREFOX_FORMATS = firefox_backend.get_package_formats()
+        self.firefox_backend = firefox_backend
 
-	def __init__(self, firefox_backend):
-		super().__init__()
-		log.info("Preferences Window activated")
-		# TODO use gset getter instead
-		self.settings_app = Gio.Settings(schema_id=info.APP_ID)
-		self.settings_firefox = firefox_backend.get_app_settings()
-		self.FIREFOX_FORMATS = firefox_backend.get_package_formats()
+        self.portal = Xdp.Portal()
 
-		try:
-			self.settings_app.bind(
-				'background-update', self.background_update_switch, 'active', Gio.SettingsBindFlags.DEFAULT
-			)
-			self.background_update_switch.connect('activated', self._do_background_request)
-		except Exception as err:
-			log.error(err)
+        try:
+            self.settings_app.bind(
+                "background-update",
+                self.background_update_switch,
+                "active",
+                Gio.SettingsBindFlags.DEFAULT,
+            )
+            self.background_update_switch.connect(
+                "activated", self._do_background_request
+            )
+        except Exception as err:
+            log.error(err)
 
-		self.firefox_path = self.settings_firefox.get_string("data-path")
-		self._init_firefox_combobox()
+        self.firefox_path = self.firefox_backend.get_data_path()
+        self._init_firefox_combobox()
 
-		self.firefox_package_combobox.notify("selected-item")
-		self.firefox_package_combobox.connect("notify::selected-item", self._set_firefox_package)
+        self.firefox_package_combobox.notify("selected-item")
+        self.firefox_package_combobox.connect(
+            "notify::selected-item", self._set_firefox_package
+        )
 
+    # TODO test to make sure this works consistently on different machines
+    def _do_background_request(self, _):
+        bg_enabled = self.settings_app.get_boolean("background-update")
+        if bg_enabled:
+            flag = Xdp.BackgroundFlags.AUTOSTART
+        else:
+            flag = Xdp.BackgroundFlags.NONE
 
-	# TODO test to make sure this works consistently on different machines
-	def _do_background_request(self, _):
-		self.portal = Xdp.Portal()
-		bg_enabled = self.settings_app.get_boolean('background-update')
-		if bg_enabled:
-			flag = Xdp.BackgroundFlags.AUTOSTART
-		else:
-			flag = Xdp.BackgroundFlags.NONE
+        self.portal.request_background(
+            None,
+            "Checking for theme updates",
+            ["addwater", "--quick-update"],
+            flag,
+            None,
+            None,
+            None,
+        )
 
-		self.portal.request_background(
-			None,
-			'Checking for theme updates',
-			['addwater', '--quick-update'],
-			flag,
-			None,
-			None,
-			None,
-		)
+    def _init_firefox_combobox(self):
+        for each in self.FIREFOX_FORMATS:
+            self.firefox_package_combobox_list.append(each["name"])
 
+        if self.settings_firefox.get_boolean("autofind-paths") is False:
+            user_path = self.firefox_path
 
-	def _init_firefox_combobox(self):
-		for each in self.FIREFOX_FORMATS:
-			self.firefox_package_combobox_list.append(each["name"])
+            for each in self.FIREFOX_FORMATS:
+                if each["path"] == user_path:
+                    i = self.FIREFOX_FORMATS.index(each) + 1
+                    self.firefox_package_combobox.set_selected(i)
 
-		if self.settings_firefox.get_boolean("autofind-paths") is False:
-			user_path = self.firefox_path
+    def _set_firefox_package(self, row, _):
+        selected_index = row.get_selected()
+        # First option is always Automatically Discover
+        if selected_index == 0:
+            self.settings_firefox.set_boolean("autofind-paths", True)
+            log.info("Autofind paths enabled")
+            row.remove_css_class("error")
+            row.set_has_tooltip(False)
+            return
 
-			for each in self.FIREFOX_FORMATS:
-				if each["path"] == user_path:
-					i = self.FIREFOX_FORMATS.index(each) + 1
-					self.firefox_package_combobox.set_selected(i)
+        self.settings_firefox.set_boolean("autofind-paths", False)
+        log.warning("Autofind paths disabled")
+        selected = row.get_selected_item().get_string()
 
+        for each in self.FIREFOX_FORMATS:
+            if selected == each["name"]:
+                path = each["path"]
+                log.info(f'User specified path: {each["path"]}')
 
-	def _set_firefox_package(self, row, _):
-		selected_index = row.get_selected()
-		# First option is always Automatically Discover
-		if selected_index == 0:
-			self.settings_firefox.set_boolean("autofind-paths", True)
-			log.info("Autofind paths enabled")
-			return
+                try:
+                    self.firefox_backend.set_data_path(path)
+                except InterfaceMisuseError as err:
+                    log.error(err)
+                    row.add_css_class("error")
+                    row.set_has_tooltip(True)
+                else:
+                    row.remove_css_class("error")
+                    row.set_has_tooltip(False)
 
-		self.settings_firefox.set_boolean("autofind-paths", False)
-		log.warning("Autofind paths disabled")
-		selected = row.get_selected_item().get_string()
-
-		for each in self.FIREFOX_FORMATS:
-			if selected == each["name"]:
-				log.info(f'User specified path: {each["path"]}')
-				self.settings_firefox.set_string("data-path", each["path"])
-				self.firefox_path = each["path"]
-
-
+                self.firefox_path = path

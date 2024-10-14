@@ -13,10 +13,10 @@
 					<child type="top">
 						<object class="AdwHeaderBar" id="header_bar">
 							<child type="end">
-								<object class="GtkMenuButton">
+								<object class="GtkMenuButton" id="main_menu">
 									<property name="primary">True</property>
 									<property name="icon-name">open-menu-symbolic</property>
-									<property name="tooltip-text" translatable="yes">Menu</property>
+									<property name="tooltip-text" translatable="yes">Main Menu</property>
 									<property name="menu-model">primary_menu</property>
 								</object>
 							</child>
@@ -45,4 +45,5 @@
 		</section>
 	</menu>
 </interface>
+
 

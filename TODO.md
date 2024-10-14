@@ -3,8 +3,10 @@
     * Pylint
     * Black 
 * Improve implementation of AppDetails and/or make a generic factory for this
+* Create install and online manager factories that take AppDetails as input. When something in appdetails changes, it will remake those factories with the new details they need
 * Improve logging
 * Move to Adw 1.6 🥹
+* Add some sort of verification method to check that the installation was successful, and the files now exist in the profile directory.
 
 
 ## SECONDARY GOALS:
@@ -14,18 +16,8 @@
     * read the docs
 * Change all type hints to use pathlike when needed
 * Set up unit testing in meson. This is surprisingly difficult.
-* Resolve deprecation regardling GDK & libportal. Use newer version of libportal
 * Consider possibility of a "Restart Firefox" button
 * Is there a built-in GTK logging tool? How do cartridges and others do the debugging page?
-
-## FLATHUB GOALS:
-* Make sure Flatpak is configured properly
-    * Ensure flatpak manifest permissions are correct
-* Write .desktop file
-* Write appstream info
-    * Finish preview images to look nicer
-* Create app icon & brand colors
-* Smooth out all accessibility issues
 
 
 ## Wrap up
