@@ -5,8 +5,7 @@ option(
 	value : 'user'
 )
 
-# Testing options!
-# profile 'user' overrides all of these options to prevent accidentally disabling features for users.
+# Testing options (developer profile only)
 option(
 	'use-mock-api',
 	type: 'boolean',

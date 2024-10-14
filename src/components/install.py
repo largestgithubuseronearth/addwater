@@ -73,10 +73,18 @@ class InstallManager:
         theme_path: PathLike,
         profile_path: PathLike,
         color_palette: str,
-        options_results: dict[str, bool]=None,
+        options_results: dict[str, bool]=None
     ) -> Enum:
         # The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
-        """Handle installation of quick and full"""
+        """Handle installation of quick and full theme installs
+
+        args:
+            theme_path = path to theme files
+            profile_path = path to profile which to apply theme to
+            color_palette = color theme to apply
+            options_results = optional; if included, theme options will be
+                                updated. otherwise that's skipped
+        """
         log.info("kicking off install...")
 
         # DEBUGGING

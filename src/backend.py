@@ -79,7 +79,7 @@ class AddWaterBackend:
 
     """Install actions"""
 
-    def prep_install(self, profile_id, color_palette, full_install=False) -> Enum:
+    def begin_install(self, profile_id, color_palette, full_install=False) -> Enum:
         result = self.app_details.get_download_path_info()
         (p1, p2, p3) = result # TODO is there a dynamic, easier way to unpack this tuple?
         theme_path = join(p1, p2, p3)
@@ -102,6 +102,8 @@ class AddWaterBackend:
                     value = gset.get_boolean(g_key)
 
                     option_request[js_key] = value
+        else:
+            option_request = None
 
         # Call installer and return status to page
         status = self.install_manager.combined_install(

@@ -63,7 +63,7 @@ class BackgroundUpdater:
             profiles = self.backend.get_profile_list()
             profile_id = profiles[0]["id"]
 
-        install_status = self.backend.prep_install(profile_id, color_palette, False)
+        install_status = self.backend.begin_install(profile_id, color_palette, False)
 
         if install_status.SUCCESS:
             log.info("Silent install succeeded")
