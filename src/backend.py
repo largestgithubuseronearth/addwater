@@ -77,73 +77,46 @@ class AddWaterBackend:
 	as possible.
 	"""
 
-    # TODO the install manager should make the decision on quick or full install
-    # so this doesn't need to be duplicated
     """Install actions"""
 
-    def full_install(
-        self,
-        profile_id: str,
-        color_palette: str = "adwaita",
-    ) -> Enum:
-        version = self.get_update_version()
-        gset = self.get_app_settings()
+    def prep_install(self, profile_id, color_palette, full_install=False) -> Enum:
+        result = self.app_details.get_download_path_info()
+        (p1, p2, p3) = result # TODO is there a dynamic, easier way to unpack this tuple?
+        theme_path = join(p1, p2, p3)
 
-        # URGENT
-        # FIXME flesh out this check on both install methods to ENSURE that you can never pass an empty profile_id
-        if not profile_id:
-            profile_id = gset.get_string("profile-selected")
-            if not profile_id:
-                raise ValueError(
-                    "Trying to install but there is no available profile id"
-                )
+        app_path = self.app_details.get_data_path()
+        profile_path = join(app_path, profile_id)
 
-        profile_path = join(self.get_data_path(), profile_id)
-        theme_path = self.app_details.get_full_theme_path()
-        app_options = self.get_app_options()
 
-        install_status = self.install_manager.full_install(
+
+        # Prep options for pref handler if full install
+        if full_install:
+            option_request = {}
+            gset = self.app_details.get_new_gsettings()
+            options = self.app_details.get_options()
+
+            for group in options:
+                for option in group["options"]:
+                    js_key = option["js_key"]
+                    g_key = option["key"]
+                    value = gset.get_boolean(g_key)
+
+                    option_request[js_key] = value
+
+        # Call installer and return status to page
+        status = self.install_manager.combined_install(
             theme_path=theme_path,
             profile_path=profile_path,
             color_palette=color_palette,
-            app_options=app_options,
-            gset_reader=gset,
+            options_results=option_request
         )
-        if install_status.SUCCESS:
-            self.app_details.set_installed_version(version)
-        return install_status
 
-    def quick_install(
-        self,
-        profile_id: str,
-        color_palette: str = "adwaita",
-    ) -> Enum:
-        """Installs theme files but doesn't change any user preferences. This is
-        useful for updating in the background."""
-        version = self.get_update_version()
-        gset = self.get_app_settings()
-        if not profile_id:
-            profile_id = gset.get_string("profile-selected")
-            if not profile_id:
-                raise ValueError(
-                    "Trying to install but there is no available profile id"
-                )
+        if status == status.SUCCESS:
+            new_version = self.get_update_version()
+            self.app_details.set_installed_version(new_version)
+        return status
 
-        profile_path = join(self.get_data_path(), profile_id)
-        theme_path = self.app_details.get_full_theme_path()
 
-        install_status = self.install_manager.quick_install(
-            theme_path=theme_path,
-            profile_path=profile_path,
-            color_palette=color_palette,
-        )
-        if install_status.SUCCESS:
-            self.app_details.set_installed_version(version)
-        return install_status
-
-    def prep_install(self, profile_id, color_palette, install_flag):
-        # TODO
-        pass
 
     def remove_theme(self, profile_id) -> Enum:
         folder_name = self.app_details.get_theme_folder_name()
@@ -165,12 +138,12 @@ class AddWaterBackend:
 
     # TODO make a new getter and setter here for installed version so you don't have to call appdetails directly
     def get_app_name(
-        self,
+        self
     ) -> str:
         return self.app_details.get_name()
 
     def get_app_settings(
-        self,
+        self
     ):
         return self.app_details.get_new_gsettings()
 
@@ -178,7 +151,7 @@ class AddWaterBackend:
         return self.app_details.get_options()
 
     def get_data_path(
-        self,
+        self
     ) -> str:
         return self.app_details.get_data_path()
 
@@ -186,12 +159,12 @@ class AddWaterBackend:
         return self.app_details.get_color_palettes()
 
     def get_installed_version(
-        self,
+        self
     ):
         return self.app_details.get_installed_version()
 
     def get_update_version(
-        self,
+        self
     ):
         return self.online_manager.get_update_version()
 
@@ -199,7 +172,7 @@ class AddWaterBackend:
         return self.app_details.get_profiles()
 
     def get_package_formats(
-        self,
+        self
     ):
         return self.app_details.package_formats
 
@@ -215,7 +188,7 @@ class AddWaterBackend:
     """Dangerous"""
 
     def reset_app(
-        self,
+        self
     ):
         app_name = self.get_app_name()
         log.warning(f"{app_name} is now being reset...")

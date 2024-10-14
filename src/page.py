@@ -135,8 +135,8 @@ class AddWaterPage(Adw.Bin):
 
         if theme_enabled:
             log.debug("GUI calling for install..")
-            install_status = self.backend.full_install(
-                self.selected_profile, color_palette
+            install_status = self.backend.prep_install(
+                self.selected_profile, color_palette, True
             )
             toast_msg = "Installed Theme. Restart Firefox to see changes."
         else:

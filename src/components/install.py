@@ -30,7 +30,21 @@ log = logging.getLogger(__name__)
 
 
 class InstallManager:
+    """Provides API for all interactions that write or modify Firefox profiles.
+    Make sure this is air-gapped and only accessed via strict pipelines to limit
+    programmer errors that may lead to user data loss.
 
+    Methods for installation, setting theme preferences, and uninstalling theme
+    can be overridden by injecting your own functions. This leaves the door open
+    for supporting different apps or themes in the future.
+
+    args:
+        installer = method that writes theme files into the app
+        preference_handler = method to, if necessary, handle optional settings
+                                that may need to be written to a file somewhere.
+        uninstaller = method to remove theme files from app. For now, this must
+                        handle removing those settings from pref_handler on its own.
+    """
     _install_theme: callable
     _set_preferences: callable
     _uninstall_theme: callable
@@ -54,41 +68,23 @@ class InstallManager:
 
     """PUBLIC METHODS"""
 
-    # TODO reduce how many arguments need to be passed into the , it's so messy
     def combined_install(
         self,
         theme_path: PathLike,
         profile_path: PathLike,
         color_palette: str,
-        options_results: dict[str, bool],
+        options_results: dict[str, bool]=None,
     ) -> Enum:
-        # TODO make this decide whether to use the full or quick install based on an enum flag
         # The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
-        pass
+        """Handle installation of quick and full"""
+        log.info("kicking off install...")
 
-    def full_install(
-        self,
-        theme_path: PathLike,
-        profile_path: PathLike,
-        color_palette: str,
-        app_options,
-        gset_reader,
-    ) -> Enum:
-        """Kick off installing theme and setting its user.js preferences.
-
-        Args:
-                theme_path = full path to the folder that will be copied to the profile
-                profile_path = full path to the profile.
-                color_palette = name of the color palette to import
-                gset_reader = gsettings object for the app
-        """
-        log.info("Starting a full install...")
-        log.debug(f"Color Palette: {color_palette}")
+        # DEBUGGING
+        if not exists(theme_path) or not exists(profile_path):
+            log.error("Install failed. can't find theme path OR profile path.")
+            return InstallStatus.FAILURE
 
         color_palette = color_palette.lower()
-
-        if not exists(profile_path):
-            raise InstallException("Install failed. Profile folder doesn't exist.")
 
         # Run install script
         try:
@@ -97,49 +93,20 @@ class InstallManager:
                 theme_path=theme_path,
                 color_palette=color_palette,
             )
-            self._set_preferences(profile_path, app_options, gset_reader)
+            if options_results:
+                self._set_preferences(profile_path, options_results)
         except InstallException as err:
             log.critical(err)
             return InstallStatus.FAILURE
 
-        log.info("Full install done.")
+        log.info("install complete!")
         return InstallStatus.SUCCESS
 
-    def quick_install(
-        self,
-        theme_path: PathLike,
-        profile_path: PathLike,
-        color_palette: str,
-    ) -> Enum:
-        """Installs theme files but doesn't change any user preferences. This is
-        useful for updating in the background."""
-
-        log.info("Starting a quick install...")
-        log.debug(f"Color Palette: {color_palette}")
-
-        color_palette = color_palette.lower()
-
-        if not exists(profile_path):
-            raise InstallException("Install failed. Profile folder doesn't exist.")
-
-        try:
-            self._install_theme(
-                profile_path=profile_path,
-                color_palette=color_palette,
-                theme_path=theme_path,
-            )
-        except (InstallException, FileNotFoundError) as err:
-            log.critical(err)
-            return InstallStatus.FAILURE
-
-        log.info("Quick install done.")
-        return InstallStatus.SUCCESS
-
-    def uninstall(self, profile_path: str, folder_name: str) -> Enum:
+    def uninstall(self, profile_path, folder_name):
         try:
             self._uninstall_theme(profile_path, folder_name)
         except InstallException as err:
-            log.critical(err)
+            log.error(err)
             return InstallStatus.FAILURE
 
         return InstallStatus.SUCCESS
@@ -150,7 +117,7 @@ class InstallManager:
 """Default install handlers. Can be overridden by injecting functions at construction."""
 
 
-def _set_theme_prefs(profile_path: str, options: list[dict], gset_reader) -> None:
+def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
     """Update user preferences in user.js according to GSettings.
 
     Args:
@@ -171,23 +138,22 @@ def _set_theme_prefs(profile_path: str, options: list[dict], gset_reader) -> Non
     except FileNotFoundError:
         lines = []
     with open(file=user_js, mode="w", encoding="utf-8") as file:
-        for group in options:
-            for option in group["options"]:
-                pref_name = f'gnomeTheme.{option["js_key"]}'
-                pref_value = str(gset_reader.get_boolean(option["key"])).lower()
-                full_line = f"""user_pref("{pref_name}", {pref_value});\n"""
+        for key, value in options.items():
+            pref_name = f'gnomeTheme.{key}'
+            pref_value = str(value).lower() # This MUST be lowercase
+            full_line = f"""user_pref("{pref_name}", {pref_value});\n"""
 
-                # TODO simplify this section
-                found = False
-                for i, line in enumerate(lines):
-                    # This is easier than a for-each
-                    if pref_name in line:
-                        lines[i] = full_line
-                        found = True
-                        break
-                if found is False:
-                    lines.append(full_line)
-                log.debug(f"{pref_name} -> {pref_value}")
+            # TODO simplify this section
+            found = False
+            for i, line in enumerate(lines):
+                # This is easier than a for-each
+                if pref_name in line:
+                    lines[i] = full_line
+                    found = True
+                    break
+            if found is False:
+                lines.append(full_line)
+            log.debug(f"{pref_name} -> {pref_value}")
 
         file.writelines(lines)
 

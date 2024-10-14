@@ -135,6 +135,10 @@ class FirefoxAppDetails:
     def get_new_gsettings(
         self,
     ):
+        """Returns a new Gsettings object pre-configured with the app's
+        schema
+        """
+        log.debug(f"creating new Gsettings reader for {self.get_name()}")
         schema_id = info.APP_ID + "." + self.get_name()
         return Gio.Settings(schema_id=schema_id)
 
@@ -145,7 +149,7 @@ class FirefoxAppDetails:
 
     def get_download_path_info(
         self,
-    ):
+    ) -> tuple:
         """Returns a tuple of ([download cache path], [app folder], [theme files folder])
 
         Join these together to get the full path to the theme files for installation.
@@ -154,7 +158,7 @@ class FirefoxAppDetails:
 
     def get_full_theme_path(
         self,
-    ):
+    ) -> tuple:
         return self.full_path
 
     def get_color_palettes(
