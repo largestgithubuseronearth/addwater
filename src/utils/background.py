@@ -20,20 +20,22 @@
 
 import logging
 from enum import Enum
+from typing import Any, Callable
 
 from gi.repository import Gio
+from addwater.backend import AddWaterBackend
 
 log = logging.getLogger(__name__)
 
 
 class BackgroundUpdater:
-    def __init__(self, backend: list):
+    def __init__(self, backend: type[AddWaterBackend]):
         app_name = backend.get_app_name()
         log.debug(f"BackgroundUpdater created for {app_name}")
         self.backend = backend
         self.settings = self.backend.get_app_settings()
 
-    def quick_update(self):
+    def quick_update(self) -> None:
         update_status = self.backend.update_theme()
         match update_status:
             case update_status.UPDATED:
@@ -71,7 +73,7 @@ class BackgroundUpdater:
             log.info("Silent install failed")
             return SilentUpdateStatus.INSTALL_FAIL
 
-    def get_update_status(self):
+    def get_update_status(self) -> Enum:
         return self.bg_status
 
     def get_status_notification(self):

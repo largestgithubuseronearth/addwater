@@ -93,7 +93,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
             ),
         )
         statuspage = Adw.StatusPage(
-            title=f"Firefox Profile Data Not Found",
+            title="Firefox Profile Data Not Found",
             description="Please ensure Firefox is installed and Add Water has permission to access your profiles.",
             child=help_page_button,
         )

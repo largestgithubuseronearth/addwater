@@ -21,16 +21,16 @@
 import logging
 import os
 import shutil
+from os import PathLike
 from os.path import exists, join
 
 from addwater.components.install import InstallException
 
 log = logging.getLogger(__name__)
 
-
-@staticmethod
+@staticmethod # This is necessary to avoid InstallManager passing self as an arg. "Passed multiple values for profile_path"
 def install_for_firefox(
-    profile_path: str, theme_path: str, color_palette: str = "adwaita"
+    profile_path: PathLike, theme_path: PathLike, color_palette: str = "adwaita"
 ) -> None:
     """Install the Firefox theme. This method should be injected into the
     InstallManager at runtime. If it isn't obvious, this should not be reused for

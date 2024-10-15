@@ -21,7 +21,7 @@ import logging
 from configparser import ConfigParser
 from enum import Enum
 from os.path import exists, join
-from typing import Optional
+from typing import Optional, Callable, Any
 
 from addwater.utils import paths
 from gi.repository import Gio
@@ -69,8 +69,8 @@ class FirefoxAppDetails:
     installed_version: int
 
     # install
-    installer: callable = install_for_firefox
-    options: list[dict[any]] = FIREFOX_OPTIONS
+    installer: Callable = install_for_firefox
+    options: list[dict[Any, Any]] = FIREFOX_OPTIONS
     color_palettes: list = FIREFOX_COLORS
     autofind_data_path: bool
     data_path: str
@@ -146,7 +146,7 @@ class FirefoxAppDetails:
         """
         return (self.save_to, self.app_folder, self.theme_folder)
 
-    def get_full_theme_path(self) -> tuple:
+    def get_full_theme_path(self) -> str:
         return self.full_path
 
     def get_color_palettes(self):

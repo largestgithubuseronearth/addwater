@@ -46,26 +46,21 @@ class InstallManager:
                         handle removing those settings from pref_handler on its own.
     """
 
-    _install_theme: callable
-    _set_preferences: callable
-    _uninstall_theme: callable
-
     def __init__(
         self,
-        installer: callable,
-        preference_handler: callable = None,
-        uninstaller: callable = None,
+        installer: Callable,
+        preference_handler: Optional[Callable] = None,
+        uninstaller: Optional[Callable] = None
     ):
-        self._install_theme = installer
+        self._installer = installer
 
+        self._preferences_handler = _set_theme_prefs
         if preference_handler:
-            self._set_preferences = preferences_handler
-        else:
-            self._set_preferences = _set_theme_prefs
+            self._preferences_handler = preferences_handler
 
+        self._uninstaller = _do_uninstall_theme
         if uninstaller:
-            self._uninstall_theme = uninstaller
-        self._uninstall_theme = _do_uninstall_theme
+            self._uninstaller = uninstaller
 
     """PUBLIC METHODS"""
 
@@ -74,7 +69,7 @@ class InstallManager:
         theme_path: PathLike,
         profile_path: PathLike,
         color_palette: str,
-        options_results: dict[str, bool] = None,
+        options_results: Optional[dict[str, bool]] = None,
     ) -> Enum:
         # The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
         """Handle installation of quick and full theme installs
@@ -88,7 +83,6 @@ class InstallManager:
         """
         log.info("kicking off install...")
 
-        # DEBUGGING
         if not exists(theme_path) or not exists(profile_path):
             log.error("Install failed. can't find theme path OR profile path.")
             return InstallStatus.FAILURE
@@ -97,13 +91,13 @@ class InstallManager:
 
         # Run install script
         try:
-            self._install_theme(
+            self._installer(
                 profile_path=profile_path,
                 theme_path=theme_path,
-                color_palette=color_palette,
+                color_palette=color_palette
             )
             if options_results:
-                self._set_preferences(profile_path, options_results)
+                self._preferences_handler(profile_path, options_results)
         except InstallException as err:
             log.critical(err)
             return InstallStatus.FAILURE
@@ -113,7 +107,7 @@ class InstallManager:
 
     def uninstall(self, profile_path, folder_name):
         try:
-            self._uninstall_theme(profile_path, folder_name)
+            self._uninstaller(profile_path, folder_name)
         except InstallException as err:
             log.error(err)
             return InstallStatus.FAILURE
@@ -125,7 +119,7 @@ class InstallManager:
 
 """Default install handlers. Can be overridden by injecting functions at construction."""
 
-
+@staticmethod # To avoid InstallManager passing self
 def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
     """Update user preferences in user.js according to GSettings.
 
@@ -168,7 +162,7 @@ def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
 
     log.info("Done.")
 
-
+@staticmethod # To avoid InstallManager passing self
 def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
     log.info("Uninstalling theme from profile...")
     log.debug(f"Profile path: {profile_path}")

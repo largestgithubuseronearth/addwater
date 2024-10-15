@@ -20,7 +20,7 @@
 import logging
 from enum import Enum
 from os.path import exists, join
-from typing import Callable, Optional
+from typing import Callable, Optional, Any
 
 from addwater.components.install import InstallManager
 from addwater.components.online import OnlineManager
@@ -55,11 +55,7 @@ class AddWaterBackend:
                                                     those releases to be installed.
     """
 
-    app_details: callable
-    online_manager: callable
-    install_manager: callable
-
-    def __init__(self, app_details, install_manager, online_manager):
+    def __init__(self, app_details, install_manager: type[InstallManager], online_manager: type[OnlineManager]):
         self.app_details = app_details
         self.install_manager = install_manager
         self.online_manager = online_manager
@@ -78,36 +74,32 @@ class AddWaterBackend:
     def begin_install(self, profile_id, color_palette, full_install=False) -> Enum:
         log.info("beginning installation...")
         result = self.app_details.get_download_path_info()
-        (p1, p2, p3) = (
-            result  # TODO is there a dynamic, easier way to unpack this tuple?
-        )
-        theme_path = join(p1, p2, p3)
+        theme_path = join(result[0], result[1], result[2])
 
         app_path = self.app_details.get_data_path()
         profile_path = join(app_path, profile_id)
 
         # Prep options for pref handler if full install
         if full_install:
-            option_request = {}
+            options_request = {}
             gset = self.app_details.get_new_gsettings()
             options = self.app_details.get_options()
 
             for group in options:
                 for option in group["options"]:
                     js_key = option["js_key"]
-                    g_key = option["key"]
-                    value = gset.get_boolean(g_key)
+                    gset_value = gset.get_boolean(option["key"])
 
-                    option_request[js_key] = value
+                    options_request[js_key] = gset_value
         else:
-            option_request = None
+            options_request = None
 
         # Call installer and return status to page
         status = self.install_manager.combined_install(
             theme_path=theme_path,
             profile_path=profile_path,
             color_palette=color_palette,
-            options_results=option_request,
+            options_results=options_request,
         )
 
         log.info("install process completed")
@@ -129,21 +121,19 @@ class AddWaterBackend:
         version = self.get_installed_version()
         status = self.online_manager.get_updates_online(version, path_info)
 
-        new_version = self.get_update_version()
-        self.app_details.set_installed_version(new_version)
+        self.set_installed_version(self.get_update_version())
 
         return status
 
     """Info Getters"""
 
-    # TODO make a new getter and setter here for installed version so you don't have to call appdetails directly
     def get_app_name(self) -> str:
         return self.app_details.get_name()
 
     def get_app_settings(self):
         return self.app_details.get_new_gsettings()
 
-    def get_app_options(self) -> list[dict[str, any]]:
+    def get_app_options(self) -> list[dict[str, Any]]:
         return self.app_details.get_options()
 
     def get_data_path(self) -> str:
@@ -173,6 +163,9 @@ class AddWaterBackend:
             log.error(err)
             raise InterfaceMisuseError(err)
 
+    def set_installed_version(self, new_version: int) -> None:
+        self.app_details.set_installed_version(new_version)
+
     """Dangerous"""
 
     def reset_app(self):
@@ -185,7 +178,7 @@ class AddWaterBackend:
     """PRIVATE METHODS"""
 
     def _uninstall_all_profiles(self):
-        log.warning(f"uninstalling theme from all known profiles...")
+        log.warning("uninstalling theme from all known profiles...")
         profiles = self.app_details.get_profiles()
         for each in profiles:
             profile_id = each["id"]
