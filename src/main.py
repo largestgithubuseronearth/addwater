@@ -60,7 +60,7 @@ class AddWaterApplication(Adw.Application):
         paths.init_paths()
         init_logs()
 
-        # TODO create backends here
+        self.backends = self.construct_backends()
 
         self.add_main_option(
             "quick-update",
@@ -96,9 +96,6 @@ class AddWaterApplication(Adw.Application):
         necessary.
         """
 
-        # Create logic backend
-        self.backends = self.construct_backends()
-
         # Create window with the logic it needs
         win = self.props.active_window
         if not win:
@@ -115,7 +112,6 @@ class AddWaterApplication(Adw.Application):
 
         # TODO handle the option better and handle the error better
         if "quick-update" in options and options["quick-update"]:
-            self.backends = self.construct_backends()
             if not self.backends:
                 log.error("Cannot find Firefox Profile Data")
                 log.info(
@@ -137,11 +133,11 @@ class AddWaterApplication(Adw.Application):
         # TODO make this dynamic to find all available app details
         backends = []
         try:
-            detail = FirefoxAppDetails()
+            app_detail = FirefoxAppDetails()
         except FatalAppDetailsError:
             return None
 
-        backends.append(BackendFactory.new_from_appdetails(FirefoxAppDetails()))
+        backends.append(BackendFactory.new_from_appdetails(app_detail))
 
         return backends
 

@@ -26,7 +26,7 @@
 
 
 import logging
-from typing import Optional
+from typing import Optional, Callable
 
 from gi.repository import Adw, Gio, GObject, Gtk
 
@@ -116,6 +116,8 @@ class AddWaterPage(Adw.Bin):
                 msg = "Failed to check for updates due to a network issue"
             case update_status.RATELIMITED:
                 msg = "Failed to check for updates. Please try again later."
+            case update_status.OTHER_ERROR:
+                msg = "Unknown error has occurred. Consult log files for details."
             case update_status.NO_UPDATE:
                 msg = None
 
@@ -135,8 +137,8 @@ class AddWaterPage(Adw.Bin):
 
         if theme_enabled:
             log.debug("GUI calling for install..")
-            install_status = self.backend.full_install(
-                self.selected_profile, color_palette
+            install_status = self.backend.begin_install(
+                self.selected_profile, color_palette, True
             )
             toast_msg = "Installed Theme. Restart Firefox to see changes."
         else:
@@ -170,7 +172,9 @@ class AddWaterPage(Adw.Bin):
 
         self.send_toast("Changes reverted")
 
-    def send_toast(self, msg: str = None, timeout_seconds: int = 2, priority: int = 0):
+    def send_toast(
+        self, msg: Optional[str] = None, timeout_seconds: int = 2, priority: int = 0
+    ):
         # FIXME When a toast is displayed at the app launch, it still stays on screen forever
         if self.current_toast:
             self.current_toast.dismiss()
@@ -189,11 +193,7 @@ class AddWaterPage(Adw.Bin):
         # issue: https://gitlab.gnome.org/GNOME/libadwaita/-/issues/440
         self.enable_button.grab_focus()
 
-    def init_gui(
-        self,
-        options,
-        profile_list,
-    ):
+    def init_gui(self, options, profile_list):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
         Args:
@@ -256,7 +256,7 @@ class AddWaterPage(Adw.Bin):
     @staticmethod
     def _create_option_group(
         group_schematic: dict[str, list[dict]],
-        gui_switch_factory: callable,
+        gui_switch_factory: Callable,
         settings,
         enable_button,
     ):
@@ -289,7 +289,9 @@ class AddWaterPage(Adw.Bin):
         return group
 
     @staticmethod
-    def _create_option_switch(title: str, subtitle: str, extra_info: str = None):
+    def _create_option_switch(
+        title: str, subtitle: str, extra_info: Optional[str] = None
+    ):
         row = Adw.ActionRow(title=title, subtitle=subtitle)
         # This styling was borrowed from GNOME settings > Mouse Acceleration option
         if extra_info:
@@ -321,9 +323,7 @@ class AddWaterPage(Adw.Bin):
 
         return row
 
-    def _reset_profile_combobox(
-        self,
-    ):
+    def _reset_profile_combobox(self):
         last_profile = self.settings.get_string("profile-selected")
         if not last_profile:
             return
@@ -336,9 +336,7 @@ class AddWaterPage(Adw.Bin):
         log.debug(f"last_profile: {last_profile}")
         raise PageException("Profile combo box reset failed")
 
-    def _reset_color_combobox(
-        self,
-    ):
+    def _reset_color_combobox(self):
         selected = self.settings.get_string("palette-selected")
         colors_list = self.color_palettes
         if not selected:

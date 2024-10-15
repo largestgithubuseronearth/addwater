@@ -20,7 +20,7 @@
 import logging
 from enum import Enum
 from os.path import exists, join
-from typing import Callable, Optional
+from typing import Callable, Optional, Any
 
 from addwater.components.install import InstallManager
 from addwater.components.online import OnlineManager
@@ -32,10 +32,6 @@ from addwater.apps.firefox.firefox_details import AppDetailsException
 from addwater import info
 
 log = logging.getLogger(__name__)
-
-# TODO make sure that if user doesn't have the necessary files, they will be redownloaded automatically.
-
-# TODO find a more intuitive name than just 'backend'
 
 
 class AddWaterBackend:
@@ -59,11 +55,12 @@ class AddWaterBackend:
                                                     those releases to be installed.
     """
 
-    app_details: callable
-    online_manager: callable
-    install_manager: callable
-
-    def __init__(self, app_details, install_manager, online_manager):
+    def __init__(
+        self,
+        app_details,
+        install_manager: type[InstallManager],
+        online_manager: type[OnlineManager],
+    ):
         self.app_details = app_details
         self.install_manager = install_manager
         self.online_manager = online_manager
@@ -77,73 +74,41 @@ class AddWaterBackend:
 	as possible.
 	"""
 
-    # TODO the install manager should make the decision on quick or full install
-    # so this doesn't need to be duplicated
     """Install actions"""
 
-    def full_install(
-        self,
-        profile_id: str,
-        color_palette: str = "adwaita",
-    ) -> Enum:
-        version = self.get_update_version()
-        gset = self.get_app_settings()
+    def begin_install(self, profile_id, color_palette, full_install=False) -> Enum:
+        log.info("beginning installation...")
+        result = self.app_details.get_download_path_info()
+        theme_path = join(result[0], result[1], result[2])
 
-        # URGENT
-        # FIXME flesh out this check on both install methods to ENSURE that you can never pass an empty profile_id
-        if not profile_id:
-            profile_id = gset.get_string("profile-selected")
-            if not profile_id:
-                raise ValueError(
-                    "Trying to install but there is no available profile id"
-                )
+        app_path = self.app_details.get_data_path()
+        profile_path = join(app_path, profile_id)
 
-        profile_path = join(self.get_data_path(), profile_id)
-        theme_path = self.app_details.get_full_theme_path()
-        app_options = self.get_app_options()
+        # Prep options for pref handler if full install
+        if full_install:
+            options_request = {}
+            gset = self.app_details.get_new_gsettings()
+            options = self.app_details.get_options()
 
-        install_status = self.install_manager.full_install(
+            for group in options:
+                for option in group["options"]:
+                    js_key = option["js_key"]
+                    gset_value = gset.get_boolean(option["key"])
+
+                    options_request[js_key] = gset_value
+        else:
+            options_request = None
+
+        # Call installer and return status to page
+        status = self.install_manager.combined_install(
             theme_path=theme_path,
             profile_path=profile_path,
             color_palette=color_palette,
-            app_options=app_options,
-            gset_reader=gset,
+            options_results=options_request,
         )
-        if install_status.SUCCESS:
-            self.app_details.set_installed_version(version)
-        return install_status
 
-    def quick_install(
-        self,
-        profile_id: str,
-        color_palette: str = "adwaita",
-    ) -> Enum:
-        """Installs theme files but doesn't change any user preferences. This is
-        useful for updating in the background."""
-        version = self.get_update_version()
-        gset = self.get_app_settings()
-        if not profile_id:
-            profile_id = gset.get_string("profile-selected")
-            if not profile_id:
-                raise ValueError(
-                    "Trying to install but there is no available profile id"
-                )
-
-        profile_path = join(self.get_data_path(), profile_id)
-        theme_path = self.app_details.get_full_theme_path()
-
-        install_status = self.install_manager.quick_install(
-            theme_path=theme_path,
-            profile_path=profile_path,
-            color_palette=color_palette,
-        )
-        if install_status.SUCCESS:
-            self.app_details.set_installed_version(version)
-        return install_status
-
-    def prep_install(self, profile_id, color_palette, install_flag):
-        # TODO
-        pass
+        log.info("install process completed")
+        return status
 
     def remove_theme(self, profile_id) -> Enum:
         folder_name = self.app_details.get_theme_folder_name()
@@ -159,48 +124,39 @@ class AddWaterBackend:
     def update_theme(self) -> Enum:
         path_info = self.app_details.get_download_path_info()
         version = self.get_installed_version()
-        return self.online_manager.get_updates_online(version, path_info)
+        status = self.online_manager.get_updates_online(version, path_info)
+
+        self.set_installed_version(self.get_update_version())
+
+        return status
 
     """Info Getters"""
 
-    # TODO make a new getter and setter here for installed version so you don't have to call appdetails directly
-    def get_app_name(
-        self,
-    ) -> str:
+    def get_app_name(self) -> str:
         return self.app_details.get_name()
 
-    def get_app_settings(
-        self,
-    ):
+    def get_app_settings(self):
         return self.app_details.get_new_gsettings()
 
-    def get_app_options(self) -> list[dict[str, any]]:
+    def get_app_options(self) -> list[dict[str, Any]]:
         return self.app_details.get_options()
 
-    def get_data_path(
-        self,
-    ) -> str:
+    def get_data_path(self) -> str:
         return self.app_details.get_data_path()
 
     def get_colors_list(self) -> list:
         return self.app_details.get_color_palettes()
 
-    def get_installed_version(
-        self,
-    ):
+    def get_installed_version(self) -> int:
         return self.app_details.get_installed_version()
 
-    def get_update_version(
-        self,
-    ):
+    def get_update_version(self) -> int:
         return self.online_manager.get_update_version()
 
-    def get_profile_list(self):
+    def get_profile_list(self) -> dict:
         return self.app_details.get_profiles()
 
-    def get_package_formats(
-        self,
-    ):
+    def get_package_formats(self) -> dict:
         return self.app_details.package_formats
 
     """Info Setters"""
@@ -212,11 +168,12 @@ class AddWaterBackend:
             log.error(err)
             raise InterfaceMisuseError(err)
 
+    def set_installed_version(self, new_version: int) -> None:
+        self.app_details.set_installed_version(new_version)
+
     """Dangerous"""
 
-    def reset_app(
-        self,
-    ):
+    def reset_app(self):
         app_name = self.get_app_name()
         log.warning(f"{app_name} is now being reset...")
         self._uninstall_all_profiles()
@@ -226,7 +183,7 @@ class AddWaterBackend:
     """PRIVATE METHODS"""
 
     def _uninstall_all_profiles(self):
-        log.warning(f"uninstalling theme from all known profiles...")
+        log.warning("uninstalling theme from all known profiles...")
         profiles = self.app_details.get_profiles()
         for each in profiles:
             profile_id = each["id"]
@@ -247,7 +204,6 @@ class BackendFactory:
 
     @staticmethod
     def new_from_appdetails(app_details):
-
         install_method = app_details.get_installer()
         install_manager = InstallManager(
             installer=install_method,

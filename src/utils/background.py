@@ -20,22 +20,22 @@
 
 import logging
 from enum import Enum
+from typing import Any, Callable
 
 from gi.repository import Gio
+from addwater.backend import AddWaterBackend
 
 log = logging.getLogger(__name__)
 
 
 class BackgroundUpdater:
-    def __init__(self, backend: list):
+    def __init__(self, backend: type[AddWaterBackend]):
         app_name = backend.get_app_name()
         log.debug(f"BackgroundUpdater created for {app_name}")
         self.backend = backend
         self.settings = self.backend.get_app_settings()
 
-    def quick_update(
-        self,
-    ):
+    def quick_update(self) -> None:
         update_status = self.backend.update_theme()
         match update_status:
             case update_status.UPDATED:
@@ -49,12 +49,13 @@ class BackgroundUpdater:
             case update_status.RATELIMITED:
                 log.info("online failed, rate limited")
                 status = SilentUpdateStatus.ONLINE_FAIL
+            case update_status.OTHER_ERROR:
+                log.info("online failed. unknown error")
+                status = SilentUpdateStatus.ONLINE_FAIL
 
         self.bg_status = status
 
-    def silent_install(
-        self,
-    ):
+    def silent_install(self):
         log.info("Update available. Silently installing")
         color_palette = self.settings.get_string("palette-selected")
         profile_id = self.settings.get_string("profile-selected")
@@ -63,7 +64,7 @@ class BackgroundUpdater:
             profiles = self.backend.get_profile_list()
             profile_id = profiles[0]["id"]
 
-        install_status = self.backend.quick_install(profile_id, color_palette)
+        install_status = self.backend.begin_install(profile_id, color_palette, False)
 
         if install_status.SUCCESS:
             log.info("Silent install succeeded")
@@ -72,14 +73,10 @@ class BackgroundUpdater:
             log.info("Silent install failed")
             return SilentUpdateStatus.INSTALL_FAIL
 
-    def get_update_status(
-        self,
-    ):
+    def get_update_status(self) -> Enum:
         return self.bg_status
 
-    def get_status_notification(
-        self,
-    ):
+    def get_status_notification(self):
         log.debug("prepping a desktop notification for the bg update/install status")
         status = self.bg_status
 

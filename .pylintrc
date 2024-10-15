@@ -1,3 +1,7 @@
+[MAIN]
+
+ignore=importers
+
 [MESSAGES CONTROL]
 
 disable=fixme,
