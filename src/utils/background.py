@@ -33,9 +33,7 @@ class BackgroundUpdater:
         self.backend = backend
         self.settings = self.backend.get_app_settings()
 
-    def quick_update(
-        self,
-    ):
+    def quick_update(self):
         update_status = self.backend.update_theme()
         match update_status:
             case update_status.UPDATED:
@@ -55,9 +53,7 @@ class BackgroundUpdater:
 
         self.bg_status = status
 
-    def silent_install(
-        self,
-    ):
+    def silent_install(self):
         log.info("Update available. Silently installing")
         color_palette = self.settings.get_string("palette-selected")
         profile_id = self.settings.get_string("profile-selected")
@@ -75,14 +71,10 @@ class BackgroundUpdater:
             log.info("Silent install failed")
             return SilentUpdateStatus.INSTALL_FAIL
 
-    def get_update_status(
-        self,
-    ):
+    def get_update_status(self):
         return self.bg_status
 
-    def get_status_notification(
-        self,
-    ):
+    def get_status_notification(self):
         log.debug("prepping a desktop notification for the bg update/install status")
         status = self.bg_status
 

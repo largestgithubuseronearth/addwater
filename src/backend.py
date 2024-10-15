@@ -33,6 +33,7 @@ from addwater import info
 
 log = logging.getLogger(__name__)
 
+
 class AddWaterBackend:
     """The interface by which this app can complete important tasks like installing, updating, etc.
     Relies on injected components that manage those actual processes. This class
@@ -77,7 +78,9 @@ class AddWaterBackend:
     def begin_install(self, profile_id, color_palette, full_install=False) -> Enum:
         log.info("beginning installation...")
         result = self.app_details.get_download_path_info()
-        (p1, p2, p3) = result # TODO is there a dynamic, easier way to unpack this tuple?
+        (p1, p2, p3) = (
+            result  # TODO is there a dynamic, easier way to unpack this tuple?
+        )
         theme_path = join(p1, p2, p3)
 
         app_path = self.app_details.get_data_path()
@@ -104,13 +107,11 @@ class AddWaterBackend:
             theme_path=theme_path,
             profile_path=profile_path,
             color_palette=color_palette,
-            options_results=option_request
+            options_results=option_request,
         )
 
         log.info("install process completed")
         return status
-
-
 
     def remove_theme(self, profile_id) -> Enum:
         folder_name = self.app_details.get_theme_folder_name()
@@ -136,30 +137,22 @@ class AddWaterBackend:
     """Info Getters"""
 
     # TODO make a new getter and setter here for installed version so you don't have to call appdetails directly
-    def get_app_name(
-        self
-    ) -> str:
+    def get_app_name(self) -> str:
         return self.app_details.get_name()
 
-    def get_app_settings(
-        self
-    ):
+    def get_app_settings(self):
         return self.app_details.get_new_gsettings()
 
     def get_app_options(self) -> list[dict[str, any]]:
         return self.app_details.get_options()
 
-    def get_data_path(
-        self
-    ) -> str:
+    def get_data_path(self) -> str:
         return self.app_details.get_data_path()
 
     def get_colors_list(self) -> list:
         return self.app_details.get_color_palettes()
 
-    def get_installed_version(
-        self
-    ) -> int:
+    def get_installed_version(self) -> int:
         return self.app_details.get_installed_version()
 
     def get_update_version(self) -> int:
@@ -168,9 +161,7 @@ class AddWaterBackend:
     def get_profile_list(self) -> dict:
         return self.app_details.get_profiles()
 
-    def get_package_formats(
-        self
-    ) -> dict:
+    def get_package_formats(self) -> dict:
         return self.app_details.package_formats
 
     """Info Setters"""
@@ -184,9 +175,7 @@ class AddWaterBackend:
 
     """Dangerous"""
 
-    def reset_app(
-        self
-    ):
+    def reset_app(self):
         app_name = self.get_app_name()
         log.warning(f"{app_name} is now being reset...")
         self._uninstall_all_profiles()

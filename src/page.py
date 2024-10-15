@@ -191,11 +191,7 @@ class AddWaterPage(Adw.Bin):
         # issue: https://gitlab.gnome.org/GNOME/libadwaita/-/issues/440
         self.enable_button.grab_focus()
 
-    def init_gui(
-        self,
-        options,
-        profile_list,
-    ):
+    def init_gui(self, options, profile_list):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
         Args:
@@ -323,9 +319,7 @@ class AddWaterPage(Adw.Bin):
 
         return row
 
-    def _reset_profile_combobox(
-        self,
-    ):
+    def _reset_profile_combobox(self):
         last_profile = self.settings.get_string("profile-selected")
         if not last_profile:
             return
@@ -338,9 +332,7 @@ class AddWaterPage(Adw.Bin):
         log.debug(f"last_profile: {last_profile}")
         raise PageException("Profile combo box reset failed")
 
-    def _reset_color_combobox(
-        self,
-    ):
+    def _reset_color_combobox(self):
         selected = self.settings.get_string("palette-selected")
         colors_list = self.color_palettes
         if not selected:

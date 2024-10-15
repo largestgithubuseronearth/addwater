@@ -45,6 +45,7 @@ class InstallManager:
         uninstaller = method to remove theme files from app. For now, this must
                         handle removing those settings from pref_handler on its own.
     """
+
     _install_theme: callable
     _set_preferences: callable
     _uninstall_theme: callable
@@ -73,7 +74,7 @@ class InstallManager:
         theme_path: PathLike,
         profile_path: PathLike,
         color_palette: str,
-        options_results: dict[str, bool]=None
+        options_results: dict[str, bool] = None,
     ) -> Enum:
         # The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
         """Handle installation of quick and full theme installs
@@ -147,8 +148,8 @@ def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
         lines = []
     with open(file=user_js, mode="w", encoding="utf-8") as file:
         for key, value in options.items():
-            pref_name = f'gnomeTheme.{key}'
-            pref_value = str(value).lower() # This MUST be lowercase
+            pref_name = f"gnomeTheme.{key}"
+            pref_value = str(value).lower()  # This MUST be lowercase
             full_line = f"""user_pref("{pref_name}", {pref_value});\n"""
 
             # TODO simplify this section

@@ -86,9 +86,7 @@ class FirefoxAppDetails:
     theme_folder = "firefox-gnome-theme"
     full_path = join(save_to, app_folder, theme_folder)
 
-    def __init__(
-        self,
-    ):
+    def __init__(self):
         self.settings = self.get_new_gsettings()
 
         version = self.settings.get_int("installed-version")
@@ -113,9 +111,7 @@ class FirefoxAppDetails:
 
     """PUBLIC METHODS"""
 
-    def reset_settings(
-        self,
-    ):
+    def reset_settings(self):
         log.info(f"Resetting all gsettings for {self.name}")
         self.settings.reset("theme-enabled")
         self.settings.reset("data-path")
@@ -132,9 +128,7 @@ class FirefoxAppDetails:
 
     """Getters"""
 
-    def get_new_gsettings(
-        self,
-    ):
+    def get_new_gsettings(self):
         """Returns a new Gsettings object pre-configured with the app's
         schema
         """
@@ -142,63 +136,41 @@ class FirefoxAppDetails:
         schema_id = info.APP_ID + "." + self.get_name()
         return Gio.Settings(schema_id=schema_id)
 
-    def get_theme_folder_name(
-        self,
-    ):
+    def get_theme_folder_name(self):
         return self.theme_folder
 
-    def get_download_path_info(
-        self,
-    ) -> tuple:
+    def get_download_path_info(self) -> tuple:
         """Returns a tuple of ([download cache path], [app folder], [theme files folder])
 
         Join these together to get the full path to the theme files for installation.
         """
         return (self.save_to, self.app_folder, self.theme_folder)
 
-    def get_full_theme_path(
-        self,
-    ) -> tuple:
+    def get_full_theme_path(self) -> tuple:
         return self.full_path
 
-    def get_color_palettes(
-        self,
-    ):
+    def get_color_palettes(self):
         return self.color_palettes
 
-    def get_name(
-        self,
-    ):
+    def get_name(self):
         return self.name
 
-    def get_data_path(
-        self,
-    ):
+    def get_data_path(self):
         return self.data_path
 
-    def get_installer(
-        self,
-    ):
+    def get_installer(self):
         return self.installer
 
-    def get_installed_version(
-        self,
-    ):
+    def get_installed_version(self):
         return self.installed_version
 
-    def get_options(
-        self,
-    ):
+    def get_options(self):
         return self.options
 
-    def get_profiles(
-        self,
-    ):
+    def get_profiles(self):
         return self.profiles_list
 
-    def get_info_url(
-        self,
-    ):
+    def get_info_url(self):
         return self.theme_gh_url
 
     """Setters"""
@@ -214,10 +186,7 @@ class FirefoxAppDetails:
         log.error(f"Tried to set app_path to non-existant path. Path given: {new_path}")
         raise AppDetailsException("Data path given does not exist")
 
-    def set_installed_version(
-        self,
-        new_version: int,
-    ) -> None:
+    def set_installed_version(self, new_version: int) -> None:
         log.debug(f"Set installed version number to {new_version}")
         self.settings.set_int("installed-version", new_version)
         self.installed_version = new_version

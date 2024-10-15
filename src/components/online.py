@@ -73,8 +73,10 @@ class OnlineManager:
 
         files_downloaded = exists(join(path_info[0], path_info[1], path_info[2]))
 
-        if (self._is_update_available(update_info["version"], installed_version) or
-        not files_downloaded):
+        if (
+            self._is_update_available(update_info["version"], installed_version)
+            or not files_downloaded
+        ):
             log.info("update available. getting it now...")
             self.update_version = update_info["version"]
             return self._begin_download(path_info, update_info["tarball_url"])
@@ -82,11 +84,7 @@ class OnlineManager:
         log.info("no update available")
         return OnlineStatus.NO_UPDATE
 
-
-
-    def get_update_version(
-        self
-    ):
+    def get_update_version(self):
         return self.update_version
 
     """PRIVATE FUNCTIONS"""
@@ -105,10 +103,7 @@ class OnlineManager:
             return OnlineStatus.DISCONNECTED
         except ExtractionException as err:
             log.error(err)
-            return OnlineStatus.OTHER_ERROR # TODO handle this error better
-
-
-
+            return OnlineStatus.OTHER_ERROR  # TODO handle this error better
 
     def _get_release(self, base_path: str, final_name: str, tarball_url: str) -> None:
         """Download and prep a theme release for installation
@@ -161,7 +156,7 @@ class OnlineManager:
         headers = {
             "X-Github-Api-Version": "2022-11-28",
             "User-Agent": (info.APP_ID + "/" + info.VERSION),
-            "Accept": "application/vnd.github.x-gzip+json", # Note: I'm not sure if this is an acceptable way to do it'
+            "Accept": "application/vnd.github.x-gzip+json",  # Note: I'm not sure if this is an acceptable way to do it'
         }
         # TODO test with the streaming feature
         response = requests.get(dl_url, headers=headers, timeout=10)

@@ -51,9 +51,7 @@ class MockOnlineManager:
     def get_release(self, base_name: str, final_name: str, tarball_url: str):
         pass
 
-    def get_update_version(
-        self,
-    ):
+    def get_update_version(self):
         return self.update_version
 
 
