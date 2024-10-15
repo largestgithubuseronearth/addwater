@@ -50,7 +50,7 @@ class InstallManager:
         self,
         installer: Callable,
         preference_handler: Optional[Callable] = None,
-        uninstaller: Optional[Callable] = None
+        uninstaller: Optional[Callable] = None,
     ):
         self._installer = installer
 
@@ -94,7 +94,7 @@ class InstallManager:
             self._installer(
                 profile_path=profile_path,
                 theme_path=theme_path,
-                color_palette=color_palette
+                color_palette=color_palette,
             )
             if options_results:
                 self._preferences_handler(profile_path, options_results)
@@ -119,7 +119,8 @@ class InstallManager:
 
 """Default install handlers. Can be overridden by injecting functions at construction."""
 
-@staticmethod # To avoid InstallManager passing self
+
+@staticmethod  # To avoid InstallManager passing self
 def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
     """Update user preferences in user.js according to GSettings.
 
@@ -162,7 +163,8 @@ def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
 
     log.info("Done.")
 
-@staticmethod # To avoid InstallManager passing self
+
+@staticmethod  # To avoid InstallManager passing self
 def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
     log.info("Uninstalling theme from profile...")
     log.debug(f"Profile path: {profile_path}")

@@ -55,7 +55,12 @@ class AddWaterBackend:
                                                     those releases to be installed.
     """
 
-    def __init__(self, app_details, install_manager: type[InstallManager], online_manager: type[OnlineManager]):
+    def __init__(
+        self,
+        app_details,
+        install_manager: type[InstallManager],
+        online_manager: type[OnlineManager],
+    ):
         self.app_details = app_details
         self.install_manager = install_manager
         self.online_manager = online_manager

@@ -28,7 +28,8 @@ from addwater.components.install import InstallException
 
 log = logging.getLogger(__name__)
 
-@staticmethod # This is necessary to avoid InstallManager passing self as an arg. "Passed multiple values for profile_path"
+
+@staticmethod  # This is necessary to avoid InstallManager passing self as an arg. "Passed multiple values for profile_path"
 def install_for_firefox(
     profile_path: PathLike, theme_path: PathLike, color_palette: str = "adwaita"
 ) -> None:

@@ -172,7 +172,9 @@ class AddWaterPage(Adw.Bin):
 
         self.send_toast("Changes reverted")
 
-    def send_toast(self, msg: Optional[str]=None, timeout_seconds: int = 2, priority: int = 0):
+    def send_toast(
+        self, msg: Optional[str] = None, timeout_seconds: int = 2, priority: int = 0
+    ):
         # FIXME When a toast is displayed at the app launch, it still stays on screen forever
         if self.current_toast:
             self.current_toast.dismiss()
@@ -287,7 +289,9 @@ class AddWaterPage(Adw.Bin):
         return group
 
     @staticmethod
-    def _create_option_switch(title: str, subtitle: str, extra_info: Optional[str] = None):
+    def _create_option_switch(
+        title: str, subtitle: str, extra_info: Optional[str] = None
+    ):
         row = Adw.ActionRow(title=title, subtitle=subtitle)
         # This styling was borrowed from GNOME settings > Mouse Acceleration option
         if extra_info:
