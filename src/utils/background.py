@@ -49,6 +49,9 @@ class BackgroundUpdater:
             case update_status.RATELIMITED:
                 log.info("online failed, rate limited")
                 status = SilentUpdateStatus.ONLINE_FAIL
+            case update_status.OTHER_ERROR:
+                log.info("online failed. unknown error")
+                status = SilentUpdateStatus.ONLINE_FAIL
 
         self.bg_status = status
 

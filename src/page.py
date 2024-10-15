@@ -116,6 +116,8 @@ class AddWaterPage(Adw.Bin):
                 msg = "Failed to check for updates due to a network issue"
             case update_status.RATELIMITED:
                 msg = "Failed to check for updates. Please try again later."
+            case update_status.OTHER_ERROR:
+                msg = "Unknown error has occurred. Consult log files for details."
             case update_status.NO_UPDATE:
                 msg = None
 

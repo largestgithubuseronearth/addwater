@@ -35,9 +35,6 @@ log = logging.getLogger(__name__)
 
 # TODO make sure that if user doesn't have the necessary files, they will be redownloaded automatically.
 
-# TODO find a more intuitive name than just 'backend'
-
-
 class AddWaterBackend:
     """The interface by which this app can complete important tasks like installing, updating, etc.
     Relies on injected components that manage those actual processes. This class
@@ -80,14 +77,13 @@ class AddWaterBackend:
     """Install actions"""
 
     def begin_install(self, profile_id, color_palette, full_install=False) -> Enum:
+        log.info("beginning installation...")
         result = self.app_details.get_download_path_info()
         (p1, p2, p3) = result # TODO is there a dynamic, easier way to unpack this tuple?
         theme_path = join(p1, p2, p3)
 
         app_path = self.app_details.get_data_path()
         profile_path = join(app_path, profile_id)
-
-
 
         # Prep options for pref handler if full install
         if full_install:
@@ -113,9 +109,7 @@ class AddWaterBackend:
             options_results=option_request
         )
 
-        if status == status.SUCCESS:
-            new_version = self.get_update_version()
-            self.app_details.set_installed_version(new_version)
+        log.info("install process completed")
         return status
 
 
@@ -134,7 +128,12 @@ class AddWaterBackend:
     def update_theme(self) -> Enum:
         path_info = self.app_details.get_download_path_info()
         version = self.get_installed_version()
-        return self.online_manager.get_updates_online(version, path_info)
+        status = self.online_manager.get_updates_online(version, path_info)
+
+        new_version = self.get_update_version()
+        self.app_details.set_installed_version(new_version)
+
+        return status
 
     """Info Getters"""
 

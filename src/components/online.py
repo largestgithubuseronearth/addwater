@@ -57,6 +57,7 @@ class OnlineManager:
     """PUBLIC METHODS"""
 
     def get_updates_online(self, installed_version: int, path_info: tuple) -> Enum:
+        # TODO reverse these conditions so "NO UPDATE" is the default at the end
         log.info("Checking for updates...")
         self.update_version = installed_version
 
@@ -66,49 +67,23 @@ class OnlineManager:
             return OnlineStatus.DISCONNECTED
 
         # Decide whether we need to update or not
-
-        # TODO try to break up all these checks into individual methods. This method is messy rn
         calls_left = update_info["ratelimit_remaining"]
         if self._is_ratelimit_exceeded(calls_left):
             log.warning("rate limiting self to avoid angering Github")
             return OnlineStatus.RATELIMITED
 
-        self.update_version = update_info["version"]
-        update_available = self._is_update_available(
-            new=self.update_version, current=installed_version
-        )
-        if not update_available:
-            log.info("no update available")
-            return OnlineStatus.NO_UPDATE
-
-        # TODO is there anyway to make this tuple join cleaner? unpack tuple
         files_downloaded = exists(join(path_info[0], path_info[1], path_info[2]))
-        if files_downloaded:
-            log.info(
-                "update available but files already downloaded. skipping download."
-            )
-            return OnlineStatus.UPDATED
 
-        log.info("update available. getting it now...")
+        if (self._is_update_available(update_info["version"], installed_version) or
+        not files_downloaded):
+            log.info("update available. getting it now...")
+            self.update_version = update_info["version"]
+            return self._begin_download(path_info, update_info["tarball_url"])
 
-        # Update if necessary
+        log.info("no update available")
+        return OnlineStatus.NO_UPDATE
 
-        tarball_url = update_info["tarball_url"]
-        # TODO simplify to just pass the path info into get_release
-        base_path = join(path_info[0], path_info[1])
-        final_name = path_info[2]
-        try:
-            self._get_release(
-                base_path=base_path, final_name=final_name, tarball_url=tarball_url
-            )
-        except NetworkException as err:
-            return OnlineStatus.DISCONNECTED
-        except ExtractionException as err:
-            log.error(err)
-            # TODO recover from this more cleanly
-            raise OnlineManagerError("could not extract theme release tarball")
 
-        return OnlineStatus.UPDATED
 
     def get_update_version(
         self,
@@ -116,6 +91,25 @@ class OnlineManager:
         return self.update_version
 
     """PRIVATE FUNCTIONS"""
+
+    def _begin_download(self, path_info, tarball_url):
+        # Update if necessary
+        # TODO simplify to just pass the path info into get_release
+        base_path = join(path_info[0], path_info[1])
+        final_name = path_info[2]
+        try:
+            self._get_release(
+                base_path=base_path, final_name=final_name, tarball_url=tarball_url
+            )
+            return OnlineStatus.UPDATED
+        except NetworkException as err:
+            return OnlineStatus.DISCONNECTED
+        except ExtractionException as err:
+            log.error(err)
+            return OnlineStatus.OTHER_ERROR # TODO handle this error better
+
+
+
 
     # TODO improve to allow files to be downloaded that aren't necessarily zipped or are of different ziptypes
     def _get_release(self, base_path: str, final_name: str, tarball_url: str):
@@ -142,7 +136,6 @@ class OnlineManager:
                 log.error(err)
                 raise NetworkException(err)
 
-        # TODO monitor this to ensure it's not excessively removing and downloading
         try:
             shutil.rmtree(final_path)
         except FileNotFoundError:
@@ -178,8 +171,7 @@ class OnlineManager:
             "Accept": "application/vnd.github.x-gzip+json",
         }
         # TODO test with the streaming feature
-        response = requests.get(dl_url, headers=headers)
-        # TODO URGENT Make timeout handler
+        response = requests.get(dl_url, headers=headers, timeout=10)
 
         with open(file=result, mode="wb") as file:
             file.write(response.content)
@@ -241,9 +233,8 @@ class OnlineManager:
             "User-Agent": (info.APP_ID + "/pre-alpha"),
             "Accept": "application/vnd.github+json",
         }
-        # URGENT TODO use a timeout argument
         try:
-            response = requests.get(gh_url, headers=headers)
+            response = requests.get(gh_url, headers=headers, timeout=10)
         except requests.RequestException as err:
             # TODO use specific exceptions to handle being disconnected. It'll
             # 	be more helpful if the issue isn't just being offline but an API or
@@ -271,15 +262,14 @@ class OnlineManager:
     @staticmethod
     def _is_ratelimit_exceeded(api_calls_left: int) -> bool:
         # TODO Set API limit more robust and strict before flathub release
-        # Maybe set the time and api calls remaining in gsettings. Otherwise it's
-        # possible for the user to continue spammnig Github even while rate
-        # limited.
+        # Maybe set the time and api calls remaining in gsettings. There is
+        # only a warning and no mechanism stopping user from continuing to spam.
         CHOSEN_LIMIT = 10
         log.debug(f"Remaining Github API calls for the next hour: {api_calls_left}")
         return bool(api_calls_left < CHOSEN_LIMIT)
 
     @staticmethod
-    def _is_update_available(current: int, new: int) -> bool:
+    def _is_update_available(new: int, current: int) -> bool:
         if not isinstance(current, int) or not isinstance(new, int):
             raise ValueError
 
@@ -294,6 +284,7 @@ class OnlineStatus(Enum):
     UPDATED = 1
     DISCONNECTED = 2
     RATELIMITED = 3
+    OTHER_ERROR = 4
 
 
 class NetworkException(Exception):
