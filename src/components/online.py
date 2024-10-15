@@ -57,7 +57,6 @@ class OnlineManager:
     """PUBLIC METHODS"""
 
     def get_updates_online(self, installed_version: int, path_info: tuple) -> Enum:
-        # TODO reverse these conditions so "NO UPDATE" is the default at the end
         log.info("Checking for updates...")
         self.update_version = installed_version
 
@@ -86,13 +85,13 @@ class OnlineManager:
 
 
     def get_update_version(
-        self,
+        self
     ):
         return self.update_version
 
     """PRIVATE FUNCTIONS"""
 
-    def _begin_download(self, path_info, tarball_url):
+    def _begin_download(self, path_info, tarball_url) -> Enum:
         # Update if necessary
         # TODO simplify to just pass the path info into get_release
         base_path = join(path_info[0], path_info[1])
@@ -111,8 +110,7 @@ class OnlineManager:
 
 
 
-    # TODO improve to allow files to be downloaded that aren't necessarily zipped or are of different ziptypes
-    def _get_release(self, base_path: str, final_name: str, tarball_url: str):
+    def _get_release(self, base_path: str, final_name: str, tarball_url: str) -> None:
         """Download and prep a theme release for installation
         Args:
                 base_name = the naming convention for the download zipfile and extracted path
@@ -123,9 +121,6 @@ class OnlineManager:
         zipfile = f"{base_path}.tar.gz"
         extract_path = f"{base_path}"
         final_path = join(extract_path, final_name.lower())
-        if exists(final_path):
-            log.info(f"The theme files are already ready to install. done.")
-            return
 
         log.info(f"Getting release...")
 
@@ -141,11 +136,10 @@ class OnlineManager:
         except FileNotFoundError:
             pass
 
-        if not exists(final_path):
-            try:
-                self._extract_tarball(zipfile, extract_path)
-            except (FileNotFoundError, tarfile.TarError) as err:
-                raise ExtractionException("Theme files failed to extract")
+        try:
+            self._extract_tarball(zipfile, extract_path)
+        except (FileNotFoundError, tarfile.TarError) as err:
+            raise ExtractionException("Theme files failed to extract")
 
         # rename inner folder
         self._rename_theme_folder(extract_path, final_name)
@@ -166,9 +160,8 @@ class OnlineManager:
 
         headers = {
             "X-Github-Api-Version": "2022-11-28",
-            "User-Agent": (info.APP_ID + "/pre-alpha"),
-            # TODO is this the proper accept header for gzip?
-            "Accept": "application/vnd.github.x-gzip+json",
+            "User-Agent": (info.APP_ID + "/" + info.VERSION),
+            "Accept": "application/vnd.github.x-gzip+json", # Note: I'm not sure if this is an acceptable way to do it'
         }
         # TODO test with the streaming feature
         response = requests.get(dl_url, headers=headers, timeout=10)
@@ -217,7 +210,7 @@ class OnlineManager:
         log.debug("Successfully renamed inner folder")
 
     @staticmethod
-    def _get_release_info(gh_url: str) -> dict[str, [int, str]]:
+    def _get_release_info(gh_url: str) -> dict:
         """Poll Github url and check if a new release of the theme is available
 
         Args:
@@ -230,7 +223,7 @@ class OnlineManager:
 
         headers = {
             "X-Github-Api-Version": "2022-11-28",
-            "User-Agent": (info.APP_ID + "/pre-alpha"),
+            "User-Agent": (info.APP_ID + "/" + info.VERSION),
             "Accept": "application/vnd.github+json",
         }
         try:
@@ -248,10 +241,11 @@ class OnlineManager:
             version = int(latest_release["tag_name"].lstrip("v"))
             tarball_url = latest_release["tarball_url"]
         except requests.JSONDecodeError as err:
-            log.err(err)
+            log.error(err)
             version = None
             tarball_url = None
 
+        # TODO make this a tuple instead for easy unpacking
         release_info = {
             "version": version,
             "ratelimit_remaining": api_calls_left,

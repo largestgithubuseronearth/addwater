@@ -33,8 +33,6 @@ from addwater import info
 
 log = logging.getLogger(__name__)
 
-# TODO make sure that if user doesn't have the necessary files, they will be redownloaded automatically.
-
 class AddWaterBackend:
     """The interface by which this app can complete important tasks like installing, updating, etc.
     Relies on injected components that manage those actual processes. This class
@@ -161,20 +159,18 @@ class AddWaterBackend:
 
     def get_installed_version(
         self
-    ):
+    ) -> int:
         return self.app_details.get_installed_version()
 
-    def get_update_version(
-        self
-    ):
+    def get_update_version(self) -> int:
         return self.online_manager.get_update_version()
 
-    def get_profile_list(self):
+    def get_profile_list(self) -> dict:
         return self.app_details.get_profiles()
 
     def get_package_formats(
         self
-    ):
+    ) -> dict:
         return self.app_details.package_formats
 
     """Info Setters"""
@@ -221,7 +217,6 @@ class BackendFactory:
 
     @staticmethod
     def new_from_appdetails(app_details):
-
         install_method = app_details.get_installer()
         install_manager = InstallManager(
             installer=install_method,
