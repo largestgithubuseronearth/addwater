@@ -88,9 +88,8 @@
             ],
             "sources" : [
                 {
-                    "type" : "git",
-                    "url" : "https://github.com/largestgithubuseronearth/addwater",
-                    "tag" : "rc1.1"
+                    "dir" : "git",
+                    "path" : "../.."
                 }
             ],
             "builddir" : true
