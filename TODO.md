@@ -1,11 +1,7 @@
 ## PRIMARY GOALS:
-* Find a good auto linter/formatter
-    * Pylint
-    * Black 
 * Improve implementation of AppDetails and/or make a generic factory for this
 * Create install and online manager factories that take AppDetails as input. When something in appdetails changes, it will remake those factories with the new details they need
 * Improve logging
-* Move to Adw 1.6 🥹
 * Add some sort of verification method to check that the installation was successful, and the files now exist in the profile directory.
 
 
@@ -14,7 +10,6 @@
     * doxygen
     * sphinx
     * read the docs
-* Change all type hints to use pathlike when needed
 * Set up unit testing in meson. This is surprisingly difficult.
 * Consider possibility of a "Restart Firefox" button
 * Is there a built-in GTK logging tool? How do cartridges and others do the debugging page?
