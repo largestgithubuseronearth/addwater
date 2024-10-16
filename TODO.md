@@ -23,7 +23,7 @@
 
 ## Accessibility Test Results:
 
-Note: Try all of these on Gnome 47 since Orca was improved
+Note: Try all of these on Gnome 47 since Orca was improved.
 
 [/] Large Text
 [~] Screen Reader tests

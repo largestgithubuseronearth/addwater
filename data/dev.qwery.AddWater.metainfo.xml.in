@@ -8,7 +8,7 @@
 
 	<!-- Branding Info -->
 	<name>Add Water</name>
-	<summary>Keep Firefox in Fashion</summary>
+	<summary>Keep Firefox in fashion</summary>
 	<description>
 		<p>A utility app to easily install the GNOME for Firefox theme and automatically update it in the background. This theme keeps Firefox fashionable within the GNOME design ecosystem, and provides many helpful features to customize the interface to make browsing even more pleasant:
 		</p>
@@ -33,7 +33,7 @@
 	<screenshots>
 		<screenshot type="default">
 			<caption>Add Water and Firefox Preview — Light style</caption>
-			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/refs/tags/rc1.1/docs/image-previews/banner-dark-noff.png</image>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/refs/tags/rc1.1/docs/image-previews/banner-light-noff.png</image>
 		</screenshot>
 		<screenshot>
 			<caption>Themed Firefox — Light style</caption>
@@ -88,9 +88,9 @@
 
 	<!-- Release Notes -->
 	<releases>
-		<release version="rc" date="2024-10-13">
+		<release version="1.0" date="2024-10-16">
 			<description>
-				<p>This is the final preview release of Add Water before its Flathub release.</p>
+				<p>This is the initial release of Add Water. Let me know what you think.</p>
 			</description>
 		</release>
 

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Add Water
 Exec=addwater
-Comment=Browse fashionably
+Comment=Keep Firefox in fashion
 Icon=@APP_ID@
 Terminal=false
 Type=Application
