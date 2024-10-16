@@ -25,26 +25,27 @@
 	</description>
 
 	<branding>
-		<color type="primary" scheme_preference="light">#ffbe6f</color>
-		<color type="primary" scheme_preference="dark">#1a5fb4</color>
+		<color type="primary" scheme_preference="light">#ffbe6f</color> <!-- light orange -->
+		<color type="primary" scheme_preference="dark">#1a5fb4</color> <!-- dark blue -->
 	</branding>
 
+	<!-- if these screenshots change, need to update links to point to the new tag -->
 	<screenshots>
 		<screenshot type="default">
 			<caption>Add Water and Firefox Preview — Light style</caption>
-			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/banner-light-noff.png</image>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/refs/tags/rc1.1/docs/image-previews/banner-dark-noff.png</image>
 		</screenshot>
 		<screenshot>
 			<caption>Themed Firefox — Light style</caption>
-			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/preview-light.png</image>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/refs/tags/rc1.1/docs/image-previews/preview-light.png</image>
 		</screenshot>
 		<screenshot>
 			<caption> Add Water and Firefox Preview — Dark style</caption>
-			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/banner-dark-noff.png</image>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/refs/tags/rc1.1/docs/image-previews/banner-dark-noff.png</image>
 		</screenshot>
 		<screenshot>
 			<caption>Themed Firefox — Dark style</caption>
-			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/preview-dark.png</image>
+			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/refs/tags/rc1.1/docs/image-previews/preview-dark.png</image>
 		</screenshot>
 	</screenshots>
 
@@ -81,6 +82,7 @@
 	<supports>
 		<control>keyboard</control>
 		<control>pointing</control>
+		<!-- i can't test touch support -->
 	</supports>
 
 
