@@ -1,9 +1,21 @@
+<div align='center'>
+<img src='data/icons/hicolor/scalable/apps/dev.qwery.AddWater.svg' width='128' height='128'/>
+
 # Add Water
+
+</div>
+
+
 ### An installer for the fantastic GNOME for Firefox theme by [Rafael Mardojai CM](https://github.com/rafaelmardojai/firefox-gnome-theme)
 
-This app allows you to automatically install the Firefox GNOME theme and keep it up to date, as well as easily configure the theme to your liking.
+<a href='https://flathub.org/apps/dev.qwery.AddWater'>
+    <img width='240' alt='Get it on Flathub' src='https://flathub.org/api/badge?locale=en'/>
+</a>
 
-Try it out on Flathub
+This is a utility to automatically install the [Firefox GNOME Theme](https://github.com/rafaelmardojai/firefox-gnome-theme) and keep it up to date, as well as easily configure the theme to your liking.
+
+This theme supports a variety of options for Tab positioning, behavior, look and feel.
+
 
 
 ### Screenshot Previews
