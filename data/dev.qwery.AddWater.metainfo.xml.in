@@ -96,6 +96,14 @@
 
 	<!-- Release Notes -->
 	<releases>
+		<release version="1.1" date="2024-10-17">
+			<description>
+				<p>Fixed a bug that overwrote user.js file on every install.
+					Thank you to gxanshu for this.</p>
+
+					<p>Thank you to bragefuglseth for improving metainfo.</p>
+			</description>
+		</release>
 		<release version="1.0" date="2024-10-16">
 			<description>
 				<p>This is the initial release of Add Water. Let me know what you think.</p>
