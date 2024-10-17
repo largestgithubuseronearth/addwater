@@ -211,17 +211,26 @@ class FirefoxAppDetails:
         install_file = join(app_path, "installs.ini")
         profiles_file = join(app_path, "profiles.ini")
 
-        if not exists(install_file):
-            raise FileNotFoundError("installs.ini file not found")
         if not exists(profiles_file):
             raise FileNotFoundError("profiles.ini file not found")
 
         # Find preferred profile paths
-        cfg.read(install_file)
-        for each in cfg.sections():
-            default_profile = cfg[each]["Default"]
-            defaults.append(default_profile)
-            log.debug(f"Preferred profile: {default_profile}")
+        if exists(install_file):
+            cfg.read(install_file)
+            for each in cfg.sections():
+                default_profile = cfg[each]["Default"]
+                defaults.append(default_profile)
+                log.debug(f"Preferred profile: {default_profile}")
+        else:
+            # workaround: Firefox Snap doesn't use installs.ini OOTB
+            cfg.read(profiles_file)
+            for each in cfg.sections():
+                try:
+                    if cfg[each]["Default"] == "1":
+                        default_profile = cfg[each]["path"]
+                        defaults.append(default_profile)
+                except KeyError:
+                    pass
 
         # Find all paths and names
         cfg.read(profiles_file)
