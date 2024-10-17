@@ -1,40 +1,28 @@
-## PRIMARY GOALS:
-* Improve implementation of AppDetails and/or make a generic factory for this
-* Create install and online manager factories that take AppDetails as input. When something in appdetails changes, it will remake those factories with the new details they need
-* Improve logging
-* Add some sort of verification method to check that the installation was successful, and the files now exist in the profile directory.
+## Front-facing improvements:
 
+* Dialog prompt for user to select which package to install to when multiple package formats are detected simultaneously
+* Add a function to easily get the log files for GitHub issues.
+* Add a "Restart Firefox" button to install and uninstall toasts
+* Get Flathub verification
+* Improve screenshots
+* Set up app for i18n work
 
-## SECONDARY GOALS:
-* Find good documentation solution
+## Under-the-hood Improvements:
+
+ * Find a documentation solution
     * doxygen
     * sphinx
     * read the docs
-* Set up unit testing in meson. This is surprisingly difficult.
-* Consider possibility of a "Restart Firefox" button
-* Is there a built-in GTK logging tool? How do cartridges and others do the debugging page?
-
-
-## Wrap up
-* Set up project for i18n work
-* Write better docstrings for the classes and methods
-* Write help page for user troubleshooting
+ * Add more docstrings 
+ * Create AppDetails factory from which the firefox_details are constructed
+ * Set up unit tests (surprisingly difficult)
 
 
 ## Accessibility Test Results:
-
-Note: Try all of these on Gnome 47 since Orca was improved.
-
-[/] Large Text
-[~] Screen Reader tests
-    * When selecting a row, it wouldn't say the control type for my custom switch rows or the state of the switch. Doesn't notify when you change activate the switch from here.
-    * Wouldn't mention the info button exists.
-    * The info button's popover label isn't read
-    * Label for Changes Bottom Bar isn't read
-    The GNOME settings page I took these styles from also has these same issues. Any fix?
-[/] Full keyboard navigation
-    * Must press esc to exit info button
-[/] Contrast
-[] Touch screen support. Can't test this myself.
-[] Accerciser test (need to resolve imp issue)
-
+<!-- TODO Retry all of these on Gnome 47 since Orca was improved -->
+- [ ] Large text
+- [ ] Screen reader
+- [ ] Full keyboard navigation
+- [ ] Touchscreen support
+- [ ] Accerciser test
+- [ ] Contrast

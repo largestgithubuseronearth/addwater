@@ -10,7 +10,7 @@
 	<name>Add Water</name>
 	<summary>Keep Firefox in fashion</summary>
 	<description>
-		<p>A utility app to easily install the GNOME for Firefox theme and automatically update it in the background. This theme keeps Firefox fashionable within the GNOME design ecosystem, and provides many helpful features to customize the interface to make browsing even more pleasant:
+		<p>A utility app to easily install the GNOME for Firefox Theme and automatically update it in the background. This theme keeps Firefox fashionable within the GNOME design ecosystem, and provides many helpful features to customize the interface to make browsing even more pleasant:
 		</p>
 		<ul>
 			<li>Supports light and dark style</li>
@@ -20,7 +20,7 @@
 			<li>Hide redundant microphone, webcam, screen share indicators</li>
 			<li>Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox</li>
 		</ul>
-		<p>The GNOME for Firefox theme itself is developed and maintained by Rafael Mardojai CM.</p>
+		<p>The GNOME for Firefox Theme itself is developed and maintained by Rafael Mardojai CM.</p>
 		<p>The Firefox browser is not included and must be downloaded separately. This project is not affiliated or endorsed by the Mozilla Foundation. Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries.</p>
 	</description>
 

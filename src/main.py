@@ -210,7 +210,7 @@ class AddWaterApplication(Adw.Application):
     def on_help_action(self, *_):
         log.info("help page action activated")
         weblaunch = Gtk.UriLauncher.new(
-            "https://github.com/largestgithubuseronearth/addwater/blob/main/docs/user-help.md"
+            "https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md"
         )
         weblaunch.launch(None, None, None, None)
 
