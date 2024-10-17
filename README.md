@@ -12,7 +12,7 @@ This is a utility to automatically install the [Firefox GNOME Theme](https://git
 
 This theme supports a variety of options for Tab positioning, behavior, look and feel.
 
-<div align='center>
+<div align='center'>
     <a href='https://flathub.org/apps/dev.qwery.AddWater'>
         <img width='240' alt='Get it on Flathub' src='https://flathub.org/api/badge?locale=en'/>
     </a>
