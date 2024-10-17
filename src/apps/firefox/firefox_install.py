@@ -126,17 +126,37 @@ def _import_css(chrome_path: str, color_palette: str):
         log.debug(f"Finished importing {each}")
     log.debug("Done.")
 
-
 def _copy_userjs(profile_path: str, template_path: str) -> None:
-    # Backup user.js and replace with provided version that includes the prerequisite prefs
-    log.debug("Copying user.js from theme...")
+    """Append content of user.js template to the existing user.js if the URL doesn't exist."""
+    log.debug("Checking if URL already exists in user.js...")
     user_js = join(profile_path, "user.js")
     user_js_backup = join(profile_path, "user.js.bak")
+    url_to_check = "https://github.com/rafaelmardojai/firefox-gnome-theme/"
 
-    if exists(user_js) is True and exists(user_js_backup) is False:
+    # Check if the (Required user.js content) already exists in user.js
+    if exists(user_js):
+        with open(user_js, 'r', encoding='utf-8') as user_js_file:
+            content = user_js_file.read()
+            if url_to_check in content:
+                log.debug("The specified URL already exists in user.js.")
+                return True  # URL exists, exit the function
+
+    # Backup user.js if it exists and backup does not exist
+    if exists(user_js) and not exists(user_js_backup):
         log.debug("Backing up user's previous user.js file")
-        os.rename(user_js, user_js_backup)
+        shutil.copy(user_js, user_js_backup)
 
-    shutil.copy(template_path, profile_path)
+    # Append the content of the template user.js to the existing user.js
+    try:
+        with open(template_path, 'r', encoding='utf-8') as template_file:
+            template_content = template_file.read()
+
+        with open(user_js, 'a', encoding='utf-8') as user_js_file:
+            user_js_file.write(template_content)
+            log.debug("Appended user.js content successfully.")
+
+    except Exception as e:
+        log.critical(f"Failed to append to user.js: {e}")
+        raise InstallException("Failed to append user.js")
 
     log.debug("Done.")
