@@ -127,10 +127,19 @@ def _import_css(chrome_path: str, color_palette: str):
     log.debug("Done.")
 
 def _copy_userjs(profile_path: str, template_path: str) -> None:
-    """Append content of user.js template to the existing user.js."""
-    log.debug("Appending to user.js from theme...")
+    """Append content of user.js template to the existing user.js if the URL doesn't exist."""
+    log.debug("Checking if URL already exists in user.js...")
     user_js = join(profile_path, "user.js")
     user_js_backup = join(profile_path, "user.js.bak")
+    url_to_check = "https://github.com/rafaelmardojai/firefox-gnome-theme/"
+
+    # Check if the (Required user.js content) already exists in user.js
+    if exists(user_js):
+        with open(user_js, 'r', encoding='utf-8') as user_js_file:
+            content = user_js_file.read()
+            if url_to_check in content:
+                log.debug("The specified URL already exists in user.js.")
+                return True  # URL exists, exit the function
 
     # Backup user.js if it exists and backup does not exist
     if exists(user_js) and not exists(user_js_backup):
