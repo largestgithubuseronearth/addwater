@@ -101,9 +101,6 @@ class AddWaterApplication(Adw.Application):
         if not win:
             win = AddWaterWindow(application=self, backends=self.backends)
 
-        # TODO make this error handling better and more explicit
-        if not self.backends:
-            win.error_page()
         win.present()
 
     def handle_background_update(self, options):

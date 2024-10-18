@@ -72,7 +72,6 @@ class FirefoxAppDetails:
     installer: Callable = install_for_firefox
     options: list[dict[Any, Any]] = FIREFOX_OPTIONS
     color_palettes: list = FIREFOX_COLORS
-    autofind_data_path: bool
     data_path: str
     profiles_list: list[dict[str, str]]
 
@@ -92,14 +91,14 @@ class FirefoxAppDetails:
         version = self.settings.get_int("installed-version")
         self.set_installed_version(version)
 
-        self.autofind_data_path = self.settings.get_boolean("autofind-paths")
-        # TODO ensure this handles autofind paths
-        try:
+        autofind = self.settings.get_boolean("autofind-paths")
+
+        if autofind:
             data_paths = self._find_data_paths(self.package_formats)
-        except FatalAppDetailsError as err:
-            raise FatalAppDetailsError(err)
-        # TODO make this handle having multiple available paths
-        self.set_data_path(data_paths[0]["path"])
+            self.set_data_path(data_paths[0]["path"])
+        else:
+            current_path = self.settings.get_string("data-path")
+            self.set_data_path(current_path)
 
         try:
             self.profiles_list = self._find_profiles(self.data_path)

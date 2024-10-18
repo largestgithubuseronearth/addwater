@@ -23,7 +23,7 @@ import gi
 
 gi.require_version("Xdp", "1.0")
 
-from gi.repository import Adw, Gio, Gtk, Xdp
+from gi.repository import Adw, Gio, Gtk, Xdp, GObject
 
 from addwater import info
 from addwater.backend import InterfaceMisuseError
