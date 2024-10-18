@@ -57,6 +57,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
             )
         if not backends:
             self.error_page()
+            return
 
         for each in backends:
             self.create_firefox_page(each)
@@ -80,7 +81,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.set_size_request(375, 425)  # Minimum size of window Width x Height
 
         page = self.create_error_page()
-        self.main_menu.set_sensitive(False)
         self.main_toolbar_view.set_content(page)
 
     def create_error_page(self):

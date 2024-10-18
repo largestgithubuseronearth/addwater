@@ -26,10 +26,7 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from addwater.apps.firefox.firefox_details import (
-    FatalAppDetailsError,
-    FirefoxAppDetails,
-)
+from addwater.apps.firefox.firefox_details import FirefoxAppDetails
 from addwater.backend import BackendFactory
 from gi.repository import Adw, Gio, GLib, Gtk
 
@@ -129,11 +126,7 @@ class AddWaterApplication(Adw.Application):
     def construct_backends(self):
         # TODO make this dynamic to find all available app details
         backends = []
-        try:
-            app_detail = FirefoxAppDetails()
-        except FatalAppDetailsError:
-            return None
-
+        app_detail = FirefoxAppDetails()
         backends.append(BackendFactory.new_from_appdetails(app_detail))
 
         return backends
