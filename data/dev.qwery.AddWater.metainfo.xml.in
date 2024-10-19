@@ -96,6 +96,11 @@
 
 	<!-- Release Notes -->
 	<releases>
+		<release version="1.1.3" date="2024-10-18">
+			<description>
+				<p>Bugfix: User changes made to UserChrome.css and UserContent.css would be overwritten on install.</p>
+			</description>
+		</release>
 		<release version="1.1.2" date="2024-10-18">
 			<description>
 				<p>Bugfix: User-chosen package format would be overwritten if multiple packages were installed simultaneously.</p>
@@ -105,7 +110,6 @@
 			<description>
 				<p>Fixed bug that prevented finding profile data for Firefox Snap users.</p>
 			</description>
-
 		</release>
 		<release version="1.1" date="2024-10-17">
 			<description>
