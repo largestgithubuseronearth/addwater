@@ -107,21 +107,16 @@ def _import_css(chrome_path: str, color_palette: str):
                 if "firefox-gnome-theme" in line:
                     lines.remove(line)
 
-            # FIXME inserting like this puts all three imports onto the same line. Doesn't seem to cause issues though.
+            import_lines = []
+            import_lines.append(f'@import "firefox-gnome-theme/{each}";\n')
             if color_palette != "adwaita":
-                lines.insert(
-                    0,
-                    f'@import "firefox-gnome-theme/theme/colors/light-{color_palette}.css";',
-                )
-                lines.insert(
-                    0,
-                    f'@import "firefox-gnome-theme/theme/colors/dark-{color_palette}.css";',
+                import_lines.append(
+                    f'@import "firefox-gnome-theme/theme/colors/light-{color_palette}.css";\n',
+                    f'@import "firefox-gnome-theme/theme/colors/dark-{color_palette}.css";\n',
                 )
                 log.debug(f"User is using {color_palette} color theme")
-            import_line = f'@import "firefox-gnome-theme/{each}";'
-            lines.insert(0, import_line)
 
-            file.writelines(lines)
+            file.writelines(import_lines + lines)
 
         log.debug(f"Finished importing {each}")
     log.debug("Done.")

@@ -44,7 +44,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
         if info.PROFILE == "developer":
             self.add_css_class("devel")
 
-        self.set_size_request(375, 425)  # Minimum size of window Width x Height
+        self.set_size_request(360, 425)  # Minimum size of window Width x Height
 
         self.settings = Gio.Settings(schema_id=info.APP_ID)
         if info.PROFILE == "user":
