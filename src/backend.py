@@ -27,8 +27,6 @@ from addwater.components.online import OnlineManager
 from addwater.utils.mocks import mock_online
 from addwater.utils.paths import DOWNLOAD_DIR
 
-from addwater.apps.firefox.firefox_details import AppDetailsException
-
 from addwater import info
 
 log = logging.getLogger(__name__)
@@ -164,8 +162,7 @@ class AddWaterBackend:
     def set_data_path(self, new_path: str) -> None:
         try:
             self.app_details.set_data_path(new_path)
-        except AppDetailsException as err:
-            log.error(err)
+        except FileNotFoundError as err:
             raise InterfaceMisuseError(err)
 
     def set_installed_version(self, new_version: int) -> None:
@@ -223,3 +220,4 @@ class BackendFactory:
             online_manager=online_manager,
         )
         return firefox_backend
+

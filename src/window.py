@@ -20,6 +20,8 @@
 
 import logging
 
+from os.path import exists
+
 from addwater.page import AddWaterPage
 from gi.repository import Adw, Gio, Gtk
 
@@ -55,11 +57,14 @@ class AddWaterWindow(Adw.ApplicationWindow):
             self.settings.bind(
                 "window-maximized", self, "maximized", Gio.SettingsBindFlags.DEFAULT
             )
-        if not backends:
-            return
 
         for each in backends:
-            self.create_firefox_page(each)
+            data_path = each.get_data_path()
+            if exists(data_path):
+                self.create_firefox_page(each)
+            else:
+                log.critical("Data path has failed. App can't continue. Displaying error status page")
+                self.error_page()
 
     # TODO refactor to support as many pages as possible. only supports a single page rn
     def create_firefox_page(self, firefox_backend):
@@ -71,16 +76,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     """These are only called if no profile data is found"""
 
-    def error_page(
-        self,
-    ):
-        if info.PROFILE == "developer":
-            self.add_css_class("devel")
-
-        self.set_size_request(375, 425)  # Minimum size of window Width x Height
-
+    def error_page(self):
         page = self.create_error_page()
-        self.main_menu.set_sensitive(False)
         self.main_toolbar_view.set_content(page)
 
     def create_error_page(self):

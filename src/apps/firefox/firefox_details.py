@@ -72,7 +72,6 @@ class FirefoxAppDetails:
     installer: Callable = install_for_firefox
     options: list[dict[Any, Any]] = FIREFOX_OPTIONS
     color_palettes: list = FIREFOX_COLORS
-    autofind_data_path: bool
     data_path: str
     profiles_list: list[dict[str, str]]
 
@@ -92,22 +91,18 @@ class FirefoxAppDetails:
         version = self.settings.get_int("installed-version")
         self.set_installed_version(version)
 
-        self.autofind_data_path = self.settings.get_boolean("autofind-paths")
-        # TODO ensure this handles autofind paths
+        current_path = self.settings.get_string("data-path")
         try:
-            data_paths = self._find_data_paths(self.package_formats)
-        except FatalAppDetailsError as err:
-            raise FatalAppDetailsError(err)
-        # TODO make this handle having multiple available paths
-        self.set_data_path(data_paths[0]["path"])
+            self.set_data_path(current_path)
+        except FileNotFoundError as err:
+            available_paths = self._find_data_paths(self.package_formats)
+            self.set_data_path(available_paths[0]["path"])
+
 
         try:
             self.profiles_list = self._find_profiles(self.data_path)
         except FileNotFoundError as err:
             log.critical(err)
-            raise FatalAppDetailsError(
-                f"App cannot continue without profile data: {err}"
-            )
 
     """PUBLIC METHODS"""
 
@@ -184,7 +179,7 @@ class FirefoxAppDetails:
             return
 
         log.error(f"Tried to set app_path to non-existant path. Path given: {new_path}")
-        raise AppDetailsException("Data path given does not exist")
+        raise FileNotFoundError("Invalid data path")
 
     def set_installed_version(self, new_version: int) -> None:
         log.debug(f"Set installed version number to {new_version}")
@@ -251,9 +246,10 @@ class FirefoxAppDetails:
         profiles.sort(reverse=True, key=_sort_profile_by_preferred)
 
         if profiles is None:
-            raise FatalAppDetailsError(
+            log.critical(
                 "installs.ini and profiles.ini exist but do not have any profiles available."
             )
+
         return profiles
 
     @staticmethod
@@ -271,19 +267,10 @@ class FirefoxAppDetails:
                 log.debug(f"Found Firefox path: {name} — {path}")
                 found.append(each)
         if not found:
-            log.error("Could not find any valid data paths. App cannot function.")
-            raise FatalAppDetailsError("Could not find any valid data paths")
+            log.critical("Could not find any valid data paths. App cannot function.")
 
         return found
 
 
 def _sort_profile_by_preferred(item: str) -> bool:
     return item["name"].endswith(" (Preferred)")
-
-
-class AppDetailsException(Exception):
-    pass
-
-
-class FatalAppDetailsError(Exception):
-    pass

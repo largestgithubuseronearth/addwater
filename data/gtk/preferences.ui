@@ -22,6 +22,7 @@
 						<child>
 							<object class="AdwComboRow" id="firefox_package_combobox">
 								<property name="title" translatable="yes">Package Format</property>
+								<property name="subtitle">Restart Add Water to Apply</property>
 								<property name="tooltip-text">Profile data not found at selected location</property>
 								<property name="has-tooltip">false</property>
 								<property name="model">
