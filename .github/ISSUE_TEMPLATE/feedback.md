@@ -7,28 +7,20 @@ assignees: ''
 
 ---
 
-Thank you for trying Add Water. Let me know whether you liked it or not and why.
+Thank you for trying Add Water. I always appreciate receiving feedback — positive or negative or anywhere in-between.
+Learning what people like and don't like gives me a lot of passion to do better and helps to guide the project toward improvement.
 
-Write your thoughts however is most convenient for you but here are some questions to help guide you on .
+I would love to know what you thought about the app. Feel free to tell me in whatever format works best for you, but I have some starter questions to get you going.
 
-**Have you encountered any bugs?**
-Describe any bugs or weird behavior you've noticed. If you're unsure if something is a feature or bug, feel free to mention it here.
+* What did you like?
+* What did you not like?
+* Does Add Water provide enough value for you to continue using it in the future?
+* Was the experience of using Add Water polished and cohesive — both in form and function?
+* What do you wish was different about the app?
+ 
+Feel free to answer as many of those questions as you wish.
 
-
-
-**What do you think of the graphical user interface?**
-Is it simple, readable, and intuitive to make changes? Do the descriptions clearly describe what the option does? Is there any option or feature that did something different than what you expected?
-
-
-
-**What do you think of the Firefox styling?**
-Do you enjoy how Firefox looks with the theme enabled? What are your favorite options?
-
+Thanks again for leaving feedback. Write your thoughts below, in whatever writing style or structure works for you.
+------------------------------------------------------------------
 
 
-**Do you have any suggestions or requests?**
-Feel free to suggest any feature or change that would make this app more helpful for you.
-
-
-**Would you be interested in using Add Water once it's finished?**
-Does this app bring enough value to you? Why or why not?

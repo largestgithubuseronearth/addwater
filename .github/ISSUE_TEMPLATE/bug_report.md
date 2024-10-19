@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Report any unexpected issues that hurt your experience
-title: ''
+title: '[BUG] '
 labels: bug
 assignees: ''
 
@@ -19,9 +19,6 @@ Steps to reproduce the behavior:
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
-
-**Please include the log file from the day it happened**
-You can find this in: [About Add Water > Report an Issue]
 
 **Screenshots**
 If screenshots might help explain your issue, include them here.

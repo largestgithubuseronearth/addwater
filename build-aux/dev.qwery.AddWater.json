@@ -12,7 +12,6 @@
         "--socket=wayland",
         "--filesystem=~/.mozilla/firefox/:rw",
         "--filesystem=~/.var/app/org.mozilla.firefox/.mozilla/firefox/:rw",
-        "--filesystem=~/.var/app/org.mozilla.firefox/.mozilla/Firefox/:rw",
         "--filesystem=~/snap/firefox/common/.mozilla/firefox/",
         "--filesystem=~/.librewolf:rw",
         "--filesystem=~/.var/app/io.gitlab.librewolf-community/.librewolf:rw",
@@ -88,14 +87,12 @@
             ],
             "sources" : [
                 {
-                    "dir" : "git",
-                    "path" : "../.."
+                    "type" : "git",
+                    "url" : "https://github.com/largestgithubuseronearth/addwater",
+                    "branch" : "main"
                 }
             ],
             "builddir" : true
         }
-    ],
-    "build-options" : {
-        "env" : {        }
-    }
+    ]
 }

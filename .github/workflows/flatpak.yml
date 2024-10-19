@@ -1,6 +1,6 @@
 name: Devel Flatpak
 run-name: Dev Flatpak Builder
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   Flatpak-Builder-Action:
     runs-on: ubuntu-latest
