@@ -1,9 +1,10 @@
 name: User Flatpak
 run-name: User Flatpak Builder
 # ON MERGE TO MAIN RUN THIS
-on: push
-  branches:
-   - 'main'
+on:
+  push:
+    branches:
+     - 'main'
 jobs:
   Flatpak-Builder-Action:
     runs-on: ubuntu-latest
