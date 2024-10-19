@@ -35,9 +35,9 @@ def init_logs():
     LOG_DIR = paths.LOG_DIR
     try:
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        logfile = os.path.join(LOG_DIR, f"addwater_{now}.log")
+        CURRENT_LOGFILE = os.path.join(LOG_DIR, f"addwater_{now}.log")
 
-        file_handler = logging.FileHandler(logfile)
+        file_handler = logging.FileHandler(CURRENT_LOGFILE)
         console_handler = logging.StreamHandler(sys.stdout)
 
         file_handler.setLevel(logging.DEBUG)
@@ -78,7 +78,7 @@ def init_logs():
 	------------------------------------------------------------------------
 	System Info:
 	Add Water — An installer for the GNOME theme for Firefox and Thunderbird
-	Version: v{VERSION}
+	Version: {VERSION}
 	Time (UTC): {datetime.now(timezone.utc)}
 	GTK version: {Gtk.MAJOR_VERSION}.{Gtk.MINOR_VERSION}.{Gtk.MICRO_VERSION}
 	ADW version: {Adw.MAJOR_VERSION}.{Adw.MINOR_VERSION}.{Adw.MICRO_VERSION}
@@ -86,4 +86,4 @@ def init_logs():
 	"""
     logging.debug(info)
 
-    # TODO make function to zip up log files to make an issue
+    print(CURRENT_LOGFILE)

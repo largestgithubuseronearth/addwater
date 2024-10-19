@@ -20,6 +20,8 @@
 import logging
 import shutil
 import sys
+import os.path
+from  datetime import datetime, timezone
 
 import gi
 
@@ -151,12 +153,22 @@ class AddWaterApplication(Adw.Application):
 
     def on_about_action(self, *_):
         """Callback for the app.about action."""
+
+        now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        CURRENT_LOGFILE = os.path.join(paths.LOG_DIR, f"addwater_{now}.log")
+
+        with open(file=CURRENT_LOGFILE, mode="r", encoding="utf-8") as f:
+            db_info = f.read()
+
+
         about = Adw.AboutDialog(
             application_name="Add Water",
             application_icon=info.APP_ID,
             issue_url=info.ISSUE_TRACKER,
             website=info.WEBSITE,
             developer_name="qwery",
+            debug_info=db_info,
+            debug_info_filename=f"addwater_{now}.log",
             version=info.VERSION,
             developers=["Qwery"],
             copyright="© 2024 Qwery",
