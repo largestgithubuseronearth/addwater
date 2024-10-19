@@ -169,6 +169,7 @@ class AddWaterApplication(Adw.Application):
             developer_name="qwery",
             debug_info=db_info,
             debug_info_filename=f"addwater_{now}.log",
+            support_url="https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md",
             version=info.VERSION,
             developers=["Qwery"],
             copyright="© 2024 Qwery",

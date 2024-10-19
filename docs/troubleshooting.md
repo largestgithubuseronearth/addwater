@@ -2,11 +2,8 @@ I'm sorry you're having issues with Add Water (AW from here on). Here you can fi
 
 If your issue isn't resolved by these steps, please [open an issue on GitHub](https://github.com/largestgithubuseronearth/addwater/issues/new/choose).
 
-## When asking for help, bring the log file
-If you don't know what the cause might be, AW stores logs of its behavior that you can reference and attach to your GitHub issue. They can be found at this file path:
-`~/.var/app/dev.qwery.AddWater/cache/add-water/logs/`
-
-Logs are named as "addwater_[YEAR]-[MONTH]-[DAY].log" so grab the log from the day that the issue occurred.
+## When asking for help, please bring the log file
+If you don't know what the cause might be, AW stores logs of its behavior that you can reference and attach to your GitHub issue. You can find the logs by clicking on [About Add Water > Troubleshooting > Debugging Information > Save As...].
 
 When creating a GitHub issue, those who bring the relevant log file will probably get their issue resolved much faster than those who don't.
 
