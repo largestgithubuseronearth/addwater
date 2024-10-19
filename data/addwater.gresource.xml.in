@@ -9,7 +9,6 @@
 
 	<gresource prefix="@PREFIX@/icons/scalable/actions">
 		<file preprocess="xml-stripblanks" alias="checkmark-symbolic.svg">icons/hicolor/scalable/actions/checkmark-symbolic.svg</file>
-		<file preprocess="xml-stripblanks" alias="cross-large-symbolic.svg">icons/hicolor/scalable/actions/cross-large-symbolic.svg</file>
 		<file preprocess="xml-stripblanks" alias="cross-small-symbolic.svg">icons/hicolor/scalable/actions/cross-small-symbolic.svg</file>
 		<file preprocess="xml-stripblanks" alias="globe-symbolic.svg">icons/hicolor/scalable/actions/globe-symbolic.svg</file>
 		<file preprocess="xml-stripblanks" alias="info-outline-symbolic.svg">icons/hicolor/scalable/actions/info-outline-symbolic.svg</file>

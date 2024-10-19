@@ -149,9 +149,6 @@ class AddWaterApplication(Adw.Application):
         log.info("app has been reset and will now exit")
         self.quit()
 
-    # TODO make a custom issue page that bundles log files, the help page link,
-    # and the issue link in a single navpage.
-    # The debugging page doesn't work for me because the logs are already a file.
     def on_about_action(self, *_):
         """Callback for the app.about action."""
         about = Adw.AboutDialog(
