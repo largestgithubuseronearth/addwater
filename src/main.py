@@ -20,6 +20,8 @@
 import logging
 import shutil
 import sys
+import os.path
+from  datetime import datetime, timezone
 
 import gi
 
@@ -149,22 +151,35 @@ class AddWaterApplication(Adw.Application):
         log.info("app has been reset and will now exit")
         self.quit()
 
-    # TODO make a custom issue page that bundles log files, the help page link,
-    # and the issue link in a single navpage.
-    # The debugging page doesn't work for me because the logs are already a file.
     def on_about_action(self, *_):
         """Callback for the app.about action."""
-        about = Adw.AboutDialog(
-            application_name="Add Water",
-            application_icon=info.APP_ID,
-            issue_url=info.ISSUE_TRACKER,
-            website=info.WEBSITE,
-            developer_name="qwery",
-            version=info.VERSION,
-            developers=["Qwery"],
-            copyright="© 2024 Qwery",
-            license_type=Gtk.License.GPL_3_0,
+
+        now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        CURRENT_LOGFILE = os.path.join(paths.LOG_DIR, f"addwater_{now}.log")
+
+        with open(file=CURRENT_LOGFILE, mode="r", encoding="utf-8") as f:
+            db_info = f.read()
+
+        # TODO use new_from_appdata() method to construct AboutDialog
+        about = Adw.AboutDialog.new_from_appdata(
+            resource_path=(info.PREFIX + "/" + "dev.qwery.AddWater.metainfo"),
+            release_notes_version=info.VERSION
         )
+        about.set_application_name("Add Water")
+        about.set_application_icon(info.APP_ID)
+        about.set_developer_name("qwery")
+        about.set_version(info.VERSION)
+
+        about.set_issue_url(info.ISSUE_TRACKER)
+        about.set_website(info.WEBSITE)
+        about.set_debug_info(db_info)
+        about.set_debug_info_filename(f"addwater_{now}.log")
+        about.set_support_url("https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md")
+
+        about.set_developers(["Qwery"])
+        about.set_copyright("© 2024 Qwery",)
+        about.set_license_type(Gtk.License.GPL_3_0)
+
         about.add_credit_section(
             name="Theme Created and Maintained by",
             people=["Rafael Mardojai CM https://www.mardojai.com/"],
