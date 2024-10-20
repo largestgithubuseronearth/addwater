@@ -160,6 +160,8 @@ class AddWaterApplication(Adw.Application):
         with open(file=CURRENT_LOGFILE, mode="r", encoding="utf-8") as f:
             db_info = f.read()
 
+        # TODO use new_from_appdata() method to construct AboutDialog
+
 
         about = Adw.AboutDialog(
             application_name="Add Water",
