@@ -73,14 +73,14 @@
 	<url type="bugtracker">https://github.com/largestgithubuseronearth/addwater/issues</url>
 	<url type="vcs-browser">https://github.com/largestgithubuseronearth/addwater</url>
 	<url type="donation">https://paypal.me/RafaelMardojaiCM</url>
-  <url type="help">https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md</url>
-  <url type="contribute">https://github.com/largestgithubuseronearth/addwater</url>
-  <url type="translate">https://github.com/largestgithubuseronearth/addwater/tree/main/po</url>
-  <url type="contact">https://qwery.dev</url>
+	<url type="help">https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md</url>
+	<url type="contribute">https://github.com/largestgithubuseronearth/addwater</url>
+	<url type="translate">https://github.com/largestgithubuseronearth/addwater/tree/main/po</url>
+	<url type="contact">https://qwery.dev</url>
 
 	<!-- Technical Details -->
   <requires>
-    <display_length compare="ge">375</display_length>
+    <display_length compare="ge">360</display_length>
   </requires>
 
 	<recommends>
