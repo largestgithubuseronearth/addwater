@@ -121,6 +121,8 @@ def _import_css(chrome_path: str, color_palette: str):
         log.debug(f"Finished importing {each}")
     log.debug("Done.")
 
+
+# NOTE: The logic here was mostly written by "gxanshu" on Github via a pull request. 
 def _copy_userjs(profile_path: str, template_path: str) -> None:
     """Append content of user.js template to the existing user.js if the URL doesn't exist."""
     log.debug("Checking if URL already exists in user.js...")

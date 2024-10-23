@@ -34,12 +34,6 @@ from .firefox_paths import FIREFOX_PATHS
 
 log = logging.getLogger(__name__)
 
-# TODO would it make sense to create "tickets" that are a copy of the original
-# instance — only without ability to be modified — rather than passing in the
-# original object? This would allow for only passing part of the app and worrying
-# less about modifying the state.
-
-
 # TODO specialize this into Firefox first and then make it an injectible,
 # dynamic class in the future once the app's core logic has settled and it's
 # clearer what exact variables and roles AppDetails should take responsibility
@@ -242,7 +236,6 @@ class FirefoxAppDetails:
                 pass
 
         # Sort so preferred names are first
-        # TODO also sort alphabetically
         profiles.sort(reverse=True, key=_sort_profile_by_preferred)
 
         if profiles is None:

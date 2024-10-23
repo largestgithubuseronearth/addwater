@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- NOTE: Some of these details were added by "bragefuglseth" on Github via a pull request. The bulk of it was me, however.-->
 <component type="desktop">
 	<id>@APP_ID@</id>
 	<launchable type="desktop-id">@APP_ID@.desktop</launchable>
@@ -48,7 +49,6 @@
 			<image>https://raw.githubusercontent.com/largestgithubuseronearth/addwater/refs/tags/rc1.1/docs/image-previews/preview-dark.png</image>
 		</screenshot>
 	</screenshots>
-
 
 	<!-- Primary Info -->
 	<developer id="dev.qwery">

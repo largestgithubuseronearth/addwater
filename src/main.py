@@ -106,6 +106,7 @@ class AddWaterApplication(Adw.Application):
         if info.FORCE_BG == "True":
             options = {"quick-update": True}
 
+        # TODO add flag to reset app from CLI
         # TODO handle the option better and handle the error better
         if "quick-update" in options and options["quick-update"]:
             if not self.backends:
@@ -151,6 +152,8 @@ class AddWaterApplication(Adw.Application):
         log.info("app has been reset and will now exit")
         self.quit()
 
+
+    # TODO move dialogs into the window responsibility
     def on_about_action(self, *_):
         """Callback for the app.about action."""
 
