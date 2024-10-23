@@ -34,7 +34,6 @@ from gi.repository import Adw, Gio, GLib, Gtk
 
 from addwater import info
 
-from .preferences import AddWaterPreferences
 from .utils import paths
 from .utils.background import BackgroundUpdater
 from .utils.logs import init_logs
@@ -51,8 +50,6 @@ class AddWaterApplication(Adw.Application):
             application_id=info.APP_ID, flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE
         )
         self.create_action("quit", lambda *_: self.quit(), ["<primary>q", "<primary>w"])
-        self.create_action("about", self.on_about_action)
-        self.create_action("preferences", self.on_preferences_action, ["<Ctrl>comma"])
         self.create_action("open-help-page", self.on_help_action)
         self.create_action("reset-app", self.on_reset_app_action)
 
@@ -153,53 +150,6 @@ class AddWaterApplication(Adw.Application):
         self.quit()
 
 
-    # TODO move dialogs into the window responsibility
-    def on_about_action(self, *_):
-        """Callback for the app.about action."""
-
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        CURRENT_LOGFILE = os.path.join(paths.LOG_DIR, f"addwater_{now}.log")
-
-        with open(file=CURRENT_LOGFILE, mode="r", encoding="utf-8") as f:
-            db_info = f.read()
-
-        # TODO can I redo this as one init?
-        about = Adw.AboutDialog.new_from_appdata(
-            resource_path=(info.PREFIX + "/" + "dev.qwery.AddWater.metainfo"),
-            release_notes_version=info.VERSION
-        )
-        about.set_application_name("Add Water")
-        about.set_application_icon(info.APP_ID)
-        about.set_developer_name("qwery")
-        about.set_version(info.VERSION)
-
-        about.set_issue_url(info.ISSUE_TRACKER)
-        about.set_website(info.WEBSITE)
-        about.set_debug_info(db_info)
-        about.set_debug_info_filename(f"addwater_{now}.log")
-        about.set_support_url("https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md")
-
-        about.set_developers(["Qwery"])
-        about.set_copyright("© 2024 Qwery",)
-        about.set_license_type(Gtk.License.GPL_3_0)
-
-        about.add_credit_section(
-            name="Theme Created and Maintained by",
-            people=["Rafael Mardojai CM https://www.mardojai.com/"],
-        )
-        about.add_legal_section(
-            "Other Wordmarks",
-            "Firefox and Thunderbird are trademarks of the Mozilla Foundation in the U.S. and other countries.",
-            Gtk.License.UNKNOWN,
-            None,
-        )
-        about.present(self.props.active_window)
-
-    def on_preferences_action(self, *_):
-        """Callback for the app.preferences action."""
-        pref = AddWaterPreferences(self.backends[0])
-        pref.present(self.props.active_window)
-
     def create_action(self, name, callback, shortcuts=None):
         """Add an application action.
 
@@ -218,7 +168,7 @@ class AddWaterApplication(Adw.Application):
     def on_help_action(self, *_):
         log.info("help page action activated")
         weblaunch = Gtk.UriLauncher.new(
-            "https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md"
+            info.TROUBLESHOOT_HELP
         )
         weblaunch.launch(None, None, None, None)
 

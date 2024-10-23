@@ -31,4 +31,5 @@ MOCK_API = '@MOCK_API@'
 
 # About Menu
 ISSUE_TRACKER = 'https://github.com/largestgithubuseronearth/addwater/issues/new/choose'
+TROUBLESHOOT_HELP = 'https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md'
 WEBSITE = 'https://addwater.qwery.dev/'

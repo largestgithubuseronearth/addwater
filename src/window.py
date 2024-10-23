@@ -20,12 +20,15 @@
 
 import logging
 
-from os.path import exists
+from os.path import exists, join
+from datetime import datetime, timezone
 
 from addwater.page import AddWaterPage
 from gi.repository import Adw, Gio, Gtk
 
 from addwater import info
+from .preferences import AddWaterPreferences
+from .utils import paths
 
 log = logging.getLogger(__name__)
 
@@ -57,7 +60,10 @@ class AddWaterWindow(Adw.ApplicationWindow):
             self.settings.bind(
                 "window-maximized", self, "maximized", Gio.SettingsBindFlags.DEFAULT
             )
+        self.create_action("preferences", self.on_preferences_action, ["<Ctrl>comma"])
+        self.create_action("about", self.on_about_action)
 
+        self.backends = backends
         for each in backends:
             data_path = each.get_data_path()
             if exists(data_path):
@@ -95,3 +101,69 @@ class AddWaterWindow(Adw.ApplicationWindow):
             child=help_page_button,
         )
         return statuspage
+
+
+    # TODO clean up this class because it's sloppy
+    def on_preferences_action(self, *_):
+        """Callback for the app.preferences action."""
+        pref = AddWaterPreferences(self.backends[0])
+        pref.present(self)
+
+
+    def on_about_action(self, *_):
+        """Callback for the app.about action."""
+
+        now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        CURRENT_LOGFILE = join(paths.LOG_DIR, f"addwater_{now}.log")
+
+        with open(file=CURRENT_LOGFILE, mode="r", encoding="utf-8") as f:
+            db_info = f.read()
+
+        # TODO can I redo this as one init?
+        about = Adw.AboutDialog.new_from_appdata(
+            resource_path=(info.PREFIX + "/" + "dev.qwery.AddWater.metainfo"),
+            release_notes_version=info.VERSION
+        )
+        about.set_application_name("Add Water")
+        about.set_application_icon(info.APP_ID)
+        about.set_developer_name("qwery")
+        about.set_version(info.VERSION)
+
+        about.set_issue_url(info.ISSUE_TRACKER)
+        about.set_website(info.WEBSITE)
+        about.set_debug_info(db_info)
+        about.set_debug_info_filename(f"addwater_{now}.log")
+        about.set_support_url(info.TROUBLESHOOT_HELP)
+
+        about.set_developers(["Qwery"])
+        about.set_copyright("© 2024 Qwery",)
+        about.set_license_type(Gtk.License.GPL_3_0)
+
+        about.add_credit_section(
+            name="Theme Created and Maintained by",
+            people=["Rafael Mardojai CM https://www.mardojai.com/"],
+        )
+        about.add_legal_section(
+            "Other Wordmarks",
+            "Firefox and Thunderbird are trademarks of the Mozilla Foundation in the U.S. and other countries.",
+            Gtk.License.UNKNOWN,
+            None,
+        )
+        about.present(self)
+
+
+
+    def create_action(self, name, callback, shortcuts=None):
+        """Add a window action.
+
+        Args:
+                name: the name of the action
+                callback: the function to be called when the action is
+                  activated
+                shortcuts: an optional list of accelerators
+        """
+        action = Gio.SimpleAction.new(name, None)
+        action.connect("activate", callback)
+        self.add_action(action)
+        # if shortcuts:
+        #     self.set_accels_for_action(f"win.{name}", shortcuts)
