@@ -16,6 +16,8 @@ FIREFOX_LIBREWOLF_SNAP = expanduser(
 FIREFOX_FLOORP_BASE = expanduser("~/.floorp")
 FIREFOX_FLOORP_FLATPAK = expanduser("~/.var/app/one.ablaze.floorp/.floorp")
 
+FIREFOX_CACHY_BASE = expanduser("~/.cachy)
+
 FIREFOX_PATHS = [
     {"name": "Base", "path": FIREFOX_BASE},
     {"name": "Flatpak", "path": FIREFOX_FLATPAK},
@@ -25,4 +27,5 @@ FIREFOX_PATHS = [
     {"name": "Librewolf Snap", "path": FIREFOX_LIBREWOLF_SNAP},
     {"name": "Floorp Base", "path": FIREFOX_FLOORP_BASE},
     {"name": "Floorp Flatpak", "path": FIREFOX_FLOORP_FLATPAK},
+    {"name": "CachyOS Browser", "path": FIREFOX_CACHY_BASE}
 ]
