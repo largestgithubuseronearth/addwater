@@ -44,6 +44,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     def __init__(self, backends: list, **kwargs):
         super().__init__(**kwargs)
+
         if info.PROFILE == "developer":
             self.add_css_class("devel")
 
@@ -165,5 +166,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
         action = Gio.SimpleAction.new(name, None)
         action.connect("activate", callback)
         self.add_action(action)
-        # if shortcuts:
-        #     self.set_accels_for_action(f"win.{name}", shortcuts)
+        if shortcuts:
+            app = self.get_application()
+            app.set_accels_for_action(f"win.{name}", shortcuts)

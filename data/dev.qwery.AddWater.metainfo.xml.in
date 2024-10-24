@@ -96,6 +96,11 @@
 
 	<!-- Release Notes -->
 	<releases>
+		<release version="1.1.5" date="2024-10-23">
+			<description>
+				<p>Added support for CachyOS Browser.</p>
+			</description>
+		</release>
 		<release version="1.1.4" date="2024-10-19">
 			<description>
 				<p>Improved "About Add Water" dialog: added release notes, link to troubleshooting help, and utility to save log files.</p>
