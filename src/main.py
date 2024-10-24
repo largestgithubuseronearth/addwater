@@ -126,8 +126,8 @@ class AddWaterApplication(Adw.Application):
     def construct_backends(self):
         # TODO make this dynamic to find all available app details
         backends = []
-        app_detail = FirefoxAppDetails()
-        backends.append(BackendFactory.new_from_appdetails(app_detail))
+        ff_app_detail = FirefoxAppDetails()
+        backends.append(BackendFactory.new_from_appdetails(ff_app_detail))
 
         return backends
 
@@ -167,9 +167,7 @@ class AddWaterApplication(Adw.Application):
 
     def on_help_action(self, *_):
         log.info("help page action activated")
-        weblaunch = Gtk.UriLauncher.new(
-            info.TROUBLESHOOT_HELP
-        )
+        weblaunch = Gtk.UriLauncher.new(info.TROUBLESHOOT_HELP)
         weblaunch.launch(None, None, None, None)
 
 
