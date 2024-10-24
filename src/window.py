@@ -120,7 +120,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
         with open(file=CURRENT_LOGFILE, mode="r", encoding="utf-8") as f:
             db_info = f.read()
 
-        # TODO can I redo this as one init?
         about = Adw.AboutDialog.new_from_appdata(
             resource_path=(info.PREFIX + "/" + "dev.qwery.AddWater.metainfo"),
             release_notes_version=info.VERSION
