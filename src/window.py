@@ -90,6 +90,9 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     """These are only called if no profile data is found"""
     def create_error_page(self, app_name):
+        """Create basic error status page when the app faces a fatal error
+        that must be communicated to the user.
+        """
         help_page_button = Adw.Clamp(
             hexpand=False,
             child=Gtk.Button(
@@ -123,8 +126,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
 
     """Dialogs"""
-    # TODO clean up this class because it's sloppy
-
     def on_preferences_action(self, *_):
         """Callback for the app.preferences action."""
         pref = AddWaterPreferences(self.backends[0])
@@ -133,7 +134,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     def on_about_action(self, *_):
         """Callback for the app.about action."""
-
         # Grab log info for debug info page
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         CURRENT_LOGFILE = join(paths.LOG_DIR, f"addwater_{now}.log")
