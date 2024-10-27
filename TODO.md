@@ -1,5 +1,5 @@
 ## Front-facing improvements:
-
+* Change backends list to a dict or have some way to identify what app each backend goes to
 * Dialog prompt for user to select which package to install to when multiple package formats are detected simultaneously
 * When user changes Package in prefs, refresh the interface automatically to apply to the new paths.
 * Add a "Restart Firefox" button to install and uninstall toasts

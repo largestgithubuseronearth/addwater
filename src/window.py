@@ -66,29 +66,30 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
 
         self.backends = backends
-        for each in backends:
-            data_path = each.get_data_path()
-            if exists(data_path):
-                self.create_firefox_page(each)
-            else:
-                log.critical("Data path has failed. App can't continue. Displaying error status page")
-                self.error_page()
+        self.create_pages(self.backends)
 
-    # TODO refactor to support as many pages as possible. only supports a single page rn
-    def create_firefox_page(self, firefox_backend):
+    def create_pages(self, app_backends):
+        """Create and present app pages, and connect them to their respective app backend"""
         self.main_toolbar_view.set_content(None)
+        pages = []
 
-        firefox_page = AddWaterPage(backend=firefox_backend)
+        for each in app_backends:
+            # Check data path for validity
+            if exists(each.get_data_path()):
+                page = AddWaterPage(backend=each)
+            else:
+                app_name = each.get_app_name()
+                log.critical(f"No data path for {app_name} available. Showing an error message")
+                page = self.create_error_page(app_name)
 
-        self.main_toolbar_view.set_content(firefox_page)
+            pages.append(page)
+
+        if len(pages) == 1:
+            self.main_toolbar_view.set_content(pages[0])
+        # TODO else use a Viewstack
 
     """These are only called if no profile data is found"""
-    # TODO rework these status pages to be cleaner. Dialog?
-    def error_page(self):
-        page = self.create_error_page()
-        self.main_toolbar_view.set_content(page)
-
-    def create_error_page(self):
+    def create_error_page(self, app_name):
         help_page_button = Adw.Clamp(
             hexpand=False,
             child=Gtk.Button(
@@ -98,8 +99,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
             ),
         )
         statuspage = Adw.StatusPage(
-            title="Firefox Profile Data Not Found",
-            description="Please ensure Firefox is installed and Add Water has permission to access your profiles.",
+            title=f"{app_name} Profile Data Not Found",
+            description=f"Please ensure {app_name} is installed and Add Water has permission to access your profiles",
             child=help_page_button,
         )
         return statuspage
