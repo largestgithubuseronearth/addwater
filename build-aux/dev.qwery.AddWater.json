@@ -12,11 +12,12 @@
         "--socket=wayland",
         "--filesystem=~/.mozilla/firefox/:rw",
         "--filesystem=~/.var/app/org.mozilla.firefox/.mozilla/firefox/:rw",
-        "--filesystem=~/snap/firefox/common/.mozilla/firefox/",
-        "--filesystem=~/.librewolf:rw",
-        "--filesystem=~/.var/app/io.gitlab.librewolf-community/.librewolf:rw",
-        "--filesystem=~/.floorp",
-        "--filesystem=~/.var/app/one.ablaze.floorp/.floorp"
+        "--filesystem=~/snap/firefox/common/.mozilla/firefox/:rw",
+        "--filesystem=~/.librewolf/:rw",
+        "--filesystem=~/.var/app/io.gitlab.librewolf-community/.librewolf/:rw",
+        "--filesystem=~/.floorp/:rw",
+        "--filesystem=~/.var/app/one.ablaze.floorp/.floorp/:rw",
+        "--filesystem=~/.cachy/:rw"
     ],
     "cleanup" : [
         "/include",
