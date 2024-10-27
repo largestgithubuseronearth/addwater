@@ -47,7 +47,6 @@ class MockOnlineManager:
         log.debug(f"returning fake status code of {self.online_status}")
         return self.online_status
 
-    # TODO improve to allow files to be downloaded that aren't necessarily zipped or are of different ziptypes
     def get_release(self, base_name: str, final_name: str, tarball_url: str):
         pass
 

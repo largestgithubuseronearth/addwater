@@ -49,7 +49,6 @@
 		</screenshot>
 	</screenshots>
 
-
 	<!-- Primary Info -->
 	<developer id="dev.qwery">
 		<name translate="no">qwery</name>
@@ -73,14 +72,14 @@
 	<url type="bugtracker">https://github.com/largestgithubuseronearth/addwater/issues</url>
 	<url type="vcs-browser">https://github.com/largestgithubuseronearth/addwater</url>
 	<url type="donation">https://paypal.me/RafaelMardojaiCM</url>
-  <url type="help">https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md</url>
-  <url type="contribute">https://github.com/largestgithubuseronearth/addwater</url>
-  <url type="translate">https://github.com/largestgithubuseronearth/addwater/tree/main/po</url>
-  <url type="contact">https://qwery.dev</url>
+	<url type="help">https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md</url>
+	<url type="contribute">https://github.com/largestgithubuseronearth/addwater</url>
+	<url type="translate">https://github.com/largestgithubuseronearth/addwater/tree/main/po</url>
+	<url type="contact">https://qwery.dev</url>
 
 	<!-- Technical Details -->
   <requires>
-    <display_length compare="ge">375</display_length>
+    <display_length compare="ge">360</display_length>
   </requires>
 
 	<recommends>
@@ -96,6 +95,12 @@
 
 	<!-- Release Notes -->
 	<releases>
+		<release version="1.1.5" date="2024-10-23">
+			<description>
+				<p>Added support for CachyOS Browser.</p>
+				<p>Under the hood, changes have been made to interface logic to allow for future improvements.</p>
+			</description>
+		</release>
 		<release version="1.1.4" date="2024-10-19">
 			<description>
 				<p>Improved "About Add Water" dialog: added release notes, link to troubleshooting help, and utility to save log files.</p>

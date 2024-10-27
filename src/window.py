@@ -20,12 +20,15 @@
 
 import logging
 
-from os.path import exists
+from os.path import exists, join
+from datetime import datetime, timezone
 
 from addwater.page import AddWaterPage
 from gi.repository import Adw, Gio, Gtk
 
 from addwater import info
+from .preferences import AddWaterPreferences
+from .utils import paths
 
 log = logging.getLogger(__name__)
 
@@ -41,10 +44,11 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     def __init__(self, backends: list, **kwargs):
         super().__init__(**kwargs)
+
         if info.PROFILE == "developer":
             self.add_css_class("devel")
 
-        self.set_size_request(360, 425)  # Minimum size of window Width x Height
+        self.set_size_request(360, 294)  # Minimum size of window Width x Height
 
         self.settings = Gio.Settings(schema_id=info.APP_ID)
         if info.PROFILE == "user":
@@ -57,30 +61,38 @@ class AddWaterWindow(Adw.ApplicationWindow):
             self.settings.bind(
                 "window-maximized", self, "maximized", Gio.SettingsBindFlags.DEFAULT
             )
+        self.create_action("preferences", self.on_preferences_action, ["<Ctrl>comma"])
+        self.create_action("about", self.on_about_action)
 
-        for each in backends:
-            data_path = each.get_data_path()
-            if exists(data_path):
-                self.create_firefox_page(each)
-            else:
-                log.critical("Data path has failed. App can't continue. Displaying error status page")
-                self.error_page()
 
-    # TODO refactor to support as many pages as possible. only supports a single page rn
-    def create_firefox_page(self, firefox_backend):
+        self.backends = backends
+        self.create_pages(self.backends)
+
+    def create_pages(self, app_backends):
+        """Create and present app pages, and connect them to their respective app backend"""
         self.main_toolbar_view.set_content(None)
+        pages = []
 
-        firefox_page = AddWaterPage(backend=firefox_backend)
+        for each in app_backends:
+            # Check data path for validity
+            if exists(each.get_data_path()):
+                page = AddWaterPage(backend=each)
+            else:
+                app_name = each.get_app_name()
+                log.critical(f"No data path for {app_name} available. Showing an error message")
+                page = self.create_error_page(app_name)
 
-        self.main_toolbar_view.set_content(firefox_page)
+            pages.append(page)
+
+        if len(pages) == 1:
+            self.main_toolbar_view.set_content(pages[0])
+        # TODO else use a Viewstack
 
     """These are only called if no profile data is found"""
-
-    def error_page(self):
-        page = self.create_error_page()
-        self.main_toolbar_view.set_content(page)
-
-    def create_error_page(self):
+    def create_error_page(self, app_name):
+        """Create basic error status page when the app faces a fatal error
+        that must be communicated to the user.
+        """
         help_page_button = Adw.Clamp(
             hexpand=False,
             child=Gtk.Button(
@@ -90,8 +102,73 @@ class AddWaterWindow(Adw.ApplicationWindow):
             ),
         )
         statuspage = Adw.StatusPage(
-            title="Firefox Profile Data Not Found",
-            description="Please ensure Firefox is installed and Add Water has permission to access your profiles.",
+            title=f"{app_name} Profile Data Not Found",
+            description=f"Please ensure {app_name} is installed and Add Water has permission to access your profiles",
             child=help_page_button,
         )
         return statuspage
+
+    def create_action(self, name, callback, shortcuts=None):
+        """Add a window action.
+
+        Args:
+                name: the name of the action
+                callback: the function to be called when the action is
+                  activated
+                shortcuts: an optional list of accelerators
+        """
+        action = Gio.SimpleAction.new(name, None)
+        action.connect("activate", callback)
+        self.add_action(action)
+        if shortcuts:
+            app = self.get_application()
+            app.set_accels_for_action(f"win.{name}", shortcuts)
+
+
+    """Dialogs"""
+    def on_preferences_action(self, *_):
+        """Callback for the app.preferences action."""
+        pref = AddWaterPreferences(self.backends[0])
+        pref.present(self)
+
+
+    def on_about_action(self, *_):
+        """Callback for the app.about action."""
+        # Grab log info for debug info page
+        now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        CURRENT_LOGFILE = join(paths.LOG_DIR, f"addwater_{now}.log")
+        with open(file=CURRENT_LOGFILE, mode="r", encoding="utf-8") as f:
+            db_info = f.read()
+
+        # Setting up About dialog
+        about = Adw.AboutDialog.new_from_appdata(
+            (info.PREFIX + "/" + "dev.qwery.AddWater.metainfo"), info.VERSION
+        )
+        about.set_application_name("Add Water")
+        about.set_application_icon(info.APP_ID)
+        about.set_developer_name("qwery")
+        about.set_version(info.VERSION)
+
+        about.set_issue_url(info.ISSUE_TRACKER)
+        about.set_website(info.WEBSITE)
+        about.set_debug_info(db_info)
+        about.set_debug_info_filename(f"addwater_{now}.log")
+        about.set_support_url(info.TROUBLESHOOT_HELP)
+
+        about.set_developers(["Qwery"])
+        about.set_copyright("© 2024 Qwery",)
+        about.set_license_type(Gtk.License.GPL_3_0)
+        about.add_credit_section(
+            name="Theme Created and Maintained by",
+            people=["Rafael Mardojai CM https://www.mardojai.com/"],
+        )
+        about.add_legal_section(
+            "Other Wordmarks",
+            "Firefox and Thunderbird are trademarks of the Mozilla Foundation in the U.S. and other countries.",
+            Gtk.License.UNKNOWN,
+            None,
+        )
+
+        about.present(self)
+
+

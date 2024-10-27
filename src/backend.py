@@ -33,24 +33,23 @@ log = logging.getLogger(__name__)
 
 
 class AddWaterBackend:
-    """The interface by which this app can complete important tasks like installing, updating, etc.
-    Relies on injected components that manage those actual processes. This class
-    just connects and abstracts those details into easy public methods that can be
-    used anywhere.
+    """Interface to perform high-level app actions like installing, getting
+    profile information, data paths, and so on. Only this class should ever
+    interact with its own provider components directly.
 
     This class can live without a GUI frontend to allow for background updating.
 
     Args:
-            app_details = object that stores and manages the state of important app details
-                                            such as the app's name, available profiles, data paths, and what
-                                            theme options are available. Will be passed into other managers
-                                            for convenience.
-            install_manager = object that manages processes related to installing,
-                                                    uninstalling, and setting user's theme preferences in
-                                                    configuration files.
-            online_manager = object that makes internet requests, processes http responses,
-                                                    handles network errors, downloads theme releases, and preps
-                                                    those releases to be installed.
+            app_details: object to track the state of important app details
+                such as the app's name, available profiles, data paths, and what
+                theme options are available. Will be passed into other managers
+                for convenience.
+            install_manager: object that manages processes related to installing,
+                uninstalling, and setting user's theme preferences in
+                configuration files.
+            online_manager: object that makes internet requests, processes http responses,
+                handles network errors, downloads theme releases, and preps
+                those releases to be installed.
     """
 
     def __init__(

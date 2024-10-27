@@ -69,10 +69,6 @@ def init_logs():
             if difference.days > 7:
                 os.remove(os.path.join(LOG_DIR, each.name))
 
-    # TODO Add to top of log file information about system and dependencies such as:
-    # distro
-    # app version
-    # flatpak or not?
     info = f"""
 	------------------------------------------------------------------------
 	------------------------------------------------------------------------
@@ -85,5 +81,3 @@ def init_logs():
 	------------------------------------------------------------------------
 	"""
     logging.debug(info)
-
-    print(CURRENT_LOGFILE)
