@@ -6,11 +6,6 @@
 
 ## Under-the-hood Improvements:
 
- * Find a documentation solution
-    * doxygen
-    * sphinx
-    * read the docs
- * Add more docstrings 
  * Create AppDetails factory from which the firefox_details are constructed
  * Set up unit tests (surprisingly complicated)
 

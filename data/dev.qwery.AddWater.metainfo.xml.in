@@ -95,6 +95,15 @@
 
 	<!-- Release Notes -->
 	<releases>
+		<release version="1.1.6" date="2024-11-07">
+			<description>
+				<p>Adds support for the two new features the GNOME for Firefox Theme received:</p>
+				<ul>
+					<li>Align Tab Titles to Left</li>
+					<li>Tab List Button</li>
+				</ul>
+			</description>
+		</release>
 		<release version="1.1.5" date="2024-10-23">
 			<description>
 				<p>Added support for CachyOS Browser.</p>
