@@ -1,7 +1,5 @@
 # TODO is there a simpler way to do this? .in files? json?
 
-# TODO re-enable the new options in time for Firefox 132
-
 FIREFOX_OPTIONS = [
     {
         "group_name": "Tab Position",
@@ -20,13 +18,6 @@ FIREFOX_OPTIONS = [
                 "description": "Use same tab width as standard Firefox",
                 "tooltip": "",
             },
-            # {
-            #   "key": "tab-align-left",
-            #   "js_key": "tabAlignLeft",
-            #   "summary": "Align Title to Left (*)",
-            #   "description": "Align tab title and icon to left instead of center",
-            #   "tooltip": ""
-            # },
             {
                 "key": "swap-tab-close",
                 "js_key": "swapTabClose",
@@ -48,19 +39,18 @@ FIREFOX_OPTIONS = [
                 "description": "Place Tab Bar at top of window",
                 "tooltip": 'Enabling with "Hide Single Tab" will show a Title Bar when only one tab is open',
             },
+            {
+              "key": "tab-align-left",
+              "js_key": "tabAlignLeft",
+              "summary": "Align Title to Left",
+              "description": "Align tab title to left",
+              "tooltip": ""
+            },
         ],
     },
     {
         "group_name": "Tab Behavior",
         "options": [
-            # TODO add the extra option for overflow
-            # {
-            #   "key": "all-tabs-button",
-            #   "js_key": "allTabsButton",
-            #   "summary": "Tab List Button (*)",
-            #   "description": "Show 'List all tabs' button",
-            #   "tooltip": ""
-            # },
             {
                 "key": "active-tab-contrast",
                 "js_key": "activeTabContrast",
@@ -81,6 +71,13 @@ FIREFOX_OPTIONS = [
                 "summary": "Symbolic Tab Icons",
                 "description": "Make all tab icons appear similar to symbolic icons",
                 "tooltip": "",
+            },
+            {
+              "key": "all-tabs-button",
+              "js_key": "allTabsButton",
+              "summary": "Tab List Button",
+              "description": "Show All Tabs button",
+              "tooltip": ""
             },
         ],
     },

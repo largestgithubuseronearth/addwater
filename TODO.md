@@ -3,19 +3,11 @@
 * Dialog prompt for user to select which package to install to when multiple package formats are detected simultaneously
 * When user changes Package in prefs, refresh the interface automatically to apply to the new paths.
 * Add a "Restart Firefox" button to install and uninstall toasts
-* Get Flathub verification
-* Improve screenshots
-* Set up app for i18n work
 
 ## Under-the-hood Improvements:
 
- * Find a documentation solution
-    * doxygen
-    * sphinx
-    * read the docs
- * Add more docstrings 
  * Create AppDetails factory from which the firefox_details are constructed
- * Set up unit tests (surprisingly difficult)
+ * Set up unit tests (surprisingly complicated)
 
 
 ## Accessibility Test Results:
