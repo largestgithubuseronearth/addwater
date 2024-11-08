@@ -86,6 +86,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
         if len(pages) == 1:
             self.main_toolbar_view.set_content(pages[0])
+        else:
+            raise NotImplementedError
         # TODO else use a Viewstack
 
     """These are only called if no profile data is found"""
