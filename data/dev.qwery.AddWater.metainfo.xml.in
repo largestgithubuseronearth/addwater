@@ -102,6 +102,7 @@
 					<li>Improved: Polls for updates asynchronously, removing the delay between launching the app and the window appearing.</li>
 					<li>Added: Internationalization support allowing translations in future.</li>
 					<li>Improved: Relaunching app is no longer necessary to switch package format.</li>
+					<li>Improved: If multiple packages of Firefox are detected, user will be prompted to decide which to install to.</li>
 					<li>Bugfix: Under certain conditions, app launches with an empty interface.</li>
 				</ul>
 			</description>

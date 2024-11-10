@@ -90,6 +90,7 @@ class FirefoxAppDetails:
             self.set_data_path(current_path)
         except FileNotFoundError as err:
             available_paths = self._find_data_paths(self.package_formats)
+            # TODO if multiple paths are available find a way to signal to the GUI to send a dialog
             self.set_data_path(available_paths[0]["path"])
 
 
@@ -166,7 +167,7 @@ class FirefoxAppDetails:
 
     def set_data_path(self, new_path: str):
         log.info(f"Setting {self.name} data path: {new_path}")
-        if exists(new_path):
+        if exists(join(new_path, "profiles.ini")):
             self.data_path = new_path
             self.settings.set_string("data-path", self.data_path)
             log.info(f"Valid path. Done.")
@@ -255,7 +256,7 @@ class FirefoxAppDetails:
         found = []
         for each in path_list:
             path = each["path"]
-            if exists(path):
+            if exists(join(path, "profiles.ini")):
                 name = each["name"]
                 log.debug(f"Found Firefox path: {name} — {path}")
                 found.append(each)

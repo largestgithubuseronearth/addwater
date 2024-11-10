@@ -75,7 +75,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
         for each in app_backends:
             # Check data path for validity
-            if exists(each.get_data_path()):
+            if exists(join(each.get_data_path(), "profiles.ini")):
                 page = AddWaterPage(backend=each)
             else:
                 app_name = each.get_app_name()
