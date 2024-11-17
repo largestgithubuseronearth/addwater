@@ -40,11 +40,11 @@ FIREFOX_OPTIONS = [
                 "tooltip": 'Enabling with "Hide Single Tab" will show a Title Bar when only one tab is open',
             },
             {
-              "key": "tab-align-left",
-              "js_key": "tabAlignLeft",
-              "summary": "Align Title to Left",
-              "description": "Align tab title to left",
-              "tooltip": ""
+                "key": "tab-align-left",
+                "js_key": "tabAlignLeft",
+                "summary": "Align Title to Left",
+                "description": "Align tab title to left",
+                "tooltip": "",
             },
         ],
     },
@@ -73,11 +73,11 @@ FIREFOX_OPTIONS = [
                 "tooltip": "",
             },
             {
-              "key": "all-tabs-button",
-              "js_key": "allTabsButton",
-              "summary": "Tab List Button",
-              "description": "Show All Tabs button",
-              "tooltip": ""
+                "key": "all-tabs-button",
+                "js_key": "allTabsButton",
+                "summary": "Tab List Button",
+                "description": "Show All Tabs button",
+                "tooltip": "",
             },
         ],
     },

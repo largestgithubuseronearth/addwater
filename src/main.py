@@ -21,7 +21,7 @@ import logging
 import shutil
 import sys
 import os.path
-from  datetime import datetime, timezone
+from datetime import datetime, timezone
 
 import gi
 
@@ -148,7 +148,6 @@ class AddWaterApplication(Adw.Application):
 
         log.info("app has been reset and will now exit")
         self.quit()
-
 
     def create_action(self, name, callback, shortcuts=None):
         """Add an application action.

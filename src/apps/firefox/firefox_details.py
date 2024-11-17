@@ -93,12 +93,6 @@ class FirefoxAppDetails:
             # TODO if multiple paths are available find a way to signal to the GUI to send a dialog
             self.set_data_path(available_paths[0]["path"])
 
-
-        try:
-            self.profiles_list = self._find_profiles(self.data_path)
-        except FileNotFoundError as err:
-            log.critical(err)
-
     """PUBLIC METHODS"""
 
     def reset_settings(self):
@@ -155,10 +149,11 @@ class FirefoxAppDetails:
         return self.installed_version
 
     def get_options(self):
+        # TODO grab only the details the consumer would need
         return self.options
 
     def get_profiles(self):
-        return self.profiles_list
+        return self._find_profiles(self.data_path)
 
     def get_info_url(self):
         return self.theme_gh_url
