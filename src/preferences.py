@@ -40,6 +40,7 @@ class AddWaterPreferences(Adw.PreferencesDialog):
     firefox_package_combobox_list = Gtk.Template.Child()
 
     def __init__(self, firefox_backend):
+        # TODO improve to use all backends
         super().__init__()
         log.info("Preferences Window activated")
         self.settings_app = Gio.Settings(schema_id=info.APP_ID)
@@ -70,8 +71,9 @@ class AddWaterPreferences(Adw.PreferencesDialog):
             "notify::selected-item", self._set_firefox_package
         )
 
-    # TODO test to make sure this works consistently on different machines
+    # TODO is there a better way to handle this? copied from adwsteamgtk
     def _do_background_request(self, _):
+        """Request permission from portals to launch at login time"""
         bg_enabled = self.settings_app.get_boolean("background-update")
         if bg_enabled:
             flag = Xdp.BackgroundFlags.AUTOSTART
@@ -101,19 +103,25 @@ class AddWaterPreferences(Adw.PreferencesDialog):
                     self.firefox_package_combobox.set_selected(i)
 
     def _set_firefox_package(self, row, _):
+        # TODO clean this up to accomodate new signal
+
         selected_index = row.get_selected()
-        # First option is always Automatically Discover
-        if selected_index == 0:
+        AUTO = 0
+
+        if selected_index == AUTO:
             self.settings_firefox.set_boolean("autofind-paths", True)
             log.info("Autofind paths enabled")
             row.remove_css_class("error")
             row.set_has_tooltip(False)
+            self.emit("refresh-gui")
             return
 
         self.settings_firefox.set_boolean("autofind-paths", False)
         log.warning("Autofind paths disabled")
-        selected = row.get_selected_item().get_string()
 
+        # TODO try using index instead of strcmp. Must ensure the order cannot
+        # be different though.
+        selected = row.get_selected_item().get_string()
         for each in self.FIREFOX_FORMATS:
             if selected == each["name"]:
                 path = each["path"]
@@ -121,7 +129,7 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 
                 try:
                     self.firefox_backend.set_data_path(path)
-                except InterfaceMisuseError as err:
+                except InterfaceMisuseError as err:  # invalid path provided
                     log.error(err)
                     row.add_css_class("error")
                     row.set_has_tooltip(True)
@@ -130,3 +138,9 @@ class AddWaterPreferences(Adw.PreferencesDialog):
                     row.set_has_tooltip(False)
 
                 self.firefox_path = path
+                self.emit("refresh-gui")
+                break
+
+    @GObject.Signal(name="refresh-gui")
+    def refresh_gui(self):
+        pass

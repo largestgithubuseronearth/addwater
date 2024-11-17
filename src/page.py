@@ -21,9 +21,6 @@
 # TODO separate (binding switches and applying/discard) from all other GSet use cases.
 # In other cases, they can just create their own temp settings object
 
-# FIXME if profile is deleted and user doesn't change the profile combo box,
-# installations will fail because the now-deleted "selected profile" can't be installed to.
-
 
 import logging
 from typing import Optional, Callable
@@ -32,11 +29,10 @@ from gi.repository import Adw, Gio, GObject, Gtk
 
 from addwater import info
 
-# TODO grab colors from appdetails not import
-
 log = logging.getLogger(__name__)
 
 
+# TODO give ability to refresh page OR refresh the profile switcher on a datapath change
 # TODO grey out enable theme switch when there's no package to install (first launch, no internet)
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/addwater-page.ui")
 class AddWaterPage(Adw.Bin):
@@ -351,6 +347,7 @@ class AddWaterPage(Adw.Bin):
 
 
 # Generic to use for any basic GUI failure
+# TODO re-evaluate whether these are necessary
 class PageException(Exception):
     pass
 

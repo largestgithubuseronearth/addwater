@@ -219,4 +219,3 @@ class BackendFactory:
             online_manager=online_manager,
         )
         return firefox_backend
-

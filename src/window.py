@@ -64,33 +64,37 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.create_action("preferences", self.on_preferences_action, ["<Ctrl>comma"])
         self.create_action("about", self.on_about_action)
 
-
         self.backends = backends
         self.create_pages(self.backends)
 
     def create_pages(self, app_backends):
         """Create and present app pages, and connect them to their respective app backend"""
+        log.info("resetting gui pages")
         self.main_toolbar_view.set_content(None)
-        pages = []
+        self.pages = []
 
         for each in app_backends:
             # Check data path for validity
             if exists(join(each.get_data_path(), "profiles.ini")):
                 page = AddWaterPage(backend=each)
+                log.debug("page created successfully")
             else:
                 app_name = each.get_app_name()
-                log.critical(f"No data path for {app_name} available. Showing an error message")
+                log.critical(
+                    f"No data path for {app_name} available. Showing an error message"
+                )
                 page = self.create_error_page(app_name)
 
-            pages.append(page)
+            self.pages.append(page)
 
-        if len(pages) == 1:
-            self.main_toolbar_view.set_content(pages[0])
+        if len(self.pages) == 1:
+            self.main_toolbar_view.set_content(self.pages[0])
+            log.debug("1 page available")
         else:
+            log.error("multiple pages available")
+            # TODO else use a Viewstack
             raise NotImplementedError
-        # TODO else use a Viewstack
 
-    """These are only called if no profile data is found"""
     def create_error_page(self, app_name):
         """Create basic error status page when the app faces a fatal error
         that must be communicated to the user.
@@ -126,13 +130,14 @@ class AddWaterWindow(Adw.ApplicationWindow):
             app = self.get_application()
             app.set_accels_for_action(f"win.{name}", shortcuts)
 
-
     """Dialogs"""
+
     def on_preferences_action(self, *_):
         """Callback for the app.preferences action."""
         pref = AddWaterPreferences(self.backends[0])
+        # TODO improve this to only refresh the profiles combobox? It freezes the app for a second
+        pref.connect("refresh-gui", lambda *_: (self.create_pages(self.backends)))
         pref.present(self)
-
 
     def on_about_action(self, *_):
         """Callback for the app.about action."""
@@ -158,7 +163,9 @@ class AddWaterWindow(Adw.ApplicationWindow):
         about.set_support_url(info.TROUBLESHOOT_HELP)
 
         about.set_developers(["Qwery"])
-        about.set_copyright("© 2024 Qwery",)
+        about.set_copyright(
+            "© 2024 Qwery",
+        )
         about.set_license_type(Gtk.License.GPL_3_0)
         about.add_credit_section(
             name="Theme Created and Maintained by",
@@ -172,5 +179,3 @@ class AddWaterWindow(Adw.ApplicationWindow):
         )
 
         about.present(self)
-
-
