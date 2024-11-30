@@ -10,7 +10,7 @@
 	<name>Add Water</name>
 	<summary>Keep Firefox in fashion</summary>
 	<description>
-		<p>A utility app to easily install the GNOME for Firefox Theme and automatically update it in the background. This theme keeps Firefox fashionable within the GNOME design ecosystem, and provides many helpful features to customize the interface to make browsing even more pleasant:
+		<p>A utility app to easily install the Firefox GNOME Theme and automatically update it in the background. This theme keeps Firefox fashionable within the GNOME design ecosystem, and provides many helpful features to customize the interface to make browsing even more pleasant:
 		</p>
 		<ul>
 			<li>Supports light and dark style</li>
@@ -20,7 +20,7 @@
 			<li>Hide redundant microphone, webcam, screen share indicators</li>
 			<li>Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox</li>
 		</ul>
-		<p>The GNOME for Firefox Theme itself is developed and maintained by Rafael Mardojai CM.</p>
+		<p>The Firefox GNOME Theme itself is independently developed and maintained by Rafael Mardojai CM.</p>
 		<p>The Firefox browser is not included and must be downloaded separately. This project is not affiliated or endorsed by the Mozilla Foundation. Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries.</p>
 	</description>
 
@@ -74,7 +74,7 @@
 	<url type="donation">https://paypal.me/RafaelMardojaiCM</url>
 	<url type="help">https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md</url>
 	<url type="contribute">https://github.com/largestgithubuseronearth/addwater</url>
-	<url type="translate">https://github.com/largestgithubuseronearth/addwater/tree/main/po</url>
+	<!-- <url type="translate">https://github.com/largestgithubuseronearth/addwater/tree/main/po</url> -->
 	<url type="contact">https://qwery.dev</url>
 
 	<!-- Technical Details -->
@@ -107,7 +107,7 @@
 		</release>
 		<release version="1.1.6" date="2024-11-07">
 			<description>
-				<p>Adds support for the two new features the GNOME for Firefox Theme received:</p>
+				<p>Adds support for the two new features the Firefox GNOME Theme received:</p>
 				<ul>
 					<li>Align Tab Titles to Left</li>
 					<li>Tab List Button</li>
