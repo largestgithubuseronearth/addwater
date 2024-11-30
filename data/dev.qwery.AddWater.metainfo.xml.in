@@ -97,11 +97,9 @@
 	<releases>
 		<release version="1.2" date="2024-11-13">
 			<description>
-				<p>Add Water now has proper internationalization support. If any volunteers are interested in translating Add Water, it would be greatly appreciated.</p>
 				<ul>
 					<!-- <li>Improved: Polls for updates asynchronously, removing the delay between launching the app and the window appearing.</li> -->
-					<!-- <li>Added: Internationalization support allowing translations in future.</li> -->
-					<!-- <li>Improved: Relaunching app is no longer necessary to switch package format.</li> -->
+					<li>Improved: Relaunching app is no longer necessary to switch package format.</li>
 					<!-- <li>Improved: If multiple packages of Firefox are detected, user will be prompted to decide which to install to.</li> -->
 					<li>Bugfix: Under certain conditions, app launches with an empty interface.</li>
 				</ul>
