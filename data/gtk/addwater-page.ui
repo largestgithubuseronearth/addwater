@@ -34,19 +34,6 @@
 												</property>
 											</object>
 										</child>
-										<child>
-											<object class="AdwComboRow" id="color_combobox">
-										  <!-- TODO dev doesn't actively support color palette themes so this will be invisible for now. Change this once there's more support. For now, Adwaita is the only theme color-->
-											  <property name="visible">false</property>
-												<property name="title" translatable="yes">Color Palette</property>
-												<property name="subtitle" translatable="yes">Select primary color for Search Bar</property>
-												<property name="model">
-													<object class="GtkStringList" id="color_combobox_list">
-														<items></items>
-													</object>
-												</property>
-											</object>
-										</child>
 									</object>
 								</child>
 							</object>
