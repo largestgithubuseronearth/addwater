@@ -73,7 +73,7 @@ class AddWaterBackend:
 
     """Install actions"""
 
-    def begin_install(self, profile_id, color_palette, full_install=False) -> Enum:
+    def begin_install(self, profile_id, full_install=False) -> Enum:
         log.info("beginning installation...")
         result = self.app_details.get_download_path_info()
         theme_path = join(result[0], result[1], result[2])
@@ -100,7 +100,6 @@ class AddWaterBackend:
         status = self.install_manager.combined_install(
             theme_path=theme_path,
             profile_path=profile_path,
-            color_palette=color_palette,
             options_results=options_request,
         )
 
@@ -140,9 +139,6 @@ class AddWaterBackend:
 
     def get_data_path(self) -> str:
         return self.app_details.get_data_path()
-
-    def get_colors_list(self) -> list:
-        return self.app_details.get_color_palettes()
 
     def get_installed_version(self) -> int:
         return self.app_details.get_installed_version()

@@ -53,8 +53,6 @@ class AddWaterPage(Adw.Bin):
     enable_button = Gtk.Template.Child()
     profile_combobox = Gtk.Template.Child()
     profile_combobox_list = Gtk.Template.Child()
-    color_combobox = Gtk.Template.Child()
-    color_combobox_list = Gtk.Template.Child()
 
     # Class Attributes
     app_name: str  # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
@@ -78,15 +76,11 @@ class AddWaterPage(Adw.Bin):
         self.selected_profile = self.settings.get_string("profile-selected")
         self.profile_list = self.backend.get_profile_list()
 
-        self.color_palettes = self.backend.get_colors_list()
-
         options = self.backend.get_app_options()
         self.init_gui(options, self.profile_list)
 
         self.profile_combobox.notify("selected-item")
         self.profile_combobox.connect("notify::selected-item", self._set_profile)
-        self.color_combobox.notify("selected-item")
-        self.color_combobox.connect("notify::selected-item", self._set_color_palette)
 
         # Change Confirmation bar
         self.install_action("water.apply-changes", None, self.on_apply_action)
@@ -124,17 +118,15 @@ class AddWaterPage(Adw.Bin):
         log.debug("Applied changes")
 
         self._set_profile(self.profile_combobox)
-        self._set_color_palette(self.color_combobox)
 
         self.settings.apply()
 
         theme_enabled = self.settings.get_boolean("theme-enabled")
-        color_palette = self.settings.get_string("palette-selected")
 
         if theme_enabled:
             log.debug("GUI calling for install..")
             install_status = self.backend.begin_install(
-                self.selected_profile, color_palette, True
+                self.selected_profile, True
             )
             toast_msg = "Installed Theme. Restart Firefox to see changes."
         else:
@@ -158,7 +150,6 @@ class AddWaterPage(Adw.Bin):
         self.settings.revert()
 
         try:
-            self._reset_color_combobox()
             self._reset_profile_combobox()
         except PageException as err:
             log.error(err)
@@ -196,7 +187,6 @@ class AddWaterPage(Adw.Bin):
                 options: a json-style list of dictionaries which include all option groups
                         and options that the theme supports.
                 profile_list = list of dicts with "name" and "id"
-                colors = list of strings of all color palettes the theme supports
         """
         # App options
         self.settings.bind(
@@ -212,15 +202,10 @@ class AddWaterPage(Adw.Bin):
             )
             self.preferences_page.add(group)
 
-        # Colors list
-        for each in self.color_palettes:
-            self.color_combobox_list.append(each)
-
         # Profile list
         for each in profile_list:
             self.profile_combobox_list.append(each["name"])
         try:
-            self._reset_color_combobox()
             self._reset_profile_combobox()
         except PageException as err:
             log.error(err)
@@ -241,13 +226,6 @@ class AddWaterPage(Adw.Bin):
         # This compare avoids triggering "has-unapplied" too often
         if self.selected_profile != self.settings.get_string("profile-selected"):
             self.settings.set_string("profile-selected", self.selected_profile)
-
-    def _set_color_palette(self, row, _=None) -> None:
-        selected_color = row.get_selected_item().get_string().lower()
-
-        # This compare avoids triggering "has-unapplied" too often
-        if selected_color != self.settings.get_string("palette-selected"):
-            self.settings.set_string("palette-selected", selected_color)
 
     @staticmethod
     def _create_option_group(
@@ -331,19 +309,6 @@ class AddWaterPage(Adw.Bin):
         log.error("Profile combo box reset failed")
         log.debug(f"last_profile: {last_profile}")
         raise PageException("Profile combo box reset failed")
-
-    def _reset_color_combobox(self):
-        selected = self.settings.get_string("palette-selected")
-        colors_list = self.color_palettes
-        if not selected:
-            return
-        selected = selected.title()
-        for each in colors_list:
-            if each == selected:
-                self.color_combobox.set_selected(colors_list.index(each))
-                return
-
-        raise PageException("Color combo box reset failed")
 
 
 # Generic to use for any basic GUI failure

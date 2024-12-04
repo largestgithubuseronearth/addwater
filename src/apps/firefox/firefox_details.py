@@ -29,7 +29,7 @@ from gi.repository import Gio
 from addwater import info
 
 from .firefox_install import install_for_firefox
-from .firefox_options import FIREFOX_COLORS, FIREFOX_OPTIONS
+from .firefox_options import FIREFOX_OPTIONS
 from .firefox_paths import FIREFOX_PATHS
 
 log = logging.getLogger(__name__)
@@ -65,7 +65,6 @@ class FirefoxAppDetails:
     # install
     installer: Callable = install_for_firefox
     options: list[dict[Any, Any]] = FIREFOX_OPTIONS
-    color_palettes: list = FIREFOX_COLORS
     data_path: str
     profiles_list: list[dict[str, str]]
 
@@ -102,7 +101,6 @@ class FirefoxAppDetails:
         self.settings.reset("autofind-paths")
         self.settings.reset("installed-version")
         self.settings.reset("profile-selected")
-        self.settings.reset("palette-selected")
 
         for group in self.options:
             for option in group["options"]:
@@ -132,9 +130,6 @@ class FirefoxAppDetails:
 
     def get_full_theme_path(self) -> str:
         return self.full_path
-
-    def get_color_palettes(self):
-        return self.color_palettes
 
     def get_name(self):
         return self.name

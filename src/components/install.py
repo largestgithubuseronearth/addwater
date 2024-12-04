@@ -68,7 +68,6 @@ class InstallManager:
         self,
         theme_path: PathLike,
         profile_path: PathLike,
-        color_palette: str,
         options_results: Optional[dict[str, bool]] = None,
     ) -> Enum:
         # The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
@@ -77,7 +76,6 @@ class InstallManager:
         args:
             theme_path = path to theme files
             profile_path = path to profile which to apply theme to
-            color_palette = color theme to apply
             options_results = optional; if included, theme options will be
                                 updated. otherwise that's skipped
         """
@@ -87,14 +85,12 @@ class InstallManager:
             log.error("Install failed. can't find theme path OR profile path.")
             return InstallStatus.FAILURE
 
-        color_palette = color_palette.lower()
 
         # Run install script
         try:
             self._installer(
                 profile_path=profile_path,
                 theme_path=theme_path,
-                color_palette=color_palette,
             )
             if options_results:
                 self._preferences_handler(profile_path, options_results)

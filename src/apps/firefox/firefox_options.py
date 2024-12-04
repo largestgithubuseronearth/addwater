@@ -108,5 +108,3 @@ FIREFOX_OPTIONS = [
         ],
     },
 ]
-
-FIREFOX_COLORS = ["Adwaita", "Maia"]

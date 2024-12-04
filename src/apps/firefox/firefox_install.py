@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 
 @staticmethod  # This is necessary to avoid InstallManager passing self as an arg. "Passed multiple values for profile_path"
 def install_for_firefox(
-    profile_path: PathLike, theme_path: PathLike, color_palette: str = "adwaita"
+    profile_path: PathLike, theme_path: PathLike
 ) -> None:
     """Install the Firefox theme. This method should be injected into the
     InstallManager at runtime. If it isn't obvious, this should not be reused for
@@ -40,7 +40,6 @@ def install_for_firefox(
     Args:
             theme_path = path to the extracted theme folder. Likely inside `[app_path]/cache/add-water/downloads/`
             profile_path = path to the profile folder in which the theme will be installed.
-            color_palette = color palette to import. Default is Adwaita.
 
     Returns:
             None
@@ -60,7 +59,7 @@ def install_for_firefox(
     chrome_path = join(profile_path, "chrome")
 
     _copy_files(chrome_path, theme_path)
-    _import_css(chrome_path, color_palette)
+    _import_css(chrome_path)
 
     userjs_template = join(
         chrome_path, "firefox-gnome-theme", "configuration", "user.js"
@@ -88,7 +87,7 @@ def _copy_files(chrome_path: str, theme_path: str):
     log.debug("Done.")
 
 
-def _import_css(chrome_path: str, color_palette: str):
+def _import_css(chrome_path: str):
     log.debug("Adding CSS imports...")
     css_files = ["userChrome.css", "userContent.css"]
 
@@ -109,12 +108,6 @@ def _import_css(chrome_path: str, color_palette: str):
 
             import_lines = []
             import_lines.append(f'@import "firefox-gnome-theme/{each}";\n')
-            if color_palette != "adwaita":
-                import_lines.append(
-                    f'@import "firefox-gnome-theme/theme/colors/light-{color_palette}.css";\n',
-                    f'@import "firefox-gnome-theme/theme/colors/dark-{color_palette}.css";\n',
-                )
-                log.debug(f"User is using {color_palette} color theme")
 
             file.writelines(import_lines + lines)
 

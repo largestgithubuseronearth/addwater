@@ -51,23 +51,22 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.set_size_request(360, 294)  # Minimum size of window Width x Height
 
         self.settings = Gio.Settings(schema_id=info.APP_ID)
-        if info.PROFILE == "user":
-            self.settings.bind(
-                "window-height", self, "default-height", Gio.SettingsBindFlags.DEFAULT
-            )
-            self.settings.bind(
-                "window-width", self, "default-width", Gio.SettingsBindFlags.DEFAULT
-            )
-            self.settings.bind(
-                "window-maximized", self, "maximized", Gio.SettingsBindFlags.DEFAULT
-            )
+        self.settings.bind(
+            "window-height", self, "default-height", Gio.SettingsBindFlags.DEFAULT
+        )
+        self.settings.bind(
+            "window-width", self, "default-width", Gio.SettingsBindFlags.DEFAULT
+        )
+        self.settings.bind(
+            "window-maximized", self, "maximized", Gio.SettingsBindFlags.DEFAULT
+        )
         self.create_action("preferences", self.on_preferences_action, ["<Ctrl>comma"])
         self.create_action("about", self.on_about_action)
 
         self.backends = backends
         self.create_pages(self.backends)
 
-    def create_pages(self, app_backends):
+    def create_pages(self, app_backends: list):
         """Create and present app pages, and connect them to their respective app backend"""
         log.info("resetting gui pages")
         self.main_toolbar_view.set_content(None)
@@ -95,7 +94,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
             # TODO else use a Viewstack
             raise NotImplementedError
 
-    def create_error_page(self, app_name):
+    def create_error_page(self, app_name: str):
         """Create basic error status page when the app faces a fatal error
         that must be communicated to the user.
         """
@@ -114,8 +113,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
         )
         return statuspage
 
-    def create_action(self, name, callback, shortcuts=None):
-        """Add a window action.
+    def create_action(self, name: str, callback, shortcuts: list[str]=None):
+        """Add a window action and shortcut.
 
         Args:
                 name: the name of the action

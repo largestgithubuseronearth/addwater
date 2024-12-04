@@ -37,13 +37,9 @@
 		<!-- General -->
 		<key name="theme-enabled" type="b">
 			<default>false</default>
-
 		</key>
 		<key name="profile-selected" type="s">
 			<default>""</default>
-		</key>
-		<key name="palette-selected" type="s">
-			<default>"adwaita"</default>
 		</key>
 
 		<!-- Tab Positioning -->
@@ -53,9 +49,9 @@
 		<key name="normal-width-tabs" type="b">
 			<default>false</default>
 		</key>
-	  <key name="tab-align-left" type="b">
-	    <default>false</default>
-	  </key>
+		<key name="tab-align-left" type="b">
+			<default>false</default>
+		</key>
 		<key name="swap-tab-close" type="b">
 			<default>false</default>
 		</key>
@@ -67,9 +63,9 @@
 		</key>
 
 		<!-- Tab Behavior -->
-	  <key name="all-tabs-button" type="b">
-	    <default>false</default>
-	  </key>
+		<key name="all-tabs-button" type="b">
+			<default>false</default>
+		</key>
 		<key name="active-tab-contrast" type="b">
 			 <default>false</default>
 		</key>
