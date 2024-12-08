@@ -10,5 +10,5 @@ install_data(
 symbolic_dir = 'hicolor' / 'symbolic' / 'apps'
 install_data(
   symbolic_dir / ('@0@-symbolic.svg').format('dev.qwery.AddWater'),
-  install_dir: get_option('datadir') / 'icons' / symbolic_dir / 'apps'
+  install_dir: get_option('datadir') / 'icons' / symbolic_dir
 )
