@@ -23,6 +23,7 @@ import logging
 from os.path import exists, join
 from datetime import datetime, timezone
 
+
 from addwater.page import AddWaterPage
 from gi.repository import Adw, Gio, Gtk
 
@@ -101,14 +102,16 @@ class AddWaterWindow(Adw.ApplicationWindow):
         help_page_button = Adw.Clamp(
             hexpand=False,
             child=Gtk.Button(
-                label="Open Help Page",
+                label=_("Open Help Page"),
                 action_name="app.open-help-page",
                 css_classes=["suggested-action", "pill"],
             ),
         )
         statuspage = Adw.StatusPage(
-            title=f"{app_name} Profile Data Not Found",
-            description=f"Please ensure {app_name} is installed and Add Water has permission to access your profiles",
+            # Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+            title=_("{} Profile Data Not Found").format(app_name),
+            # Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+            description=_("Please ensure {} is installed and Add Water has permission to access your profiles").format(app_name),
             child=help_page_button,
         )
         return statuspage
@@ -131,14 +134,14 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     """Dialogs"""
 
-    def on_preferences_action(self, *_):
+    def on_preferences_action(self, *_args):
         """Callback for the app.preferences action."""
         pref = AddWaterPreferences(self.backends[0])
         # TODO improve this to only refresh the profiles combobox? It freezes the app for a second
-        pref.connect("refresh-gui", lambda *_: (self.create_pages(self.backends)))
+        pref.connect("refresh-gui", lambda *_args: (self.create_pages(self.backends)))
         pref.present(self)
 
-    def on_about_action(self, *_):
+    def on_about_action(self, *_args):
         """Callback for the app.about action."""
         # Grab log info for debug info page
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -162,12 +165,13 @@ class AddWaterWindow(Adw.ApplicationWindow):
         about.set_support_url(info.TROUBLESHOOT_HELP)
 
         about.set_developers(["Qwery"])
-        about.set_copyright(
-            "© 2024 Qwery",
-        )
+        # Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
+        about.set_translator_credits( _("translator-credits") )
+        about.set_copyright("© 2024 Qwery")
         about.set_license_type(Gtk.License.GPL_3_0)
         about.add_credit_section(
-            name="Theme Created and Maintained by",
+        # Translator: This is followed by a list of names
+            name=_("Theme Created and Maintained by"),
             people=["Rafael Mardojai CM https://www.mardojai.com/"],
         )
         about.add_legal_section(

@@ -81,14 +81,14 @@ class BackgroundUpdater:
 
         match status:
             case status.UPDATED:
-                title = "Theme updated"
-                msg = "Firefox GNOME Theme Updated"
+                title = _("Theme updated")
+                msg = _("Firefox GNOME Theme Updated")
             case status.ONLINE_FAIL:
-                title = "Theme Update Failed"
-                msg = "Could not check for theme updates due to a network issue"
+                title = _("Theme Update Failed")
+                msg = _("Could not check for theme updates due to a network issue")
             case status.INSTALL_FAIL:
-                title = "Theme Installation failed"
-                msg = "A theme update was downloaded but the installation failed"
+                title = _("Theme Installation failed")
+                msg = _("A theme update was downloaded but installation failed")
             case _:
                 msg = None
 

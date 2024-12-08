@@ -24,7 +24,6 @@
 
 import logging
 from typing import Optional, Callable
-
 from gi.repository import Adw, Gio, GObject, Gtk
 
 from addwater import info
@@ -49,6 +48,8 @@ class AddWaterPage(Adw.Bin):
     toast_overlay = Gtk.Template.Child()
     preferences_page = Gtk.Template.Child()
     change_confirm_bar = Gtk.Template.Child()
+
+    general_pref_group = Gtk.Template.Child()
 
     enable_button = Gtk.Template.Child()
     profile_combobox = Gtk.Template.Child()
@@ -91,7 +92,7 @@ class AddWaterPage(Adw.Bin):
             "revealed",
             GObject.BindingFlags.SYNC_CREATE,
         )
-        self.send_toast("Checking for updates...", 10)
+        self.send_toast(_("Checking for updates..."), 10)
         self.request_update_status()
 
     """PUBLIC METHODS"""
@@ -101,19 +102,20 @@ class AddWaterPage(Adw.Bin):
         match update_status:
             case update_status.UPDATED:
                 version = self.backend.get_update_version()
-                msg = f"Updated theme to v{version}"
+                # Translators: {} will be replaced by a version number
+                msg = (_("Updated theme to v{}").format(version))
             case update_status.DISCONNECTED:
-                msg = "Failed to check for updates due to a network issue"
+                msg = _("Failed to check for updates due to a network issue")
             case update_status.RATELIMITED:
-                msg = "Failed to check for updates. Please try again later."
+                msg = _("Failed to check for updates. Please try again later.")
             case update_status.OTHER_ERROR:
-                msg = "Unknown error has occurred. Consult log files for details."
+                msg = _("Unknown error has occurred. Please report this to developer.")
             case update_status.NO_UPDATE:
                 msg = None
-
+        self._display_version()
         self.send_toast(msg)
 
-    def on_apply_action(self, *_):
+    def on_apply_action(self, *_args):
         """Apply changes to GSettings and call the proper install or uninstall method"""
         log.debug("Applied changes")
 
@@ -128,21 +130,21 @@ class AddWaterPage(Adw.Bin):
             install_status = self.backend.begin_install(
                 self.selected_profile, True
             )
-            toast_msg = "Installed Theme. Restart Firefox to see changes."
+            toast_msg = _("Installed Theme. Restart Firefox to see changes.")
         else:
             log.debug("GUI calling for uninstall...")
             install_status = self.backend.remove_theme(self.selected_profile)
-            toast_msg = "Removed Theme. Restart Firefox to see changes."
+            toast_msg = _("Removed Theme. Restart Firefox to see changes.")
 
         match install_status:
             case install_status.FAILURE:
-                toast_msg = "Installation failed"
+                toast_msg = _("Installation failed")
             case _:
                 pass
 
         self.send_toast(toast_msg, 3, 1)
 
-    def on_discard_action(self, *_):
+    def on_discard_action(self, *_args):
         """Revert changes made to GSettings and notify user"""
         log.info("Discarded unapplied changes")
 
@@ -154,10 +156,10 @@ class AddWaterPage(Adw.Bin):
         except PageException as err:
             log.error(err)
             self.send_toast(
-                "The interface had an error. Please report if this occurs multiple times."
+                _("The interface had an error. Please report if this occurs multiple times.")
             )
 
-        self.send_toast("Changes reverted")
+        self.send_toast(_("Changes reverted"))
 
     def send_toast(
         self, msg: Optional[str] = None, timeout_seconds: int = 2, priority: int = 0
@@ -176,7 +178,7 @@ class AddWaterPage(Adw.Bin):
 
         self.toast_overlay.add_toast(self.current_toast)
 
-        # Workaround for libadwaita bug which cause toasts to display forever
+        # Workaround for Adw bug which cause toasts to display forever
         # issue: https://gitlab.gnome.org/GNOME/libadwaita/-/issues/440
         self.enable_button.grab_focus()
 
@@ -210,10 +212,20 @@ class AddWaterPage(Adw.Bin):
         except PageException as err:
             log.error(err)
             self.send_toast(
-                "The interface had an error. Please report if this occurs often."
+                _("The interface had an error. Please report if this occurs often.")
             )
 
     """PRIVATE METHODS"""
+
+    def _display_version(self):
+        # TODO clean this up a bit
+        version = self.backend.get_update_version()
+        if not version:
+            version = _("Theme not installed")
+        else:
+            version = f"v{version}"
+        # Translators: {} will be replaced with a version number (example: v132) or a status message
+        self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(version))
 
     def _set_profile(self, row, _=None) -> None:
         profile_display_name = row.get_selected_item().get_string()

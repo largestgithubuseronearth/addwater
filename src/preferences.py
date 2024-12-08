@@ -82,7 +82,7 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 
         self.portal.request_background(
             None,
-            "Checking for theme updates",
+            _("Checking for theme updates"),
             ["addwater", "--quick-update"],
             flag,
             None,

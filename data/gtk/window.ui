@@ -5,7 +5,7 @@
 	<template class="AddWaterWindow" parent="AdwApplicationWindow">
 		<property name="default-width">500</property>
 		<property name="default-height">700</property>
-		<property name="title">Add Water to Firefox</property>
+		<property name="title" translatable="no">Add Water</property>
 		<property name="content">
 
 				<object class="AdwToolbarView" id="main_toolbar_view">
