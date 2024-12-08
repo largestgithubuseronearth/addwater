@@ -144,7 +144,7 @@ class FirefoxAppDetails:
         return self.installed_version
 
     def get_options(self):
-        # TODO grab only the details the consumer would need
+        # TODO grab only the details the consumer would need. Multiple methods or add a flag?
         return self.options
 
     def get_profiles(self):

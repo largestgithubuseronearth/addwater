@@ -1,6 +1,13 @@
 data/dev.qwery.AddWater.desktop.in
 data/dev.qwery.AddWater.metainfo.xml.in
 data/dev.qwery.AddWater.gschema.xml
+
+data/gtk/addwater-page.ui
+data/gtk/help-overlay.ui
+data/gtk/preferences.ui
+data/gtk/window.ui
+
 src/main.py
 src/window.py
-src/window.ui
+src/page.py
+src/apps/firefox/firefox_options.py

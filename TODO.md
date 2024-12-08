@@ -18,3 +18,11 @@
 - [ ] Touchscreen support
 - [ ] Accerciser test
 - [ ] Contrast
+
+## Translation
+ - [X] Give translation credit in aboutdialog
+ - [ ] Add a full translators list in credits
+ - [ ] Make sure all translatables are not using fstrings. Reference Bassi's matrix msg
+ - [ ] Reword any awkward descriptions for clarity
+ - [ ] Mark all theme options for translation (requires the db rework)
+ - [ ] Set up a system for users to easily translate. Weblate or similar platform.

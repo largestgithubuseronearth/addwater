@@ -49,7 +49,8 @@ def init_logs():
         logging.basicConfig(
             handlers=[file_handler, console_handler],
             style="{",
-            format="[{levelname}] {name} — {asctime} || {message}",
+            # TODO how to give a consistent spacing between levelname and name?
+            format="[{levelname}]   {name} — {asctime} || {message}",
             datefmt="%H:%M",
             level=logging.DEBUG,
         )

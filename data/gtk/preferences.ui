@@ -7,11 +7,10 @@
 				<property name="icon-name">globe-symbolic</property>
 				<child>
 					<object class="AdwPreferencesGroup">
-						<property name="title">General</property>
 						<child>
 							<object class="AdwSwitchRow" id="background_update_switch">
-								<property name="title">Background Update</property>
-								<property name="subtitle">Automatically update theme in the background</property>
+								<property name="title" translatable="yes">Update in Background</property>
+								<property name="subtitle"  translatable="yes">Automatically check for updates at login</property>
 							</object>
 						</child>
 					</object>
@@ -21,13 +20,13 @@
 						<property name="title">Firefox</property>
 						<child>
 							<object class="AdwComboRow" id="firefox_package_combobox">
-								<property name="title" translatable="yes">Package Format</property>
-								<property name="tooltip-text">Profile data not found at selected location</property>
+								<property name="title" translatable="yes" comments="Translators: This refers to how the user installed Firefox (package manager, Flatpak, Snap, etc.)">Package Format</property>
+								<property name="tooltip-text"  translatable="yes">Profile data not found at selected location</property>
 								<property name="has-tooltip">false</property>
 								<property name="model">
 									<object class="GtkStringList" id="firefox_package_combobox_list">
 										<items>
-											<item>Automatically Discover</item>
+											<item translatable="yes">Automatically Discover</item>
 										</items>
 									</object>
 								</property>
@@ -36,13 +35,12 @@
 					</object>
 				</child>
 				<child>
-					<!-- This section's styling is borrowed from Cartridges to workaround not having button rows yet -->
 					<object class="AdwPreferencesGroup">
-						<property name="title">Danger Zone</property>
-						<property name="description" translatable="yes">Remove the theme from all known profiles and reset Add Water to its default state. This will close Add Water.</property>
+						<property name="title" translatable="yes" comments="Translators: This refers to options that could be unsafe.">Danger Zone</property>
+						<property name="description" translatable="yes">Remove the theme from all known profiles and reset Add Water to its default state.</property>
 						<child>
 							<object class="AdwButtonRow">
-							  <property name="title">Remove Water</property>
+							  <property name="title" translatable="yes">Reset and Close App</property>
 							  <property name="action-name">app.reset-app</property>
 							  <style>
 							    <class name="destructive-action"/>
