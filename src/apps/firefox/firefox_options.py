@@ -79,11 +79,26 @@ FIREFOX_OPTIONS = [
                 "description": _("Show All Tabs button"),
                 "tooltip": "",
             },
+            {
+                # TODO make this dependent on all-tabs-button being true
+                "key": "all-tabs-button-on-overflow",
+                "js_key": "allTabsButtonOnOverflow",
+                "summary": _("Tab List Button on Overflow"),
+                "description": _("Only show All Tabs button if not all tabs can fit on screen"),
+                "tooltip": "",
+            },
         ],
     },
     {
-        "group_name": "Styling",
+        "group_name": "Style",
         "options": [
+            {
+              "key": "bookmarks-on-fullscreen",
+                "js_key": "bookmarksOnFullscreen",
+                "summary": _("Fullscreen Bookmarks"),
+                "description": _("Show Bookmarks bar while in fullscreen"),
+                "tooltip": ""
+            },
             {
                 "key": "hide-webrtc-indicator",
                 "js_key": "hideWebrtcIndicator",

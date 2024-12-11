@@ -296,6 +296,7 @@ class AddWaterPage(Adw.Bin):
                 icon_name="info-outline-symbolic",
                 valign="center",
                 vexpand=False,
+                tooltip_text="More Information",
                 popover=info_popup,
             )
             row.add_suffix(info_button)
