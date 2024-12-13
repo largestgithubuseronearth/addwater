@@ -83,8 +83,6 @@ class FirefoxAppDetails:
         self.settings = self.get_new_gsettings()
 
         version = version_str_to_tuple(self.settings.get_string("installed-version"))
-        print("firefox details get from gset dilfhgiklsdhgilsdjiolghislghsdi")
-        print(version)
         self.set_installed_version(version)
 
         current_path = self.settings.get_string("data-path")

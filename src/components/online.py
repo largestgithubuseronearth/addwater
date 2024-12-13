@@ -85,8 +85,6 @@ class OnlineManager:
         return OnlineStatus.NO_UPDATE
 
     def get_update_version(self):
-        print("online- update_version --------------------------------")
-        print(self.update_version)
         return self.update_version
 
     """PRIVATE FUNCTIONS"""
