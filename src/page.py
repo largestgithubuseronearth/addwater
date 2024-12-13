@@ -245,7 +245,7 @@ class AddWaterPage(Adw.Bin):
         group_schematic: dict[str, list[dict]],
         gui_switch_factory: Callable,
         settings,
-        enable_button,
+        enable_button
     ):
         """Creates a PreferencesGroup with the included switch options, and
         binds all the switches to gsettings
@@ -270,6 +270,19 @@ class AddWaterPage(Adw.Bin):
             enable_button.bind_property(
                 "active", row, "sensitive", GObject.BindingFlags.SYNC_CREATE
             )
+
+            # Handle dependencies on other options
+            if option["depends"]:
+                for prereq, b in option["depends"]:
+                    match b:
+                        case True:
+                            flag = Gio.SettingsBindFlags.DEFAULT
+                        case False:
+                            flag = Gio.SettingsBindFlags.INVERT_BOOLEAN
+                    settings.bind(
+                        prereq, row, "sensitive", flag
+                    )
+
 
             group.add(row)
 

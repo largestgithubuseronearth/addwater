@@ -87,7 +87,7 @@ class OnlineManager:
     def get_update_version(self):
         return self.update_version
 
-    """PRIVATE FUNCTIONS"""
+    """PRIVATE METHODS"""
 
     def _begin_download(self, path_info, tarball_url) -> Enum:
         # Update if necessary
