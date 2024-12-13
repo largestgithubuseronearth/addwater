@@ -93,6 +93,7 @@ class AddWaterPage(Adw.Bin):
             GObject.BindingFlags.SYNC_CREATE,
         )
         self.send_toast(_("Checking for updates..."), 10)
+        # TODO add callback instead when async updates are finished
         self.request_update_status()
 
     """PUBLIC METHODS"""
@@ -101,7 +102,7 @@ class AddWaterPage(Adw.Bin):
         update_status = self.backend.update_theme()
         match update_status:
             case update_status.UPDATED:
-                version = self.backend.get_update_version()
+                version = self.backend.get_update_version(pretty=True)
                 # Translators: {} will be replaced by a version number
                 msg = (_("Updated theme to v{}").format(version))
             case update_status.DISCONNECTED:
@@ -219,9 +220,9 @@ class AddWaterPage(Adw.Bin):
 
     def _display_version(self):
         # TODO clean this up a bit
-        version = self.backend.get_update_version()
+        version = self.backend.get_update_version(pretty=True)
         if not version:
-            version = _("Theme not installed")
+            version = _("Not installed")
         else:
             version = f"v{version}"
         # Translators: {} will be replaced with a version number (example: v132) or a status message

@@ -29,9 +29,9 @@
 			<summary>Automatically Discover the installed Firefox package format</summary>
 		</key>
 
-		<key name="installed-version" type="i">
-			<default>0</default>
-			<summary>Most recently installed version of the firefox gnome theme</summary>
+		<key name="installed-version" type="s">
+			<default>"0.0.0"</default>
+			<summary>Most recently installed version of the firefox gnome theme (Major.Minor.Micro)</summary>
 		</key>
 
 		<!-- General -->

@@ -34,6 +34,7 @@ addwater_sources = [
 	'utils/paths.py',
 	'utils/logs.py',
 	'utils/background.py',
+	'utils/versioning.py',
 
 	configure_file(input: 'info.py.in', output: 'info.py', configuration: conf),
 ]
