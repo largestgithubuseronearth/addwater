@@ -33,7 +33,7 @@ class MockOnlineManager:
     """PUBLIC METHODS"""
 
     def __init__(self, update_return_code: int):
-        log.debug("Mock online manager created!!!")
+        log.warning("Mock online manager created!!!")
         self.online_status = OnlineStatus(update_return_code)
         schema_id = info.APP_ID + ".Firefox"
         self.settings = Gio.Settings(schema_id=schema_id)
@@ -43,7 +43,7 @@ class MockOnlineManager:
     def get_updates_online(
         self,
         *args,
-        **kwargs,
+        **kwargs
     ) -> Enum:
         log.debug(f"returning fake status code of {self.online_status}")
         return self.online_status

@@ -9,7 +9,7 @@ option(
 option(
 	'use-mock-api',
 	type: 'boolean',
-	value: true
+	value: false
 )
 
 option(

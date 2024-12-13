@@ -47,7 +47,7 @@ class OnlineManager:
     release packages. It will also handle prepping those releases for the installer to use.
     """
 
-    update_version: int
+    update_version: tuple
     theme_url: str
 
     def __init__(self, theme_url: str):
@@ -85,7 +85,7 @@ class OnlineManager:
         return OnlineStatus.NO_UPDATE
 
     def get_update_version(self):
-        print("asdkujghfksdhfkj")
+        print("online- update_version --------------------------------")
         print(self.update_version)
         return self.update_version
 

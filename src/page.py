@@ -102,7 +102,7 @@ class AddWaterPage(Adw.Bin):
         update_status = self.backend.update_theme()
         match update_status:
             case update_status.UPDATED:
-                version = self.backend.get_update_version()
+                version = self.backend.get_update_version(pretty=True)
                 # Translators: {} will be replaced by a version number
                 msg = (_("Updated theme to v{}").format(version))
             case update_status.DISCONNECTED:
@@ -220,8 +220,8 @@ class AddWaterPage(Adw.Bin):
 
     def _display_version(self):
         # TODO clean this up a bit
-        version = self.backend.get_update_version()
-        if not version:
+        version = self.backend.get_update_version(pretty=True)
+        if version == "0.0.0":
             version = _("Theme not installed")
         else:
             version = f"v{version}"

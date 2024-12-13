@@ -30,7 +30,7 @@
 		</key>
 
 		<key name="installed-version" type="s">
-			<default>"299.299.299"</default>
+			<default>"0.0.0"</default>
 			<summary>Most recently installed version of the firefox gnome theme (Major.Minor.Micro)</summary>
 		</key>
 

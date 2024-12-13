@@ -144,8 +144,11 @@ class AddWaterBackend:
     def get_installed_version(self) -> int:
         return self.app_details.get_installed_version()
 
-    def get_update_version(self) -> int:
-        return version_tuple_to_str(self.online_manager.get_update_version())
+    def get_update_version(self, pretty=False):
+        v = self.online_manager.get_update_version()
+        if pretty:
+            return version_tuple_to_str(v)
+        return v
 
     def get_profile_list(self) -> dict:
         return self.app_details.get_profiles()
@@ -162,6 +165,8 @@ class AddWaterBackend:
             raise InterfaceMisuseError(err)
 
     def set_installed_version(self, new_version: tuple) -> None:
+        if not isinstance(new_version, tuple):
+            raise InterfaceMisuseError(f"method takes tuple; gave {type(new_version)}")
         self.app_details.set_installed_version(new_version)
 
     """Dangerous"""
