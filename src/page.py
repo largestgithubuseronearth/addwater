@@ -93,6 +93,7 @@ class AddWaterPage(Adw.Bin):
             GObject.BindingFlags.SYNC_CREATE,
         )
         self.send_toast(_("Checking for updates..."), 10)
+        # TODO add callback instead when async updates are finished
         self.request_update_status()
 
     """PUBLIC METHODS"""

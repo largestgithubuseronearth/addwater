@@ -26,6 +26,7 @@ from addwater.components.install import InstallManager
 from addwater.components.online import OnlineManager
 from addwater.utils.mocks import mock_online
 from addwater.utils.paths import DOWNLOAD_DIR
+from addwater.utils.versioning import version_str_to_tuple, version_tuple_to_str
 
 from addwater import info
 
@@ -144,7 +145,7 @@ class AddWaterBackend:
         return self.app_details.get_installed_version()
 
     def get_update_version(self) -> int:
-        return self.online_manager.get_update_version()
+        return version_tuple_to_str(self.online_manager.get_update_version())
 
     def get_profile_list(self) -> dict:
         return self.app_details.get_profiles()
@@ -160,7 +161,7 @@ class AddWaterBackend:
         except FileNotFoundError as err:
             raise InterfaceMisuseError(err)
 
-    def set_installed_version(self, new_version: int) -> None:
+    def set_installed_version(self, new_version: tuple) -> None:
         self.app_details.set_installed_version(new_version)
 
     """Dangerous"""
