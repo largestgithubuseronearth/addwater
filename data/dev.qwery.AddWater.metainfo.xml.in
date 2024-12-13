@@ -96,6 +96,19 @@
 	<!-- Release Notes -->
 	<releases>
 		<!-- TODO should release notes be translated? -->
+		<release version="1.2.1" date="2024-12-12">
+			<description>
+				<p>The Firefox GNOME Theme received two new optional features:</p>
+				<ul>
+					<li>List of Tabs on Overflow: Only show All Tabs button when many tabs are open</li>
+					<li>Fullscreen Bookmarks: Show Bookmarks Bar while in Fullscreen</li>
+				</ul>
+				<p>Add Water:</p>
+				<ul>
+					<li>Hotfix: App crashes or launches with an empty interface</li>
+				</ul>
+			</description>
+		</release>
 		<release version="1.2" date="2024-12-08">
 			<description>
 				<ul>

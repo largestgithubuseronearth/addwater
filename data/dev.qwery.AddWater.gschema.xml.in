@@ -29,9 +29,9 @@
 			<summary>Automatically Discover the installed Firefox package format</summary>
 		</key>
 
-		<key name="installed-version" type="i">
-			<default>0</default>
-			<summary>Most recently installed version of the firefox gnome theme</summary>
+		<key name="installed-version" type="s">
+			<default>"0.0.0"</default>
+			<summary>Most recently installed version of the firefox gnome theme (Major.Minor.Micro)</summary>
 		</key>
 
 		<!-- General -->
@@ -63,9 +63,6 @@
 		</key>
 
 		<!-- Tab Behavior -->
-		<key name="all-tabs-button" type="b">
-			<default>false</default>
-		</key>
 		<key name="active-tab-contrast" type="b">
 			 <default>false</default>
 		</key>
@@ -75,8 +72,17 @@
 		<key name="symbolic-tab-icons" type="b">
 			<default>false</default>
 		</key>
+		<key name="all-tabs-button" type="b">
+			<default>false</default>
+		</key>
+		<key name="all-tabs-button-on-overflow" type="b">
+			<default>false</default>
+		</key>
 
 		<!-- Styling -->
+		<key name="bookmarks-on-fullscreen" type="b">
+			<default>false</default>
+		</key>
 		<key name="hide-webrtc-indicator" type="b">
 			<default>false</default>
 		</key>

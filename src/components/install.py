@@ -68,7 +68,7 @@ class InstallManager:
         self,
         theme_path: PathLike,
         profile_path: PathLike,
-        options_results: Optional[dict[str, bool]] = None,
+        options_results: Optional[dict[str, bool]] = None
     ) -> Enum:
         # The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
         """Handle installation of quick and full theme installs
@@ -172,8 +172,6 @@ def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
     except FileNotFoundError:
         pass
 
-    # TODO remove css import lines
-
     # Set all user_prefs to false
     user_js = join(profile_path, "user.js")
     try:
@@ -196,11 +194,6 @@ def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
         raise InstallException("Uninstall failed")
 
     log.info("Done.")
-
-
-class InstallTypeFlag(Enum):
-    QUICK = 0
-    FULL = 1
 
 
 class InstallStatus(Enum):

@@ -29,6 +29,7 @@ from typing import Optional
 
 import requests
 from addwater.utils.paths import DOWNLOAD_DIR
+from addwater.utils.versioning import version_str_to_tuple, version_tuple_to_str
 
 from addwater import info
 
@@ -46,8 +47,7 @@ class OnlineManager:
     release packages. It will also handle prepping those releases for the installer to use.
     """
 
-    installed_version: int
-    update_version: int
+    update_version: tuple
     theme_url: str
 
     def __init__(self, theme_url: str):
@@ -56,7 +56,7 @@ class OnlineManager:
 
     """PUBLIC METHODS"""
 
-    def get_updates_online(self, installed_version: int, path_info: tuple) -> Enum:
+    def get_updates_online(self, installed_version: tuple, path_info: tuple) -> Enum:
         log.info("Checking for updates...")
         self.update_version = installed_version
 
@@ -87,7 +87,7 @@ class OnlineManager:
     def get_update_version(self):
         return self.update_version
 
-    """PRIVATE FUNCTIONS"""
+    """PRIVATE METHODS"""
 
     def _begin_download(self, path_info, tarball_url) -> Enum:
         # Update if necessary
@@ -233,7 +233,7 @@ class OnlineManager:
         api_calls_left = int(response.headers["x-ratelimit-remaining"])
         try:
             latest_release = response.json()[0]
-            version = int(latest_release["tag_name"].lstrip("v"))
+            version = version_str_to_tuple(latest_release["tag_name"])
             tarball_url = latest_release["tarball_url"]
         except requests.JSONDecodeError as err:
             log.error(err)
@@ -258,14 +258,15 @@ class OnlineManager:
         return bool(api_calls_left < CHOSEN_LIMIT)
 
     @staticmethod
-    def _is_update_available(new: int, current: int) -> bool:
-        if not isinstance(current, int) or not isinstance(new, int):
+    def _is_update_available(new: tuple, current: tuple) -> bool:
+        if not isinstance(current, tuple) or not isinstance(new, tuple):
             raise ValueError
 
-        # TODO consider making this handle special cases like minor updates or maybe rollbacks
-        # This could work by parsing a string and separating them by the dots. MAJOR.MINOR.MICRO
-        # And if any of them are greater than current, then the release is downloaded
-        return bool(new > current)
+        for n, c in zip(new, current):
+            if n > c:
+                return True
+
+        return False
 
 
 class OnlineStatus(Enum):

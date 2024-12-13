@@ -24,6 +24,7 @@ from typing import Optional
 from gi.repository import Gio
 
 from addwater import info
+from addwater.utils.versioning import version_str_to_tuple, version_tuple_to_str
 
 log = logging.getLogger(__name__)
 
@@ -32,17 +33,17 @@ class MockOnlineManager:
     """PUBLIC METHODS"""
 
     def __init__(self, update_return_code: int):
-        log.debug("Mock online manager created!!!")
+        log.warning("Mock online manager created!!!")
         self.online_status = OnlineStatus(update_return_code)
         schema_id = info.APP_ID + ".Firefox"
         self.settings = Gio.Settings(schema_id=schema_id)
 
-        self.update_version = self.settings.get_int("installed-version")
+        self.update_version = version_str_to_tuple(self.settings.get_string("installed-version"))
 
     def get_updates_online(
         self,
         *args,
-        **kwargs,
+        **kwargs
     ) -> Enum:
         log.debug(f"returning fake status code of {self.online_status}")
         return self.online_status

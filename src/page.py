@@ -93,6 +93,7 @@ class AddWaterPage(Adw.Bin):
             GObject.BindingFlags.SYNC_CREATE,
         )
         self.send_toast(_("Checking for updates..."), 10)
+        # TODO add callback instead when async updates are finished
         self.request_update_status()
 
     """PUBLIC METHODS"""
@@ -101,7 +102,7 @@ class AddWaterPage(Adw.Bin):
         update_status = self.backend.update_theme()
         match update_status:
             case update_status.UPDATED:
-                version = self.backend.get_update_version()
+                version = self.backend.get_update_version(pretty=True)
                 # Translators: {} will be replaced by a version number
                 msg = (_("Updated theme to v{}").format(version))
             case update_status.DISCONNECTED:
@@ -219,9 +220,9 @@ class AddWaterPage(Adw.Bin):
 
     def _display_version(self):
         # TODO clean this up a bit
-        version = self.backend.get_update_version()
+        version = self.backend.get_update_version(pretty=True)
         if not version:
-            version = _("Theme not installed")
+            version = _("Not installed")
         else:
             version = f"v{version}"
         # Translators: {} will be replaced with a version number (example: v132) or a status message
@@ -244,7 +245,7 @@ class AddWaterPage(Adw.Bin):
         group_schematic: dict[str, list[dict]],
         gui_switch_factory: Callable,
         settings,
-        enable_button,
+        enable_button
     ):
         """Creates a PreferencesGroup with the included switch options, and
         binds all the switches to gsettings
@@ -269,6 +270,19 @@ class AddWaterPage(Adw.Bin):
             enable_button.bind_property(
                 "active", row, "sensitive", GObject.BindingFlags.SYNC_CREATE
             )
+
+            # Handle dependencies on other options
+            if option["depends"]:
+                for prereq, b in option["depends"]:
+                    match b:
+                        case True:
+                            flag = Gio.SettingsBindFlags.DEFAULT
+                        case False:
+                            flag = Gio.SettingsBindFlags.INVERT_BOOLEAN
+                    settings.bind(
+                        prereq, row, "sensitive", flag
+                    )
+
 
             group.add(row)
 
@@ -296,6 +310,7 @@ class AddWaterPage(Adw.Bin):
                 icon_name="info-outline-symbolic",
                 valign="center",
                 vexpand=False,
+                tooltip_text="More Information",
                 popover=info_popup,
             )
             row.add_suffix(info_button)
