@@ -91,7 +91,7 @@
                 {
                     "type" : "git",
                     "url" : "https://github.com/largestgithubuseronearth/addwater",
-                    "branch" : "v1.2"
+                    "branch" : "main"
                 }
             ]
         }
