@@ -37,7 +37,7 @@
 				<child>
 					<object class="AdwPreferencesGroup">
 						<property name="title" translatable="yes" comments="Translators: This refers to options that could be unsafe.">Danger Zone</property>
-						<property name="description" translatable="yes">Remove the theme from all known profiles and reset Add Water to its default state.</property>
+						<property name="description" translatable="yes">Remove the theme from all known profiles and reset Add Water to its default state. Any custom changes made to your user.js file will remain after a reset.</property>
 						<child>
 							<object class="AdwButtonRow">
 							  <property name="title" translatable="yes">Reset and Close App</property>
