@@ -147,7 +147,7 @@ class AddWaterBackend:
     def get_update_version(self, pretty=False):
         v = self.online_manager.get_update_version()
         if pretty:
-            return version_tuple_to_str(v)
+            return version_tuple_to_str(v).rstrip("0.")
         return v
 
     def get_profile_list(self) -> dict:

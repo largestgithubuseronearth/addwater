@@ -221,8 +221,8 @@ class AddWaterPage(Adw.Bin):
     def _display_version(self):
         # TODO clean this up a bit
         version = self.backend.get_update_version(pretty=True)
-        if version == "0.0.0":
-            version = _("Theme not installed")
+        if not version:
+            version = _("Not installed")
         else:
             version = f"v{version}"
         # Translators: {} will be replaced with a version number (example: v132) or a status message
