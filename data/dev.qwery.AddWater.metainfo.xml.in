@@ -100,12 +100,12 @@
 			<description>
 				<p>The Firefox GNOME Theme received two new optional features:</p>
 				<ul>
-					<li>Tab List Button on Overflow: Show All Tabs button only when not all tabs can be visible</li>
+					<li>List of Tabs on Overflow: Only show All Tabs button when many tabs are open</li>
 					<li>Fullscreen Bookmarks: Show Bookmarks Bar while in Fullscreen</li>
 				</ul>
 				<p>Add Water:</p>
 				<ul>
-					<li>Hotfix: App crashes after most recent theme update</li>
+					<li>Hotfix: App crashes or launches with an empty interface</li>
 				</ul>
 			</description>
 		</release>

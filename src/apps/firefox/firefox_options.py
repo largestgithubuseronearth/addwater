@@ -104,14 +104,6 @@ FIREFOX_OPTIONS = [
         "group_name": "Style",
         "options": [
             {
-              "key": "bookmarks-on-fullscreen",
-                "js_key": "bookmarksOnFullscreen",
-                "summary": _("Fullscreen Bookmarks"),
-                "description": _("Show Bookmarks bar while in fullscreen"),
-                "tooltip": "",
-                "depends": None
-            },
-            {
                 "key": "hide-webrtc-indicator",
                 "js_key": "hideWebrtcIndicator",
                 "summary": _("Hide Privacy Indicators"),
@@ -132,6 +124,14 @@ FIREFOX_OPTIONS = [
                 "js_key": "noThemedIcons",
                 "summary": _("No Themed Icons"),
                 "description": _("Use standard Firefox icons instead of Adwaita-styled icons"),
+                "tooltip": "",
+                "depends": None
+            },
+            {
+              "key": "bookmarks-on-fullscreen",
+                "js_key": "bookmarksOnFullscreen",
+                "summary": _("Fullscreen Bookmarks"),
+                "description": _("Show Bookmarks bar while in fullscreen"),
                 "tooltip": "",
                 "depends": None
             },
