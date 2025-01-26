@@ -94,8 +94,19 @@
 
 
 	<!-- Release Notes -->
+	<!-- TODO should release notes be translated? -->
 	<releases>
-		<!-- TODO should release notes be translated? -->
+		<!-- TODO update this date -->
+		<release version="1.2.5" date="2025-01-13">
+			<description>
+				<p>Add Water:</p>
+				<ul>
+					<li>Package Format selection has been moved onto the front page.</li>
+					<li></li>
+				</ul>
+
+			</description>
+		</release>
 		<release version="1.2.1" date="2024-12-12">
 			<description>
 				<p>The Firefox GNOME Theme received two new optional features:</p>
