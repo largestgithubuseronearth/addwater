@@ -1,6 +1,6 @@
 # window.py
 #
-# Copyright 2024 Qwery
+# Copyright 2025 Qwery
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -167,7 +167,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
         about.set_developers(["Qwery"])
         # Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
         about.set_translator_credits( _("translator-credits") )
-        about.set_copyright("© 2024 Qwery")
+        about.set_copyright("© 2025 Qwery")
         about.set_license_type(Gtk.License.GPL_3_0)
         about.add_credit_section(
         # Translator: This is followed by a list of names
