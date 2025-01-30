@@ -47,7 +47,9 @@ class AddWaterApplication(Adw.Application):
 
     def __init__(self):
         super().__init__(
-            application_id=info.APP_ID, flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE
+            application_id=info.APP_ID,
+            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+            resource_base_path=info.PREFIX
         )
         self.create_action("quit", lambda *_args: self.quit(), ["<primary>q", "<primary>w"])
         self.create_action("open-help-page", self.on_help_action)

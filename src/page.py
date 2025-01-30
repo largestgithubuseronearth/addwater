@@ -86,7 +86,7 @@ class AddWaterPage(Adw.Bin):
         options = self.backend.get_app_options()
         self.init_gui(options, self.profile_list)
 
-        self.settings_firefox = backend.get_app_settings()
+        self.settings_instant = backend.get_app_settings()
         self.FIREFOX_FORMATS = backend.get_package_formats()
 
         self.firefox_path = self.backend.get_data_path()
@@ -281,7 +281,7 @@ class AddWaterPage(Adw.Bin):
         for each in self.FIREFOX_FORMATS:
             self.firefox_package_combobox_list.append(each["name"])
 
-        if self.settings_firefox.get_boolean("autofind-paths") is False:
+        if self.settings_instant.get_boolean("autofind-paths") is False:
             user_path = self.firefox_path
 
             for each in self.FIREFOX_FORMATS:
@@ -296,7 +296,7 @@ class AddWaterPage(Adw.Bin):
         AUTO = 0
 
         if selected_index == AUTO:
-            self.settings_firefox.set_boolean("autofind-paths", True)
+            self.settings_instant.set_boolean("autofind-paths", True)
             log.info("Autofind paths enabled")
             row.remove_css_class("error")
             self.profile_combobox.set_sensitive(True)
@@ -305,7 +305,7 @@ class AddWaterPage(Adw.Bin):
             self.emit("package-changed")
             return
 
-        self.settings_firefox.set_boolean("autofind-paths", False)
+        self.settings_instant.set_boolean("autofind-paths", False)
         log.warning("Autofind paths disabled")
 
         selected = row.get_selected_item().get_string()

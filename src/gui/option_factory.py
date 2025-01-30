@@ -34,7 +34,9 @@ def create_option_group(
             "active", row, "sensitive", GObject.BindingFlags.SYNC_CREATE
         )
 
-        # FIXME
+        # FIXME bind to the "active" property of the row it depends on
+        # requires holding a reference to that row which I don't atm
+
         # Handle dependencies on other options
         if option["depends"]:
             for prereq, b in option["depends"]:

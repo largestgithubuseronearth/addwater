@@ -12,14 +12,12 @@ pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 
 # Get profile and if user release, disable ALL testing options
 profile = get_option('profile')
-if profile == 'user'
+if profile == 'default'
 	app_id = 'dev.qwery.AddWater'
-	prefix = '/dev/qwery/AddWater'
 	mock_api = false
 	force_bg = false
-elif profile =='developer'
+elif profile =='development'
 	app_id = 'dev.qwery.AddWater.Devel'
-	prefix = '/dev/qwery/AddWater/Devel'
 	mock_api = get_option('use-mock-api')
 	force_bg = get_option('force-background')
 endif
@@ -29,7 +27,7 @@ conf = configuration_data({
 	'PYTHON' : python.find_installation('python3').full_path(),
 	'VERSION' : meson.project_version(),
 	'APP_ID' : app_id,
-	'PREFIX' : prefix,
+	'PREFIX' : '/dev/qwery/AddWater',
 	'PROFILE': profile,
 	'localedir' : get_option('prefix') / get_option('localedir'),
 	'pkgdatadir': pkgdatadir

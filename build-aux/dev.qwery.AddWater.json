@@ -85,7 +85,7 @@
             "builddir" : true,
             "buildsystem" : "meson",
             "config-opts" : [
-                "-Dprofile=user"
+                "-Dprofile=default"
             ],
             "sources" : [
                 {

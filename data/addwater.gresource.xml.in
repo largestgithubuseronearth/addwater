@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO improve build to not use the prefix here but instead pass as a property at instantiation -->
 <gresources>
 	<gresource prefix="@PREFIX@">
 		<file preprocess="xml-stripblanks">gtk/window.ui</file>
 		<file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
 		<file preprocess="xml-stripblanks">gtk/preferences.ui</file>
 		<file preprocess="xml-stripblanks">gtk/addwater-page.ui</file>
-
 		<file preprocess="xml-stripblanks" alias="dev.qwery.AddWater.metainfo">dev.qwery.AddWater.metainfo.xml.in</file>
 	</gresource>
 

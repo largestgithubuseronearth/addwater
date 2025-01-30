@@ -46,7 +46,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
     def __init__(self, backends: list, **kwargs):
         super().__init__(**kwargs)
 
-        if info.PROFILE == "developer":
+        if info.PROFILE == "development":
             self.add_css_class("devel")
 
         self.set_size_request(360, 294)  # Minimum size of window Width x Height

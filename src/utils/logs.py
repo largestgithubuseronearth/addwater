@@ -41,9 +41,9 @@ def init_logs():
         console_handler = logging.StreamHandler(sys.stdout)
 
         file_handler.setLevel(logging.DEBUG)
-        if PROFILE == "developer":
+        if PROFILE == "development":
             console_handler.setLevel(logging.DEBUG)
-        elif PROFILE == "user":
+        elif PROFILE == "default":
             console_handler.setLevel(logging.INFO)
 
         logging.basicConfig(
