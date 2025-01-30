@@ -34,11 +34,9 @@ Ultimately the solution is to let it rest for a few hours. If you continue to sp
 ## Install issues
 1. _Make sure AW is set to use the correct package of Firefox_
 
-If you have multiple packages (Flatpak, Snap, binaries, etc.) of Firefox installed, click the menu button in the top-right of AW, go to "Preferences" and click "Package Format" to select your preferred package format.
+If you have multiple packages (Flatpak, Snap, binaries, etc.) of Firefox installed, make sure you've selected the correct one in the "Packages Format" menu on the front page.
 
 Every package format of Firefox stores its profile data in a different directory, and if you have multiple package types installed simultaneously then AW may have been installing the theme files to the wrong one.
-
-
 
 2. _Make sure AW has permission to access your profile files_
 
@@ -47,8 +45,9 @@ AW needs read and write permissions to your Firefox data folder to be able to ap
 If you've changed your Flatpak permissions for AW, you may have removed the path from the permissions and will need to re-add it with a tool like [Flatseal](https://flathub.org/apps/com.github.tchx84.Flatseal). Click reset in top right-hand corner and it will store all necessary file permissions.
 
 
+
 # Conclusion
-If you didn't find a solution to your problem, please [open an issue on GitHub](https://github.com/largestgithubuseronearth/addwater/issues/new/choose) and I will try to respond as soon as possible.
+If you didn't find a solution to your problem, please [open an issue on GitHub](https://github.com/largestgithubuseronearth/addwater/issues/new/choose) and I will respond as soon as possible.
 
 If applicable, please bring the log file from the day the issue occurred as I noted earlier.
 

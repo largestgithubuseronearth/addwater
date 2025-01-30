@@ -97,12 +97,12 @@
 	<!-- TODO should release notes be translated? -->
 	<releases>
 		<!-- TODO update this date -->
-		<release version="1.2.5" date="2025-01-13">
+		<release version="1.2.5" date="2025-01-30">
 			<description>
 				<p>Add Water:</p>
 				<ul>
-					<li>Package Format selection has been moved onto the front page.</li>
-					<li>fix: App momentarily freezes upon changing Package Format</li>
+					<li>Package Format selection has been moved onto the front page</li>
+					<li>fix: App would momentarily freeze upon changing Package Format</li>
 				</ul>
 
 			</description>
@@ -123,9 +123,9 @@
 		<release version="1.2" date="2024-12-08">
 			<description>
 				<ul>
-					<li>Fix: Relaunching app is no longer necessary to switch package format.</li>
-					<li>Fix: Under certain conditions, app would launch with an empty interface.</li>
-					<li>Theme version number is now displayed in the app.</li>
+					<li>Fix: Relaunching app is no longer necessary to switch package format</li>
+					<li>Fix: Under certain conditions, app would launch with an empty interface</li>
+					<li>Theme version number is now displayed in the app</li>
 				</ul>
 			</description>
 		</release>
