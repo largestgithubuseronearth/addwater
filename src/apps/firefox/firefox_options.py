@@ -90,7 +90,6 @@ FIREFOX_OPTIONS = [
                 "depends": None
             },
             {
-                # TODO make this dependent on all-tabs-button being true
                 "key": "all-tabs-button-on-overflow",
                 "js_key": "allTabsButtonOnOverflow",
                 "summary": _("List of Tabs on Overflow"),

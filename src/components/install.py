@@ -121,10 +121,10 @@ def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
     """Update user preferences in user.js according to GSettings.
 
     Args:
-            profile_path = full file path to the profile that the theme will be installed to
-            options = the theme options list dicts
-            gset_reader = Gio.Settings object preconfigured for the correct schema
-                                            to read the values of the keys
+        profile_path = full file path to the profile that the theme will be installed to
+        options = the theme options list dicts
+        gset_reader = Gio.Settings object preconfigured for the correct schema
+                                        to read the values of the keys
 
     """
     log.info("Setting theme preferences in profile data...")

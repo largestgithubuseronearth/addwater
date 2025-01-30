@@ -30,6 +30,7 @@
 	</branding>
 
 	<!-- if these screenshots change, need to update links to point to the new tag -->
+	<!-- TODO improve these screenshots -->
 	<screenshots>
 		<screenshot type="default">
 			<caption>Add Water and Firefox Preview — Light style</caption>
@@ -102,7 +103,7 @@
 				<p>Add Water:</p>
 				<ul>
 					<li>Package Format selection has been moved onto the front page.</li>
-					<li></li>
+					<li>fix: App momentarily freezes upon changing Package Format</li>
 				</ul>
 
 			</description>

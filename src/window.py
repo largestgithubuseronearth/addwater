@@ -64,6 +64,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.create_action("preferences", self.on_preferences_action, ["<Ctrl>comma"])
         self.create_action("about", self.on_about_action)
 
+
+
         self.backends = backends
         self.create_pages(self.backends)
 
@@ -136,9 +138,9 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     def on_preferences_action(self, *_args):
         """Callback for the app.preferences action."""
-        pref = AddWaterPreferences(self.backends[0])
+        pref = AddWaterPreferences()
         # TODO improve this to only refresh the profiles combobox? It freezes the app for a second
-        pref.connect("refresh-gui", lambda *_args: (self.create_pages(self.backends)))
+
         pref.present(self)
 
     def on_about_action(self, *_args):

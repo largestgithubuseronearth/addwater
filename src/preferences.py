@@ -33,21 +33,18 @@ log = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/preferences.ui")
 class AddWaterPreferences(Adw.PreferencesDialog):
+    """Home to all options that are strictly related to Add Water functionality.
+     No theme-specific options should be presented in this dialog.
+     """
     __gtype_name__ = "AddWaterPreferences"
 
     background_update_switch = Gtk.Template.Child()
-    firefox_package_combobox = Gtk.Template.Child()
-    firefox_package_combobox_list = Gtk.Template.Child()
 
-    def __init__(self, firefox_backend):
-        # TODO improve to use all backends
+
+    def __init__(self):
         super().__init__()
         log.info("Preferences Window activated")
         self.settings_app = Gio.Settings(schema_id=info.APP_ID)
-        self.settings_firefox = firefox_backend.get_app_settings()
-        self.FIREFOX_FORMATS = firefox_backend.get_package_formats()
-        self.firefox_backend = firefox_backend
-
         self.portal = Xdp.Portal()
 
         try:
@@ -63,16 +60,10 @@ class AddWaterPreferences(Adw.PreferencesDialog):
         except Exception as err:
             log.error(err)
 
-        self.firefox_path = self.firefox_backend.get_data_path()
-        self._init_firefox_combobox()
 
-        self.firefox_package_combobox.notify("selected-item")
-        self.firefox_package_combobox.connect(
-            "notify::selected-item", self._set_firefox_package
-        )
 
     # TODO is there a better way to handle this? copied from adwsteamgtk
-    def _do_background_request(self, _):
+    def _do_background_request(self, *_blah):
         """Request permission from portals to launch at login time"""
         bg_enabled = self.settings_app.get_boolean("background-update")
         if bg_enabled:
@@ -89,58 +80,3 @@ class AddWaterPreferences(Adw.PreferencesDialog):
             None,
             None,
         )
-
-    def _init_firefox_combobox(self):
-        for each in self.FIREFOX_FORMATS:
-            self.firefox_package_combobox_list.append(each["name"])
-
-        if self.settings_firefox.get_boolean("autofind-paths") is False:
-            user_path = self.firefox_path
-
-            for each in self.FIREFOX_FORMATS:
-                if each["path"] == user_path:
-                    i = self.FIREFOX_FORMATS.index(each) + 1
-                    self.firefox_package_combobox.set_selected(i)
-
-    def _set_firefox_package(self, row, _):
-        # TODO clean this up to accomodate new signal
-
-        selected_index = row.get_selected()
-        AUTO = 0
-
-        if selected_index == AUTO:
-            self.settings_firefox.set_boolean("autofind-paths", True)
-            log.info("Autofind paths enabled")
-            row.remove_css_class("error")
-            row.set_has_tooltip(False)
-            self.emit("refresh-gui")
-            return
-
-        self.settings_firefox.set_boolean("autofind-paths", False)
-        log.warning("Autofind paths disabled")
-
-        # TODO try using index instead of strcmp. Must ensure the order cannot
-        # be different though.
-        selected = row.get_selected_item().get_string()
-        for each in self.FIREFOX_FORMATS:
-            if selected == each["name"]:
-                path = each["path"]
-                log.info(f'User specified path: {each["path"]}')
-
-                try:
-                    self.firefox_backend.set_data_path(path)
-                except InterfaceMisuseError as err:  # invalid path provided
-                    log.error(err)
-                    row.add_css_class("error")
-                    row.set_has_tooltip(True)
-                else:
-                    row.remove_css_class("error")
-                    row.set_has_tooltip(False)
-
-                self.firefox_path = path
-                self.emit("refresh-gui")
-                break
-
-    @GObject.Signal(name="refresh-gui")
-    def refresh_gui(self):
-        pass
