@@ -96,7 +96,6 @@
 	<!-- Release Notes -->
 	<!-- TODO should release notes be translated? -->
 	<releases>
-		<!-- TODO update this date -->
 		<release version="1.2.5" date="2025-01-30">
 			<description>
 				<p>Add Water:</p>

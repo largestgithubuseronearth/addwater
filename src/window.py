@@ -139,8 +139,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
     def on_preferences_action(self, *_args):
         """Callback for the app.preferences action."""
         pref = AddWaterPreferences()
-        # TODO improve this to only refresh the profiles combobox? It freezes the app for a second
-
         pref.present(self)
 
     def on_about_action(self, *_args):

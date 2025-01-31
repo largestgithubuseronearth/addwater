@@ -33,7 +33,6 @@ from .backend import InterfaceMisuseError
 log = logging.getLogger(__name__)
 
 
-# TODO give ability to refresh page OR refresh the profile switcher on a datapath change
 # TODO grey out enable theme switch when there's no package to install (first launch, no internet)
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/addwater-page.ui")
 class AddWaterPage(Adw.Bin):
