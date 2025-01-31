@@ -1,6 +1,6 @@
 # main.py
 #
-# Copyright 2024 Qwery
+# Copyright 2025 Qwery
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -47,7 +47,9 @@ class AddWaterApplication(Adw.Application):
 
     def __init__(self):
         super().__init__(
-            application_id=info.APP_ID, flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE
+            application_id=info.APP_ID,
+            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+            resource_base_path=info.PREFIX
         )
         self.create_action("quit", lambda *_args: self.quit(), ["<primary>q", "<primary>w"])
         self.create_action("open-help-page", self.on_help_action)

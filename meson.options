@@ -1,8 +1,8 @@
 option(
 	'profile',
 	type : 'combo',
-	choices : ['user', 'developer'],
-	value : 'developer'
+	choices : ['default', 'development'],
+	value : 'development'
 )
 
 # Testing options (developer profile only)

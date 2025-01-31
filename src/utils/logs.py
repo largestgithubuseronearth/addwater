@@ -1,6 +1,6 @@
 # logs.py
 #
-# Copyright 2024 Qwery
+# Copyright 2025 Qwery
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,9 +41,9 @@ def init_logs():
         console_handler = logging.StreamHandler(sys.stdout)
 
         file_handler.setLevel(logging.DEBUG)
-        if PROFILE == "developer":
+        if PROFILE == "development":
             console_handler.setLevel(logging.DEBUG)
-        elif PROFILE == "user":
+        elif PROFILE == "default":
             console_handler.setLevel(logging.INFO)
 
         logging.basicConfig(

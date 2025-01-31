@@ -1,6 +1,6 @@
 # online.py
 #
-# Copyright 2024 Qwery
+# Copyright 2025 Qwery
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,8 +38,6 @@ log = logging.getLogger(__name__)
 
 # TODO make this handle requests asynchronously and use callbacks to report the status
 # This would allow the app to launch instantly, even if internet speed is poor
-
-# TODO add a method to delete the previous theme files after the download and before the extract
 
 
 class OnlineManager:
@@ -158,7 +156,6 @@ class OnlineManager:
             "User-Agent": (info.APP_ID + "/" + info.VERSION),
             "Accept": "application/vnd.github.x-gzip+json",  # Note: I'm not sure if this is an acceptable way to do it'
         }
-        # TODO test with the streaming feature
         response = requests.get(dl_url, headers=headers, timeout=10)
 
         with open(file=result, mode="wb") as file:

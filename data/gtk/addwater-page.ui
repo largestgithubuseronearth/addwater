@@ -32,6 +32,20 @@
 												</property>
 											</object>
 										</child>
+										<child>
+											<object class="AdwComboRow" id="firefox_package_combobox">
+												<property name="title" translatable="yes" comments="Translators: This refers to how the user installed Firefox (package manager, Flatpak, Snap, etc.)">Package Format</property>
+												<property name="tooltip-text"  translatable="yes">Profile data not found at selected location</property>
+												<property name="has-tooltip">false</property>
+												<property name="model">
+													<object class="GtkStringList" id="firefox_package_combobox_list">
+														<items>
+															<item translatable="yes">Automatically Discover</item>
+														</items>
+													</object>
+												</property>
+											</object>
+										</child>
 									</object>
 								</child>
 							</object>
@@ -39,6 +53,7 @@
 
 						<!-- Change Confirmation Bar -->
 						<child type="bottom">
+							<!-- TODO prevent dragging window -->
 							<object class="GtkActionBar" id="change_confirm_bar">
 								<child type="start">
 									<object class="GtkLabel">

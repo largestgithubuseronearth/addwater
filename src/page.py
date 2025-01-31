@@ -1,6 +1,6 @@
 # page.py
 #
-# Copyright 2024 Qwery
+# Copyright 2025 Qwery
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,11 +27,12 @@ from typing import Optional, Callable
 from gi.repository import Adw, Gio, GObject, Gtk
 
 from addwater import info
+from addwater.gui.option_factory import create_option_group, create_option_switch
+from .backend import InterfaceMisuseError
 
 log = logging.getLogger(__name__)
 
 
-# TODO give ability to refresh page OR refresh the profile switcher on a datapath change
 # TODO grey out enable theme switch when there's no package to install (first launch, no internet)
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/addwater-page.ui")
 class AddWaterPage(Adw.Bin):
@@ -39,7 +40,7 @@ class AddWaterPage(Adw.Bin):
     theme.
 
     args:
-            backend = an addwaterbackend interface object
+        backend = an addwaterbackend interface object
     """
 
     __gtype_name__ = "AddWaterPage"
@@ -54,6 +55,9 @@ class AddWaterPage(Adw.Bin):
     enable_button = Gtk.Template.Child()
     profile_combobox = Gtk.Template.Child()
     profile_combobox_list = Gtk.Template.Child()
+
+    firefox_package_combobox = Gtk.Template.Child()
+    firefox_package_combobox_list = Gtk.Template.Child()
 
     # Class Attributes
     app_name: str  # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
@@ -70,6 +74,7 @@ class AddWaterPage(Adw.Bin):
 
         self.app_name = self.backend.get_app_name()
 
+        # Stores changes as a transaction to apply all opts at once
         self.settings = self.backend.get_app_settings()
         self.settings.delay()
 
@@ -80,24 +85,20 @@ class AddWaterPage(Adw.Bin):
         options = self.backend.get_app_options()
         self.init_gui(options, self.profile_list)
 
-        self.profile_combobox.notify("selected-item")
-        self.profile_combobox.connect("notify::selected-item", self._set_profile)
+        self.settings_instant = backend.get_app_settings()
+        self.FIREFOX_FORMATS = backend.get_package_formats()
 
-        # Change Confirmation bar
-        self.install_action("water.apply-changes", None, self.on_apply_action)
-        self.install_action("water.discard-changes", None, self.on_discard_action)
-        self.settings.bind_property(
-            "has-unapplied",
-            self.change_confirm_bar,
-            "revealed",
-            GObject.BindingFlags.SYNC_CREATE,
-        )
+        self.firefox_path = self.backend.get_data_path()
+        self._init_firefox_combobox()
+
+        self._set_actions_signals()
+
         self.send_toast(_("Checking for updates..."), 10)
-        # TODO add callback instead when async updates are finished
         self.request_update_status()
 
     """PUBLIC METHODS"""
 
+    # TODO turn this into an async callback
     def request_update_status(self):
         update_status = self.backend.update_theme()
         match update_status:
@@ -145,26 +146,27 @@ class AddWaterPage(Adw.Bin):
 
         self.send_toast(toast_msg, 3, 1)
 
-    def on_discard_action(self, *_args):
+    def on_discard_action(self):
         """Revert changes made to GSettings and notify user"""
         log.info("Discarded unapplied changes")
 
         # Revert must ALWAYS be first
         self.settings.revert()
-
-        try:
-            self._reset_profile_combobox()
-        except PageException as err:
-            log.error(err)
-            self.send_toast(
-                _("The interface had an error. Please report if this occurs multiple times.")
-            )
-
         self.send_toast(_("Changes reverted"))
 
     def send_toast(
         self, msg: Optional[str] = None, timeout_seconds: int = 2, priority: int = 0
-    ):
+    ) -> None:
+        """Convenience method to send an AdwToast quickly
+
+        Args:
+            msg: Toast message as string. If none, it will still withdraw the
+                 currently displayed toast
+            timeout_seconds: default is 2 seconds
+            priority: default is Normal Priority (0). Use 1 to skip the toast queue
+                and immediately present this toast.
+
+        """
         # FIXME When a toast is displayed at the app launch, it still stays on screen forever
         if self.current_toast:
             self.current_toast.dismiss()
@@ -179,8 +181,8 @@ class AddWaterPage(Adw.Bin):
 
         self.toast_overlay.add_toast(self.current_toast)
 
-        # Workaround for Adw bug which cause toasts to display forever
-        # issue: https://gitlab.gnome.org/GNOME/libadwaita/-/issues/440
+        # Hack - Adw: Toasts don't timeout properly
+        # details: https://gitlab.gnome.org/GNOME/libadwaita/-/issues/440
         self.enable_button.grab_focus()
 
     def init_gui(self, options, profile_list):
@@ -189,7 +191,7 @@ class AddWaterPage(Adw.Bin):
         Args:
                 options: a json-style list of dictionaries which include all option groups
                         and options that the theme supports.
-                profile_list = list of dicts with "name" and "id"
+                profile_list: list of dicts with "name" and "id"
         """
         # App options
         self.settings.bind(
@@ -197,26 +199,38 @@ class AddWaterPage(Adw.Bin):
         )
         # Theme options
         for each_group in options:
-            group = self._create_option_group(
+            group = create_option_group(
                 group_schematic=each_group,
-                gui_switch_factory=self._create_option_switch,
+                gui_switch_factory=create_option_switch,
                 settings=self.settings,
                 enable_button=self.enable_button,
             )
             self.preferences_page.add(group)
 
-        # Profile list
-        for each in profile_list:
-            self.profile_combobox_list.append(each["name"])
-        try:
-            self._reset_profile_combobox()
-        except PageException as err:
-            log.error(err)
-            self.send_toast(
-                _("The interface had an error. Please report if this occurs often.")
-            )
+        self.init_profile_combobox()
 
     """PRIVATE METHODS"""
+
+    def _set_actions_signals(self):
+        # TODO set up GSimpleActionGroup
+        # Change Confirmation bar
+        self.install_action("water.apply-changes", None, lambda *blah: self.on_apply_action())
+        self.install_action("water.discard-changes", None, lambda *blah: self.on_discard_action())
+        self.settings.bind_property(
+            "has-unapplied",
+            self.change_confirm_bar,
+            "revealed",
+            GObject.BindingFlags.SYNC_CREATE,
+        )
+
+        self.profile_combobox.notify("selected-item")
+        self.profile_combobox.connect("notify::selected-item", self._set_profile)
+
+        self.firefox_package_combobox.notify("selected-item")
+        self.firefox_package_combobox.connect(
+            "notify::selected-item", lambda row, *blah: self._set_firefox_package(row)
+        )
+        self.connect("package-changed", lambda *_blah: self.init_profile_combobox())
 
     def _display_version(self):
         # TODO clean this up a bit
@@ -240,102 +254,85 @@ class AddWaterPage(Adw.Bin):
         if self.selected_profile != self.settings.get_string("profile-selected"):
             self.settings.set_string("profile-selected", self.selected_profile)
 
-    @staticmethod
-    def _create_option_group(
-        group_schematic: dict[str, list[dict]],
-        gui_switch_factory: Callable,
-        settings,
-        enable_button
-    ):
-        """Creates a PreferencesGroup with the included switch options, and
-        binds all the switches to gsettings
-        """
+    # TODO add an icon to the preferred profile and set "Preferred profile" as tooltip?
+    def init_profile_combobox(self):
+        self.profile_list = self.backend.get_profile_list()
+        names = [each["name"] for each in self.profile_list]
 
-        group = Adw.PreferencesGroup(
-            title=group_schematic["group_name"], margin_start=20, margin_end=20
+        self.profile_combobox_list.splice(
+            0,
+            self.profile_combobox_list.get_n_items(),
+            names
         )
+        self.profile_combobox.set_selected(0)
 
-        for option in group_schematic["options"]:
-            row = gui_switch_factory(
-                title=option["summary"],
-                subtitle=option["description"],
-                extra_info=option["tooltip"],
-            )
-
-            row_switch = row.get_activatable_widget()
-            settings.bind(
-                option["key"], row_switch, "active", Gio.SettingsBindFlags.DEFAULT
-            )
-            # Grey-out row if theme isn't enabled.
-            enable_button.bind_property(
-                "active", row, "sensitive", GObject.BindingFlags.SYNC_CREATE
-            )
-
-            # Handle dependencies on other options
-            if option["depends"]:
-                for prereq, b in option["depends"]:
-                    match b:
-                        case True:
-                            flag = Gio.SettingsBindFlags.DEFAULT
-                        case False:
-                            flag = Gio.SettingsBindFlags.INVERT_BOOLEAN
-                    settings.bind(
-                        prereq, row, "sensitive", flag
-                    )
+    # TODO reimplement resetting profile combobox cursor after I can track
+    # profiles across firefox installs via sql
 
 
-            group.add(row)
+    # TODO break package combobox and later its dialog into its own module
 
-        return group
+    # TODO make labels insensitive if the path doesn't exist
+    # this would require keeping a model of which are available atm
 
-    @staticmethod
-    def _create_option_switch(
-        title: str, subtitle: str, extra_info: Optional[str] = None
-    ):
-        row = Adw.ActionRow(title=title, subtitle=subtitle)
-        # This styling was borrowed from GNOME settings > Mouse Acceleration option
-        if extra_info:
-            label = Gtk.Label(
-                label=extra_info,
-                margin_top=6,
-                margin_bottom=6,
-                margin_start=6,
-                margin_end=6,
-                max_width_chars=50,
-                wrap=True,
-            )
-            info_popup = Gtk.Popover(autohide=True, child=label, hexpand=False)
-            info_button = Gtk.MenuButton(
-                has_frame=False,
-                icon_name="info-outline-symbolic",
-                valign="center",
-                vexpand=False,
-                tooltip_text="More Information",
-                popover=info_popup,
-            )
-            row.add_suffix(info_button)
+    # Alternative: Mark ones that are valid so they're easier to find
+    def _init_firefox_combobox(self):
+        for each in self.FIREFOX_FORMATS:
+            self.firefox_package_combobox_list.append(each["name"])
 
-        switch = Gtk.Switch(
-            valign="center",
-            vexpand=False,
-        )
-        row.add_suffix(switch)
-        row.set_activatable_widget(switch)
+        if self.settings_instant.get_boolean("autofind-paths") is False:
+            user_path = self.firefox_path
 
-        return row
+            for each in self.FIREFOX_FORMATS:
+                if each["path"] == user_path:
+                    i = self.FIREFOX_FORMATS.index(each) + 1
+                    self.firefox_package_combobox.set_selected(i)
 
-    def _reset_profile_combobox(self):
-        last_profile = self.settings.get_string("profile-selected")
-        if not last_profile:
+    # TODO integrate cleanly with existing objects e.g. settings reader
+    def _set_firefox_package(self, row):
+        # TODO rework all of this to be stateful to reduce the duplication
+        selected_index = row.get_selected()
+        AUTO = 0
+
+        if selected_index == AUTO:
+            self.settings_instant.set_boolean("autofind-paths", True)
+            log.info("Autofind paths enabled")
+            row.remove_css_class("error")
+            self.profile_combobox.set_sensitive(True)
+            row.set_has_tooltip(False)
+            self.action_set_enabled("water.apply-changes", True)
+            self.emit("package-changed")
             return
-        for each in self.profile_list:
-            if each["id"] == last_profile:
-                self.profile_combobox.set_selected(self.profile_list.index(each))
-                return
 
-        log.error("Profile combo box reset failed")
-        log.debug(f"last_profile: {last_profile}")
-        raise PageException("Profile combo box reset failed")
+        self.settings_instant.set_boolean("autofind-paths", False)
+        log.warning("Autofind paths disabled")
+
+        selected = row.get_selected_item().get_string()
+        for each in self.FIREFOX_FORMATS:
+            if selected == each["name"]:
+                path = each["path"]
+                log.info(f'User specified path: {each["path"]}')
+
+                try:
+                    self.backend.set_data_path(path)
+                except InterfaceMisuseError as err:  # invalid path provided
+                    log.error(err)
+                    self.profile_combobox.set_sensitive(False)
+                    row.add_css_class("error")
+                    row.set_has_tooltip(True)
+                    self.action_set_enabled("water.apply-changes", False)
+                else:
+                    self.profile_combobox.set_sensitive(True)
+                    row.remove_css_class("error")
+                    row.set_has_tooltip(False)
+                    self.action_set_enabled("water.apply-changes", True)
+                    self.firefox_path = path
+                    self.emit("package-changed")
+                    break
+
+    @GObject.Signal(name="package-changed")
+    def package_changed(self):
+        pass
 
 
 # Generic to use for any basic GUI failure
@@ -346,3 +343,4 @@ class PageException(Exception):
 
 class FatalPageException(Exception):
     pass
+

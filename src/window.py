@@ -1,6 +1,6 @@
 # window.py
 #
-# Copyright 2024 Qwery
+# Copyright 2025 Qwery
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
     def __init__(self, backends: list, **kwargs):
         super().__init__(**kwargs)
 
-        if info.PROFILE == "developer":
+        if info.PROFILE == "development":
             self.add_css_class("devel")
 
         self.set_size_request(360, 294)  # Minimum size of window Width x Height
@@ -63,6 +63,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
         )
         self.create_action("preferences", self.on_preferences_action, ["<Ctrl>comma"])
         self.create_action("about", self.on_about_action)
+
+
 
         self.backends = backends
         self.create_pages(self.backends)
@@ -136,9 +138,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     def on_preferences_action(self, *_args):
         """Callback for the app.preferences action."""
-        pref = AddWaterPreferences(self.backends[0])
-        # TODO improve this to only refresh the profiles combobox? It freezes the app for a second
-        pref.connect("refresh-gui", lambda *_args: (self.create_pages(self.backends)))
+        pref = AddWaterPreferences()
         pref.present(self)
 
     def on_about_action(self, *_args):
@@ -167,7 +167,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
         about.set_developers(["Qwery"])
         # Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
         about.set_translator_credits( _("translator-credits") )
-        about.set_copyright("© 2024 Qwery")
+        about.set_copyright("© 2025 Qwery")
         about.set_license_type(Gtk.License.GPL_3_0)
         about.add_credit_section(
         # Translator: This is followed by a list of names

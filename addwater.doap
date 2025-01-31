@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:gnome="http://api.gnome.org/doap-extensions#"
+         xmlns="http://usefulinc.com/ns/doap#">
+
+	<name xml:lang="en">Add Water</name>
+	<shortdesc xml:lang="en">Keep Firefox in fashion</shortdesc>
+	<description>
+		A utility app to easily install the Firefox GNOME Theme* and automatically update it in the background. This theme keeps Firefox fashionable within the GNOME design ecosystem, and provides many helpful features to customize the interface to make browsing even more pleasant:
+			- Supports light and dark style
+			- Hide Tab Bar when only one tab is open
+			- Use an OLED-friendly pitch black instead of grey
+			- Customize Tab Bar position, position of controls, alignment, and more
+			- Hide redundant microphone, webcam, screen share indicators
+			- Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox
+
+		*The Firefox GNOME Theme itself is independently developed and maintained by Rafael Mardojai CM.
+		The Firefox browser is not included and must be downloaded separately. This project is not affiliated or endorsed by the Mozilla Foundation. Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries.
+	</description>
+
+	<homepage rdf:resource="https://addwater.qwery.dev/"/>
+	<bug-database rdf:resource="https://github.com/largestgithubuseronearth/addwater/issues/"/>
+
+	<programming-language>Python</programming-language>
+	<platform>GTK 4</platform>
+	<platform>Libadwaita</platform>
+
+	<maintainer>
+		<foaf:Person>
+			<foaf:name>Claire</foaf:name>
+			<foaf:mbox rdf:resource="mailto:qwerymailbox@gmail.com"/>
+			<foaf:OnlineAccount>
+				<foaf:accountServiceHomepage rdf:resource="https://github.com/"/>
+				<foaf:accountName>largestgithubuseronearth</foaf:accountName>
+			</foaf:OnlineAccount>
+			<foaf:OnlineAccount>
+				<foaf:accountServiceHomepage rdf:resource="https://gitlab.gnome.org/"/>
+				<foaf:accountName>largestgitlabuseronearth</foaf:accountName>
+			</foaf:OnlineAccount>
+		</foaf:Person>
+	</maintainer>
+</Project>

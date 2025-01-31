@@ -1,6 +1,6 @@
 # backend.py
 #
-# Copyright 2024 Qwery
+# Copyright 2025 Qwery
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,16 +41,16 @@ class AddWaterBackend:
     This class can live without a GUI frontend to allow for background updating.
 
     Args:
-            app_details: object to track the state of important app details
-                such as the app's name, available profiles, data paths, and what
-                theme options are available. Will be passed into other managers
-                for convenience.
-            install_manager: object that manages processes related to installing,
-                uninstalling, and setting user's theme preferences in
-                configuration files.
-            online_manager: object that makes internet requests, processes http responses,
-                handles network errors, downloads theme releases, and preps
-                those releases to be installed.
+        app_details: object to track the state of important app details
+            such as the app's name, available profiles, data paths, and what
+            theme options are available. Will be passed into other managers
+            for convenience.
+        install_manager: object that manages processes related to installing,
+            uninstalling, and setting user's theme preferences in
+            configuration files.
+        online_manager: object that makes internet requests, processes http responses,
+            handles network errors, downloads theme releases, and preps
+            those releases to be installed.
     """
 
     def __init__(
@@ -168,8 +168,6 @@ class AddWaterBackend:
         if not isinstance(new_version, tuple):
             raise InterfaceMisuseError(f"method takes tuple; gave {type(new_version)}")
         self.app_details.set_installed_version(new_version)
-
-    """Dangerous"""
 
     def reset_app(self):
         app_name = self.get_app_name()

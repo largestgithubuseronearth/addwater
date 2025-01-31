@@ -1,3 +1,6 @@
+# TODO either use a python lib to solve this or make a new "version" dataclass
+# this is too sloppy to use long-term and is only a temp fix
+
 def version_str_to_tuple(s: str) -> tuple:
     nums = s.lstrip("v").split(".")
     nums = list(map(int, nums))

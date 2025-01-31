@@ -14,6 +14,7 @@ configure_file(
 install_subdir('apps', install_dir: moduledir)
 install_subdir('components', install_dir: moduledir)
 install_subdir('utils', install_dir: moduledir)
+install_subdir('gui', install_dir: moduledir)
 
 addwater_sources = [
 	'__init__.py',
@@ -30,6 +31,8 @@ addwater_sources = [
 
 	'components/install.py',
 	'components/online.py',
+
+	'gui/option_factory.py',
 
 	'utils/paths.py',
 	'utils/logs.py',

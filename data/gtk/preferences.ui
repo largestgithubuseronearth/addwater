@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 	<template class="AddWaterPreferences" parent="AdwPreferencesDialog">
+		<property name="content-height">310</property>
 		<child>
 			<object class="AdwPreferencesPage" id="firefox_pref_page">
 				<property name="title">Firefox</property>
@@ -11,25 +12,6 @@
 							<object class="AdwSwitchRow" id="background_update_switch">
 								<property name="title" translatable="yes">Update in Background</property>
 								<property name="subtitle"  translatable="yes">Automatically check for updates at login</property>
-							</object>
-						</child>
-					</object>
-				</child>
-				<child>
-					<object class="AdwPreferencesGroup">
-						<property name="title">Firefox</property>
-						<child>
-							<object class="AdwComboRow" id="firefox_package_combobox">
-								<property name="title" translatable="yes" comments="Translators: This refers to how the user installed Firefox (package manager, Flatpak, Snap, etc.)">Package Format</property>
-								<property name="tooltip-text"  translatable="yes">Profile data not found at selected location</property>
-								<property name="has-tooltip">false</property>
-								<property name="model">
-									<object class="GtkStringList" id="firefox_package_combobox_list">
-										<items>
-											<item translatable="yes">Automatically Discover</item>
-										</items>
-									</object>
-								</property>
 							</object>
 						</child>
 					</object>
