@@ -6,9 +6,9 @@
 </div>
 
 
-### An installer for the fantastic GNOME for Firefox theme by [Rafael Mardojai CM](https://github.com/rafaelmardojai/firefox-gnome-theme)
+### An installer for the fantastic [Firefox GNOME Theme](https://github.com/rafaelmardojai/firefox-gnome-theme) by [Rafael Mardojai CM](https://www.mardojai.com/)
 
-This is a utility to automatically install the [Firefox GNOME Theme](https://github.com/rafaelmardojai/firefox-gnome-theme) and keep it up to date, as well as easily configure the theme to your liking.
+This is a utility to automatically install the Firefox GNOME Theme and keep it up to date automatically, as well as easily configure the theme to your liking.
 
 This theme supports a variety of options for Tab positioning, behavior, look and feel.
 
@@ -18,16 +18,28 @@ This theme supports a variety of options for Tab positioning, behavior, look and
     </a>
 </div>
 
-### Screenshot Previews
-![Preview of Add Water (light mode)](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/banner-light-noff.png)
+# Preview
+The interface is clean, beautiful, and stays out of the way
+![The interface is clean, beautiful, and stays out of the way](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image2.png)
 
-![Preview of themed Firefox (light mode)](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/preview-light.png)
+Supports a pure black Top Bar, perfect for OLED screens and dark rooms
+![Supports a pure black Top Bar, perfect for OLED screens and dark rooms](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image3.png)
 
-![Preview of Add Water (dark mode)](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/banner-dark-noff.png)
+Supports Accent Colors and multiple positions for Tab and Bookmark Bars
+![Supports Accent Colors and multiple positions for Tab and Bookmark Bars](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image4.png)
 
-![Preview of themed Firefox (dark mode)](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/preview-dark.png)
+Add Water makes it easy to tweak the Firefox GNOME Theme
+![Add Water makes it easy to tweak the Firefox GNOME Theme](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image1.png)
 
+# Support Rafael's work by
 
-### Additional Notes:
-* I will not support the theme's Experimental/Buggy options at this time. Users can enable those manually at about:config.
+### [Sending a donation on Paypal](https://www.paypal.com/paypalme/RafaelMardojaiCM); or
+
+### [Sponsoring him on Github](https://github.com/sponsors/rafaelmardojai) 
+
+--------
+
+### Final Notes:
+* [Troubleshooting FAQ](https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md)
+* A few options are not supported in Add Water due to them being finicky or buggy but you can see a list of all options [here](https://github.com/rafaelmardojai/firefox-gnome-theme?tab=readme-ov-file#features).
 
