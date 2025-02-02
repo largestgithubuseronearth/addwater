@@ -96,6 +96,17 @@
 	<!-- Release Notes -->
 	<!-- TODO should release notes be translated? -->
 	<releases>
+		<release version="1.2.6" date="2025-02-20">
+			<description>
+				<p>Add Water:</p>
+				<ul>
+					<li>Add Brazil Portuguese translation (Thank you, johnpetersa19)</li>
+					<li>Add Dutch translation (Thank you, Vistaus)</li>
+					<li>fix: Confirm bar shows border even when hidden (Thank you, PhilippKosarev)</li>
+					<li>fix: Updates downloaded but not installed automatically</li>
+				</ul>
+			</description>
+		</release>
 		<release version="1.2.5" date="2025-01-30">
 			<description>
 				<p>Add Water:</p>
