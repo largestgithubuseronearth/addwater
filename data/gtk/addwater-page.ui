@@ -58,9 +58,8 @@
 								<child type="start">
 									<object class="GtkLabel">
 										<property name="label" translatable="yes">Confirm your changes?</property>
-										<style>
-											<class name="heading"/>
-										</style>
+										<property name="css-classes">heading</property>
+										<property name="margin-start">6</property>
 									</object>
 								</child>
 
@@ -69,9 +68,10 @@
 										<property name="icon-name">cross-small-symbolic</property>
 										<property name="tooltip-text" translatable="yes">Discard</property>
 										<property name="action-name">water.discard-changes</property>
-										<style>
-											<class name="raised"/>
-										</style>
+										<property name="css-classes">raised</property>
+										<property name="margin-end">4</property>
+										<property name="margin-top">4</property>
+										<property name="margin-bottom">4</property>
 									</object>
 								</child>
 								<child type="end">
@@ -79,14 +79,11 @@
 										<property name="icon-name">checkmark-symbolic</property>
 										<property name="tooltip-text" translatable="yes">Apply</property>
 										<property name="action-name">water.apply-changes</property>
-										<style>
-											<class name="suggested-action"/>
-										</style>
+										<property name="css-classes">suggested-action</property>
+										<property name="margin-top">4</property>
+										<property name="margin-bottom">4</property>
 									</object>
 								</child>
-								<style>
-									<class name="toolbar"/>
-								</style>
 							</object>
 						</child>
 
