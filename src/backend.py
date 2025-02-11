@@ -206,7 +206,7 @@ class BackendFactory:
         )
 
         if info.MOCK_API == "True":
-            online_manager = mock_online.MockOnlineManager(2)
+            online_manager = mock_online.MockOnlineManager()
         else:
             theme_url = app_details.get_info_url()
             online_manager = OnlineManager(

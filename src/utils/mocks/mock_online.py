@@ -32,9 +32,9 @@ log = logging.getLogger(__name__)
 class MockOnlineManager:
     """PUBLIC METHODS"""
 
-    def __init__(self, update_return_code: int):
+    def __init__(self):
         log.warning("Mock online manager created!!!")
-        self.online_status = OnlineStatus(update_return_code)
+        self.online_status = OnlineStatus.UPDATED
         schema_id = info.APP_ID + ".Firefox"
         self.settings = Gio.Settings(schema_id=schema_id)
 
