@@ -17,6 +17,8 @@
         "--filesystem=~/.var/app/io.gitlab.librewolf-community/.librewolf/:rw",
         "--filesystem=~/.floorp/:rw",
         "--filesystem=~/.var/app/one.ablaze.floorp/.floorp/:rw",
+        "--filesystem=~/.waterfox/:rw",
+        "--filesystem=~/.var/app/net.waterfox.waterfox/.waterfox:rw",
         "--filesystem=~/.cachy/:rw"
     ],
     "cleanup" : [
