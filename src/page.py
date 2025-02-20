@@ -103,6 +103,9 @@ class AddWaterPage(Adw.Bin):
         update_status = self.backend.update_theme()
         match update_status:
             case update_status.UPDATED:
+                if self.settings.get_boolean("theme-enabled"):
+                    self.on_apply_action()
+
                 version = self.backend.get_update_version(pretty=True)
                 # Translators: {} will be replaced by a version number
                 msg = (_("Updated theme to v{}").format(version))
