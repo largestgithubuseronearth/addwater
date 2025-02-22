@@ -30,9 +30,7 @@ log = logging.getLogger(__name__)
 
 
 @staticmethod  # This is necessary to avoid InstallManager passing self as an arg. "Passed multiple values for profile_path"
-def install_for_firefox(
-    profile_path: PathLike, theme_path: PathLike
-) -> None:
+def install_for_firefox(profile_path: PathLike, theme_path: PathLike) -> None:
     """Install the Firefox theme. This method should be injected into the
     InstallManager at runtime. If it isn't obvious, this should not be reused for
     installing other app themes.

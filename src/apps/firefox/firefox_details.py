@@ -21,13 +21,13 @@ import logging
 from configparser import ConfigParser
 from enum import Enum
 from os.path import exists, join
-from typing import Optional, Callable, Any
+from typing import Any, Callable, Optional
 
 from addwater.utils import paths
 from gi.repository import Gio
+from packaging.version import Version
 
 from addwater import info
-from packaging.version import Version
 
 from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_OPTIONS
@@ -113,8 +113,7 @@ class FirefoxAppDetails:
     """Getters"""
 
     def get_new_gsettings(self):
-        """Returns a ready-to-use Gsettings reader pre-configured for the relevant app theme.
-        """
+        """Returns a ready-to-use Gsettings reader pre-configured for the relevant app theme."""
         log.debug(f"creating new Gsettings reader for {self.get_name()}")
         schema_id = info.APP_ID + "." + self.get_name()
         return Gio.Settings(schema_id=schema_id)

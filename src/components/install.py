@@ -68,7 +68,7 @@ class InstallManager:
         self,
         theme_path: PathLike,
         profile_path: PathLike,
-        options_results: Optional[dict[str, bool]] = None
+        options_results: Optional[dict[str, bool]] = None,
     ) -> Enum:
         # The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
         """Handle installation of quick and full theme installs
@@ -84,7 +84,6 @@ class InstallManager:
         if not exists(theme_path) or not exists(profile_path):
             log.error("Install failed. can't find theme path OR profile path.")
             return InstallStatus.FAILURE
-
 
         # Run install script
         try:

@@ -19,15 +19,14 @@
 
 
 import logging
-
-from os.path import exists, join
 from datetime import datetime, timezone
-
+from os.path import exists, join
 
 from addwater.page import AddWaterPage
 from gi.repository import Adw, Gio, Gtk
 
 from addwater import info
+
 from .preferences import AddWaterPreferences
 from .utils import paths
 
@@ -63,8 +62,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
         )
         self.create_action("preferences", self.on_preferences_action, ["<Ctrl>comma"])
         self.create_action("about", self.on_about_action)
-
-
 
         self.backends = backends
         self.create_pages(self.backends)
@@ -113,12 +110,14 @@ class AddWaterWindow(Adw.ApplicationWindow):
             # Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
             title=_("{} Profile Data Not Found").format(app_name),
             # Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
-            description=_("Please ensure {} is installed and Add Water has permission to access your profiles").format(app_name),
+            description=_(
+                "Please ensure {} is installed and Add Water has permission to access your profiles"
+            ).format(app_name),
             child=help_page_button,
         )
         return statuspage
 
-    def create_action(self, name: str, callback, shortcuts: list[str]=None):
+    def create_action(self, name: str, callback, shortcuts: list[str] = None):
         """Add a window action and shortcut.
 
         Args:
@@ -166,11 +165,11 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
         about.set_developers(["Qwery"])
         # Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
-        about.set_translator_credits( _("translator-credits") )
+        about.set_translator_credits(_("translator-credits"))
         about.set_copyright("© 2025 Qwery")
         about.set_license_type(Gtk.License.GPL_3_0)
         about.add_credit_section(
-        # Translator: This is followed by a list of names
+            # Translator: This is followed by a list of names
             name=_("Theme Created and Maintained by"),
             people=["Rafael Mardojai CM https://www.mardojai.com/"],
         )

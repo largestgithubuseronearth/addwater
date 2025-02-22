@@ -23,14 +23,16 @@
 
 
 import logging
-from typing import Optional, Callable
-from gi.repository import Adw, Gio, GObject, Gtk
+from typing import Callable, Optional
 
-from addwater import info
-from addwater.gui.option_factory import create_option_group, create_option_switch
-from .backend import InterfaceMisuseError
+from addwater.gui.option_factory import (create_option_group,
+                                         create_option_switch)
+from gi.repository import Adw, Gio, GObject, Gtk
 from packaging.version import Version
 
+from addwater import info
+
+from .backend import InterfaceMisuseError
 
 log = logging.getLogger(__name__)
 
@@ -106,12 +108,12 @@ class AddWaterPage(Adw.Bin):
         match update_status:
             case update_status.UPDATED:
                 if self.settings.get_boolean("theme-enabled"):
-                    self.on_apply_action() # TODO make this an "activate" instead?
+                    self.on_apply_action()  # TODO make this an "activate" instead?
 
                 version = str(self.backend.get_update_version()).rstrip(".0")
                 version = f"v{version}"
                 # Translators: {} will be replaced by a version number (example: "v126.5.65")
-                msg = (_("Updated theme to {}").format(version))
+                msg = _("Updated theme to {}").format(version)
             case update_status.DISCONNECTED:
                 msg = _("Failed to check for updates due to a network issue")
             case update_status.RATELIMITED:
@@ -136,9 +138,7 @@ class AddWaterPage(Adw.Bin):
 
         if theme_enabled:
             log.debug("GUI calling for install..")
-            install_status = self.backend.begin_install(
-                self.selected_profile, True
-            )
+            install_status = self.backend.begin_install(self.selected_profile, True)
             toast_msg = _("Installed Theme. Restart Firefox to see changes.")
         else:
             log.debug("GUI calling for uninstall...")
@@ -221,8 +221,12 @@ class AddWaterPage(Adw.Bin):
     def _set_actions_signals(self):
         # TODO set up GSimpleActionGroup
         # Change Confirmation bar
-        self.install_action("water.apply-changes", None, lambda *blah: self.on_apply_action())
-        self.install_action("water.discard-changes", None, lambda *blah: self.on_discard_action())
+        self.install_action(
+            "water.apply-changes", None, lambda *blah: self.on_apply_action()
+        )
+        self.install_action(
+            "water.discard-changes", None, lambda *blah: self.on_discard_action()
+        )
         self.settings.bind_property(
             "has-unapplied",
             self.change_confirm_bar,
@@ -266,15 +270,12 @@ class AddWaterPage(Adw.Bin):
         names = [each["name"] for each in self.profile_list]
 
         self.profile_combobox_list.splice(
-            0,
-            self.profile_combobox_list.get_n_items(),
-            names
+            0, self.profile_combobox_list.get_n_items(), names
         )
         self.profile_combobox.set_selected(0)
 
     # TODO reimplement resetting profile combobox cursor after I can track
     # profiles across firefox installs via sql
-
 
     # TODO break package combobox and later its dialog into its own module
 

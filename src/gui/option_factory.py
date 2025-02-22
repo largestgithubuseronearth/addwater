@@ -1,14 +1,14 @@
 import logging
+from typing import Callable, Optional
 
-from gi.repository import Gtk, Adw, Gio, GObject
+from gi.repository import Adw, Gio, GObject, Gtk
 
-from typing import Optional, Callable
 
 def create_option_group(
     group_schematic: dict[str, list[dict]],
     gui_switch_factory: Callable,
     settings,
-    enable_button
+    enable_button,
 ):
     """PreferenceGroup factory for theme options.
 
@@ -54,17 +54,13 @@ def create_option_group(
                         flag = Gio.SettingsBindFlags.DEFAULT
                     case False:
                         flag = Gio.SettingsBindFlags.INVERT_BOOLEAN
-                settings.bind(
-                    prereq, row, "sensitive", flag
-                )
-
+                settings.bind(prereq, row, "sensitive", flag)
 
         group.add(row)
     return group
 
-def create_option_switch(
-    title: str, subtitle: str, extra_info: Optional[str] = None
-):
+
+def create_option_switch(title: str, subtitle: str, extra_info: Optional[str] = None):
     """Toggle row factory for theme options.
 
     Args:

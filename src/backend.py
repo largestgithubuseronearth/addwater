@@ -20,7 +20,7 @@
 import logging
 from enum import Enum
 from os.path import exists, join
-from typing import Callable, Optional, Any
+from typing import Any, Callable, Optional
 
 from addwater.components.install import InstallManager
 from addwater.components.online import OnlineManager
@@ -164,7 +164,9 @@ class AddWaterBackend:
 
     def set_installed_version(self, new_version: Version) -> None:
         if not isinstance(new_version, Version):
-            raise InterfaceMisuseError(f"method takes Version object; gave {type(new_version)}")
+            raise InterfaceMisuseError(
+                f"method takes Version object; gave {type(new_version)}"
+            )
         self.app_details.set_installed_version(new_version)
 
     def reset_app(self):

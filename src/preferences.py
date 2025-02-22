@@ -23,10 +23,10 @@ import gi
 
 gi.require_version("Xdp", "1.0")
 
-from gi.repository import Adw, Gio, Gtk, Xdp, GObject
+from addwater.backend import InterfaceMisuseError
+from gi.repository import Adw, Gio, GObject, Gtk, Xdp
 
 from addwater import info
-from addwater.backend import InterfaceMisuseError
 
 log = logging.getLogger(__name__)
 
@@ -34,13 +34,13 @@ log = logging.getLogger(__name__)
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/preferences.ui")
 class AddWaterPreferences(Adw.PreferencesDialog):
     """Only used to change Add Water options.
-     No theme options should be presented in this dialog. Include them in the
-     future "Config" dialog section.
-     """
+    No theme options should be presented in this dialog. Include them in the
+    future "Config" dialog section.
+    """
+
     __gtype_name__ = "AddWaterPreferences"
 
     background_update_switch = Gtk.Template.Child()
-
 
     def __init__(self):
         super().__init__()
@@ -60,8 +60,6 @@ class AddWaterPreferences(Adw.PreferencesDialog):
             )
         except Exception as err:
             log.error(err)
-
-
 
     # TODO is there a better way to handle this? copied from adwsteamgtk
     def _do_background_request(self, *_blah):

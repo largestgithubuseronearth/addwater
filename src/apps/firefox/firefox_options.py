@@ -9,8 +9,10 @@ FIREFOX_OPTIONS = [
                 "js_key": "hideSingleTab",
                 "summary": _("Hide Single Tab"),
                 "description": _("Hide Tab Bar when only one tab is open"),
-                "tooltip": _("Consider placing the New Tab button near the Search Bar. Otherwise it may get lost when only one tab is open."),
-                "depends": None
+                "tooltip": _(
+                    "Consider placing the New Tab button near the Search Bar. Otherwise it may get lost when only one tab is open."
+                ),
+                "depends": None,
             },
             {
                 "key": "normal-width-tabs",
@@ -18,15 +20,17 @@ FIREFOX_OPTIONS = [
                 "summary": _("Standard Tab Width"),
                 "description": _("Use same tab width as standard Firefox"),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
             {
                 "key": "swap-tab-close",
                 "js_key": "swapTabClose",
                 "summary": _("Swap Tab Close Button"),
-                "description": _("Place Close Tab button on opposite side from window controls"),
+                "description": _(
+                    "Place Close Tab button on opposite side from window controls"
+                ),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
             {
                 "key": "bookmarks-toolbar-under-tabs",
@@ -34,15 +38,17 @@ FIREFOX_OPTIONS = [
                 "summary": _("Bookmarks Toolbar Under Tabs"),
                 "description": _("Place Bookmarks Bar underneath Tab Bar"),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
             {
                 "key": "tabs-as-headerbar",
                 "js_key": "tabsAsHeaderbar",
                 "summary": _("Tabs as Headerbar"),
                 "description": _("Place Tab Bar at top of window"),
-                "tooltip": _('Enabling with "Hide Single Tab" will show a Title Bar when only one tab is open'),
-                "depends": None
+                "tooltip": _(
+                    'Enabling with "Hide Single Tab" will show a Title Bar when only one tab is open'
+                ),
+                "depends": None,
             },
             {
                 "key": "tab-align-left",
@@ -50,7 +56,7 @@ FIREFOX_OPTIONS = [
                 "summary": _("Left-Aligned Titles"),
                 "description": _("Align tab title to left"),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
         ],
     },
@@ -63,7 +69,7 @@ FIREFOX_OPTIONS = [
                 "summary": _("Active Tab Contrast"),
                 "description": _("Add more visual contrast to the active tab"),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
             {
                 "key": "close-only-selected-tabs",
@@ -71,7 +77,7 @@ FIREFOX_OPTIONS = [
                 "summary": _("Close Only Selected Tabs"),
                 "description": _("Only show the Close Tab button on the active tab"),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
             {
                 "key": "symbolic-tab-icons",
@@ -79,7 +85,7 @@ FIREFOX_OPTIONS = [
                 "summary": _("Symbolic Tab Icons"),
                 "description": _("Make all tab icons appear similar to symbolic icons"),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
             {
                 "key": "all-tabs-button",
@@ -87,7 +93,7 @@ FIREFOX_OPTIONS = [
                 "summary": _("List of Tabs"),
                 "description": _("Always show All Tabs button"),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
             {
                 "key": "all-tabs-button-on-overflow",
@@ -95,7 +101,7 @@ FIREFOX_OPTIONS = [
                 "summary": _("List of Tabs on Overflow"),
                 "description": _("Only show All Tabs button when many tabs are open"),
                 "tooltip": "",
-                "depends": [("all-tabs-button", False)]
+                "depends": [("all-tabs-button", False)],
             },
         ],
     },
@@ -107,32 +113,38 @@ FIREFOX_OPTIONS = [
                 "js_key": "hideWebrtcIndicator",
                 "summary": _("Hide Privacy Indicators"),
                 "description": _("Hide microphone, screen share, and camera warnings"),
-                "tooltip": _("GNOME will still show these privacy indicators in the Top Bar"),
-                "depends": None
+                "tooltip": _(
+                    "GNOME will still show these privacy indicators in the Top Bar"
+                ),
+                "depends": None,
             },
             {
                 "key": "oled-black",
                 "js_key": "oledBlack",
                 "summary": _("True Black Dark Theme"),
-                "description": _("Use an OLED-friendly, deep black when dark theme is enabled"),
+                "description": _(
+                    "Use an OLED-friendly, deep black when dark theme is enabled"
+                ),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
             {
                 "key": "no-themed-icons",
                 "js_key": "noThemedIcons",
                 "summary": _("No Themed Icons"),
-                "description": _("Use standard Firefox icons instead of Adwaita-styled icons"),
+                "description": _(
+                    "Use standard Firefox icons instead of Adwaita-styled icons"
+                ),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
             {
-              "key": "bookmarks-on-fullscreen",
+                "key": "bookmarks-on-fullscreen",
                 "js_key": "bookmarksOnFullscreen",
                 "summary": _("Fullscreen Bookmarks"),
                 "description": _("Show Bookmarks bar while in fullscreen"),
                 "tooltip": "",
-                "depends": None
+                "depends": None,
             },
         ],
     },

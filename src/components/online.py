@@ -268,7 +268,9 @@ class OnlineManager:
     @staticmethod
     def _is_update_available(new: Version, current: Version) -> bool:
         if not isinstance(current, Version) or not isinstance(new, Version):
-            raise TypeError("checking updates requires both values to be Version objects")
+            raise TypeError(
+                "checking updates requires both values to be Version objects"
+            )
 
         return new > current
 
