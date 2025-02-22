@@ -41,8 +41,8 @@ class AddWaterPage(Adw.Bin):
     """The container that holds the GUI that allows the user to configure the
     theme.
 
-    args:
-        backend = an addwaterbackend interface object
+    Args:
+        backend: an AddWaterBackend interface object
     """
 
     __gtype_name__ = "AddWaterPage"
@@ -154,7 +154,7 @@ class AddWaterPage(Adw.Bin):
         self.send_toast(toast_msg, 3, 1)
 
     def on_discard_action(self):
-        """Revert changes made to GSettings and notify user"""
+        """Revert all temporary changes and notify user"""
         log.info("Discarded unapplied changes")
 
         # Revert must ALWAYS be first
@@ -164,12 +164,12 @@ class AddWaterPage(Adw.Bin):
     def send_toast(
         self, msg: Optional[str] = None, timeout_seconds: int = 2, priority: int = 0
     ) -> None:
-        """Convenience method to send an AdwToast quickly
+        """Convenience method to send an AdwToast quickly.
 
         Args:
             msg: Toast message as string. If none, it will still withdraw the
-                 currently displayed toast
-            timeout_seconds: default is 2 seconds
+                 currently displayed toast.
+            timeout_seconds: Default is 2 seconds.
             priority: default is Normal Priority (0). Use 1 to skip the toast queue
                 and immediately present this toast.
 
@@ -196,9 +196,9 @@ class AddWaterPage(Adw.Bin):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
         Args:
-                options: a json-style list of dictionaries which include all option groups
-                        and options that the theme supports.
-                profile_list: list of dicts with "name" and "id"
+            options: a json-style list of dictionaries which include all option groups
+                    and options that the theme supports.
+            profile_list: list of dicts with "name" and "id"
         """
         # App options
         self.settings.bind(

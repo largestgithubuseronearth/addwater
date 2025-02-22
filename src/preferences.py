@@ -33,8 +33,9 @@ log = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/preferences.ui")
 class AddWaterPreferences(Adw.PreferencesDialog):
-    """Home to all options that are strictly related to Add Water functionality.
-     No theme-specific options should be presented in this dialog.
+    """Only used to change Add Water options.
+     No theme options should be presented in this dialog. Include them in the
+     future "Config" dialog section.
      """
     __gtype_name__ = "AddWaterPreferences"
 

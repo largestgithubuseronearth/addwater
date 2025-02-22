@@ -10,8 +10,17 @@ def create_option_group(
     settings,
     enable_button
 ):
-    """Creates AdwPreferencesGroup with the included switch options, and
-    binds all the switches to gsettings
+    """PreferenceGroup factory for theme options.
+
+    Args:
+        group_schematic: A big dictionary list of all options to iterate through.
+        gui_switch_factory: Function to use to create each switch for the group.
+        settings: GSettings reader for the relevant app theme.
+        enable_button: Reference to the page's enable button. Needed to bind the
+            "enabled" property to whether the switches are sensitive or not.
+
+    Returns:
+        AdwPreferenceGroup that's ready to use in the page.
     """
 
     group = Adw.PreferencesGroup(
@@ -56,6 +65,17 @@ def create_option_group(
 def create_option_switch(
     title: str, subtitle: str, extra_info: Optional[str] = None
 ):
+    """Toggle row factory for theme options.
+
+    Args:
+        title: Title should be title-case and very short
+        subtitle: One-sentence description to clarify what the option affects.
+        extra_info: If needed, include disclaimers or extra important details
+            inside an information button.
+
+    Returns:
+        AdwActionRow bound to its respective GSettings key.
+    """
     row = Adw.ActionRow(title=title, subtitle=subtitle)
     # This styling was borrowed from GNOME settings > Mouse Acceleration option
     if extra_info:

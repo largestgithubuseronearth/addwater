@@ -122,10 +122,10 @@ class AddWaterWindow(Adw.ApplicationWindow):
         """Add a window action and shortcut.
 
         Args:
-                name: the name of the action
-                callback: the function to be called when the action is
-                  activated
-                shortcuts: an optional list of accelerators
+            name: the name of the action
+            callback: the function to be called when the action is
+              activated
+            shortcuts: an optional list of accelerators
         """
         action = Gio.SimpleAction.new(name, None)
         action.connect("activate", callback)

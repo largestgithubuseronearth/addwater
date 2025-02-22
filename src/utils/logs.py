@@ -32,6 +32,7 @@ from . import paths
 
 
 def init_logs():
+    """Set up logging system"""
     LOG_DIR = paths.LOG_DIR
     try:
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")

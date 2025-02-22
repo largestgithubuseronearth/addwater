@@ -46,15 +46,15 @@ class FirefoxAppDetails:
     need to be passed around. If a method requires more than three pieces of info,
     just pass this object into managers and let them find what they need.
 
-    Please avoid altering the state of an AppDetails instance outside of
+    Avoid altering the state of an AppDetails instance outside of
     construction or dedicated setter methods in the backend interface.
 
 
-    Args:
-            name = proper, capitalized name of the app. i.e. 'Firefox' or 'Thunderbird
-            options = theme options that the user can modify from the page GUI
-            data_path = full path to the directory which includes all profile folders
-                                            as well as profiles.ini and installs.ini
+    Args
+        name: proper, capitalized name of the app. i.e. 'Firefox' or 'Thunderbird
+        options: theme options that the user can modify from the page GUI
+        data_path:full path to the directory which includes all profile folders
+                                        as well as profiles.ini and installs.ini
     """
 
     package_formats: list[dict[str, str]] = FIREFOX_PATHS
@@ -96,6 +96,7 @@ class FirefoxAppDetails:
     """PUBLIC METHODS"""
 
     def reset_settings(self):
+        """Resets all GSettings keys to their default"""
         log.info(f"Resetting all gsettings for {self.name}")
         self.settings.reset("theme-enabled")
         self.settings.reset("data-path")
@@ -112,8 +113,7 @@ class FirefoxAppDetails:
     """Getters"""
 
     def get_new_gsettings(self):
-        """Returns a new Gsettings object pre-configured with the app's
-        schema
+        """Returns a ready-to-use Gsettings reader pre-configured for the relevant app theme.
         """
         log.debug(f"creating new Gsettings reader for {self.get_name()}")
         schema_id = info.APP_ID + "." + self.get_name()
@@ -245,10 +245,10 @@ class FirefoxAppDetails:
 
     @staticmethod
     def _find_data_paths(path_list: list[dict[str, str]]) -> list[dict[str, str]]:
-        """Iterates over all common Firefox config directories and returns which one exists.
+        """Iterates over all common Firefox config directories return all that exist.
 
         Args:
-                path_list = Either of the list of dicts from the paths module to make it easy to iterate over
+                path_list: Either of the list of dicts from the paths module to make it easy to iterate over
         """
         found = []
         for each in path_list:

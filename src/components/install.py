@@ -39,11 +39,11 @@ class InstallManager:
     for supporting different apps or themes in the future.
 
     args:
-        installer = method that writes theme files into the app
-        preference_handler = method to, if necessary, handle optional settings
-                                that may need to be written to a file somewhere.
-        uninstaller = method to remove theme files from app. For now, this must
-                        handle removing those settings from pref_handler on its own.
+        installer: method that writes theme files into the app
+        preference_handler: method to, if necessary, handle optional settings
+            that may need to be written to a file somewhere.
+        uninstaller: method to remove theme files from app. For now, this must
+            handle removing those settings from pref_handler on its own.
     """
 
     def __init__(
@@ -73,10 +73,10 @@ class InstallManager:
         # The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
         """Handle installation of quick and full theme installs
 
-        args:
-            theme_path = path to theme files
-            profile_path = path to profile which to apply theme to
-            options_results = optional; if included, theme options will be
+        Args:
+            theme_path: path to theme files
+            profile_path: path to profile which to apply theme to
+            options_results: optional; if included, theme options will be
                                 updated. otherwise that's skipped
         """
         log.info("kicking off install...")
@@ -121,9 +121,9 @@ def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
     """Update user preferences in user.js according to GSettings.
 
     Args:
-        profile_path = full file path to the profile that the theme will be installed to
-        options = the theme options list dicts
-        gset_reader = Gio.Settings object preconfigured for the correct schema
+        profile_path: full file path to the profile that the theme will be installed to
+        options: the theme options list dicts
+        gset_reader: Gio.Settings object preconfigured for the correct schema
                                         to read the values of the keys
 
     """

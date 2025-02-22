@@ -43,6 +43,10 @@ log = logging.getLogger(__name__)
 class OnlineManager:
     """Handles everything to do with polling for theme updates and downloading
     release packages. It will also handle prepping those releases for the installer to use.
+
+    Args:
+        theme_url: URL to the theme's Github repo
+
     """
 
     update_version: Version
@@ -55,6 +59,12 @@ class OnlineManager:
     """PUBLIC METHODS"""
 
     def get_updates_online(self, installed_version: Version, path_info: tuple) -> Enum:
+        """Check for updates and if one is available, download and install it.
+
+        Args:
+            installed_version: Currently installed version to compare against update.
+            path_info: Where to download the update files to.
+        """
         log.info("Checking for updates...")
         self.update_version = installed_version
 
@@ -104,12 +114,13 @@ class OnlineManager:
             return OnlineStatus.OTHER_ERROR  # TODO handle this error better
 
     def _get_release(self, base_path: str, final_name: str, tarball_url: str) -> None:
-        """Download and prep a theme release for installation
+        """Download and prep a theme release for installati
+
         Args:
-                base_name = the naming convention for the download zipfile and extracted path
-                final_path = naming convention for the resulting theme files. As of now,
-                        this is '{app_name}-gnome-theme'. This means you can find the theme
-                        folder at "{base-name}-extracted/{final_path}"
+            base_name: the naming convention for the download zipfile and extracted path
+            final_path: naming convention for the resulting theme files. As of now,
+                    this is '{app_name}-gnome-theme'. This means you can find the theme
+                    folder at "{base-name}-extracted/{final_path}"
         """
         zipfile = f"{base_path}.tar.gz"
         extract_path = f"{base_path}"
@@ -144,8 +155,8 @@ class OnlineManager:
         """Download file and write to a file
 
         Args:
-                dl_url = url to the file to download
-                result = path to write the contents of the downloaded file
+            dl_url: url to the file to download
+            result: path to write the contents of the downloaded file
         """
         if exists(result):
             log.debug("Already downloaded this release. Skipping download.")
@@ -168,8 +179,8 @@ class OnlineManager:
         """Extracts tar.gz files. It's important to know that this destroys the tar after the extraction is done.
 
         Args:
-                zipfile_path = input tar.gz file to unzip
-                result_path = resulting extracted directory
+            zipfile_path: input tar.gz file to unzip
+            result_path: resulting extracted directory
         """
 
         if not exists(zipfile_path):
@@ -206,10 +217,9 @@ class OnlineManager:
         """Poll Github url and check if a new release of the theme is available
 
         Args:
-                gh_url = fully-qualified url to a github api releases endpoint
-
+            gh_url: fully-qualified url to a github api releases endpoint
         Returns:
-                release_info = dict including "version" as int, "ratelimit_remaining" as int, and "tarball_url" as str
+            release_info: dict including "version" as int, "ratelimit_remaining" as int, and "tarball_url" as str
         """
         # TODO If you can check Firefox version easily, check that before polling GH
 
