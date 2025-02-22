@@ -24,7 +24,6 @@ from typing import Optional
 from gi.repository import Gio
 
 from addwater import info
-from addwater.utils.versioning import version_str_to_tuple, version_tuple_to_str
 
 log = logging.getLogger(__name__)
 
@@ -38,7 +37,7 @@ class MockOnlineManager:
         schema_id = info.APP_ID + ".Firefox"
         self.settings = Gio.Settings(schema_id=schema_id)
 
-        self.update_version = version_str_to_tuple(self.settings.get_string("installed-version"))
+        self.update_version = Version(self.settings.get_string("installed-version"))
 
     def get_updates_online(
         self,

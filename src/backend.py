@@ -26,7 +26,7 @@ from addwater.components.install import InstallManager
 from addwater.components.online import OnlineManager
 from addwater.utils.mocks import mock_online
 from addwater.utils.paths import DOWNLOAD_DIR
-from addwater.utils.versioning import version_str_to_tuple, version_tuple_to_str
+from packaging.version import Version
 
 from addwater import info
 
@@ -119,9 +119,10 @@ class AddWaterBackend:
     """Online Actions"""
 
     def update_theme(self) -> Enum:
-        path_info = self.app_details.get_download_path_info()
-        version = self.get_installed_version()
-        status = self.online_manager.get_updates_online(version, path_info)
+        status = self.online_manager.get_updates_online(
+            self.get_installed_version(),
+            self.app_details.get_download_path_info(),
+        )
 
         self.set_installed_version(self.get_update_version())
 
@@ -141,14 +142,11 @@ class AddWaterBackend:
     def get_data_path(self) -> str:
         return self.app_details.get_data_path()
 
-    def get_installed_version(self) -> int:
+    def get_installed_version(self) -> Version:
         return self.app_details.get_installed_version()
 
-    def get_update_version(self, pretty=False):
-        v = self.online_manager.get_update_version()
-        if pretty:
-            return version_tuple_to_str(v).rstrip("0.")
-        return v
+    def get_update_version(self) -> Version:
+        return self.online_manager.get_update_version()
 
     def get_profile_list(self) -> dict:
         return self.app_details.get_profiles()
@@ -164,9 +162,9 @@ class AddWaterBackend:
         except FileNotFoundError as err:
             raise InterfaceMisuseError(err)
 
-    def set_installed_version(self, new_version: tuple) -> None:
-        if not isinstance(new_version, tuple):
-            raise InterfaceMisuseError(f"method takes tuple; gave {type(new_version)}")
+    def set_installed_version(self, new_version: Version) -> None:
+        if not isinstance(new_version, Version):
+            raise InterfaceMisuseError(f"method takes Version object; gave {type(new_version)}")
         self.app_details.set_installed_version(new_version)
 
     def reset_app(self):

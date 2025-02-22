@@ -29,7 +29,7 @@ from typing import Optional
 
 import requests
 from addwater.utils.paths import DOWNLOAD_DIR
-from addwater.utils.versioning import version_str_to_tuple, version_tuple_to_str
+from packaging.version import Version
 
 from addwater import info
 
@@ -45,7 +45,7 @@ class OnlineManager:
     release packages. It will also handle prepping those releases for the installer to use.
     """
 
-    update_version: tuple
+    update_version: Version
     theme_url: str
 
     def __init__(self, theme_url: str):
@@ -54,7 +54,7 @@ class OnlineManager:
 
     """PUBLIC METHODS"""
 
-    def get_updates_online(self, installed_version: tuple, path_info: tuple) -> Enum:
+    def get_updates_online(self, installed_version: Version, path_info: tuple) -> Enum:
         log.info("Checking for updates...")
         self.update_version = installed_version
 
@@ -230,7 +230,7 @@ class OnlineManager:
         api_calls_left = int(response.headers["x-ratelimit-remaining"])
         try:
             latest_release = response.json()[0]
-            version = version_str_to_tuple(latest_release["tag_name"])
+            version = Version(latest_release["tag_name"])
             tarball_url = latest_release["tarball_url"]
         except requests.JSONDecodeError as err:
             log.error(err)
@@ -248,6 +248,7 @@ class OnlineManager:
     @staticmethod
     def _is_ratelimit_exceeded(api_calls_left: int) -> bool:
         # TODO Set API limit more robust and strict before flathub release
+
         # Maybe set the time and api calls remaining in gsettings. There is
         # only a warning and no mechanism stopping user from continuing to spam.
         CHOSEN_LIMIT = 10
@@ -255,15 +256,11 @@ class OnlineManager:
         return bool(api_calls_left < CHOSEN_LIMIT)
 
     @staticmethod
-    def _is_update_available(new: tuple, current: tuple) -> bool:
-        if not isinstance(current, tuple) or not isinstance(new, tuple):
-            raise ValueError
+    def _is_update_available(new: Version, current: Version) -> bool:
+        if not isinstance(current, Version) or not isinstance(new, Version):
+            raise TypeError("checking updates requires both values to be Version objects")
 
-        for n, c in zip(new, current):
-            if n > c:
-                return True
-
-        return False
+        return new > current
 
 
 class OnlineStatus(Enum):

@@ -29,6 +29,8 @@ from gi.repository import Adw, Gio, GObject, Gtk
 from addwater import info
 from addwater.gui.option_factory import create_option_group, create_option_switch
 from .backend import InterfaceMisuseError
+from packaging.version import Version
+
 
 log = logging.getLogger(__name__)
 
@@ -104,11 +106,12 @@ class AddWaterPage(Adw.Bin):
         match update_status:
             case update_status.UPDATED:
                 if self.settings.get_boolean("theme-enabled"):
-                    self.on_apply_action()
+                    self.on_apply_action() # TODO make this an "activate" instead?
 
-                version = self.backend.get_update_version(pretty=True)
-                # Translators: {} will be replaced by a version number
-                msg = (_("Updated theme to v{}").format(version))
+                version = str(self.backend.get_update_version()).rstrip(".0")
+                version = f"v{version}"
+                # Translators: {} will be replaced by a version number (example: "v126.5.65")
+                msg = (_("Updated theme to {}").format(version))
             case update_status.DISCONNECTED:
                 msg = _("Failed to check for updates due to a network issue")
             case update_status.RATELIMITED:
@@ -117,6 +120,7 @@ class AddWaterPage(Adw.Bin):
                 msg = _("Unknown error has occurred. Please report this to developer.")
             case update_status.NO_UPDATE:
                 msg = None
+
         self._display_version()
         self.send_toast(msg)
 
@@ -236,14 +240,13 @@ class AddWaterPage(Adw.Bin):
         self.connect("package-changed", lambda *_blah: self.init_profile_combobox())
 
     def _display_version(self):
-        # TODO clean this up a bit
-        version = self.backend.get_update_version(pretty=True)
-        if not version:
-            version = _("Not installed")
+        version = self.backend.get_update_version()
+        if version == Version("0.0.0"):
+            v_str = _("Not installed")
         else:
-            version = f"v{version}"
+            v_str = f"v{str(version).rstrip(".0")}"
         # Translators: {} will be replaced with a version number (example: v132) or a status message
-        self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(version))
+        self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(v_str))
 
     def _set_profile(self, row, _=None) -> None:
         profile_display_name = row.get_selected_item().get_string()
@@ -336,14 +339,3 @@ class AddWaterPage(Adw.Bin):
     @GObject.Signal(name="package-changed")
     def package_changed(self):
         pass
-
-
-# Generic to use for any basic GUI failure
-# TODO re-evaluate whether these are necessary
-class PageException(Exception):
-    pass
-
-
-class FatalPageException(Exception):
-    pass
-

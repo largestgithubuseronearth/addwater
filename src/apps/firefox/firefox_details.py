@@ -27,7 +27,7 @@ from addwater.utils import paths
 from gi.repository import Gio
 
 from addwater import info
-from addwater.utils.versioning import version_str_to_tuple, version_tuple_to_str
+from packaging.version import Version
 
 from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_OPTIONS
@@ -61,7 +61,7 @@ class FirefoxAppDetails:
 
     # primary
     name: str = "Firefox"
-    installed_version: tuple
+    installed_version: Version
 
     # install
     installer: Callable = install_for_firefox
@@ -82,7 +82,7 @@ class FirefoxAppDetails:
     def __init__(self):
         self.settings = self.get_new_gsettings()
 
-        version = version_str_to_tuple(self.settings.get_string("installed-version"))
+        version = Version(self.settings.get_string("installed-version"))
         self.set_installed_version(version)
 
         current_path = self.settings.get_string("data-path")
@@ -141,11 +141,8 @@ class FirefoxAppDetails:
     def get_installer(self):
         return self.installer
 
-    def get_installed_version(self, string=False):
-        version = self.installed_version
-        if string:
-            return version_tuple_to_str(version)
-        return version
+    def get_installed_version(self):
+        return self.installed_version
 
     def get_options(self):
         # TODO grab only the details the consumer would need. Multiple methods or add a flag?
@@ -170,18 +167,19 @@ class FirefoxAppDetails:
         log.error(f"Tried to set app_path to non-existant path. Path given: {new_path}")
         raise FileNotFoundError("Invalid data path")
 
-    def set_installed_version(self, new_version: tuple) -> None:
+    def set_installed_version(self, new_version: Version) -> None:
         log.debug(f"Set installed version number to {new_version}")
-        if not isinstance(new_version, tuple):
-            log.error("Gave a string instead of a tuple. Fail")
-            log.debug(f"input: {new_version}")
+        if not isinstance(new_version, Version):
+            log.error("gave something that isn't a Version object. Fail")
+            log.debug(f"input: {type(new_version)}")
             raise TypeError
 
-        self.settings.set_string("installed-version", version_tuple_to_str(new_version))
+        self.settings.set_string("installed-version", str(new_version))
         self.installed_version = new_version
 
     """PRIVATE METHODS"""
 
+    # TODO make this find new firefox profile setup and cache them all in 1 format
     @staticmethod
     def _find_profiles(app_path: str) -> list[dict[str, str]]:
         """Reads the app profile data files and returns a list of known profiles.
