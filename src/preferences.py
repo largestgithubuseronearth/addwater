@@ -56,13 +56,14 @@ class AddWaterPreferences(Adw.PreferencesDialog):
                 Gio.SettingsBindFlags.DEFAULT,
             )
             self.background_update_switch.connect(
-                "activated", self._do_background_request
+                "activated",
+                lambda *blah: self._do_background_request()
             )
         except Exception as err:
             log.error(err)
 
     # TODO is there a better way to handle this? copied from adwsteamgtk
-    def _do_background_request(self, *_blah):
+    def _do_background_request(self):
         """Request permission from portals to launch at login time"""
         bg_enabled = self.settings_app.get_boolean("background-update")
         if bg_enabled:

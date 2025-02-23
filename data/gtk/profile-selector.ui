@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+	<template class="AddWaterProfileSelector" parent="AdwComboRow">
+		<!-- Translators: Profile as in Firefox profile/account-->
+		<property name="title" translatable="yes">Profile</property>
+		<property name="subtitle" translatable="yes">Select profile to apply changes toward</property>
+		<property name="model">
+			<object class="GtkStringList" id="strlist">
+				<items></items>
+			</object>
+		</property>
+	</template>
+</interface>

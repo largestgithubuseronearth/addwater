@@ -18,10 +18,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-# TODO separate (binding switches and applying/discard) from all other GSet use cases.
-# In other cases, they can just create their own temp settings object
-
-
 import logging
 from typing import Callable, Optional
 
@@ -31,6 +27,7 @@ from gi.repository import Adw, Gio, GObject, Gtk
 from packaging.version import Version
 
 from addwater import info
+from addwater.gui.profile_selector import ProfileSelector
 
 from .backend import InterfaceMisuseError
 
@@ -58,14 +55,11 @@ class AddWaterPage(Adw.Bin):
 
     enable_button = Gtk.Template.Child()
     profile_combobox = Gtk.Template.Child()
-    profile_combobox_list = Gtk.Template.Child()
-
     firefox_package_combobox = Gtk.Template.Child()
     firefox_package_combobox_list = Gtk.Template.Child()
 
     # Class Attributes
     app_name: str  # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
-    selected_profile: str  # User's chosen profile to install theme to
 
     profile_list: list[dict[str, str]]
 
@@ -75,23 +69,24 @@ class AddWaterPage(Adw.Bin):
         super().__init__()
 
         self.backend = backend
-
         self.app_name = self.backend.get_app_name()
 
         # Stores changes as a transaction to apply all opts at once
         self.settings = self.backend.get_app_settings()
         self.settings.delay()
 
+
         # Profiles
-        self.selected_profile = self.settings.get_string("profile-selected")
+        self.profile_combobox.setup_settings(self.backend.get_app_settings())
         self.profile_list = self.backend.get_profile_list()
 
+        # General GUI
         options = self.backend.get_app_options()
         self.init_gui(options, self.profile_list)
 
+        # Package selector
         self.settings_instant = backend.get_app_settings()
         self.FIREFOX_FORMATS = backend.get_package_formats()
-
         self.firefox_path = self.backend.get_data_path()
         self._init_firefox_combobox()
 
@@ -108,7 +103,7 @@ class AddWaterPage(Adw.Bin):
         match update_status:
             case update_status.UPDATED:
                 if self.settings.get_boolean("theme-enabled"):
-                    self.on_apply_action()  # TODO make this an "activate" instead?
+                    self.activate_action("apply-changes")
 
                 version = str(self.backend.get_update_version()).rstrip(".0")
                 version = f"v{version}"
@@ -126,23 +121,25 @@ class AddWaterPage(Adw.Bin):
         self._display_version()
         self.send_toast(msg)
 
+    # TODO make this a stateful action?
     def on_apply_action(self, *_args):
         """Apply changes to GSettings and call the proper install or uninstall method"""
         log.debug("Applied changes")
 
-        self._set_profile(self.profile_combobox)
-
         self.settings.apply()
 
         theme_enabled = self.settings.get_boolean("theme-enabled")
-
         if theme_enabled:
             log.debug("GUI calling for install..")
-            install_status = self.backend.begin_install(self.selected_profile, True)
+            install_status = self.backend.begin_install(
+                self.profile_combobox.selected_profile, True
+            )
             toast_msg = _("Installed Theme. Restart Firefox to see changes.")
         else:
             log.debug("GUI calling for uninstall...")
-            install_status = self.backend.remove_theme(self.selected_profile)
+            install_status = self.backend.remove_theme(
+                self.profile_combobox.selected_profile
+            )
             toast_msg = _("Removed Theme. Restart Firefox to see changes.")
 
         match install_status:
@@ -159,6 +156,9 @@ class AddWaterPage(Adw.Bin):
 
         # Revert must ALWAYS be first
         self.settings.revert()
+
+        # TODO Reset to prior selected profile
+
         self.send_toast(_("Changes reverted"))
 
     def send_toast(
@@ -178,7 +178,6 @@ class AddWaterPage(Adw.Bin):
         if self.current_toast:
             self.current_toast.dismiss()
 
-        # Pass None as msg to withdraw any toasts already on screen
         if not msg:
             return
 
@@ -214,19 +213,15 @@ class AddWaterPage(Adw.Bin):
             )
             self.preferences_page.add(group)
 
-        self.init_profile_combobox()
+        self.profile_combobox.setup_list(
+            self.backend.get_profile_list(),
+            self.settings.get_string("profile-selected")
+        )
 
     """PRIVATE METHODS"""
 
     def _set_actions_signals(self):
-        # TODO set up GSimpleActionGroup
         # Change Confirmation bar
-        self.install_action(
-            "water.apply-changes", None, lambda *blah: self.on_apply_action()
-        )
-        self.install_action(
-            "water.discard-changes", None, lambda *blah: self.on_discard_action()
-        )
         self.settings.bind_property(
             "has-unapplied",
             self.change_confirm_bar,
@@ -234,14 +229,34 @@ class AddWaterPage(Adw.Bin):
             GObject.BindingFlags.SYNC_CREATE,
         )
 
+        action_group = Gio.SimpleActionGroup.new()
+
+        apply_action = Gio.SimpleAction(name="apply-changes")
+        apply_action.connect("activate", lambda *blah: self.on_apply_action())
+        apply_action.connect("activate", lambda *blah: self._set_profile())
+        action_group.add_action(apply_action)
+
+        discard_action = Gio.SimpleAction(name="discard-changes")
+        discard_action.connect("activate", lambda *blah: self.on_discard_action())
+        action_group.add_action(discard_action)
+
+        self.insert_action_group("water", action_group)
+
+        # Combobox setup
         self.profile_combobox.notify("selected-item")
-        self.profile_combobox.connect("notify::selected-item", self._set_profile)
+        self.profile_combobox.connect("notify::selected-item", lambda *blah: self._set_profile())
 
         self.firefox_package_combobox.notify("selected-item")
         self.firefox_package_combobox.connect(
             "notify::selected-item", lambda row, *blah: self._set_firefox_package(row)
         )
-        self.connect("package-changed", lambda *_blah: self.init_profile_combobox())
+        self.connect(
+            "package-changed",
+            lambda *_blah: self.profile_combobox.setup_list(
+                self.backend.get_profile_list(),
+                self.settings.get_string("profile-selected")
+            )
+        )
 
     def _display_version(self):
         version = self.backend.get_update_version()
@@ -252,30 +267,13 @@ class AddWaterPage(Adw.Bin):
         # Translators: {} will be replaced with a version number (example: v132) or a status message
         self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(v_str))
 
-    def _set_profile(self, row, _=None) -> None:
-        profile_display_name = row.get_selected_item().get_string()
-        for each in self.profile_list:
-            if each["name"] == profile_display_name:
-                self.selected_profile = each["id"]
-                log.debug("set profile to %s", each["id"])
-                break
+    # TODO get this out of this class and let the selector class handle it entirely
+    # This would be a lot easier with some way to track profiles cleanly
+    def _set_profile(self) -> None:
+        self.profile_combobox.set_profile()
+        if self.profile_combobox.selected_profile != self.settings.get_string("profile-selected"):
+            self.settings.set_string("profile-selected", self.profile_combobox.selected_profile)
 
-        # This compare avoids triggering "has-unapplied" too often
-        if self.selected_profile != self.settings.get_string("profile-selected"):
-            self.settings.set_string("profile-selected", self.selected_profile)
-
-    # TODO add an icon to the preferred profile and set "Preferred profile" as tooltip?
-    def init_profile_combobox(self):
-        self.profile_list = self.backend.get_profile_list()
-        names = [each["name"] for each in self.profile_list]
-
-        self.profile_combobox_list.splice(
-            0, self.profile_combobox_list.get_n_items(), names
-        )
-        self.profile_combobox.set_selected(0)
-
-    # TODO reimplement resetting profile combobox cursor after I can track
-    # profiles across firefox installs via sql
 
     # TODO break package combobox and later its dialog into its own module
 

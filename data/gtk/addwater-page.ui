@@ -21,16 +21,7 @@
 											</object>
 										</child>
 										<child>
-											<object class="AdwComboRow" id="profile_combobox">
-												<!-- Translators: Profile as in Firefox profile/account-->
-												<property name="title" translatable="yes">Profile</property>
-												<property name="subtitle" translatable="yes">Select profile to apply changes toward</property>
-												<property name="model">
-													<object class="GtkStringList" id="profile_combobox_list">
-														<items></items>
-													</object>
-												</property>
-											</object>
+											<object class="AddWaterProfileSelector" id="profile_combobox"/>
 										</child>
 										<child>
 											<object class="AdwComboRow" id="firefox_package_combobox">
