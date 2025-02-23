@@ -23,23 +23,24 @@ import gi
 
 gi.require_version("Xdp", "1.0")
 
-from gi.repository import Adw, Gio, Gtk, Xdp, GObject
+from addwater.backend import InterfaceMisuseError
+from gi.repository import Adw, Gio, GObject, Gtk, Xdp
 
 from addwater import info
-from addwater.backend import InterfaceMisuseError
 
 log = logging.getLogger(__name__)
 
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/preferences.ui")
 class AddWaterPreferences(Adw.PreferencesDialog):
-    """Home to all options that are strictly related to Add Water functionality.
-     No theme-specific options should be presented in this dialog.
-     """
+    """Only used to change Add Water options.
+    No theme options should be presented in this dialog. Include them in the
+    future "Config" dialog section.
+    """
+
     __gtype_name__ = "AddWaterPreferences"
 
     background_update_switch = Gtk.Template.Child()
-
 
     def __init__(self):
         super().__init__()
@@ -55,15 +56,14 @@ class AddWaterPreferences(Adw.PreferencesDialog):
                 Gio.SettingsBindFlags.DEFAULT,
             )
             self.background_update_switch.connect(
-                "activated", self._do_background_request
+                "activated",
+                lambda *blah: self._do_background_request()
             )
         except Exception as err:
             log.error(err)
 
-
-
     # TODO is there a better way to handle this? copied from adwsteamgtk
-    def _do_background_request(self, *_blah):
+    def _do_background_request(self):
         """Request permission from portals to launch at login time"""
         bg_enabled = self.settings_app.get_boolean("background-update")
         if bg_enabled:

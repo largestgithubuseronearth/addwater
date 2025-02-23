@@ -18,9 +18,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
+import os.path
 import shutil
 import sys
-import os.path
 from datetime import datetime, timezone
 
 import gi
@@ -49,9 +49,11 @@ class AddWaterApplication(Adw.Application):
         super().__init__(
             application_id=info.APP_ID,
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
-            resource_base_path=info.PREFIX
+            resource_base_path=info.PREFIX,
         )
-        self.create_action("quit", lambda *_args: self.quit(), ["<primary>q", "<primary>w"])
+        self.create_action(
+            "quit", lambda *_args: self.quit(), ["<primary>q", "<primary>w"]
+        )
         self.create_action("open-help-page", self.on_help_action)
         self.create_action("reset-app", self.on_reset_app_action)
 

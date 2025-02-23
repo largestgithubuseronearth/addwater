@@ -22,13 +22,15 @@ import logging
 from enum import Enum
 from typing import Any, Callable
 
-from gi.repository import Gio
 from addwater.backend import AddWaterBackend
+from gi.repository import Gio
 
 log = logging.getLogger(__name__)
 
 
 class BackgroundUpdater:
+    """Simple class to update and install the theme without a GUI."""
+
     def __init__(self, backend: type[AddWaterBackend]):
         app_name = backend.get_app_name()
         log.debug(f"BackgroundUpdater created for {app_name}")

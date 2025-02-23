@@ -33,11 +33,11 @@ addwater_sources = [
 	'components/online.py',
 
 	'gui/option_factory.py',
+	'gui/profile_selector.py',
 
 	'utils/paths.py',
 	'utils/logs.py',
 	'utils/background.py',
-	'utils/versioning.py',
 
 	configure_file(input: 'info.py.in', output: 'info.py', configuration: conf),
 ]

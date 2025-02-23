@@ -21,13 +21,13 @@ import logging
 from configparser import ConfigParser
 from enum import Enum
 from os.path import exists, join
-from typing import Optional, Callable, Any
+from typing import Any, Callable, Optional
 
 from addwater.utils import paths
 from gi.repository import Gio
+from packaging.version import Version
 
 from addwater import info
-from addwater.utils.versioning import version_str_to_tuple, version_tuple_to_str
 
 from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_OPTIONS
@@ -46,22 +46,22 @@ class FirefoxAppDetails:
     need to be passed around. If a method requires more than three pieces of info,
     just pass this object into managers and let them find what they need.
 
-    Please avoid altering the state of an AppDetails instance outside of
+    Avoid altering the state of an AppDetails instance outside of
     construction or dedicated setter methods in the backend interface.
 
 
-    Args:
-            name = proper, capitalized name of the app. i.e. 'Firefox' or 'Thunderbird
-            options = theme options that the user can modify from the page GUI
-            data_path = full path to the directory which includes all profile folders
-                                            as well as profiles.ini and installs.ini
+    Args
+        name: proper, capitalized name of the app. i.e. 'Firefox' or 'Thunderbird
+        options: theme options that the user can modify from the page GUI
+        data_path:full path to the directory which includes all profile folders
+                                        as well as profiles.ini and installs.ini
     """
 
     package_formats: list[dict[str, str]] = FIREFOX_PATHS
 
     # primary
     name: str = "Firefox"
-    installed_version: tuple
+    installed_version: Version
 
     # install
     installer: Callable = install_for_firefox
@@ -82,7 +82,7 @@ class FirefoxAppDetails:
     def __init__(self):
         self.settings = self.get_new_gsettings()
 
-        version = version_str_to_tuple(self.settings.get_string("installed-version"))
+        version = Version(self.settings.get_string("installed-version"))
         self.set_installed_version(version)
 
         current_path = self.settings.get_string("data-path")
@@ -96,6 +96,7 @@ class FirefoxAppDetails:
     """PUBLIC METHODS"""
 
     def reset_settings(self):
+        """Resets all GSettings keys to their default"""
         log.info(f"Resetting all gsettings for {self.name}")
         self.settings.reset("theme-enabled")
         self.settings.reset("data-path")
@@ -112,9 +113,7 @@ class FirefoxAppDetails:
     """Getters"""
 
     def get_new_gsettings(self):
-        """Returns a new Gsettings object pre-configured with the app's
-        schema
-        """
+        """Returns a ready-to-use Gsettings reader pre-configured for the relevant app theme."""
         log.debug(f"creating new Gsettings reader for {self.get_name()}")
         schema_id = info.APP_ID + "." + self.get_name()
         return Gio.Settings(schema_id=schema_id)
@@ -141,11 +140,8 @@ class FirefoxAppDetails:
     def get_installer(self):
         return self.installer
 
-    def get_installed_version(self, string=False):
-        version = self.installed_version
-        if string:
-            return version_tuple_to_str(version)
-        return version
+    def get_installed_version(self):
+        return self.installed_version
 
     def get_options(self):
         # TODO grab only the details the consumer would need. Multiple methods or add a flag?
@@ -170,18 +166,19 @@ class FirefoxAppDetails:
         log.error(f"Tried to set app_path to non-existant path. Path given: {new_path}")
         raise FileNotFoundError("Invalid data path")
 
-    def set_installed_version(self, new_version: tuple) -> None:
+    def set_installed_version(self, new_version: Version) -> None:
         log.debug(f"Set installed version number to {new_version}")
-        if not isinstance(new_version, tuple):
-            log.error("Gave a string instead of a tuple. Fail")
-            log.debug(f"input: {new_version}")
+        if not isinstance(new_version, Version):
+            log.error("gave something that isn't a Version object. Fail")
+            log.debug(f"input: {type(new_version)}")
             raise TypeError
 
-        self.settings.set_string("installed-version", version_tuple_to_str(new_version))
+        self.settings.set_string("installed-version", str(new_version))
         self.installed_version = new_version
 
     """PRIVATE METHODS"""
 
+    # TODO make this find new firefox profile setup and cache them all in 1 format
     @staticmethod
     def _find_profiles(app_path: str) -> list[dict[str, str]]:
         """Reads the app profile data files and returns a list of known profiles.
@@ -247,10 +244,10 @@ class FirefoxAppDetails:
 
     @staticmethod
     def _find_data_paths(path_list: list[dict[str, str]]) -> list[dict[str, str]]:
-        """Iterates over all common Firefox config directories and returns which one exists.
+        """Iterates over all common Firefox config directories return all that exist.
 
         Args:
-                path_list = Either of the list of dicts from the paths module to make it easy to iterate over
+                path_list: Either of the list of dicts from the paths module to make it easy to iterate over
         """
         found = []
         for each in path_list:

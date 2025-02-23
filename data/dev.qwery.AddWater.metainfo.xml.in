@@ -7,7 +7,7 @@
 
 
 	<!-- Branding Info -->
-	<name>Add Water</name>
+	<name translate="no">Add Water</name>
 	<summary>Keep Firefox in fashion</summary>
 	<description>
 		<p>A utility app to easily install the Firefox GNOME Theme* and automatically update it in the background. This theme keeps Firefox fashionable within the GNOME design ecosystem, and provides many helpful features to customize the interface to make browsing even more pleasant:
@@ -54,6 +54,8 @@
 		<name translate="no">qwery</name>
 	</developer>
 
+	<translation type="gettext">addwater</translation>
+
 	<content_rating type="oars-1.1" />
 
 	<categories>
@@ -94,8 +96,18 @@
 
 
 	<!-- Release Notes -->
-	<!-- TODO should release notes be translated? -->
 	<releases>
+		<release version="1.2.6" date="2025-02-20">
+			<description>
+				<p>Add Water:</p>
+				<ul>
+					<li>Add Brazil Portuguese translation (Thank you, johnpetersa19)</li>
+					<li>Add Dutch translation (Thank you, Vistaus)</li>
+					<li>fix: Confirm bar shows border even when hidden (Thank you, PhilippKosarev)</li>
+					<li>fix: Updates downloaded but not installed automatically</li>
+				</ul>
+			</description>
+		</release>
 		<release version="1.2.5" date="2025-01-30">
 			<description>
 				<p>Add Water:</p>
