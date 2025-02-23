@@ -90,7 +90,7 @@
                 {
                     "type" : "git",
                     "url" : "https://github.com/flatpak/libportal",
-                    "tag" : "0.9.0"
+                    "tag" : "0.9.1"
                 }
             ]
         },
