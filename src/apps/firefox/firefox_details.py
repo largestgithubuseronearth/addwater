@@ -178,7 +178,6 @@ class FirefoxAppDetails:
 
     """PRIVATE METHODS"""
 
-    # TODO make this find new firefox profile setup and cache them all in 1 format
     @staticmethod
     def _find_profiles(app_path: str) -> list[dict[str, str]]:
         """Reads the app profile data files and returns a list of known profiles.
@@ -192,11 +191,13 @@ class FirefoxAppDetails:
         """
         cfg = ConfigParser()
         defaults = []
+        # TODO use a set instead to remove duplicates
         profiles = []
 
         install_file = join(app_path, "installs.ini")
         profiles_file = join(app_path, "profiles.ini")
 
+        # TODO redo this to account for Firefox's new setup
         if not exists(profiles_file):
             raise FileNotFoundError("profiles.ini file not found")
 
