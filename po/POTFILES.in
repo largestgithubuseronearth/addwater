@@ -5,6 +5,7 @@ data/dev.qwery.AddWater.gschema.xml.in
 data/gtk/addwater-page.ui
 data/gtk/help-overlay.ui
 data/gtk/preferences.ui
+data/gtk/profile-selector.ui
 data/gtk/window.ui
 
 src/main.py
@@ -12,5 +13,6 @@ src/window.py
 src/preferences.py
 src/page.py
 src/apps/firefox/firefox_options.py
+src/gui/option_factory.py
 
 src/utils/background.py
