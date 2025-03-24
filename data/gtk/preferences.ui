@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
 	<template class="AddWaterPreferences" parent="AdwPreferencesDialog">
-		<property name="content-height">310</property>
+		<property name="content-height">375</property>
+	  <property name="vexpand">true</property>
 		<child>
 			<object class="AdwPreferencesPage" id="firefox_pref_page">
 				<property name="title">Firefox</property>
 				<property name="icon-name">globe-symbolic</property>
 				<child>
 					<object class="AdwPreferencesGroup">
-						<child>
-							<object class="AdwSwitchRow" id="background_update_switch">
-								<property name="title" translatable="yes">Update in Background</property>
-								<property name="subtitle"  translatable="yes">Automatically check for updates at login</property>
-							</object>
-						</child>
+					  <child>
+					    <object class="AdwExpanderRow" id="bg_update_switch">
+					      <property name="title" translatable="yes">Update in Background</property>
+					      <property name="subtitle" translatable="yes">Automatically check for updates at login</property>
+					      <property name="show-enable-switch">true</property>
+					      <property name="expanded">true</property>
+					      <child>
+					        <object class="AdwSwitchRow" id="bg_notify_switch">
+					          <property name="title">Desktop Notifications</property>
+					        </object>
+					      </child>
+					    </object>
+					  </child>
 					</object>
 				</child>
 				<child>
+				  <!-- TODO I don't want to show this anymore -->
 					<object class="AdwPreferencesGroup">
 						<property name="title" translatable="yes" comments="Translators: This refers to options that could be unsafe.">Danger Zone</property>
 						<property name="description" translatable="yes">Remove the theme from all known profiles and reset Add Water to its default state. Any custom changes made to your user.js file will remain after a reset.</property>
