@@ -16,6 +16,10 @@
 		<key name="background-update" type="b">
 			<default>false</default>
 		</key>
+	  <key name="background-notifications" type="b">
+	    <default>false</default>
+	    <summary>Send notifications for background updates</summary>
+	  </key>
 	</schema>
 
 

@@ -40,7 +40,8 @@ class AddWaterPreferences(Adw.PreferencesDialog):
 
     __gtype_name__ = "AddWaterPreferences"
 
-    background_update_switch = Gtk.Template.Child()
+    bg_notify_switch = Gtk.Template.Child()
+    bg_update_switch = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
@@ -48,19 +49,24 @@ class AddWaterPreferences(Adw.PreferencesDialog):
         self.settings_app = Gio.Settings(schema_id=info.APP_ID)
         self.portal = Xdp.Portal()
 
-        try:
-            self.settings_app.bind(
-                "background-update",
-                self.background_update_switch,
-                "active",
-                Gio.SettingsBindFlags.DEFAULT,
-            )
-            self.background_update_switch.connect(
-                "activated",
-                lambda *blah: self._do_background_request()
-            )
-        except Exception as err:
-            log.error(err)
+        # TODO bind into Gsettings
+        self.settings_app.bind(
+            "background-update",
+            self.bg_update_switch,
+            "enable-expansion",
+            Gio.SettingsBindFlags.DEFAULT
+        )
+        self.settings_app.bind(
+            "background-notifications",
+            self.bg_notify_switch,
+            "active",
+            Gio.SettingsBindFlags.DEFAULT
+        )
+
+        self.bg_update_switch.connect(
+            "activate",
+            lambda *blah: self._do_background_request()
+        )
 
     # TODO is there a better way to handle this? copied from adwsteamgtk
     def _do_background_request(self):
