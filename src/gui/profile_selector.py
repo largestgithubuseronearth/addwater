@@ -46,6 +46,8 @@ class ProfileSelector(Adw.ComboRow):
     # TODO reimplement resetting profile combobox cursor after I can track
     # profiles across firefox installs via sql
 
+    # FIXME if a profile is removed, it's still selected in GSettings and causes an install fail
+
     def __init__(self):
         super().__init__()
 
