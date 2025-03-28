@@ -1,0 +1,484 @@
+# Ukrainian translation for addwater.
+# Copyright (C) 2025 addwater's COPYRIGHT HOLDER
+# This file is distributed under the same license as the addwater package.
+#
+# Yuri Chornoivan <yurchor@ukr.net>,  2025.
+msgid ""
+msgstr ""
+"Project-Id-Version: addwater main\n"
+"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/iss"
+"ues/\n"
+"POT-Creation-Date: 2025-03-26 12:59+0000\n"
+"PO-Revision-Date: 2025-03-26 22:14+0200\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Lokalize 23.04.3\n"
+
+#. Branding Info
+#: data/dev.qwery.AddWater.desktop.in:3
+#: data/dev.qwery.AddWater.metainfo.xml.in:10
+msgid "Add Water"
+msgstr "Додати води"
+
+#: data/dev.qwery.AddWater.desktop.in:5
+#: data/dev.qwery.AddWater.metainfo.xml.in:11
+msgid "Keep Firefox in fashion"
+msgstr "Підтримка Firefox у тренді"
+
+#. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
+#: data/dev.qwery.AddWater.desktop.in:10
+msgid "theme;adwaita;firefox;"
+msgstr "theme;adwaita;firefox;тема;адвайта;файрфокс;"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:13
+msgid ""
+"A utility app to easily install the Firefox GNOME Theme* and automatically "
+"update it in the background. This theme keeps Firefox fashionable within the "
+"GNOME design ecosystem, and provides many helpful features to customize the "
+"interface to make browsing even more pleasant:"
+msgstr ""
+"Службова програма для спрощення встановлення теми GNOME* Firefox та "
+"автоматичного оновлення у фоновому режимі. Ця тема робить Firefox модним в "
+"екосистемі дизайну GNOME та забезпечує роботу багатьох корисних функцій для "
+"налаштовування інтерфейсу, щоб зробити перегляд ще приємнішим:"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:16
+msgid "Supports light and dark style, as well as accent colors"
+msgstr "Підтримка світлого і темного стилю, а також кольорів акцентування"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:17
+#: src/apps/firefox/firefox_options.py:11
+msgid "Hide Tab Bar when only one tab is open"
+msgstr "Приховування панелі вкладок, якщо відкрито лише одну вкладку"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:18
+msgid "Use an OLED-friendly pitch black for the interface"
+msgstr "Використання сумісного з OLED відтінку чорного для інтерфейсу"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:19
+msgid "Customize Tab Bar position, position of controls, alignment, and more"
+msgstr ""
+"Налаштовування розташування панелі вкладок, розташування елементів "
+"керування, вирівнювання тощо"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:20
+msgid "Hide redundant microphone, webcam, screen share indicators"
+msgstr ""
+"Приховування зайвих індикаторів мікрофона, вебкамери та оприлюднення екрана"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:21
+msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
+msgstr ""
+"Передбачено підтримку варіантів Firefox з Flatpak, Snap, Librewolf і Floorp"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:23
+msgid ""
+"*The Firefox GNOME Theme itself is independently developed and maintained by "
+"Rafael Mardojai CM."
+msgstr ""
+"*Тему GNOME Firefox незалежно розробляє і супроводжує Rafael Mardojai CM."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:24
+msgid ""
+"The Firefox browser is not included and must be downloaded separately. This "
+"project is not affiliated or endorsed by the Mozilla Foundation. Firefox is "
+"a trademark of the Mozilla Foundation in the U.S. and other countries."
+msgstr ""
+"Браузер Firefox не входить у комплект і його потрібно встановити окремо. Цей "
+"проєкт не є пов'язаним або супроводжуваним Mozilla Foundation. Firefox є "
+"торговою маркою Mozilla Foundation у США та інших країнах."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:35
+msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
+msgstr "«Додати води» спрощує налаштовування теми GNOME Firefox"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:39
+msgid "The interface is clean, beautiful, and stays out of the way"
+msgstr "Інтерфейс чистий, красивий та нічому не заважає"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:43
+msgid "Supports a pure black Top Bar, perfect for OLED screens and dark rooms"
+msgstr ""
+"Підтримка повністю чорної верхньої панелі, ідеальної для екранів OLED та "
+"темних кімнат"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:47
+msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
+msgstr ""
+"Підтримка кольорів акцентування і декількох розташувань панелей вкладок і "
+"закладок"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:29
+msgid "Automatically Discover the installed Firefox package format"
+msgstr "Автоматичне визначення формату пакунка встановленого Firefox"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:34
+msgid ""
+"Most recently installed version of the firefox gnome theme (Major.Minor."
+"Micro)"
+msgstr ""
+"Найсвіжіша встановлена версія теми GNOME firefox (Основна.Проміжна."
+"Третьорядна)"
+
+#: data/gtk/addwater-page.ui:15
+msgid "Firefox GNOME Theme"
+msgstr "Тема GNOME Firefox"
+
+#: data/gtk/addwater-page.ui:20
+msgid "Enable Theme"
+msgstr "Увімкнути тему"
+
+#. Translators: This refers to how the user installed Firefox (package manager, Flatpak, Snap, etc.)
+#: data/gtk/addwater-page.ui:28
+msgid "Package Format"
+msgstr "Формат пакунка"
+
+#: data/gtk/addwater-page.ui:29
+msgid "Profile data not found at selected location"
+msgstr "Дані профілю не знайдено у вибраному місці"
+
+#: data/gtk/addwater-page.ui:34
+msgid "Automatically Discover"
+msgstr "Автоматичне виявлення"
+
+#: data/gtk/addwater-page.ui:51
+msgid "Confirm your changes?"
+msgstr "Підтверджуєте ваші зміни?"
+
+#: data/gtk/addwater-page.ui:60
+msgid "Discard"
+msgstr "Відкинути"
+
+#: data/gtk/addwater-page.ui:71
+msgid "Apply"
+msgstr "Застосувати"
+
+#: data/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Загальне"
+
+#: data/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Показати клавіатурні скорочення"
+
+#: data/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Вийти"
+
+#: data/gtk/preferences.ui:13
+msgid "Update in Background"
+msgstr "Оновлення у фоновому режимі"
+
+#: data/gtk/preferences.ui:14
+msgid "Automatically check for updates at login"
+msgstr "Автоматично шукати оновлення при вході"
+
+#. Translators: This refers to options that could be unsafe.
+#: data/gtk/preferences.ui:21
+msgid "Danger Zone"
+msgstr "Зона небезпеки"
+
+#: data/gtk/preferences.ui:22
+msgid ""
+"Remove the theme from all known profiles and reset Add Water to its default "
+"state. Any custom changes made to your user.js file will remain after a "
+"reset."
+msgstr ""
+"Вилучити тему з усіх відомих профілів і скинути «Додати води» до "
+"стандартного стану. Будь-які спеціальні зміни, внесені у ваш файл user.js, "
+"вилучено не буде."
+
+#: data/gtk/preferences.ui:25
+msgid "Reset and Close App"
+msgstr "Скинути і закрити програму"
+
+#. Translators: Profile as in Firefox profile/account
+#: data/gtk/profile-selector.ui:5
+msgid "Profile"
+msgstr "Профіль"
+
+#: data/gtk/profile-selector.ui:6
+msgid "Select profile to apply changes toward"
+msgstr "Виберіть профіль, до якого слід застосувати зміни"
+
+#: data/gtk/window.ui:19
+msgid "Main Menu"
+msgstr "Головне меню"
+
+#: data/gtk/window.ui:34
+msgid "_Preferences"
+msgstr "_Налаштування"
+
+#: data/gtk/window.ui:38
+msgid "_Keyboard Shortcuts"
+msgstr "_Клавіатурні скорочення"
+
+#: data/gtk/window.ui:42
+msgid "_About Add Water"
+msgstr "_Про «Додати води»"
+
+#: src/window.py:104
+msgid "Open Help Page"
+msgstr "Відкрити сторінку довідки"
+
+#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+#: src/window.py:111
+msgid "{} Profile Data Not Found"
+msgstr "Дані профілю {} не знайдено"
+
+#: src/window.py:114
+msgid ""
+"Please ensure {} is installed and Add Water has permission to access your "
+"profiles"
+msgstr ""
+"Будь ласка, переконайтеся, що {} встановлено, і що «Додати води» має доступ "
+"до ваших профілів"
+
+#. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
+#: src/window.py:168
+msgid "translator-credits"
+msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2025"
+
+#. Translator: This is followed by a list of names
+#: src/window.py:173
+msgid "Theme Created and Maintained by"
+msgstr "Автори і супровідники теми"
+
+#: src/preferences.py:76
+msgid "Checking for theme updates"
+msgstr "Пошук оновлень теми"
+
+#: src/page.py:95
+msgid "Checking for updates..."
+msgstr "Шукаємо оновлення…"
+
+#. Translators: {} will be replaced by a version number (example: "v126.5.65")
+#: src/page.py:111
+msgid "Updated theme to {}"
+msgstr "Тему оновлено до {}"
+
+#: src/page.py:113
+msgid "Failed to check for updates due to a network issue"
+msgstr "Не вдалося виконати пошук оновлень через проблеми з мережею"
+
+#: src/page.py:115
+msgid "Failed to check for updates. Please try again later."
+msgstr ""
+"Не вдалося виконати пошук оновлень. Будь ласка, повторіть спробу пізніше."
+
+#: src/page.py:117
+msgid "Unknown error has occurred. Please report this to developer."
+msgstr "Сталася невідома помилка. Будь ласка, повідомте про неї розробника."
+
+#: src/page.py:137
+msgid "Installed Theme. Restart Firefox to see changes."
+msgstr "Тему встановлено. Перезапустіть Firefox, щоб зміни набули чинності."
+
+#: src/page.py:143
+msgid "Removed Theme. Restart Firefox to see changes."
+msgstr "Тему вилучено. Перезапустіть Firefox, щоб зміни набули чинності."
+
+#: src/page.py:147
+msgid "Installation failed"
+msgstr "Не вдалося встановити"
+
+#. TODO Reset to prior selected profile
+#: src/page.py:162
+msgid "Changes reverted"
+msgstr "Зміни скасовано"
+
+#: src/page.py:264
+msgid "Not installed"
+msgstr "Не встановлено"
+
+#. Translators: {} will be replaced with a version number (example: v132) or a status message
+#: src/page.py:268
+msgid "Firefox GNOME Theme — {}"
+msgstr "Тема GNOME Firefox — {}"
+
+#: src/apps/firefox/firefox_options.py:5
+msgid "Tab Position"
+msgstr "Розташування вкладок"
+
+#: src/apps/firefox/firefox_options.py:10
+msgid "Hide Single Tab"
+msgstr "Ховати єдину вкладку"
+
+#: src/apps/firefox/firefox_options.py:13
+msgid ""
+"Consider placing the New Tab button near the Search Bar. Otherwise it may "
+"get lost when only one tab is open."
+msgstr ""
+"Розмістити кнопку «Нова вкладка» поруч із рядком для пошуку. Інакше її можна "
+"загубити, якщо відкрито лише одну вкладку."
+
+#: src/apps/firefox/firefox_options.py:20
+msgid "Standard Tab Width"
+msgstr "Стандартна ширина вкладок"
+
+#: src/apps/firefox/firefox_options.py:21
+msgid "Use same tab width as standard Firefox"
+msgstr "Використовувати ту саму ширину вкладки, що і стандартний Firefox"
+
+#: src/apps/firefox/firefox_options.py:28
+msgid "Swap Tab Close Button"
+msgstr "Поміняти місце кнопки закриття вкладки"
+
+#: src/apps/firefox/firefox_options.py:30
+msgid "Place Close Tab button on opposite side from window controls"
+msgstr ""
+"Розташувати кнопку закриття вкладки на протилежному боці від кнопок "
+"керування вікном"
+
+#: src/apps/firefox/firefox_options.py:38
+msgid "Bookmarks Toolbar Under Tabs"
+msgstr "Панель закладок під вкладками"
+
+#: src/apps/firefox/firefox_options.py:39
+msgid "Place Bookmarks Bar underneath Tab Bar"
+msgstr "Розташувати панель закладок під панеллю вкладок"
+
+#: src/apps/firefox/firefox_options.py:46
+msgid "Tabs as Headerbar"
+msgstr "Вкладки як смужка заголовка"
+
+#: src/apps/firefox/firefox_options.py:47
+msgid "Place Tab Bar at top of window"
+msgstr "Розташувати панель вкладок згори вікна"
+
+#: src/apps/firefox/firefox_options.py:49
+msgid ""
+"Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
+"open"
+msgstr ""
+"Якщо увімкнено пункт «Ховати єдину вкладку», смужку заголовка буде показано, "
+"навіть якщо відкрито лише одну вкладку"
+
+#: src/apps/firefox/firefox_options.py:56
+msgid "Left-Aligned Titles"
+msgstr "Вирівняні ліворуч заголовки"
+
+#: src/apps/firefox/firefox_options.py:57
+msgid "Align tab title to left"
+msgstr "Вирівнювати заголовок вкладки ліворуч"
+
+#: src/apps/firefox/firefox_options.py:64
+msgid "Tab Behavior"
+msgstr "Поведінка вкладок"
+
+#: src/apps/firefox/firefox_options.py:69
+msgid "Active Tab Contrast"
+msgstr "Контрастність активної вкладки"
+
+#: src/apps/firefox/firefox_options.py:70
+msgid "Add more visual contrast to the active tab"
+msgstr "Додати візуальної контрастності активній вкладці"
+
+#: src/apps/firefox/firefox_options.py:77
+msgid "Close Only Selected Tabs"
+msgstr "«Закрити» лише для вибраної вкладки"
+
+#: src/apps/firefox/firefox_options.py:78
+msgid "Only show the Close Tab button on the active tab"
+msgstr "Показувати кнопку закриття вкладки лише для активної вкладки"
+
+#: src/apps/firefox/firefox_options.py:85
+msgid "Symbolic Tab Icons"
+msgstr "Символічні піктограми вкладок"
+
+#: src/apps/firefox/firefox_options.py:86
+msgid "Make all tab icons appear similar to symbolic icons"
+msgstr "Зробити піктограми усіх вкладок подібними до символічних піктограм"
+
+#: src/apps/firefox/firefox_options.py:93
+msgid "List of Tabs"
+msgstr "Список вкладок"
+
+#: src/apps/firefox/firefox_options.py:94
+msgid "Always show All Tabs button"
+msgstr "Завжди показувати кнопку «Усі вкладки»"
+
+#: src/apps/firefox/firefox_options.py:101
+msgid "List of Tabs on Overflow"
+msgstr "Список вкладок в огляді"
+
+#: src/apps/firefox/firefox_options.py:102
+msgid "Only show All Tabs button when many tabs are open"
+msgstr "Показувати кнопку «Усі вкладки», лише якщо відкрито багато вкладок"
+
+#: src/apps/firefox/firefox_options.py:114
+msgid "Hide Privacy Indicators"
+msgstr "Приховати індикатори конфіденційності"
+
+#: src/apps/firefox/firefox_options.py:115
+msgid "Hide microphone, screen share, and camera warnings"
+msgstr ""
+"Приховувати попередження щодо використання мікрофона, оприлюднення екрана та "
+"камери"
+
+#: src/apps/firefox/firefox_options.py:117
+msgid "GNOME will still show these privacy indicators in the Top Bar"
+msgstr "GNOME показуватиме ці індикатори конфіденційності на верхній панелі"
+
+#: src/apps/firefox/firefox_options.py:124
+msgid "True Black Dark Theme"
+msgstr "Справді чорна темна тема"
+
+#: src/apps/firefox/firefox_options.py:126
+msgid "Use an OLED-friendly, deep black when dark theme is enabled"
+msgstr "Використати сумісний з OLED темний чорний, якщо увімкнено темну тему"
+
+#: src/apps/firefox/firefox_options.py:134
+msgid "No Themed Icons"
+msgstr "Піктограми не з теми"
+
+#: src/apps/firefox/firefox_options.py:136
+msgid "Use standard Firefox icons instead of Adwaita-styled icons"
+msgstr ""
+"Використовувати стандартні піктограми Firefox замість піктограм у стилі "
+"Adwaita"
+
+#: src/apps/firefox/firefox_options.py:144
+msgid "Fullscreen Bookmarks"
+msgstr "Закладки у повноекранному режимі"
+
+#: src/apps/firefox/firefox_options.py:145
+msgid "Show Bookmarks bar while in fullscreen"
+msgstr "Показувати панель закладок у повноекранному режимі"
+
+#: src/gui/option_factory.py:93
+msgid "More Information"
+msgstr "Докладніше"
+
+#: src/utils/background.py:86
+msgid "Theme updated"
+msgstr "Тему оновлено"
+
+#: src/utils/background.py:87
+msgid "Firefox GNOME Theme Updated"
+msgstr "Оновлено тему GNOME Firefox"
+
+#: src/utils/background.py:89
+msgid "Theme Update Failed"
+msgstr "Не вдалося оновити тему"
+
+#: src/utils/background.py:90
+msgid "Could not check for theme updates due to a network issue"
+msgstr "Не вдалося виконати пошук оновлень теми через проблему із мережею"
+
+#: src/utils/background.py:92
+msgid "Theme Installation failed"
+msgstr "Помилка під час спроби встановити тему"
+
+#: src/utils/background.py:93
+msgid "A theme update was downloaded but installation failed"
+msgstr "Оновлення теми було отримано, але його не вдалося встановити"
