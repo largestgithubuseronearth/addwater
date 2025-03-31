@@ -1,0 +1,467 @@
+# Chinese (China) translation for addwater.
+# Copyright (C) 2025 addwater's COPYRIGHT HOLDER
+# This file is distributed under the same license as the addwater package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Jane Doe <chompski.concur840@aleeas.com>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: addwater main\n"
+"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
+"issues/\n"
+"POT-Creation-Date: 2025-03-26 12:59+0000\n"
+"PO-Revision-Date: 2025-03-30 20:06+0000\n"
+"Last-Translator: Jane Doe <chompski.concur840@aleeas.com>\n"
+"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-DL-Lang: zh_CN\n"
+"X-DL-Module: addwater\n"
+"X-DL-Branch: main\n"
+"X-DL-Domain: po\n"
+"X-DL-State: None\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 48.0\n"
+
+#. Branding Info
+#: data/dev.qwery.AddWater.desktop.in:3
+#: data/dev.qwery.AddWater.metainfo.xml.in:10
+msgid "Add Water"
+msgstr "Add Water"
+
+#: data/dev.qwery.AddWater.desktop.in:5
+#: data/dev.qwery.AddWater.metainfo.xml.in:11
+msgid "Keep Firefox in fashion"
+msgstr "使 Firefox 保持时尚"
+
+#. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
+#: data/dev.qwery.AddWater.desktop.in:10
+msgid "theme;adwaita;firefox;"
+msgstr "theme;adwaita;firefox;主题;火狐;"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:13
+msgid ""
+"A utility app to easily install the Firefox GNOME Theme* and automatically "
+"update it in the background. This theme keeps Firefox fashionable within the "
+"GNOME design ecosystem, and provides many helpful features to customize the "
+"interface to make browsing even more pleasant:"
+msgstr ""
+"一款用于安装并在后台自动更新 Firefox GNOME 主题*的实用程序。 此主题使 "
+"Firefox 在 GNOME 生态系统中保持时尚，并提供许多可进一步提升浏览体验的实用特"
+"性："
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:16
+msgid "Supports light and dark style, as well as accent colors"
+msgstr "支持亮色和暗色模式，以及强调色"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:17
+#: src/apps/firefox/firefox_options.py:11
+msgid "Hide Tab Bar when only one tab is open"
+msgstr "在只有一个标签页时隐藏标签栏"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:18
+msgid "Use an OLED-friendly pitch black for the interface"
+msgstr "使用对 OLED 友好的纯黑界面"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:19
+msgid "Customize Tab Bar position, position of controls, alignment, and more"
+msgstr "自定义标签栏位置、控件位置、对齐方向等等"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:20
+msgid "Hide redundant microphone, webcam, screen share indicators"
+msgstr "隐藏多余的麦克风、摄像头、屏幕共享指示器"
+
+# 或“支持以下 Firefox 变种： Flatpak 、 Snap 、 Librewolf 和 Floop”
+#: data/dev.qwery.AddWater.metainfo.xml.in:21
+msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
+msgstr "支持 Flatpak 、 Snap 、 Librewolf 和 Floop 版本的 Firefox"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:23
+msgid ""
+"*The Firefox GNOME Theme itself is independently developed and maintained by "
+"Rafael Mardojai CM."
+msgstr "*Firefox GNOME 主题本身由 Rafael Mardojai CM 独立开发并维护。"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:24
+msgid ""
+"The Firefox browser is not included and must be downloaded separately. This "
+"project is not affiliated or endorsed by the Mozilla Foundation. Firefox is "
+"a trademark of the Mozilla Foundation in the U.S. and other countries."
+msgstr ""
+"不包含 Firefox 浏览器，它必须被单独下载。本项目不隶属于 Mozilla 基金会，也未"
+"得到其认可。Firefox 是 Mozilla 基金会在美国和其他国家的商标。"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:35
+msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
+msgstr "Add Water 使调整 Firefox GNOME 主题变得简单"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:39
+msgid "The interface is clean, beautiful, and stays out of the way"
+msgstr "界面简洁、美观且不会碍事"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:43
+msgid "Supports a pure black Top Bar, perfect for OLED screens and dark rooms"
+msgstr "支持纯黑顶栏，非常适合 OLED 屏幕和阴暗房间"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:47
+msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
+msgstr "支持强调色和多个标签栏与书签栏位置"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:29
+msgid "Automatically Discover the installed Firefox package format"
+msgstr "自动发现已安装的 Firefox 软件包格式"
+
+# “(Major.Minor.Micro)”是否应该翻译？
+#: data/dev.qwery.AddWater.gschema.xml.in:34
+msgid ""
+"Most recently installed version of the firefox gnome theme (Major.Minor."
+"Micro)"
+msgstr "最近安装的 Firefox GNOME 主题版本 （主.次.微）"
+
+#: data/gtk/addwater-page.ui:15
+msgid "Firefox GNOME Theme"
+msgstr "Firefox GNOME 主题"
+
+#: data/gtk/addwater-page.ui:20
+msgid "Enable Theme"
+msgstr "启用主题"
+
+#. Translators: This refers to how the user installed Firefox (package manager, Flatpak, Snap, etc.)
+#: data/gtk/addwater-page.ui:28
+msgid "Package Format"
+msgstr "软件包格式"
+
+#: data/gtk/addwater-page.ui:29
+msgid "Profile data not found at selected location"
+msgstr "在所选地点未找到配置文件数据"
+
+#: data/gtk/addwater-page.ui:34
+msgid "Automatically Discover"
+msgstr "自动发现"
+
+#: data/gtk/addwater-page.ui:51
+msgid "Confirm your changes?"
+msgstr "确认您的改动？"
+
+#: data/gtk/addwater-page.ui:60
+msgid "Discard"
+msgstr "丢弃"
+
+#: data/gtk/addwater-page.ui:71
+msgid "Apply"
+msgstr "应用"
+
+#: data/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "常规"
+
+#: data/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "显示快捷键"
+
+#: data/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "退出"
+
+#: data/gtk/preferences.ui:13
+msgid "Update in Background"
+msgstr "后台更新"
+
+#: data/gtk/preferences.ui:14
+msgid "Automatically check for updates at login"
+msgstr "在登录时自动检查更新"
+
+#. Translators: This refers to options that could be unsafe.
+#: data/gtk/preferences.ui:21
+msgid "Danger Zone"
+msgstr "危险区"
+
+#: data/gtk/preferences.ui:22
+msgid ""
+"Remove the theme from all known profiles and reset Add Water to its default "
+"state. Any custom changes made to your user.js file will remain after a "
+"reset."
+msgstr ""
+"从所有已知配置文件中移除主题，并将 Add Water 重置为默认状态。对您的 user.js "
+"文件所做的任何自定义改动都将在重置后保留。"
+
+#: data/gtk/preferences.ui:25
+msgid "Reset and Close App"
+msgstr "重置并关闭应用"
+
+#. Translators: Profile as in Firefox profile/account
+#: data/gtk/profile-selector.ui:5
+msgid "Profile"
+msgstr "配置文件"
+
+#: data/gtk/profile-selector.ui:6
+msgid "Select profile to apply changes toward"
+msgstr "选择将要更改的配置文件"
+
+#: data/gtk/window.ui:19
+msgid "Main Menu"
+msgstr "主菜单"
+
+#: data/gtk/window.ui:34
+msgid "_Preferences"
+msgstr "首选项(_P)"
+
+#: data/gtk/window.ui:38
+msgid "_Keyboard Shortcuts"
+msgstr "键盘快捷键(_K)"
+
+#: data/gtk/window.ui:42
+msgid "_About Add Water"
+msgstr "关于 Add Water(_A)"
+
+#: src/window.py:104
+msgid "Open Help Page"
+msgstr "打开帮助页"
+
+#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+#: src/window.py:111
+msgid "{} Profile Data Not Found"
+msgstr "未找到 {} 配置文件数据"
+
+#: src/window.py:114
+msgid ""
+"Please ensure {} is installed and Add Water has permission to access your "
+"profiles"
+msgstr "请确保 {} 已安装且 Add Water 有权访问您的配置文件"
+
+#. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
+#: src/window.py:168
+msgid "translator-credits"
+msgstr "Jane Doe <chompski.concur840@aleeas.com>"
+
+#. Translator: This is followed by a list of names
+#: src/window.py:173
+msgid "Theme Created and Maintained by"
+msgstr "主题创作与维护"
+
+#: src/preferences.py:76
+msgid "Checking for theme updates"
+msgstr "正在检查主题更新"
+
+#: src/page.py:95
+msgid "Checking for updates..."
+msgstr "正在检查更新…"
+
+#. Translators: {} will be replaced by a version number (example: "v126.5.65")
+#: src/page.py:111
+msgid "Updated theme to {}"
+msgstr "主题已更新至 {}"
+
+#: src/page.py:113
+msgid "Failed to check for updates due to a network issue"
+msgstr "因网络问题，检查更新失败"
+
+#: src/page.py:115
+msgid "Failed to check for updates. Please try again later."
+msgstr "检查更新失败。请稍后再试。"
+
+#: src/page.py:117
+msgid "Unknown error has occurred. Please report this to developer."
+msgstr "出现未知错误。请向开发者报告此错误。"
+
+#: src/page.py:137
+msgid "Installed Theme. Restart Firefox to see changes."
+msgstr "主题已安装。重启 Firefox 以查看更改。"
+
+#: src/page.py:143
+msgid "Removed Theme. Restart Firefox to see changes."
+msgstr "主题已移除。重启 Firefox 以查看更改。"
+
+#: src/page.py:147
+msgid "Installation failed"
+msgstr "安装失败"
+
+#. TODO Reset to prior selected profile
+#: src/page.py:162
+msgid "Changes reverted"
+msgstr "改动已还原"
+
+#: src/page.py:264
+msgid "Not installed"
+msgstr "未安装"
+
+#. Translators: {} will be replaced with a version number (example: v132) or a status message
+#: src/page.py:268
+msgid "Firefox GNOME Theme — {}"
+msgstr "Firefox GNOME 主题 — {}"
+
+#: src/apps/firefox/firefox_options.py:5
+msgid "Tab Position"
+msgstr "标签位置"
+
+#: src/apps/firefox/firefox_options.py:10
+msgid "Hide Single Tab"
+msgstr "隐藏单标签页"
+
+#: src/apps/firefox/firefox_options.py:13
+msgid ""
+"Consider placing the New Tab button near the Search Bar. Otherwise it may "
+"get lost when only one tab is open."
+msgstr "考虑将新标签页按钮置于搜索栏附近。不然它可能会在只有一个标签页时丢失。"
+
+#: src/apps/firefox/firefox_options.py:20
+msgid "Standard Tab Width"
+msgstr "标准标签页宽"
+
+#: src/apps/firefox/firefox_options.py:21
+msgid "Use same tab width as standard Firefox"
+msgstr "使用与标准 Firefox 相同的标签页宽"
+
+#: src/apps/firefox/firefox_options.py:28
+msgid "Swap Tab Close Button"
+msgstr "交换标签页关闭按钮"
+
+#: src/apps/firefox/firefox_options.py:30
+msgid "Place Close Tab button on opposite side from window controls"
+msgstr "将关闭标签页按钮置于与窗口控制相对的一侧"
+
+#: src/apps/firefox/firefox_options.py:38
+msgid "Bookmarks Toolbar Under Tabs"
+msgstr "书签栏位于标签栏下方"
+
+#: src/apps/firefox/firefox_options.py:39
+msgid "Place Bookmarks Bar underneath Tab Bar"
+msgstr "将书签栏置于标签栏下方"
+
+# https://l10n.gnome.org/vertimus/gtk/gtk-3-24/po-properties/zh_CN/
+#
+# gtk-properties将header bar译为“首栏”，需要统一用词
+#: src/apps/firefox/firefox_options.py:46
+msgid "Tabs as Headerbar"
+msgstr "标签栏作为标头栏"
+
+#: src/apps/firefox/firefox_options.py:47
+msgid "Place Tab Bar at top of window"
+msgstr "将标签栏置于窗口顶部"
+
+#: src/apps/firefox/firefox_options.py:49
+msgid ""
+"Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
+"open"
+msgstr "与“隐藏单标签页”一同使用会在只有一个标签页时显示标题栏"
+
+#: src/apps/firefox/firefox_options.py:56
+msgid "Left-Aligned Titles"
+msgstr "左对齐标题"
+
+#: src/apps/firefox/firefox_options.py:57
+msgid "Align tab title to left"
+msgstr "使标签页标题靠左对齐"
+
+#: src/apps/firefox/firefox_options.py:64
+msgid "Tab Behavior"
+msgstr "标签行为"
+
+#: src/apps/firefox/firefox_options.py:69
+msgid "Active Tab Contrast"
+msgstr "活动标签页对比度"
+
+#: src/apps/firefox/firefox_options.py:70
+msgid "Add more visual contrast to the active tab"
+msgstr "提升活动标签页的视觉对比度"
+
+#: src/apps/firefox/firefox_options.py:77
+msgid "Close Only Selected Tabs"
+msgstr "仅关闭已选择标签页"
+
+#: src/apps/firefox/firefox_options.py:78
+msgid "Only show the Close Tab button on the active tab"
+msgstr "仅在活动标签页上显示关闭标签页按钮"
+
+#: src/apps/firefox/firefox_options.py:85
+msgid "Symbolic Tab Icons"
+msgstr "符号标签页图标"
+
+#: src/apps/firefox/firefox_options.py:86
+msgid "Make all tab icons appear similar to symbolic icons"
+msgstr "使所有标签页图标看起来像符号图标"
+
+#: src/apps/firefox/firefox_options.py:93
+msgid "List of Tabs"
+msgstr "标签页列表"
+
+#: src/apps/firefox/firefox_options.py:94
+msgid "Always show All Tabs button"
+msgstr "始终显示所有标签页按钮"
+
+#: src/apps/firefox/firefox_options.py:101
+msgid "List of Tabs on Overflow"
+msgstr "溢出时显示标签页列表"
+
+#: src/apps/firefox/firefox_options.py:102
+msgid "Only show All Tabs button when many tabs are open"
+msgstr "仅在有大量标签页时显示所有标签页按钮"
+
+#: src/apps/firefox/firefox_options.py:114
+msgid "Hide Privacy Indicators"
+msgstr "隐藏隐私指示器"
+
+#: src/apps/firefox/firefox_options.py:115
+msgid "Hide microphone, screen share, and camera warnings"
+msgstr "隐藏麦克风、屏幕共享和摄像头警告"
+
+#: src/apps/firefox/firefox_options.py:117
+msgid "GNOME will still show these privacy indicators in the Top Bar"
+msgstr "GNOME 仍会在顶栏显示这些隐私指示器"
+
+#: src/apps/firefox/firefox_options.py:124
+msgid "True Black Dark Theme"
+msgstr "纯黑暗色模式"
+
+#: src/apps/firefox/firefox_options.py:126
+msgid "Use an OLED-friendly, deep black when dark theme is enabled"
+msgstr "在启用暗色模式时使用对 OLED 友好的纯黑"
+
+#: src/apps/firefox/firefox_options.py:134
+msgid "No Themed Icons"
+msgstr "无主题图标"
+
+#: src/apps/firefox/firefox_options.py:136
+msgid "Use standard Firefox icons instead of Adwaita-styled icons"
+msgstr "使用标准 Firefox 图标而非 Adwaita 风格图标"
+
+#: src/apps/firefox/firefox_options.py:144
+msgid "Fullscreen Bookmarks"
+msgstr "全屏书签栏"
+
+#: src/apps/firefox/firefox_options.py:145
+msgid "Show Bookmarks bar while in fullscreen"
+msgstr "在全屏时显示书签栏"
+
+#: src/gui/option_factory.py:93
+msgid "More Information"
+msgstr "更多信息"
+
+#: src/utils/background.py:86
+msgid "Theme updated"
+msgstr "主题已更新"
+
+#: src/utils/background.py:87
+msgid "Firefox GNOME Theme Updated"
+msgstr "Firefox GNOME 主题已更新"
+
+#: src/utils/background.py:89
+msgid "Theme Update Failed"
+msgstr "主题更新失败"
+
+#: src/utils/background.py:90
+msgid "Could not check for theme updates due to a network issue"
+msgstr "因网络问题，无法检查主题更新"
+
+#: src/utils/background.py:92
+msgid "Theme Installation failed"
+msgstr "主题安装失败"
+
+#: src/utils/background.py:93
+msgid "A theme update was downloaded but installation failed"
+msgstr "已下载主题更新，但安装失败"
