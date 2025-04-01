@@ -1,0 +1,474 @@
+# Finnish translation for addwater.
+# Copyright (C) 2025 addwater's COPYRIGHT HOLDER
+# This file is distributed under the same license as the addwater package.
+# Jiri Grönroos <jiri.gronroos@iki.fi>,  2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: addwater main\n"
+"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
+"issues/\n"
+"POT-Creation-Date: 2025-03-26 12:59+0000\n"
+"PO-Revision-Date: 2025-03-26 19:53+0200\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
+"Language-Team: Finnish <Finnish>\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.4\n"
+
+#. Branding Info
+#: data/dev.qwery.AddWater.desktop.in:3
+#: data/dev.qwery.AddWater.metainfo.xml.in:10
+msgid "Add Water"
+msgstr "Add Water"
+
+#: data/dev.qwery.AddWater.desktop.in:5
+#: data/dev.qwery.AddWater.metainfo.xml.in:11
+msgid "Keep Firefox in fashion"
+msgstr "Pidä Firefox tyylikkäänä"
+
+#. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
+#: data/dev.qwery.AddWater.desktop.in:10
+msgid "theme;adwaita;firefox;"
+msgstr "theme;adwaita;firefox;teema;"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:13
+msgid ""
+"A utility app to easily install the Firefox GNOME Theme* and automatically "
+"update it in the background. This theme keeps Firefox fashionable within the "
+"GNOME design ecosystem, and provides many helpful features to customize the "
+"interface to make browsing even more pleasant:"
+msgstr ""
+"Tämä työkalu lataa Firefoxin Gnome-teeman* ja päivittää sen automaattisesti "
+"taustalla. Teema pitää Firefoxin Gnomen tyylisuuntauksen mukaisena, ja "
+"tarjoaa monia hyödyllisiä ominaisuuksia käyttöliittymän mukauttamiseen:"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:16
+msgid "Supports light and dark style, as well as accent colors"
+msgstr "Tukee vaaleaa ja tummaa tyyliä sekä korostusvärejä"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:17
+#: src/apps/firefox/firefox_options.py:11
+msgid "Hide Tab Bar when only one tab is open"
+msgstr "Piilota välilehtipalkki vain yhden välilehden ollessa avoinna"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:18
+msgid "Use an OLED-friendly pitch black for the interface"
+msgstr "Käytä OLED-näytöille sopivaa mustaa käyttöliittymässä"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:19
+msgid "Customize Tab Bar position, position of controls, alignment, and more"
+msgstr ""
+"Mukauta välilehtipalkin sijaintia, säädinten sijaintia, tasausta ja paljon "
+"muuta"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:20
+msgid "Hide redundant microphone, webcam, screen share indicators"
+msgstr "Piilota tarpeettomat mikrofonin, web-kameran ja näyttöjaon ilmaisimet"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:21
+msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
+msgstr "Tukee Firefoxin Flatpak-, Snap-, Librewolf- ja Floorp-muunnelmia"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:23
+msgid ""
+"*The Firefox GNOME Theme itself is independently developed and maintained by "
+"Rafael Mardojai CM."
+msgstr "*Firefoxin Gnome-teemaa kehittää ja ylläpitää Rafael Mardojai CM."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:24
+msgid ""
+"The Firefox browser is not included and must be downloaded separately. This "
+"project is not affiliated or endorsed by the Mozilla Foundation. Firefox is "
+"a trademark of the Mozilla Foundation in the U.S. and other countries."
+msgstr ""
+"Firefox-selain ei sisälly tähän sovellukseen, joten Firefox tulee ladata "
+"erikseen. Mozilla-säätiö ei tue tai ole mukana tässä projektissa. Firefox on "
+"Mozilla-säätiön tavaramerkki Yhdysvalloissa ja muissa maissa."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:35
+msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
+msgstr "Add Waterin avulla Firefoxin Gnome-teeman muokkaaminen on helppoa"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:39
+msgid "The interface is clean, beautiful, and stays out of the way"
+msgstr "Käyttöliittymä on siisti ja nätti, eikä se hypi silmille"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:43
+msgid "Supports a pure black Top Bar, perfect for OLED screens and dark rooms"
+msgstr ""
+"Tukee todellista mustaa yläpalkkia, joka on täydellinen OLED-näytöille ja "
+"pimeisiin huoneisiin"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:47
+msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
+msgstr ""
+"Tukee korostusvärejä ja useita välilehti- ja kirjanmerkkipalkkien sijainteja"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:29
+msgid "Automatically Discover the installed Firefox package format"
+msgstr "Havaitse automaattisesti asennettu Firefox-pakettimuoto"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:34
+msgid ""
+"Most recently installed version of the firefox gnome theme (Major.Minor."
+"Micro)"
+msgstr "Uusin asennettu versio Firefoxin Gnome-teemasta (Major.Minor.Micro)"
+
+#: data/gtk/addwater-page.ui:15
+msgid "Firefox GNOME Theme"
+msgstr "Firefoxin Gnome-teema"
+
+#: data/gtk/addwater-page.ui:20
+msgid "Enable Theme"
+msgstr "Käytä teemaa"
+
+#. Translators: This refers to how the user installed Firefox (package manager, Flatpak, Snap, etc.)
+#: data/gtk/addwater-page.ui:28
+msgid "Package Format"
+msgstr "Pakettimuoto"
+
+#: data/gtk/addwater-page.ui:29
+msgid "Profile data not found at selected location"
+msgstr "Profiilidataa ei löytynyt valitusta sijainnista"
+
+#: data/gtk/addwater-page.ui:34
+msgid "Automatically Discover"
+msgstr "Havaitse automaattisesti"
+
+#: data/gtk/addwater-page.ui:51
+msgid "Confirm your changes?"
+msgstr "Vahvistetaanko muutokset?"
+
+#: data/gtk/addwater-page.ui:60
+msgid "Discard"
+msgstr "Hylkää"
+
+#: data/gtk/addwater-page.ui:71
+msgid "Apply"
+msgstr "Toteuta"
+
+#: data/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Yleiset"
+
+#: data/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Näytä pikanäppäimet"
+
+#: data/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Lopeta"
+
+#: data/gtk/preferences.ui:13
+msgid "Update in Background"
+msgstr "Päivitä taustalla"
+
+#: data/gtk/preferences.ui:14
+msgid "Automatically check for updates at login"
+msgstr "Tarkista päivitykset automaattisesti kirjautumisen yhteydessä"
+
+#. Translators: This refers to options that could be unsafe.
+#: data/gtk/preferences.ui:21
+msgid "Danger Zone"
+msgstr "Vaaravyöhyke"
+
+#: data/gtk/preferences.ui:22
+msgid ""
+"Remove the theme from all known profiles and reset Add Water to its default "
+"state. Any custom changes made to your user.js file will remain after a "
+"reset."
+msgstr ""
+"Poista teema kaikista tunnetuista profiileista ja palauta Add Water "
+"oletusasetuksiin. Kaikki omat muutokset user.js-tiedostoon pysyvät "
+"sellaisenaan palauttamisen jälkeen."
+
+#: data/gtk/preferences.ui:25
+msgid "Reset and Close App"
+msgstr "Palauta ja sulje sovellus"
+
+#. Translators: Profile as in Firefox profile/account
+#: data/gtk/profile-selector.ui:5
+msgid "Profile"
+msgstr "Profiili"
+
+#: data/gtk/profile-selector.ui:6
+msgid "Select profile to apply changes toward"
+msgstr "Valitse profiili, johon muutokset toteutetaan"
+
+#: data/gtk/window.ui:19
+msgid "Main Menu"
+msgstr "Päävalikko"
+
+#: data/gtk/window.ui:34
+msgid "_Preferences"
+msgstr "_Asetukset"
+
+#: data/gtk/window.ui:38
+msgid "_Keyboard Shortcuts"
+msgstr "_Pikanäppäimet"
+
+#: data/gtk/window.ui:42
+msgid "_About Add Water"
+msgstr "_Tietoja - Add Water"
+
+#: src/window.py:104
+msgid "Open Help Page"
+msgstr "Avaa tukisivu"
+
+#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+#: src/window.py:111
+msgid "{} Profile Data Not Found"
+msgstr "{}-profiilidataa ei löytynyt"
+
+#: src/window.py:114
+msgid ""
+"Please ensure {} is installed and Add Water has permission to access your "
+"profiles"
+msgstr ""
+"Varmista, että {} on asennettu ja että Add Water -sovelluksella on pääsy "
+"profiileihisi"
+
+#. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
+#: src/window.py:168
+msgid "translator-credits"
+msgstr "Jiri Grönroos"
+
+#. Translator: This is followed by a list of names
+#: src/window.py:173
+msgid "Theme Created and Maintained by"
+msgstr "Teeman luonut ja sen ylläpidosta vastaa"
+
+#: src/preferences.py:76
+msgid "Checking for theme updates"
+msgstr "Tarkistetaan teemapäivityksiä"
+
+#: src/page.py:95
+msgid "Checking for updates..."
+msgstr "Tarkistetaan päivityksiä..."
+
+#. Translators: {} will be replaced by a version number (example: "v126.5.65")
+#: src/page.py:111
+msgid "Updated theme to {}"
+msgstr "Teema päivitetty versioon {}"
+
+#: src/page.py:113
+msgid "Failed to check for updates due to a network issue"
+msgstr "Päivitysten tarkistaminen epäonnistu verkko-ongelman vuoksi"
+
+#: src/page.py:115
+msgid "Failed to check for updates. Please try again later."
+msgstr "Päivitysten tarkistaminen epäonnistui. Yritä myöhemmin uudelleen."
+
+#: src/page.py:117
+msgid "Unknown error has occurred. Please report this to developer."
+msgstr "Tuntematon virhe. Ilmoita tästä kehittäjälle."
+
+#: src/page.py:137
+msgid "Installed Theme. Restart Firefox to see changes."
+msgstr "Teema asennettu. Käynnistä Firefox uudelleen nähdäksesi muutokset."
+
+#: src/page.py:143
+msgid "Removed Theme. Restart Firefox to see changes."
+msgstr "Teema poistettu. Käynnistä Firefox uudelleen nähdäksesi muutokset."
+
+#: src/page.py:147
+msgid "Installation failed"
+msgstr "Asennus epäonnistui"
+
+#. TODO Reset to prior selected profile
+#: src/page.py:162
+msgid "Changes reverted"
+msgstr "Muutokset kumottu"
+
+#: src/page.py:264
+msgid "Not installed"
+msgstr "Ei asennettu"
+
+#. Translators: {} will be replaced with a version number (example: v132) or a status message
+#: src/page.py:268
+msgid "Firefox GNOME Theme — {}"
+msgstr "Firefoxin Gnome-teema — {}"
+
+#: src/apps/firefox/firefox_options.py:5
+msgid "Tab Position"
+msgstr "Välilehden sijainti"
+
+#: src/apps/firefox/firefox_options.py:10
+msgid "Hide Single Tab"
+msgstr "Piilota yksittäinen välilehti"
+
+#: src/apps/firefox/firefox_options.py:13
+msgid ""
+"Consider placing the New Tab button near the Search Bar. Otherwise it may "
+"get lost when only one tab is open."
+msgstr ""
+"Harkitse \"Uusi välilehti\"-painikkeen asettamista hakupalkin lähelle. "
+"Muussa tapauksessa se saattaa olla piilossa, kun vain yksi välilehti on "
+"avoinna."
+
+#: src/apps/firefox/firefox_options.py:20
+msgid "Standard Tab Width"
+msgstr "Normaali välilehden leveys"
+
+#: src/apps/firefox/firefox_options.py:21
+msgid "Use same tab width as standard Firefox"
+msgstr "Käytä samaa välilehden leveyttä kuin Firefox normaalisti"
+
+#: src/apps/firefox/firefox_options.py:28
+msgid "Swap Tab Close Button"
+msgstr "Vaihda välilehden Sulje-painikkeen paikkaa"
+
+#: src/apps/firefox/firefox_options.py:30
+msgid "Place Close Tab button on opposite side from window controls"
+msgstr ""
+"Aseta \"Sulje välilehti\"-painike ikkunasäädinten vastakkaiselle puolelle"
+
+#: src/apps/firefox/firefox_options.py:38
+msgid "Bookmarks Toolbar Under Tabs"
+msgstr "Kirjanmerkkien työkalupalkki välilehtien alla"
+
+#: src/apps/firefox/firefox_options.py:39
+msgid "Place Bookmarks Bar underneath Tab Bar"
+msgstr "Aseta kirjanmerkkipalkki välilehtipalkin alapuolelle"
+
+#: src/apps/firefox/firefox_options.py:46
+msgid "Tabs as Headerbar"
+msgstr "Välilehdet otsakepalkkina"
+
+#: src/apps/firefox/firefox_options.py:47
+msgid "Place Tab Bar at top of window"
+msgstr "Aseta välilehtipalkki ikkunan yläosaan"
+
+#: src/apps/firefox/firefox_options.py:49
+msgid ""
+"Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
+"open"
+msgstr ""
+"Kun \"Piilota yksittäinen välilehti\" on käytössä, otsakepalkki näytetään "
+"vain yhden välilehden ollessa avoinna"
+
+#: src/apps/firefox/firefox_options.py:56
+msgid "Left-Aligned Titles"
+msgstr "Tasaa otsikot vasemmalle"
+
+#: src/apps/firefox/firefox_options.py:57
+msgid "Align tab title to left"
+msgstr "Tasaa välilehden otsikko vasemmalle"
+
+#: src/apps/firefox/firefox_options.py:64
+msgid "Tab Behavior"
+msgstr "Välilehden toiminta"
+
+#: src/apps/firefox/firefox_options.py:69
+msgid "Active Tab Contrast"
+msgstr "Aktiivisen välilehden kontrasti"
+
+#: src/apps/firefox/firefox_options.py:70
+msgid "Add more visual contrast to the active tab"
+msgstr "Lisää visuaalista kontrastia aktiiviseen välilehteen"
+
+#: src/apps/firefox/firefox_options.py:77
+msgid "Close Only Selected Tabs"
+msgstr "Sulje vain valitut välilehdet"
+
+#: src/apps/firefox/firefox_options.py:78
+msgid "Only show the Close Tab button on the active tab"
+msgstr "Näytä \"Sulje välilehti\"-painike vain aktiivisessa välilehdessä"
+
+#: src/apps/firefox/firefox_options.py:85
+msgid "Symbolic Tab Icons"
+msgstr "Symboliset välilehtikuvakkeet"
+
+#: src/apps/firefox/firefox_options.py:86
+msgid "Make all tab icons appear similar to symbolic icons"
+msgstr "Tee kaikista välilehtikuvakkeista symbolisten kuvakkeiden kaltaisia"
+
+#: src/apps/firefox/firefox_options.py:93
+msgid "List of Tabs"
+msgstr "Välilehtiluettelo"
+
+#: src/apps/firefox/firefox_options.py:94
+msgid "Always show All Tabs button"
+msgstr "Näytä aina \"Kaikki välilehdet\"-painike"
+
+#: src/apps/firefox/firefox_options.py:101
+msgid "List of Tabs on Overflow"
+msgstr "Välilehtiluettelo ylivuotaessa"
+
+#: src/apps/firefox/firefox_options.py:102
+msgid "Only show All Tabs button when many tabs are open"
+msgstr ""
+"Näytä \"Kaikki välilehdet\"-painike vain useiden välilehtien ollessa avoinna"
+
+#: src/apps/firefox/firefox_options.py:114
+msgid "Hide Privacy Indicators"
+msgstr "Piilota yksityisyyden ilmaisimet"
+
+#: src/apps/firefox/firefox_options.py:115
+msgid "Hide microphone, screen share, and camera warnings"
+msgstr "Piilota mikrofonin, näyttöjaon ja kameran varoitukset"
+
+#: src/apps/firefox/firefox_options.py:117
+msgid "GNOME will still show these privacy indicators in the Top Bar"
+msgstr "Gnome näyttää nämä kyseiset ilmaisimet edelleen yläpalkissa"
+
+#: src/apps/firefox/firefox_options.py:124
+msgid "True Black Dark Theme"
+msgstr "Todellinen tumma (musta) teema"
+
+#: src/apps/firefox/firefox_options.py:126
+msgid "Use an OLED-friendly, deep black when dark theme is enabled"
+msgstr ""
+"Käytä OLED-näytöille sopivaa mustaa teemaa, kun tumma teema on käytössä"
+
+#: src/apps/firefox/firefox_options.py:134
+msgid "No Themed Icons"
+msgstr "Ei teemakuvakkeita"
+
+#: src/apps/firefox/firefox_options.py:136
+msgid "Use standard Firefox icons instead of Adwaita-styled icons"
+msgstr ""
+"Käytä standardeja Firefox-kuvakkeita Adwaita-tyylisten kuvakkeiden sijaan"
+
+#: src/apps/firefox/firefox_options.py:144
+msgid "Fullscreen Bookmarks"
+msgstr "Kirjanmerkit koko näytön tilassa"
+
+#: src/apps/firefox/firefox_options.py:145
+msgid "Show Bookmarks bar while in fullscreen"
+msgstr "Näytä kirjanmerkkipalkki koko näytön tilassa"
+
+#: src/gui/option_factory.py:93
+msgid "More Information"
+msgstr "Lisätietoja"
+
+#: src/utils/background.py:86
+msgid "Theme updated"
+msgstr "Teema päivitetty"
+
+#: src/utils/background.py:87
+msgid "Firefox GNOME Theme Updated"
+msgstr "Firefoxin Gnome-teema päivitetty"
+
+#: src/utils/background.py:89
+msgid "Theme Update Failed"
+msgstr "Teeman päivitys epäonnistui"
+
+#: src/utils/background.py:90
+msgid "Could not check for theme updates due to a network issue"
+msgstr "Teemapäivityksiä ei voitu tarkistaa verkko-ongelman vuoksi"
+
+#: src/utils/background.py:92
+msgid "Theme Installation failed"
+msgstr "Teeman asennus epäonnistui"
+
+#: src/utils/background.py:93
+msgid "A theme update was downloaded but installation failed"
+msgstr "Teemapäivitys ladattiin, mutta sen asennus epäonnistui"
