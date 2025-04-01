@@ -8,8 +8,9 @@ msgstr ""
 "Project-Id-Version: addwater main\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2025-03-24 12:59+0000\n"
-"PO-Revision-Date: 2025-03-25 10:28+0100\n"
+"POT-Creation-Date: 2025-03-31 17:20+0000\n"
+"PO-Revision-Date: 2025-04-01 19:58+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "X-Generator: Poedit 2.2.1\n"
 
 #. Branding Info
@@ -108,16 +108,14 @@ msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
 msgstr "Dodaj vodo omogoča enostavno prilagajanje teme GNOME za Firefox"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:39
-#, fuzzy
 msgid "The interface is clean, beautiful, and stays out of the way"
-msgstr "Vmesnik je čist, lep in ne poti"
+msgstr "Vmesnik je čist, lep in ni moteč"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:43
-#, fuzzy
 msgid "Supports a pure black Top Bar, perfect for OLED screens and dark rooms"
 msgstr ""
-"Podpira čisto črno zgornjo vrstico, ki je kot nalašč za OLED zaslone in "
-"temne prostore"
+"Podpira čisto črno vrhnjo vrstico, ki je kot nalašč za OLED zaslone in temne "
+"prostore"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:47
 #, fuzzy
@@ -160,9 +158,8 @@ msgid "Automatically Discover"
 msgstr "Samodejno odkrij"
 
 #: data/gtk/addwater-page.ui:51
-#, fuzzy
 msgid "Confirm your changes?"
-msgstr "Potrdite spremembe?"
+msgstr "Ali želite potrditi spremembe?"
 
 #: data/gtk/addwater-page.ui:60
 msgid "Discard"
@@ -192,9 +189,8 @@ msgid "Update in Background"
 msgstr "Posodobi v ozadju"
 
 #: data/gtk/preferences.ui:14
-#, fuzzy
 msgid "Automatically check for updates at login"
-msgstr "Samodejno preverjanje, ali so na voljo posodobitve ob prijavi"
+msgstr "Ob prijavi samodejno preveri, ali so na voljo posodobitve"
 
 #. Translators: This refers to options that could be unsafe.
 #: data/gtk/preferences.ui:21
@@ -213,9 +209,17 @@ msgstr ""
 "ponastavitvi."
 
 #: data/gtk/preferences.ui:25
-#, fuzzy
 msgid "Reset and Close App"
-msgstr "Ponastavi in zapri aplikacijo"
+msgstr "Ponastavi in zapri program"
+
+#. Translators: Profile as in Firefox profile/account
+#: data/gtk/profile-selector.ui:5
+msgid "Profile"
+msgstr "Profil"
+
+#: data/gtk/profile-selector.ui:6
+msgid "Select profile to apply changes toward"
+msgstr "Izberite profil, za katerega želite uveljaviti spremembe"
 
 #: data/gtk/window.ui:19
 msgid "Main Menu"
@@ -479,24 +483,24 @@ msgstr ""
 "tema"
 
 #: src/apps/firefox/firefox_options.py:134
-#, fuzzy
 msgid "No Themed Icons"
 msgstr "Brez tematskih ikon"
 
 #: src/apps/firefox/firefox_options.py:136
-#, fuzzy
 msgid "Use standard Firefox icons instead of Adwaita-styled icons"
 msgstr "Uporabite standardne ikone Firefoxa namesto ikon v slogu Adwaita"
 
 #: src/apps/firefox/firefox_options.py:144
-#, fuzzy
 msgid "Fullscreen Bookmarks"
 msgstr "Celozaslonski zaznamki"
 
 #: src/apps/firefox/firefox_options.py:145
-#, fuzzy
 msgid "Show Bookmarks bar while in fullscreen"
-msgstr "Prikaz vrstice z zaznamki v celozaslonskem načinu"
+msgstr "Pokaži vrstico z zaznamki v celozaslonskem načinu"
+
+#: src/gui/option_factory.py:93
+msgid "More Information"
+msgstr "Več podrobnosti"
 
 #: src/utils/background.py:86
 msgid "Theme updated"
