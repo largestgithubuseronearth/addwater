@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: addwater\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2025-03-24 12:59+0000\n"
+"POT-Creation-Date: 2025-04-04 19:42+0000\n"
 "PO-Revision-Date: 2025-03-24 15:20-0300\n"
 "Last-Translator: Filipe Motta <luizfilipemotta@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -201,6 +201,15 @@ msgstr ""
 #: data/gtk/preferences.ui:25
 msgid "Reset and Close App"
 msgstr "Redefinir e fechar aplicativo"
+
+#. Translators: Profile as in Firefox profile/account
+#: data/gtk/profile-selector.ui:5
+msgid "Profile"
+msgstr "Perfil"
+
+#: data/gtk/profile-selector.ui:6
+msgid "Select profile to apply changes toward"
+msgstr "Selecione o perfil ao qual aplicar alterações"
 
 #: data/gtk/window.ui:19
 msgid "Main Menu"
@@ -446,6 +455,10 @@ msgstr "Favoritos na Tela Cheia"
 msgid "Show Bookmarks bar while in fullscreen"
 msgstr "Mostrar a Barra de Favoritos quando em tela cheia"
 
+#: src/gui/option_factory.py:93
+msgid "More Information"
+msgstr "Mais informações"
+
 #: src/utils/background.py:86
 msgid "Theme updated"
 msgstr "Tema atualizado"
@@ -587,9 +600,3 @@ msgstr "Uma atualização de tema foi baixada, mas a instalação falhou"
 #~ "This is the initial release of Add Water. Let me know what you think."
 #~ msgstr ""
 #~ "Este é lançamento inicial do Add Water. Me conte o que você acha dele."
-
-#~ msgid "Profile"
-#~ msgstr "Perfil"
-
-#~ msgid "Select profile to apply changes toward"
-#~ msgstr "Selecione o perfil ao qual aplicar alterações"
