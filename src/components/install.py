@@ -50,7 +50,7 @@ class InstallManager:
         self,
         installer: Callable,
         preference_handler: Optional[Callable] = None,
-        uninstaller: Optional[Callable] = None,
+        uninstaller: Optional[Callable] = None
     ):
         self._installer = installer
 
@@ -68,7 +68,7 @@ class InstallManager:
         self,
         theme_path: PathLike,
         profile_path: PathLike,
-        options_results: Optional[dict[str, bool]] = None,
+        options_results: Optional[dict[str, bool]] = None
     ) -> Enum:
         # The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
         """Handle installation of quick and full theme installs
@@ -165,11 +165,14 @@ def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
     log.debug(f"Profile path: {profile_path}")
 
     # Delete theme folder
+    chrome_path = join(profile_path, "chrome")
     try:
-        chrome_path = join(profile_path, "chrome", theme_folder)
-        shutil.rmtree(chrome_path)
+        theme_path = join(chrome_path, theme_folder)
+        shutil.rmtree(theme_path)
     except FileNotFoundError:
         pass
+
+    _remove_css_imports(chrome_path)
 
     # Set all user_prefs to false
     user_js = join(profile_path, "user.js")
@@ -194,6 +197,28 @@ def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
 
     log.info("Done.")
 
+def _remove_css_imports(chrome_path: PathLike) -> None:
+    # TODO use this in the install process too
+    # FIXME it only removes a ~third of duplicate imports at once. Why?
+    css_files = ["userChrome.css", "userContent.css"]
+
+    for each in css_files:
+        p = join(chrome_path, each)
+        try:
+            with open(file=p, mode="r", encoding="utf-8") as file:
+                log.debug(f"removing imports at {each}")
+                lines = file.readlines()
+
+            with open(file=p, mode="w", encoding="utf-8") as file:
+                fgt_importline = f'@import "firefox-gnome-theme/{each}";'
+                for line in lines:
+                    if fgt_importline in line:
+                        lines.remove(line)
+
+                file.writelines(lines)
+        except FileNotFoundError:
+            log.error(f"couldn't find file {each}")
+            pass
 
 class InstallStatus(Enum):
     SUCCESS = 0
