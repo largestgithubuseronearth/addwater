@@ -22,12 +22,13 @@ import logging
 from enum import Enum
 from typing import Any, Callable
 
+from addwater import info
 from addwater.backend import AddWaterBackend
 from gi.repository import Gio
 
 log = logging.getLogger(__name__)
 
-
+# TODO clean up this whole thing
 class BackgroundUpdater:
     """Simple class to update and install the theme without a GUI."""
 
@@ -79,6 +80,11 @@ class BackgroundUpdater:
 
     def get_status_notification(self):
         log.debug("prepping a desktop notification for the bg update/install status")
+        if not Gio.Settings(schema_id=info.APP_ID).get_boolean("background-notifications"):
+            log.info("desktop notifications disabled")
+            return None
+
+
         status = self.bg_status
 
         match status:

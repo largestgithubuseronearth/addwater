@@ -8,7 +8,8 @@
 
 ### An installer for the fantastic [Firefox GNOME Theme](https://github.com/rafaelmardojai/firefox-gnome-theme) by [Rafael Mardojai CM](https://www.mardojai.com/)
 
-This is a utility to automatically install the Firefox GNOME Theme and keep it up to date automatically, as well as easily configure the theme to your liking.
+This is a utility to automatically install the Firefox GNOME Theme and keep it up
+ to date automatically, as well as easily configure the theme to your liking.
 
 This theme supports a variety of options for Tab positioning, behavior, look and feel.
 
@@ -18,10 +19,11 @@ This theme supports a variety of options for Tab positioning, behavior, look and
     </a>
 </div>
 
-# Preview
+# Preview Images
 The interface is clean, beautiful, and stays out of the way
 ![The interface is clean, beautiful, and stays out of the way](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image2.png)
 
+<details><summary>Click to View More</summary>
 Supports a pure black Top Bar, perfect for OLED screens and dark rooms
 ![Supports a pure black Top Bar, perfect for OLED screens and dark rooms](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image3.png)
 
@@ -30,12 +32,23 @@ Supports Accent Colors and multiple positions for Tab and Bookmark Bars
 
 Add Water makes it easy to tweak the Firefox GNOME Theme
 ![Add Water makes it easy to tweak the Firefox GNOME Theme](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image1.png)
+</details>
 
 # Support Rafael's work by
 
 ### [Sending a donation on Paypal](https://www.paypal.com/paypalme/RafaelMardojaiCM); or
 
 ### [Sponsoring him on Github](https://github.com/sponsors/rafaelmardojai) 
+
+## Translating Add Water
+Add Water uses GNOME's Damned Lies system for translations. If you'd like to help 
+translate Add Water to your language, register with Damned Lies and join the team 
+for your language.
+
+https://l10n.gnome.org/module/addwater/
+
+I don't accept translations through pull requests.
+
 
 --------
 
