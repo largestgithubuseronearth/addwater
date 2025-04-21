@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: addwater main\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2025-03-31 17:20+0000\n"
-"PO-Revision-Date: 2025-04-01 19:58+0200\n"
+"POT-Creation-Date: 2025-04-04 19:42+0000\n"
+"PO-Revision-Date: 2025-04-21 22:01+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -23,13 +23,11 @@ msgstr ""
 #. Branding Info
 #: data/dev.qwery.AddWater.desktop.in:3
 #: data/dev.qwery.AddWater.metainfo.xml.in:10
-#, fuzzy
 msgid "Add Water"
-msgstr "Dodajte vodo"
+msgstr "Dodaj vodo"
 
 #: data/dev.qwery.AddWater.desktop.in:5
 #: data/dev.qwery.AddWater.metainfo.xml.in:11
-#, fuzzy
 msgid "Keep Firefox in fashion"
 msgstr "Ohranite Firefox v modi"
 
@@ -79,12 +77,10 @@ msgstr ""
 "zaslona"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:21
-#, fuzzy
 msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
-msgstr "Podpira različice Firefoxa Flatpak, Snap, Librewolf in Floorp"
+msgstr "Podpira Firefox v različicah Flatpak, Snap, Librewolf in Floorp"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:23
-#, fuzzy
 msgid ""
 "*The Firefox GNOME Theme itself is independently developed and maintained by "
 "Rafael Mardojai CM."
@@ -103,7 +99,6 @@ msgstr ""
 "fundacije Mozilla Foundation v ZDA in drugih državah."
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:35
-#, fuzzy
 msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
 msgstr "Dodaj vodo omogoča enostavno prilagajanje teme GNOME za Firefox"
 
@@ -234,9 +229,8 @@ msgid "_Keyboard Shortcuts"
 msgstr "_Tipkovne bližnjice"
 
 #: data/gtk/window.ui:42
-#, fuzzy
 msgid "_About Add Water"
-msgstr "_About Dodajte vodo"
+msgstr "_O programu Dodaj vodo"
 
 #: src/window.py:104
 msgid "Open Help Page"
@@ -296,17 +290,14 @@ msgstr ""
 "Preverjanje, ali so na voljo posodobitve, ni uspelo. Poskusite znova pozneje."
 
 #: src/page.py:117
-#, fuzzy
 msgid "Unknown error has occurred. Please report this to developer."
-msgstr "Prišlo je do neznane napake. Prosimo, sporočite to razvijalcu."
+msgstr "Prišlo je do neznane napake. To sporočite razvijalcu."
 
 #: src/page.py:137
-#, fuzzy
 msgid "Installed Theme. Restart Firefox to see changes."
 msgstr "Nameščena tema. Znova zaženite Firefox, da vidite spremembe."
 
 #: src/page.py:143
-#, fuzzy
 msgid "Removed Theme. Restart Firefox to see changes."
 msgstr "Odstranjena tema. Znova zaženite Firefox, da vidite spremembe."
 
@@ -364,14 +355,12 @@ msgid "Place Close Tab button on opposite side from window controls"
 msgstr "Gumb »Postavi zavihek« na nasprotno stran kontrolnikov okna"
 
 #: src/apps/firefox/firefox_options.py:38
-#, fuzzy
 msgid "Bookmarks Toolbar Under Tabs"
 msgstr "Orodna vrstica zaznamkov pod zavihki"
 
 #: src/apps/firefox/firefox_options.py:39
-#, fuzzy
 msgid "Place Bookmarks Bar underneath Tab Bar"
-msgstr "Postavitev vrstice z zaznamki pod vrstico z zavihki"
+msgstr "Postavite vrstico zaznamkov pod vrstico z zavihki"
 
 #: src/apps/firefox/firefox_options.py:46
 #, fuzzy
@@ -393,19 +382,16 @@ msgstr ""
 "samo en zavihek"
 
 #: src/apps/firefox/firefox_options.py:56
-#, fuzzy
 msgid "Left-Aligned Titles"
-msgstr "Naslovi, poravnani levo"
+msgstr "Levo poravnani naslovi"
 
 #: src/apps/firefox/firefox_options.py:57
-#, fuzzy
 msgid "Align tab title to left"
-msgstr "Poravnava naslova zavihka v levo"
+msgstr "Poravnajte naslov zavihka na levo"
 
 #: src/apps/firefox/firefox_options.py:64
-#, fuzzy
 msgid "Tab Behavior"
-msgstr "Vedenje tabulatorja"
+msgstr "Vedenje zavihkov"
 
 #: src/apps/firefox/firefox_options.py:69
 msgid "Active Tab Contrast"
@@ -420,9 +406,8 @@ msgid "Close Only Selected Tabs"
 msgstr "Zapri samo izbrane zavihke"
 
 #: src/apps/firefox/firefox_options.py:78
-#, fuzzy
 msgid "Only show the Close Tab button on the active tab"
-msgstr "Prikažite samo gumb Zapri zavihek na aktivnem zavihku"
+msgstr "Gumb Zapri zavihek pokažite samo na aktivnem zavihku"
 
 #: src/apps/firefox/firefox_options.py:85
 #, fuzzy
@@ -435,19 +420,16 @@ msgid "Make all tab icons appear similar to symbolic icons"
 msgstr "Naj bodo vse ikone zavihkov podobne simboličnim ikonam"
 
 #: src/apps/firefox/firefox_options.py:93
-#, fuzzy
 msgid "List of Tabs"
 msgstr "Seznam zavihkov"
 
 #: src/apps/firefox/firefox_options.py:94
-#, fuzzy
 msgid "Always show All Tabs button"
 msgstr "Gumb »Vedno pokaži vse zavihke«"
 
 #: src/apps/firefox/firefox_options.py:101
-#, fuzzy
 msgid "List of Tabs on Overflow"
-msgstr "Seznam zavihkov na pretečenju"
+msgstr "Seznam zavihkov ob prekoračitvi"
 
 #: src/apps/firefox/firefox_options.py:102
 #, fuzzy
@@ -455,32 +437,27 @@ msgid "Only show All Tabs button when many tabs are open"
 msgstr "Gumb »Vsi zavihki« pokaži le, če je odprtih več zavihkov"
 
 #: src/apps/firefox/firefox_options.py:114
-#, fuzzy
 msgid "Hide Privacy Indicators"
 msgstr "Skrij indikatorje zasebnosti"
 
 #: src/apps/firefox/firefox_options.py:115
-#, fuzzy
 msgid "Hide microphone, screen share, and camera warnings"
-msgstr "Skrivanje opozoril mikrofona, skupne rabe zaslona in kamere"
+msgstr "Skrijte opozorila mikrofona, skupne rabe zaslona in kamere"
 
 #: src/apps/firefox/firefox_options.py:117
-#, fuzzy
 msgid "GNOME will still show these privacy indicators in the Top Bar"
 msgstr ""
-"GNOME bo še vedno prikazoval te indikatorje zasebnosti v zgornji vrstici"
+"GNOME bo še vedno prikazoval te indikatorje zasebnosti v vrhnji vrstici"
 
 #: src/apps/firefox/firefox_options.py:124
-#, fuzzy
 msgid "True Black Dark Theme"
-msgstr "Temna tema True Black"
+msgstr "Dejanska črna temna tema"
 
 #: src/apps/firefox/firefox_options.py:126
-#, fuzzy
 msgid "Use an OLED-friendly, deep black when dark theme is enabled"
 msgstr ""
-"Uporaba temno črne barve, ki je prijazna do OLED-a, ko je omogočena temna "
-"tema"
+"Uporabi globoko črno barvo, ki je prijazna do zaslonov OLED, ko je omogočena "
+"temna tema"
 
 #: src/apps/firefox/firefox_options.py:134
 msgid "No Themed Icons"
