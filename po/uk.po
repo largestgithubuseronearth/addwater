@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: addwater main\n"
-"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/iss"
-"ues/\n"
-"POT-Creation-Date: 2025-03-26 12:59+0000\n"
-"PO-Revision-Date: 2025-03-26 22:14+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/is"
+"sues/\n"
+"POT-Creation-Date: 2025-04-22 03:24+0000\n"
+"PO-Revision-Date: 2025-04-22 15:55+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -109,16 +109,21 @@ msgstr ""
 "темних кімнат"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:47
-msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
+msgid ""
+"Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
 msgstr ""
 "Підтримка кольорів акцентування і декількох розташувань панелей вкладок і "
 "закладок"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:29
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Надсилання сповіщень для фонових оновлень"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:33
 msgid "Automatically Discover the installed Firefox package format"
 msgstr "Автоматичне визначення формату пакунка встановленого Firefox"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:34
+#: data/dev.qwery.AddWater.gschema.xml.in:38
 msgid ""
 "Most recently installed version of the firefox gnome theme (Major.Minor."
 "Micro)"
@@ -174,20 +179,20 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Вийти"
 
-#: data/gtk/preferences.ui:13
+#: data/gtk/preferences.ui:14
 msgid "Update in Background"
 msgstr "Оновлення у фоновому режимі"
 
-#: data/gtk/preferences.ui:14
+#: data/gtk/preferences.ui:15
 msgid "Automatically check for updates at login"
 msgstr "Автоматично шукати оновлення при вході"
 
 #. Translators: This refers to options that could be unsafe.
-#: data/gtk/preferences.ui:21
+#: data/gtk/preferences.ui:30
 msgid "Danger Zone"
 msgstr "Зона небезпеки"
 
-#: data/gtk/preferences.ui:22
+#: data/gtk/preferences.ui:31
 msgid ""
 "Remove the theme from all known profiles and reset Add Water to its default "
 "state. Any custom changes made to your user.js file will remain after a "
@@ -197,7 +202,7 @@ msgstr ""
 "стандартного стану. Будь-які спеціальні зміни, внесені у ваш файл user.js, "
 "вилучено не буде."
 
-#: data/gtk/preferences.ui:25
+#: data/gtk/preferences.ui:34
 msgid "Reset and Close App"
 msgstr "Скинути і закрити програму"
 
@@ -253,7 +258,7 @@ msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2025"
 msgid "Theme Created and Maintained by"
 msgstr "Автори і супровідники теми"
 
-#: src/preferences.py:76
+#: src/preferences.py:82
 msgid "Checking for theme updates"
 msgstr "Пошук оновлень теми"
 
@@ -459,26 +464,26 @@ msgstr "Показувати панель закладок у повноекра
 msgid "More Information"
 msgstr "Докладніше"
 
-#: src/utils/background.py:86
+#: src/utils/background.py:92
 msgid "Theme updated"
 msgstr "Тему оновлено"
 
-#: src/utils/background.py:87
+#: src/utils/background.py:93
 msgid "Firefox GNOME Theme Updated"
 msgstr "Оновлено тему GNOME Firefox"
 
-#: src/utils/background.py:89
+#: src/utils/background.py:95
 msgid "Theme Update Failed"
 msgstr "Не вдалося оновити тему"
 
-#: src/utils/background.py:90
+#: src/utils/background.py:96
 msgid "Could not check for theme updates due to a network issue"
 msgstr "Не вдалося виконати пошук оновлень теми через проблему із мережею"
 
-#: src/utils/background.py:92
+#: src/utils/background.py:98
 msgid "Theme Installation failed"
 msgstr "Помилка під час спроби встановити тему"
 
-#: src/utils/background.py:93
+#: src/utils/background.py:99
 msgid "A theme update was downloaded but installation failed"
 msgstr "Оновлення теми було отримано, але його не вдалося встановити"
