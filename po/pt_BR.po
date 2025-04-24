@@ -3,22 +3,23 @@
 # This file is distributed under the same license as the addwater package.
 # John Peter sa <johnppetersa@gmail.com>, 2025.
 # Filipe Motta <luizfilipemotta@gmail.com>, 2025.
+# Álvaro Burns <>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: addwater\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2025-04-04 19:42+0000\n"
-"PO-Revision-Date: 2025-03-24 15:20-0300\n"
-"Last-Translator: Filipe Motta <luizfilipemotta@gmail.com>\n"
-"Language-Team: Brazilian Portuguese\n"
+"POT-Creation-Date: 2025-04-22 03:24+0000\n"
+"PO-Revision-Date: 2025-04-24 07:04-0300\n"
+"Last-Translator: Álvaro Burns <>\n"
+"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
-"X-Generator: Gtranslator 47.1\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Gtranslator 48.0\n"
 
 #. Branding Info
 #: data/dev.qwery.AddWater.desktop.in:3
@@ -116,11 +117,15 @@ msgstr ""
 "Suporta cores de destaque e várias posições para as barras de abas e de "
 "favoritos"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:29
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Envie notificações para atualizações em segundo plano"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:33
 msgid "Automatically Discover the installed Firefox package format"
 msgstr "Descubra automaticamente o formato de pacote instalado do Firefox"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:34
+#: data/dev.qwery.AddWater.gschema.xml.in:38
 msgid ""
 "Most recently installed version of the firefox gnome theme (Major.Minor."
 "Micro)"
@@ -175,20 +180,20 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Sair"
 
-#: data/gtk/preferences.ui:13
+#: data/gtk/preferences.ui:14
 msgid "Update in Background"
 msgstr "Atualizar em segundo plano"
 
-#: data/gtk/preferences.ui:14
+#: data/gtk/preferences.ui:15
 msgid "Automatically check for updates at login"
 msgstr "Buscar atualizações automaticamente ao fazer login"
 
 #. Translators: This refers to options that could be unsafe.
-#: data/gtk/preferences.ui:21
+#: data/gtk/preferences.ui:30
 msgid "Danger Zone"
 msgstr "Zona de Perigo"
 
-#: data/gtk/preferences.ui:22
+#: data/gtk/preferences.ui:31
 msgid ""
 "Remove the theme from all known profiles and reset Add Water to its default "
 "state. Any custom changes made to your user.js file will remain after a "
@@ -198,7 +203,7 @@ msgstr ""
 "seu estado inicial. Quaisquer alterações personalizadas feitas no seu "
 "arquivo user.js serão mantidas após a redefinição."
 
-#: data/gtk/preferences.ui:25
+#: data/gtk/preferences.ui:34
 msgid "Reset and Close App"
 msgstr "Redefinir e fechar aplicativo"
 
@@ -256,7 +261,7 @@ msgstr ""
 msgid "Theme Created and Maintained by"
 msgstr "Tema criado e mantido por"
 
-#: src/preferences.py:76
+#: src/preferences.py:82
 msgid "Checking for theme updates"
 msgstr "Buscando atualizações do tema"
 
@@ -459,28 +464,28 @@ msgstr "Mostrar a Barra de Favoritos quando em tela cheia"
 msgid "More Information"
 msgstr "Mais informações"
 
-#: src/utils/background.py:86
+#: src/utils/background.py:92
 msgid "Theme updated"
 msgstr "Tema atualizado"
 
-#: src/utils/background.py:87
+#: src/utils/background.py:93
 msgid "Firefox GNOME Theme Updated"
 msgstr "Firefox GNOME Theme atualizado"
 
-#: src/utils/background.py:89
+#: src/utils/background.py:95
 msgid "Theme Update Failed"
 msgstr "A atualização do tema falhou"
 
-#: src/utils/background.py:90
+#: src/utils/background.py:96
 msgid "Could not check for theme updates due to a network issue"
 msgstr ""
 "Não foi possível buscar atualizações do tema devido a um problema de rede"
 
-#: src/utils/background.py:92
+#: src/utils/background.py:98
 msgid "Theme Installation failed"
 msgstr "A instalação do tema falhou"
 
-#: src/utils/background.py:93
+#: src/utils/background.py:99
 msgid "A theme update was downloaded but installation failed"
 msgstr "Uma atualização de tema foi baixada, mas a instalação falhou"
 
