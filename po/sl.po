@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: addwater main\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2025-04-04 19:42+0000\n"
-"PO-Revision-Date: 2025-04-21 22:01+0200\n"
+"POT-Creation-Date: 2025-04-22 03:24+0000\n"
+"PO-Revision-Date: 2025-04-27 19:02+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -37,15 +37,14 @@ msgid "theme;adwaita;firefox;"
 msgstr "tema;adwaita;Firefox;"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:13
-#, fuzzy
 msgid ""
 "A utility app to easily install the Firefox GNOME Theme* and automatically "
 "update it in the background. This theme keeps Firefox fashionable within the "
 "GNOME design ecosystem, and provides many helpful features to customize the "
 "interface to make browsing even more pleasant:"
 msgstr ""
-"Uporabna aplikacija za enostavno namestitev teme Firefox GNOME* in samodejno "
-"posodabljanje v ozadju. Ta tema ohranja Firefox v modi v ekosistemu "
+"Uporaben program za enostavno namestitev teme Firefox GNOME* in samodejno "
+"posodabljanje v ozadju. Ta tema ohranja sodobni videz Firefoxa v ekosistemu "
 "oblikovanja GNOME in ponuja številne uporabne funkcije za prilagajanje "
 "vmesnika, da je brskanje še bolj prijetno:"
 
@@ -63,18 +62,15 @@ msgid "Use an OLED-friendly pitch black for the interface"
 msgstr "Za vmesnik uporabi OLED-u prijazno črnino"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:19
-#, fuzzy
 msgid "Customize Tab Bar position, position of controls, alignment, and more"
 msgstr ""
-"Prilagajanje položaja vrstice z zavihki, položaja kontrolnikov, poravnave in "
-"še več"
+"Prilagodite položaj vrstice z zavihki, položaj kontrolnikov, poravnavo in "
+"mnogo drugega"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:20
-#, fuzzy
 msgid "Hide redundant microphone, webcam, screen share indicators"
 msgstr ""
-"Skrivanje odvečnih indikatorjev mikrofona, spletne kamere, skupne rabe "
-"zaslona"
+"Skrij odvečne indikatorje mikrofona, spletne kamere, skupne rabe zaslona"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:21
 msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
@@ -88,14 +84,13 @@ msgstr ""
 "* Temo Firefox GNOME je neodvisno razvil in vzdrževal Rafael Mardojai CM."
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:24
-#, fuzzy
 msgid ""
 "The Firefox browser is not included and must be downloaded separately. This "
 "project is not affiliated or endorsed by the Mozilla Foundation. Firefox is "
 "a trademark of the Mozilla Foundation in the U.S. and other countries."
 msgstr ""
 "Brskalnik Firefox ni vključen in ga je treba prenesti ločeno. Ta projekt ni "
-"povezan ali podprt s strani Mozilla Foundation. Firefox je blagovna znamka "
+"povezan z ali podprt s strani Mozilla Foundation. Firefox je blagovna znamka "
 "fundacije Mozilla Foundation v ZDA in drugih državah."
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:35
@@ -113,22 +108,24 @@ msgstr ""
 "prostore"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:47
-#, fuzzy
 msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
 msgstr ""
 "Podpira barve poudarkov in več položajev za vrstice zavihkov in zaznamkov"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:29
-#, fuzzy
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Pošiljaj obvestila o posodobitvah v ozadju"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:33
 msgid "Automatically Discover the installed Firefox package format"
 msgstr "Samodejno odkrij nameščeno obliko Firefoxovega paketa"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:34
-#, fuzzy
+#: data/dev.qwery.AddWater.gschema.xml.in:38
 msgid ""
 "Most recently installed version of the firefox gnome theme (Major.Minor."
 "Micro)"
-msgstr "Najnovejša nameščena različica teme firefox gnome (Major.Minor.Micro)"
+msgstr ""
+"Nazadnje nameščena različica teme firefox gnome (glavna.podverzija.mikro)"
 
 #: data/gtk/addwater-page.ui:15
 msgid "Firefox GNOME Theme"
@@ -144,9 +141,8 @@ msgid "Package Format"
 msgstr "Oblika paketa"
 
 #: data/gtk/addwater-page.ui:29
-#, fuzzy
 msgid "Profile data not found at selected location"
-msgstr "Podatkov profila ni mogoče najti na izbrani lokaciji"
+msgstr "Na izbranem mestu ni možno najti podatkov profila"
 
 #: data/gtk/addwater-page.ui:34
 msgid "Automatically Discover"
@@ -179,21 +175,20 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Izhod"
 
-#: data/gtk/preferences.ui:13
+#: data/gtk/preferences.ui:14
 msgid "Update in Background"
 msgstr "Posodobi v ozadju"
 
-#: data/gtk/preferences.ui:14
+#: data/gtk/preferences.ui:15
 msgid "Automatically check for updates at login"
 msgstr "Ob prijavi samodejno preveri, ali so na voljo posodobitve"
 
 #. Translators: This refers to options that could be unsafe.
-#: data/gtk/preferences.ui:21
+#: data/gtk/preferences.ui:30
 msgid "Danger Zone"
 msgstr "Nevarno območje"
 
-#: data/gtk/preferences.ui:22
-#, fuzzy
+#: data/gtk/preferences.ui:31
 msgid ""
 "Remove the theme from all known profiles and reset Add Water to its default "
 "state. Any custom changes made to your user.js file will remain after a "
@@ -203,7 +198,7 @@ msgstr ""
 "stanje. Vse spremembe po meri v datoteki user.js bodo ostale tudi po "
 "ponastavitvi."
 
-#: data/gtk/preferences.ui:25
+#: data/gtk/preferences.ui:34
 msgid "Reset and Close App"
 msgstr "Ponastavi in zapri program"
 
@@ -238,17 +233,15 @@ msgstr "Odpri stran pomoči"
 
 #. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
 #: src/window.py:111
-#, fuzzy
 msgid "{} Profile Data Not Found"
-msgstr "{} Podatkov profila ni mogoče najti"
+msgstr "Podatkov profila {} ni mogoče najti"
 
 #: src/window.py:114
-#, fuzzy
 msgid ""
 "Please ensure {} is installed and Add Water has permission to access your "
 "profiles"
 msgstr ""
-"Prepričajte se, da je {} nameščen in da ima Add Water dovoljenje za dostop "
+"Prepričajte se, da je {} nameščen in da ima Dodaj vodo dovoljenje za dostop "
 "do vaših profilov"
 
 #. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
@@ -258,12 +251,10 @@ msgstr "Martin Srebotnjak <miles@filmsi.net>"
 
 #. Translator: This is followed by a list of names
 #: src/window.py:173
-#, fuzzy
 msgid "Theme Created and Maintained by"
 msgstr "Tema, ki jo je ustvaril in vzdržuje"
 
-#: src/preferences.py:76
-#, fuzzy
+#: src/preferences.py:82
 msgid "Checking for theme updates"
 msgstr "Preverjanje, ali so na voljo posodobitve teme"
 
@@ -277,17 +268,14 @@ msgid "Updated theme to {}"
 msgstr "Posodobljena tema na {}"
 
 #: src/page.py:113
-#, fuzzy
 msgid "Failed to check for updates due to a network issue"
 msgstr ""
-"Preverjanje, ali so na voljo posodobitve zaradi težave z omrežjem, ni bilo "
-"mogoče preveriti"
+"Preverjanja obstoja posodobitev zaradi težave z omrežjem ni bilo mogoče "
+"izvesti"
 
 #: src/page.py:115
-#, fuzzy
 msgid "Failed to check for updates. Please try again later."
-msgstr ""
-"Preverjanje, ali so na voljo posodobitve, ni uspelo. Poskusite znova pozneje."
+msgstr "Preverjanje obstoja posodobitev ni uspelo. Poskusite znova pozneje."
 
 #: src/page.py:117
 msgid "Unknown error has occurred. Please report this to developer."
@@ -328,7 +316,6 @@ msgid "Hide Single Tab"
 msgstr "Skrij edini zavihek"
 
 #: src/apps/firefox/firefox_options.py:13
-#, fuzzy
 msgid ""
 "Consider placing the New Tab button near the Search Bar. Otherwise it may "
 "get lost when only one tab is open."
@@ -345,14 +332,12 @@ msgid "Use same tab width as standard Firefox"
 msgstr "Uporabi enako širino zavihkov kot standardni Firefox"
 
 #: src/apps/firefox/firefox_options.py:28
-#, fuzzy
 msgid "Swap Tab Close Button"
-msgstr "Gumb »Zapri zavihek« Zamenjaj zavihek"
+msgstr "Zamenjaj gumb Zapri zavihek"
 
 #: src/apps/firefox/firefox_options.py:30
-#, fuzzy
 msgid "Place Close Tab button on opposite side from window controls"
-msgstr "Gumb »Postavi zavihek« na nasprotno stran kontrolnikov okna"
+msgstr "Gumb Zapri zavihek postavi na nasprotno stran kontrolnikov okna"
 
 #: src/apps/firefox/firefox_options.py:38
 msgid "Bookmarks Toolbar Under Tabs"
@@ -368,9 +353,8 @@ msgid "Tabs as Headerbar"
 msgstr "Zavihki kot glavna vrstica"
 
 #: src/apps/firefox/firefox_options.py:47
-#, fuzzy
 msgid "Place Tab Bar at top of window"
-msgstr "Postavitev vrstice z zavihki na vrh okna"
+msgstr "Postavi vrstico z zavihki na vrh okna"
 
 #: src/apps/firefox/firefox_options.py:49
 #, fuzzy
@@ -378,7 +362,7 @@ msgid ""
 "Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
 "open"
 msgstr ""
-"Omogočanje z »Skrij en zavihek« bo prikazalo naslovno vrstico, ko je odprt "
+"Omogočanje s »Skrij en zavihek« bo prikazalo naslovno vrstico, ko je odprt "
 "samo en zavihek"
 
 #: src/apps/firefox/firefox_options.py:56
@@ -410,12 +394,10 @@ msgid "Only show the Close Tab button on the active tab"
 msgstr "Gumb Zapri zavihek pokažite samo na aktivnem zavihku"
 
 #: src/apps/firefox/firefox_options.py:85
-#, fuzzy
 msgid "Symbolic Tab Icons"
 msgstr "Simbolične ikone zavihkov"
 
 #: src/apps/firefox/firefox_options.py:86
-#, fuzzy
 msgid "Make all tab icons appear similar to symbolic icons"
 msgstr "Naj bodo vse ikone zavihkov podobne simboličnim ikonam"
 
@@ -432,9 +414,8 @@ msgid "List of Tabs on Overflow"
 msgstr "Seznam zavihkov ob prekoračitvi"
 
 #: src/apps/firefox/firefox_options.py:102
-#, fuzzy
 msgid "Only show All Tabs button when many tabs are open"
-msgstr "Gumb »Vsi zavihki« pokaži le, če je odprtih več zavihkov"
+msgstr "Gumb Vsi zavihki pokaži le, če je odprtih mnogo zavihkov"
 
 #: src/apps/firefox/firefox_options.py:114
 msgid "Hide Privacy Indicators"
@@ -479,28 +460,28 @@ msgstr "Pokaži vrstico z zaznamki v celozaslonskem načinu"
 msgid "More Information"
 msgstr "Več podrobnosti"
 
-#: src/utils/background.py:86
+#: src/utils/background.py:92
 msgid "Theme updated"
 msgstr "Tema je posodobljena"
 
-#: src/utils/background.py:87
+#: src/utils/background.py:93
 msgid "Firefox GNOME Theme Updated"
 msgstr "Tema Firefox GNOME je posodobljena"
 
-#: src/utils/background.py:89
+#: src/utils/background.py:95
 msgid "Theme Update Failed"
 msgstr "Posodobitev teme ni uspela"
 
-#: src/utils/background.py:90
+#: src/utils/background.py:96
 msgid "Could not check for theme updates due to a network issue"
 msgstr ""
 "Zaradi težave z omrežjem ni bilo mogoče preveriti, ali so na voljo "
 "posodobitve teme"
 
-#: src/utils/background.py:92
+#: src/utils/background.py:98
 msgid "Theme Installation failed"
 msgstr "Namestitev teme ni uspela"
 
-#: src/utils/background.py:93
+#: src/utils/background.py:99
 msgid "A theme update was downloaded but installation failed"
 msgstr "Posodobitev teme je bila prenesena, vendar namestitev ni uspela"
