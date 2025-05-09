@@ -37,7 +37,7 @@
 			</foaf:OnlineAccount>
 			<foaf:OnlineAccount>
 				<foaf:accountServiceHomepage rdf:resource="https://gitlab.gnome.org/"/>
-				<foaf:accountName>largestgitlabuseronearth</foaf:accountName>
+				<foaf:accountName>qwery</foaf:accountName>
 			</foaf:OnlineAccount>
 		</foaf:Person>
 	</maintainer>
