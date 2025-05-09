@@ -9,11 +9,11 @@ jobs:
   Flatpak-Builder-Action:
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-47
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
       options: --privileged
     steps:
       - uses: actions/checkout@v4
-      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6.4
+      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: dev.qwery.AddWater.flatpak
           manifest-path: build-aux/dev.qwery.AddWater.json
