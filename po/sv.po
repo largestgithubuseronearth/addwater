@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2025-03-26 12:59+0000\n"
-"PO-Revision-Date: 2025-04-05 21:16+0200\n"
+"POT-Creation-Date: 2025-04-22 03:24+0000\n"
+"PO-Revision-Date: 2025-05-13 21:38+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #. Branding Info
 #: data/dev.qwery.AddWater.desktop.in:3
@@ -108,11 +108,15 @@ msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
 msgstr ""
 "Stöder accentfärger och flera positioner för flik- och bokmärkesraderna"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:29
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Skicka aviseringar för bakgrundsuppdateringar"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:33
 msgid "Automatically Discover the installed Firefox package format"
 msgstr "Upptäck automatiskt det installerade Firefox-paketformatet"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:34
+#: data/dev.qwery.AddWater.gschema.xml.in:38
 msgid ""
 "Most recently installed version of the firefox gnome theme "
 "(Major.Minor.Micro)"
@@ -167,20 +171,20 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Avsluta"
 
-#: data/gtk/preferences.ui:13
+#: data/gtk/preferences.ui:14
 msgid "Update in Background"
 msgstr "Uppdatera i bakgrunden"
 
-#: data/gtk/preferences.ui:14
+#: data/gtk/preferences.ui:15
 msgid "Automatically check for updates at login"
 msgstr "Leta automatiskt efter uppdateringar vid inloggning"
 
 #. Translators: This refers to options that could be unsafe.
-#: data/gtk/preferences.ui:21
+#: data/gtk/preferences.ui:30
 msgid "Danger Zone"
 msgstr "Farozon"
 
-#: data/gtk/preferences.ui:22
+#: data/gtk/preferences.ui:31
 msgid ""
 "Remove the theme from all known profiles and reset Add Water to its default "
 "state. Any custom changes made to your user.js file will remain after a "
@@ -190,7 +194,7 @@ msgstr ""
 "standardtillstånd. Alla anpassade ändringar gjorda till din user.js-fil "
 "kommer kvarstå efter en återställning."
 
-#: data/gtk/preferences.ui:25
+#: data/gtk/preferences.ui:34
 msgid "Reset and Close App"
 msgstr "Återställ och stäng programmet"
 
@@ -246,7 +250,7 @@ msgstr "Anders Jonsson <anders.jonsson@norsjovallen.se>"
 msgid "Theme Created and Maintained by"
 msgstr "Tema skapat och underhålls av"
 
-#: src/preferences.py:76
+#: src/preferences.py:82
 msgid "Checking for theme updates"
 msgstr "Letar efter temauppdateringar"
 
@@ -447,27 +451,27 @@ msgstr "Visa bokmärkesraden i helskärmsläge"
 msgid "More Information"
 msgstr "Mer information"
 
-#: src/utils/background.py:86
+#: src/utils/background.py:92
 msgid "Theme updated"
 msgstr "Tema uppdaterat"
 
-#: src/utils/background.py:87
+#: src/utils/background.py:93
 msgid "Firefox GNOME Theme Updated"
 msgstr "GNOME-tema för Firefox uppdaterat"
 
-#: src/utils/background.py:89
+#: src/utils/background.py:95
 msgid "Theme Update Failed"
 msgstr "Temauppdatering misslyckades"
 
-#: src/utils/background.py:90
+#: src/utils/background.py:96
 msgid "Could not check for theme updates due to a network issue"
 msgstr ""
 "Kunde inte leta efter temauppdateringar på grund av ett nätverksproblem"
 
-#: src/utils/background.py:92
+#: src/utils/background.py:98
 msgid "Theme Installation failed"
 msgstr "Temainstallation misslyckades"
 
-#: src/utils/background.py:93
+#: src/utils/background.py:99
 msgid "A theme update was downloaded but installation failed"
 msgstr "En temauppdatering hämtades men installationen misslyckades"
