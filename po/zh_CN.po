@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the addwater package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # Jane Doe <chompski.concur840@aleeas.com>, 2025.
+# lumingzh <lumingzh@qq.com>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: addwater main\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2025-03-26 12:59+0000\n"
-"PO-Revision-Date: 2025-03-30 20:06+0000\n"
-"Last-Translator: Jane Doe <chompski.concur840@aleeas.com>\n"
+"POT-Creation-Date: 2025-07-24 15:41+0000\n"
+"PO-Revision-Date: 2025-07-25 09:45+0800\n"
+"Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -26,18 +27,18 @@ msgstr ""
 "X-Generator: Gtranslator 48.0\n"
 
 #. Branding Info
-#: data/dev.qwery.AddWater.desktop.in:3
+#: data/dev.qwery.AddWater.desktop.in:2
 #: data/dev.qwery.AddWater.metainfo.xml.in:10
 msgid "Add Water"
 msgstr "Add Water"
 
-#: data/dev.qwery.AddWater.desktop.in:5
+#: data/dev.qwery.AddWater.desktop.in:4
 #: data/dev.qwery.AddWater.metainfo.xml.in:11
 msgid "Keep Firefox in fashion"
 msgstr "使 Firefox 保持时尚"
 
 #. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
-#: data/dev.qwery.AddWater.desktop.in:10
+#: data/dev.qwery.AddWater.desktop.in:9
 msgid "theme;adwaita;firefox;"
 msgstr "theme;adwaita;firefox;主题;火狐;"
 
@@ -109,12 +110,16 @@ msgstr "支持纯黑顶栏，非常适合 OLED 屏幕和阴暗房间"
 msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
 msgstr "支持强调色和多个标签栏与书签栏位置"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:29
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "后台更新时发送通知"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:33
 msgid "Automatically Discover the installed Firefox package format"
 msgstr "自动发现已安装的 Firefox 软件包格式"
 
 # “(Major.Minor.Micro)”是否应该翻译？
-#: data/dev.qwery.AddWater.gschema.xml.in:34
+#: data/dev.qwery.AddWater.gschema.xml.in:38
 msgid ""
 "Most recently installed version of the firefox gnome theme (Major.Minor."
 "Micro)"
@@ -168,20 +173,20 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "退出"
 
-#: data/gtk/preferences.ui:13
+#: data/gtk/preferences.ui:14
 msgid "Update in Background"
 msgstr "后台更新"
 
-#: data/gtk/preferences.ui:14
+#: data/gtk/preferences.ui:15
 msgid "Automatically check for updates at login"
 msgstr "在登录时自动检查更新"
 
 #. Translators: This refers to options that could be unsafe.
-#: data/gtk/preferences.ui:21
+#: data/gtk/preferences.ui:30
 msgid "Danger Zone"
 msgstr "危险区"
 
-#: data/gtk/preferences.ui:22
+#: data/gtk/preferences.ui:31
 msgid ""
 "Remove the theme from all known profiles and reset Add Water to its default "
 "state. Any custom changes made to your user.js file will remain after a "
@@ -190,7 +195,7 @@ msgstr ""
 "从所有已知配置文件中移除主题，并将 Add Water 重置为默认状态。对您的 user.js "
 "文件所做的任何自定义改动都将在重置后保留。"
 
-#: data/gtk/preferences.ui:25
+#: data/gtk/preferences.ui:34
 msgid "Reset and Close App"
 msgstr "重置并关闭应用"
 
@@ -244,7 +249,7 @@ msgstr "Jane Doe <chompski.concur840@aleeas.com>"
 msgid "Theme Created and Maintained by"
 msgstr "主题创作与维护"
 
-#: src/preferences.py:76
+#: src/preferences.py:82
 msgid "Checking for theme updates"
 msgstr "正在检查主题更新"
 
@@ -442,26 +447,26 @@ msgstr "在全屏时显示书签栏"
 msgid "More Information"
 msgstr "更多信息"
 
-#: src/utils/background.py:86
+#: src/utils/background.py:92
 msgid "Theme updated"
 msgstr "主题已更新"
 
-#: src/utils/background.py:87
+#: src/utils/background.py:93
 msgid "Firefox GNOME Theme Updated"
 msgstr "Firefox GNOME 主题已更新"
 
-#: src/utils/background.py:89
+#: src/utils/background.py:95
 msgid "Theme Update Failed"
 msgstr "主题更新失败"
 
-#: src/utils/background.py:90
+#: src/utils/background.py:96
 msgid "Could not check for theme updates due to a network issue"
 msgstr "因网络问题，无法检查主题更新"
 
-#: src/utils/background.py:92
+#: src/utils/background.py:98
 msgid "Theme Installation failed"
 msgstr "主题安装失败"
 
-#: src/utils/background.py:93
+#: src/utils/background.py:99
 msgid "A theme update was downloaded but installation failed"
 msgstr "已下载主题更新，但安装失败"
