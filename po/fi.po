@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: addwater main\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2025-03-26 12:59+0000\n"
-"PO-Revision-Date: 2025-03-26 19:53+0200\n"
+"POT-Creation-Date: 2025-08-24 03:24+0000\n"
+"PO-Revision-Date: 2025-08-24 14:32+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish <Finnish>\n"
 "Language: fi\n"
@@ -17,21 +17,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.6\n"
 
 #. Branding Info
-#: data/dev.qwery.AddWater.desktop.in:3
+#: data/dev.qwery.AddWater.desktop.in:2
 #: data/dev.qwery.AddWater.metainfo.xml.in:10
 msgid "Add Water"
 msgstr "Add Water"
 
-#: data/dev.qwery.AddWater.desktop.in:5
+#: data/dev.qwery.AddWater.desktop.in:4
 #: data/dev.qwery.AddWater.metainfo.xml.in:11
 msgid "Keep Firefox in fashion"
 msgstr "Pidä Firefox tyylikkäänä"
 
 #. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
-#: data/dev.qwery.AddWater.desktop.in:10
+#: data/dev.qwery.AddWater.desktop.in:9
 msgid "theme;adwaita;firefox;"
 msgstr "theme;adwaita;firefox;teema;"
 
@@ -108,14 +108,18 @@ msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
 msgstr ""
 "Tukee korostusvärejä ja useita välilehti- ja kirjanmerkkipalkkien sijainteja"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:29
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Lähetä ilmoitus taustalla tehtävistä päivityksistä"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:33
 msgid "Automatically Discover the installed Firefox package format"
 msgstr "Havaitse automaattisesti asennettu Firefox-pakettimuoto"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:34
+#: data/dev.qwery.AddWater.gschema.xml.in:38
 msgid ""
-"Most recently installed version of the firefox gnome theme (Major.Minor."
-"Micro)"
+"Most recently installed version of the firefox gnome theme "
+"(Major.Minor.Micro)"
 msgstr "Uusin asennettu versio Firefoxin Gnome-teemasta (Major.Minor.Micro)"
 
 #: data/gtk/addwater-page.ui:15
@@ -166,20 +170,20 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Lopeta"
 
-#: data/gtk/preferences.ui:13
+#: data/gtk/preferences.ui:14
 msgid "Update in Background"
 msgstr "Päivitä taustalla"
 
-#: data/gtk/preferences.ui:14
+#: data/gtk/preferences.ui:15
 msgid "Automatically check for updates at login"
 msgstr "Tarkista päivitykset automaattisesti kirjautumisen yhteydessä"
 
 #. Translators: This refers to options that could be unsafe.
-#: data/gtk/preferences.ui:21
+#: data/gtk/preferences.ui:30
 msgid "Danger Zone"
 msgstr "Vaaravyöhyke"
 
-#: data/gtk/preferences.ui:22
+#: data/gtk/preferences.ui:31
 msgid ""
 "Remove the theme from all known profiles and reset Add Water to its default "
 "state. Any custom changes made to your user.js file will remain after a "
@@ -189,7 +193,7 @@ msgstr ""
 "oletusasetuksiin. Kaikki omat muutokset user.js-tiedostoon pysyvät "
 "sellaisenaan palauttamisen jälkeen."
 
-#: data/gtk/preferences.ui:25
+#: data/gtk/preferences.ui:34
 msgid "Reset and Close App"
 msgstr "Palauta ja sulje sovellus"
 
@@ -245,7 +249,7 @@ msgstr "Jiri Grönroos"
 msgid "Theme Created and Maintained by"
 msgstr "Teeman luonut ja sen ylläpidosta vastaa"
 
-#: src/preferences.py:76
+#: src/preferences.py:82
 msgid "Checking for theme updates"
 msgstr "Tarkistetaan teemapäivityksiä"
 
@@ -449,26 +453,26 @@ msgstr "Näytä kirjanmerkkipalkki koko näytön tilassa"
 msgid "More Information"
 msgstr "Lisätietoja"
 
-#: src/utils/background.py:86
+#: src/utils/background.py:92
 msgid "Theme updated"
 msgstr "Teema päivitetty"
 
-#: src/utils/background.py:87
+#: src/utils/background.py:93
 msgid "Firefox GNOME Theme Updated"
 msgstr "Firefoxin Gnome-teema päivitetty"
 
-#: src/utils/background.py:89
+#: src/utils/background.py:95
 msgid "Theme Update Failed"
 msgstr "Teeman päivitys epäonnistui"
 
-#: src/utils/background.py:90
+#: src/utils/background.py:96
 msgid "Could not check for theme updates due to a network issue"
 msgstr "Teemapäivityksiä ei voitu tarkistaa verkko-ongelman vuoksi"
 
-#: src/utils/background.py:92
+#: src/utils/background.py:98
 msgid "Theme Installation failed"
 msgstr "Teeman asennus epäonnistui"
 
-#: src/utils/background.py:93
+#: src/utils/background.py:99
 msgid "A theme update was downloaded but installation failed"
 msgstr "Teemapäivitys ladattiin, mutta sen asennus epäonnistui"
