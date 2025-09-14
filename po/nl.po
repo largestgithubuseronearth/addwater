@@ -1,22 +1,24 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the addwater package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Heimen Stoffels <vistausss@fastmail.com>, 2025.
+# Dick Groskamp <dikgro@yahoo.co.uk>, 2025.
+# Nathan Follens <nfollens@gnome.org>, 2025.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: addwater\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-10 18:46-0300\n"
-"PO-Revision-Date: 2025-02-11 13:44+0100\n"
-"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
-"Language-Team: \n"
+"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
+"issues/\n"
+"POT-Creation-Date: 2025-07-28 03:41+0000\n"
+"PO-Revision-Date: 2025-09-14 15:22+0200\n"
+"Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
+"Language-Team: GNOME-NL https://matrix.to/#/#nl:gnome.org\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #. Branding Info
 #: data/dev.qwery.AddWater.desktop.in:2
@@ -27,11 +29,12 @@ msgstr "Waterdrager"
 #: data/dev.qwery.AddWater.desktop.in:4
 #: data/dev.qwery.AddWater.metainfo.xml.in:11
 msgid "Keep Firefox in fashion"
-msgstr "Houd Firefox consistent"
+msgstr "Houd Firefox modieus"
 
-#: data/dev.qwery.AddWater.desktop.in:8
+#. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
+#: data/dev.qwery.AddWater.desktop.in:9
 msgid "theme;adwaita;firefox;"
-msgstr "thema;adwaita;firefox;"
+msgstr "theme;adwaita;firefox;thema;"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:13
 msgid ""
@@ -40,14 +43,14 @@ msgid ""
 "GNOME design ecosystem, and provides many helpful features to customize the "
 "interface to make browsing even more pleasant:"
 msgstr ""
-"Een hulptoepassing voor het installeren van het GNOME-thema voor Firefox en "
-"dit automatisch bij te werken. Het thema zorgt ervoor dat Firefox naadloos "
-"aansluit bij de rest van de GNOME-toepassingen en biedt diverse functies die "
-"de vormgeving nóg aanpasbaarder maken:"
+"Een hulptoepassing om het GNOME-thema voor Firefox* te installeren en "
+"automatisch bij te werken. Het thema zorgt ervoor dat Firefox naadloos "
+"aansluit bij de rest van de GNOME-toepassingen en biedt diverse nuttige "
+"functies om de vormgeving aan te passen zodat surfen nog plezieriger wordt:"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:16
 msgid "Supports light and dark style, as well as accent colors"
-msgstr "Ondersteuning voor het lichte en donkere thema, evenals accentkleuren"
+msgstr "Ondersteuning voor de lichte en donkere stijl, evenals accentkleuren"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:17
 #: src/apps/firefox/firefox_options.py:11
@@ -64,7 +67,7 @@ msgstr "Kies zelf de locatie van de tabbladbalk, bediening en meer"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:20
 msgid "Hide redundant microphone, webcam, screen share indicators"
-msgstr "Verberg de onnodige indicatoren voor microfoon, webcam en schermdeling"
+msgstr "Verberg onnodige indicatoren voor microfoon, webcam en schermdeling"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:21
 msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
@@ -86,8 +89,8 @@ msgid ""
 "a trademark of the Mozilla Foundation in the U.S. and other countries."
 msgstr ""
 "Firefox wordt niet meegeleverd met deze toepassing. Mozilla is ook niet "
-"betrokken bij de ontwikkeling noch sponsor hiervan. Firefox is een beeldmerk "
-"van de Mozilla Foundation en de VS en andere landen."
+"betrokken bij de ontwikkeling noch sponsor hiervan. Firefox is een "
+"handelsmerk van de Mozilla Foundation in de VS en andere landen."
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:35
 msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
@@ -110,143 +113,15 @@ msgstr ""
 "Ondersteuning voor accentkleuren en meerdere tabblad- en "
 "bladwijzerbalklocaties"
 
-#: data/dev.qwery.AddWater.metainfo.xml.in:66
-msgid "Adwaita"
-msgstr "Adwaita"
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Notificaties verzenden voor bijwerken op de achtergrond"
 
-#: data/dev.qwery.AddWater.metainfo.xml.in:67
-msgid "theme"
-msgstr "Thema"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:68
-msgid "Firefox"
-msgstr "Firefox"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:101
-#: data/dev.qwery.AddWater.metainfo.xml.in:116
-msgid "Add Water:"
-msgstr "Waterdrager:"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:103
-msgid "Package Format selection has been moved onto the front page"
-msgstr "De pakketformaatkeuze is voortaan te vinden op het startscherm"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:104
-msgid "fix: App would momentarily freeze upon changing Package Format"
-msgstr ""
-"Opgelost: de toepassing bevroor tijdens het kiezen van een ander "
-"pakketformaat"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:111
-msgid "The Firefox GNOME Theme received two new optional features:"
-msgstr "Het GNOME-thema voor Firefox heeft twee nieuwe, optionele functies:"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:113
-msgid ""
-"List of Tabs on Overflow: Only show All Tabs button when many tabs are open"
-msgstr ""
-"Een lijst met tabbladen bij een teveel eraan: toon de knop ‘Alle tabbladen’ "
-"alleen als er te veel geopende tabbladen zijn"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:114
-msgid "Fullscreen Bookmarks: Show Bookmarks Bar while in Fullscreen"
-msgstr ""
-"Schermvullende bladwijzers: toon de bladwijzerbalk in de schermvullende "
-"weergave"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:118
-msgid "Hotfix: App crashes or launches with an empty interface"
-msgstr "Noodoplossing: de toepassing crashte of toonde een blanco scherm"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:125
-msgid "Fix: Relaunching app is no longer necessary to switch package format"
-msgstr ""
-"Opgelost: het herstarten van de toepassing na het kiezen van een "
-"pakketformaat is niet meer nodig"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:126
-msgid "Fix: Under certain conditions, app would launch with an empty interface"
-msgstr ""
-"Opgelost: onder bepaalde omstandigheden toonde de toepassing een blanco "
-"scherm"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:127
-msgid "Theme version number is now displayed in the app"
-msgstr "Het themaversienummer wordt voortaan getoond"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:133
-msgid "Adds support for the two new features the Firefox GNOME Theme received:"
-msgstr ""
-"Ondersteuning voor twee nieuwe functies in het GNOME-thema voor Firefox:"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:135
-msgid "Align Tab Titles to Left"
-msgstr "Lijn tabbladtitels links uit"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:136
-msgid "Tab List Button"
-msgstr "Tabbladlijstknop"
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:142
-msgid "Added support for CachyOS Browser."
-msgstr "Ondersteuning voor CachyOS Browser."
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:143
-msgid ""
-"Under the hood, changes have been made to interface logic to allow for "
-"future improvements."
-msgstr ""
-"Verbeteringen onder de motorkap en de vormgeving, ter voorbereiding op "
-"toekomstige verbeteringen."
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:148
-msgid ""
-"Improved \"About Add Water\" dialog: added release notes, link to "
-"troubleshooting help, and utility to save log files."
-msgstr ""
-"Verbeterd ‘Over’-scherm: links naar het wijzigingslog, probleemoplossing en "
-"een knop om het logboek op te slaan."
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:153
-msgid ""
-"Bugfix: User changes made to UserChrome.css and UserContent.css would be "
-"overwritten on install."
-msgstr ""
-"Opgelost: wijzigingen aan UserChrome.css en UserContent.css werden "
-"overschreven."
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:158
-msgid ""
-"Bugfix: User-chosen package format would be overwritten if multiple packages "
-"were installed simultaneously."
-msgstr ""
-"Opgelost: het gekozen pakketformaat werd overschreven indien er meerdere "
-"pakketten waren geïnstalleerd."
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:163
-msgid "Fixed bug that prevented finding profile data for Firefox Snap users."
-msgstr ""
-"Opgelost: bug die voorkwam dat het profiel van Snap-gebruikers werd gevonden."
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:168
-msgid ""
-"Fixed a bug that overwrote user.js file on every install. Thank you to "
-"gxanshu for this."
-msgstr "Opgelost: bug die user.js overschreef. Met dank aan @gxanshu hiervoor."
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:171
-msgid "Thank you to bragefuglseth for improving metainfo."
-msgstr "Met dank aan @bragefuglseth voor het verbeteren van de metagegevens."
-
-#: data/dev.qwery.AddWater.metainfo.xml.in:176
-msgid "This is the initial release of Add Water. Let me know what you think."
-msgstr "Dit is de eerste uitgave van Waterdrager - feedback is welkom."
-
-#: data/dev.qwery.AddWater.gschema.xml.in:29
+#: data/dev.qwery.AddWater.gschema.xml.in:33
 msgid "Automatically Discover the installed Firefox package format"
-msgstr "Pakketformaat automatisch vaststellen"
+msgstr "Firefox-pakketformaat automatisch vaststellen"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:34
+#: data/dev.qwery.AddWater.gschema.xml.in:38
 msgid ""
 "Most recently installed version of the firefox gnome theme "
 "(Major.Minor.Micro)"
@@ -261,37 +136,28 @@ msgstr "GNOME-thema voor Firefox"
 msgid "Enable Theme"
 msgstr "Thema gebruiken"
 
-#. Translators: Profile as in Firefox profile/account
-#: data/gtk/addwater-page.ui:26
-msgid "Profile"
-msgstr "Profiel"
-
-#: data/gtk/addwater-page.ui:27
-msgid "Select profile to apply changes toward"
-msgstr "Kies het profiel waarop het thema moet worden geïnstalleerd"
-
 #. Translators: This refers to how the user installed Firefox (package manager, Flatpak, Snap, etc.)
-#: data/gtk/addwater-page.ui:37
+#: data/gtk/addwater-page.ui:28
 msgid "Package Format"
 msgstr "Pakketformaat"
 
-#: data/gtk/addwater-page.ui:38
+#: data/gtk/addwater-page.ui:29
 msgid "Profile data not found at selected location"
 msgstr "Er zijn geen profielgegevens aangetroffen"
 
-#: data/gtk/addwater-page.ui:43
+#: data/gtk/addwater-page.ui:34
 msgid "Automatically Discover"
 msgstr "Automatisch vaststellen"
 
-#: data/gtk/addwater-page.ui:60
+#: data/gtk/addwater-page.ui:51
 msgid "Confirm your changes?"
 msgstr "Wijzigingen opslaan?"
 
-#: data/gtk/addwater-page.ui:70
+#: data/gtk/addwater-page.ui:60
 msgid "Discard"
 msgstr "Negeren"
 
-#: data/gtk/addwater-page.ui:80
+#: data/gtk/addwater-page.ui:71
 msgid "Apply"
 msgstr "Opslaan"
 
@@ -310,31 +176,40 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Afsluiten"
 
-#: data/gtk/preferences.ui:13
+#: data/gtk/preferences.ui:14
 msgid "Update in Background"
 msgstr "Bijwerken op achtergrond"
 
-#: data/gtk/preferences.ui:14
+#: data/gtk/preferences.ui:15
 msgid "Automatically check for updates at login"
 msgstr "Automatisch controleren op updates"
 
 #. Translators: This refers to options that could be unsafe.
-#: data/gtk/preferences.ui:21
+#: data/gtk/preferences.ui:30
 msgid "Danger Zone"
 msgstr "Gevarenzone"
 
-#: data/gtk/preferences.ui:22
+#: data/gtk/preferences.ui:31
 msgid ""
 "Remove the theme from all known profiles and reset Add Water to its default "
 "state. Any custom changes made to your user.js file will remain after a "
 "reset."
 msgstr ""
-"Verwijder het thema van alle profielen en zet alle voorkeuren terug op de "
+"Verwijder het thema uit alle profielen en zet alle voorkeuren terug op de "
 "standaardwaarden. Wijzigingen aan uw user.js-bestand blijven behouden."
 
-#: data/gtk/preferences.ui:25
+#: data/gtk/preferences.ui:34
 msgid "Reset and Close App"
 msgstr "Herstellen en afsluiten"
+
+#. Translators: Profile as in Firefox profile/account
+#: data/gtk/profile-selector.ui:5
+msgid "Profile"
+msgstr "Profiel"
+
+#: data/gtk/profile-selector.ui:6
+msgid "Select profile to apply changes toward"
+msgstr "Kies het profiel waarop het thema moet worden geïnstalleerd"
 
 #: data/gtk/window.ui:19
 msgid "Main Menu"
@@ -346,23 +221,22 @@ msgstr "_Voorkeuren"
 
 #: data/gtk/window.ui:38
 msgid "_Keyboard Shortcuts"
-msgstr "_Sneltoetsen"
+msgstr "Snel_toetsen"
 
 #: data/gtk/window.ui:42
 msgid "_About Add Water"
-msgstr "Over W_aterdrager"
+msgstr "_Over Waterdrager"
 
-#: src/window.py:107
+#: src/window.py:104
 msgid "Open Help Page"
 msgstr "Hulppagina openen"
 
 #. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
-#: src/window.py:114
+#: src/window.py:111
 msgid "{} Profile Data Not Found"
 msgstr "{}-profielgegevens niet aangetroffen"
 
-#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
-#: src/window.py:116
+#: src/window.py:114
 msgid ""
 "Please ensure {} is installed and Add Water has permission to access your "
 "profiles"
@@ -371,64 +245,70 @@ msgstr ""
 "profielen"
 
 #. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
-#: src/window.py:169
+#: src/window.py:168
 msgid "translator-credits"
-msgstr "Heimen Stoffels <vistausss@fastmail.com>"
+msgstr ""
+"Heimen Stoffels <vistausss@fastmail.com>\n"
+"Dick Groskamp <dikgro@yahoo.co.uk>\n"
+"Nathan Follens <nfollens@gnome.org>\n"
+"Meer info over GNOME-NL https://nl.gnome.org"
 
 #. Translator: This is followed by a list of names
-#: src/window.py:174
+#: src/window.py:173
 msgid "Theme Created and Maintained by"
-msgstr "Het thema wordt gemaakt door"
+msgstr "Het thema wordt gemaakt en onderhouden door"
 
-#: src/preferences.py:76
+#: src/preferences.py:82
 msgid "Checking for theme updates"
 msgstr "Controleren op thema-updates"
 
-#: src/page.py:96
+#: src/page.py:95
 msgid "Checking for updates..."
 msgstr "Bezig met controleren…"
 
-#. Translators: {} will be replaced by a version number
-#: src/page.py:108
-msgid "Updated theme to v{}"
-msgstr "Het thema is bijgewerkt naar v{}"
+#. Translators: {} will be replaced by a version number (example: "v126.5.65")
+#: src/page.py:111
+msgid "Updated theme to {}"
+msgstr "Thema bijgewerkt naar {}"
 
-#: src/page.py:110
+#: src/page.py:113
 msgid "Failed to check for updates due to a network issue"
 msgstr ""
 "Er kan geen updatecontrole worden uitgevoerd vanwege een verbindingsprobleem"
 
-#: src/page.py:112
+#: src/page.py:115
 msgid "Failed to check for updates. Please try again later."
-msgstr "De updatecontrole is mislukt - probeer het later opnieuw."
+msgstr "Kon niet controleren op updates. Probeer het later nog eens."
 
-#: src/page.py:114
+#: src/page.py:117
 msgid "Unknown error has occurred. Please report this to developer."
-msgstr "Er is een onbekende fout opgetreden - meld dit aan de ontwikkelaar."
+msgstr ""
+"Er is een onbekende fout opgetreden. Rapporteer dit bij de ontwikkelaar."
 
-#: src/page.py:135
+#: src/page.py:137
 msgid "Installed Theme. Restart Firefox to see changes."
 msgstr ""
 "Het thema is geïnstalleerd. Herstart Firefox om het thema toe te passen."
 
-#: src/page.py:139
+#: src/page.py:143
 msgid "Removed Theme. Restart Firefox to see changes."
 msgstr "Het thema is verwijderd. Herstart Firefox om het proces af te ronden."
 
-#: src/page.py:143
+#: src/page.py:147
 msgid "Installation failed"
 msgstr "De installatie is mislukt"
 
-#: src/page.py:155
+#. TODO Reset to prior selected profile
+#: src/page.py:162
 msgid "Changes reverted"
 msgstr "De wijzigingen zijn teruggedraaid"
 
-#: src/page.py:239
+#: src/page.py:264
 msgid "Not installed"
 msgstr "Niet geïnstalleerd"
 
 #. Translators: {} will be replaced with a version number (example: v132) or a status message
-#: src/page.py:243
+#: src/page.py:268
 msgid "Firefox GNOME Theme — {}"
 msgstr "GNOME-thema voor Firefox — {}"
 
@@ -440,7 +320,7 @@ msgstr "Tabbladbalklocatie"
 msgid "Hide Single Tab"
 msgstr "Tabbladbalk met één tabblad verbergen"
 
-#: src/apps/firefox/firefox_options.py:12
+#: src/apps/firefox/firefox_options.py:13
 msgid ""
 "Consider placing the New Tab button near the Search Bar. Otherwise it may "
 "get lost when only one tab is open."
@@ -448,163 +328,281 @@ msgstr ""
 "Overweeg om de knop ‘Nieuw tabblad’ nabij de zoekbalk te plaatsen, anders "
 "raakt u die mogelijk kwijt."
 
-#: src/apps/firefox/firefox_options.py:18
+#: src/apps/firefox/firefox_options.py:20
 msgid "Standard Tab Width"
 msgstr "Standaard tabbladbreedte"
 
-#: src/apps/firefox/firefox_options.py:19
+#: src/apps/firefox/firefox_options.py:21
 msgid "Use same tab width as standard Firefox"
-msgstr "Standaardvoorkeur van Firefox gebruiken"
+msgstr "Gebruik de standaardvoorkeur van Firefox"
 
-#: src/apps/firefox/firefox_options.py:26
+#: src/apps/firefox/firefox_options.py:28
 msgid "Swap Tab Close Button"
 msgstr "Sluitknop verwisselen"
 
-#: src/apps/firefox/firefox_options.py:27
+#: src/apps/firefox/firefox_options.py:30
 msgid "Place Close Tab button on opposite side from window controls"
 msgstr "Plaats de sluitknop aan de andere kant van de titelbalkknoppen"
 
-#: src/apps/firefox/firefox_options.py:34
+#: src/apps/firefox/firefox_options.py:38
 msgid "Bookmarks Toolbar Under Tabs"
 msgstr "Bladwijzerbalk onder tabbladen tonen"
 
-#: src/apps/firefox/firefox_options.py:35
+#: src/apps/firefox/firefox_options.py:39
 msgid "Place Bookmarks Bar underneath Tab Bar"
 msgstr "Plaats de bladwijzerbalk onder de tabbladbalk"
 
-#: src/apps/firefox/firefox_options.py:42
+#: src/apps/firefox/firefox_options.py:46
 msgid "Tabs as Headerbar"
 msgstr "Tabbladen op kopbalk tonen"
 
-#: src/apps/firefox/firefox_options.py:43
+#: src/apps/firefox/firefox_options.py:47
 msgid "Place Tab Bar at top of window"
 msgstr "Plaats de tabbladbalk bovenaan het venster"
 
-#: src/apps/firefox/firefox_options.py:44
+#: src/apps/firefox/firefox_options.py:49
 msgid ""
 "Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
 "open"
 msgstr ""
-"Schakel in i.c.m. ‘Tabbladbalk met één tabblad verbergen’ om in dat geval de "
-"titelbalk te tonen"
+"Inschakelen i.c.m. ‘Tabbladbalk met één tabblad verbergen’ zal in dat geval "
+"de titelbalk tonen"
 
-#: src/apps/firefox/firefox_options.py:50
+#: src/apps/firefox/firefox_options.py:56
 msgid "Left-Aligned Titles"
 msgstr "Titels links uitlijnen"
 
-#: src/apps/firefox/firefox_options.py:51
+#: src/apps/firefox/firefox_options.py:57
 msgid "Align tab title to left"
 msgstr "Lijn de tabbladtitels links uit"
 
-#: src/apps/firefox/firefox_options.py:58
+#: src/apps/firefox/firefox_options.py:64
 msgid "Tab Behavior"
 msgstr "Tabbladgedrag"
 
-#: src/apps/firefox/firefox_options.py:63
+#: src/apps/firefox/firefox_options.py:69
 msgid "Active Tab Contrast"
 msgstr "Actief tabblad contrasteren"
 
-#: src/apps/firefox/firefox_options.py:64
+#: src/apps/firefox/firefox_options.py:70
 msgid "Add more visual contrast to the active tab"
 msgstr ""
-"Voorzien het actieve tabblad van meer contrast, zodat het gemakkelijker te "
+"Voorzie het actieve tabblad van meer contrast, zodat het gemakkelijker te "
 "herkennen is"
 
-#: src/apps/firefox/firefox_options.py:71
+#: src/apps/firefox/firefox_options.py:77
 msgid "Close Only Selected Tabs"
 msgstr "Alleen aangeklikte tabbladen sluiten"
 
-#: src/apps/firefox/firefox_options.py:72
+#: src/apps/firefox/firefox_options.py:78
 msgid "Only show the Close Tab button on the active tab"
-msgstr "Toon de sluitknop alleen op het actieve tabblad"
+msgstr "Toon de knop Sluiten alleen op het actieve tabblad"
 
-#: src/apps/firefox/firefox_options.py:79
+#: src/apps/firefox/firefox_options.py:85
 msgid "Symbolic Tab Icons"
 msgstr "Symbolische tabbladpictogrammen"
 
-#: src/apps/firefox/firefox_options.py:80
+#: src/apps/firefox/firefox_options.py:86
 msgid "Make all tab icons appear similar to symbolic icons"
 msgstr ""
-"Voorzie alle tabbladen van symbolische pictogrammen om ze eenzelfde "
+"Voorzie alle tabbladen van symbolische pictogrammen om ze een uniform "
 "uiterlijk te geven"
 
-#: src/apps/firefox/firefox_options.py:87
+#: src/apps/firefox/firefox_options.py:93
 msgid "List of Tabs"
 msgstr "Lijst met tabbladen"
 
-#: src/apps/firefox/firefox_options.py:88
+#: src/apps/firefox/firefox_options.py:94
 msgid "Always show All Tabs button"
 msgstr "Toon altijd de knop ‘Alle tabbladen’"
 
-#: src/apps/firefox/firefox_options.py:95
+#: src/apps/firefox/firefox_options.py:101
 msgid "List of Tabs on Overflow"
 msgstr "Lijst met tabbladen bij een teveel eraan"
 
-#: src/apps/firefox/firefox_options.py:96
+#: src/apps/firefox/firefox_options.py:102
 msgid "Only show All Tabs button when many tabs are open"
 msgstr ""
 "Toon de knop ‘Alle tabbladen’ alleen als er te veel geopende tabbladen zijn"
 
-#: src/apps/firefox/firefox_options.py:108
+#: src/apps/firefox/firefox_options.py:114
 msgid "Hide Privacy Indicators"
 msgstr "Privacyindicatoren verbergen"
 
-#: src/apps/firefox/firefox_options.py:109
+#: src/apps/firefox/firefox_options.py:115
 msgid "Hide microphone, screen share, and camera warnings"
 msgstr ""
 "Toon geen waarschuwingen bij gebruik van microfoon, camera of schermdeling"
 
-#: src/apps/firefox/firefox_options.py:110
+#: src/apps/firefox/firefox_options.py:117
 msgid "GNOME will still show these privacy indicators in the Top Bar"
 msgstr "GNOME toont de indicatoren nog wel op de bovenbalk"
 
-#: src/apps/firefox/firefox_options.py:116
+#: src/apps/firefox/firefox_options.py:124
 msgid "True Black Dark Theme"
 msgstr "Gitzwart thema"
 
-#: src/apps/firefox/firefox_options.py:117
+#: src/apps/firefox/firefox_options.py:126
 msgid "Use an OLED-friendly, deep black when dark theme is enabled"
 msgstr ""
 "Gebruik een thema voor oledschermen indien het donkere thema is ingeschakeld"
 
-#: src/apps/firefox/firefox_options.py:124
+#: src/apps/firefox/firefox_options.py:134
 msgid "No Themed Icons"
 msgstr "Geen thematische pictogrammen gebruiken"
 
-#: src/apps/firefox/firefox_options.py:125
+#: src/apps/firefox/firefox_options.py:136
 msgid "Use standard Firefox icons instead of Adwaita-styled icons"
 msgstr ""
 "Gebruik de standaard Firefox-pictogrammen in plaats van die van Adwaita"
 
-#: src/apps/firefox/firefox_options.py:132
+#: src/apps/firefox/firefox_options.py:144
 msgid "Fullscreen Bookmarks"
 msgstr "Schermvullende bladwijzers"
 
-#: src/apps/firefox/firefox_options.py:133
+#: src/apps/firefox/firefox_options.py:145
 msgid "Show Bookmarks bar while in fullscreen"
 msgstr "Toon de bladwijzerbalk in de schermvullende weergave"
 
-#: src/utils/background.py:84
+#: src/gui/option_factory.py:93
+msgid "More Information"
+msgstr "Meer informatie"
+
+#: src/utils/background.py:92
 msgid "Theme updated"
 msgstr "Thema bijgewerkt"
 
-#: src/utils/background.py:85
+#: src/utils/background.py:93
 msgid "Firefox GNOME Theme Updated"
 msgstr "Het GNOME-thema voor Firefox is bijgewerkt"
 
-#: src/utils/background.py:87
+#: src/utils/background.py:95
 msgid "Theme Update Failed"
 msgstr "Thema bijwerken mislukt"
 
-#: src/utils/background.py:88
+#: src/utils/background.py:96
 msgid "Could not check for theme updates due to a network issue"
 msgstr ""
 "Er kan geen updatecontrole worden uitgevoerd vanwege een verbindingsprobleem"
 
-#: src/utils/background.py:90
+#: src/utils/background.py:98
 msgid "Theme Installation failed"
 msgstr "Thema-installatie mislukt"
 
-#: src/utils/background.py:91
+#: src/utils/background.py:99
 msgid "A theme update was downloaded but installation failed"
 msgstr "Er is een update gedownload, maar deze kan niet worden geïnstalleerd"
+
+#~ msgid "Adwaita"
+#~ msgstr "Adwaita"
+
+#~ msgid "theme"
+#~ msgstr "Thema"
+
+#~ msgid "Firefox"
+#~ msgstr "Firefox"
+
+#~ msgid "Add Water:"
+#~ msgstr "Waterdrager:"
+
+#~ msgid "Package Format selection has been moved onto the front page"
+#~ msgstr "De pakketformaatkeuze is voortaan te vinden op het startscherm"
+
+#~ msgid "fix: App would momentarily freeze upon changing Package Format"
+#~ msgstr ""
+#~ "Opgelost: de toepassing bevroor tijdens het kiezen van een ander "
+#~ "pakketformaat"
+
+#~ msgid "The Firefox GNOME Theme received two new optional features:"
+#~ msgstr "Het GNOME-thema voor Firefox heeft twee nieuwe, optionele functies:"
+
+#~ msgid ""
+#~ "List of Tabs on Overflow: Only show All Tabs button when many tabs are "
+#~ "open"
+#~ msgstr ""
+#~ "Een lijst met tabbladen bij een teveel eraan: toon de knop ‘Alle "
+#~ "tabbladen’ alleen als er te veel geopende tabbladen zijn"
+
+#~ msgid "Fullscreen Bookmarks: Show Bookmarks Bar while in Fullscreen"
+#~ msgstr ""
+#~ "Schermvullende bladwijzers: toon de bladwijzerbalk in de schermvullende "
+#~ "weergave"
+
+#~ msgid "Hotfix: App crashes or launches with an empty interface"
+#~ msgstr "Noodoplossing: de toepassing crashte of toonde een blanco scherm"
+
+#~ msgid "Fix: Relaunching app is no longer necessary to switch package format"
+#~ msgstr ""
+#~ "Opgelost: het herstarten van de toepassing na het kiezen van een "
+#~ "pakketformaat is niet meer nodig"
+
+#~ msgid ""
+#~ "Fix: Under certain conditions, app would launch with an empty interface"
+#~ msgstr ""
+#~ "Opgelost: onder bepaalde omstandigheden toonde de toepassing een blanco "
+#~ "scherm"
+
+#~ msgid "Theme version number is now displayed in the app"
+#~ msgstr "Het themaversienummer wordt voortaan getoond"
+
+#~ msgid ""
+#~ "Adds support for the two new features the Firefox GNOME Theme received:"
+#~ msgstr ""
+#~ "Ondersteuning voor twee nieuwe functies in het GNOME-thema voor Firefox:"
+
+#~ msgid "Align Tab Titles to Left"
+#~ msgstr "Lijn tabbladtitels links uit"
+
+#~ msgid "Tab List Button"
+#~ msgstr "Tabbladlijstknop"
+
+#~ msgid "Added support for CachyOS Browser."
+#~ msgstr "Ondersteuning voor CachyOS Browser."
+
+#~ msgid ""
+#~ "Under the hood, changes have been made to interface logic to allow for "
+#~ "future improvements."
+#~ msgstr ""
+#~ "Verbeteringen onder de motorkap en de vormgeving, ter voorbereiding op "
+#~ "toekomstige verbeteringen."
+
+#~ msgid ""
+#~ "Improved \"About Add Water\" dialog: added release notes, link to "
+#~ "troubleshooting help, and utility to save log files."
+#~ msgstr ""
+#~ "Verbeterd ‘Over’-scherm: links naar het wijzigingslog, probleemoplossing "
+#~ "en een knop om het logboek op te slaan."
+
+#~ msgid ""
+#~ "Bugfix: User changes made to UserChrome.css and UserContent.css would be "
+#~ "overwritten on install."
+#~ msgstr ""
+#~ "Opgelost: wijzigingen aan UserChrome.css en UserContent.css werden "
+#~ "overschreven."
+
+#~ msgid ""
+#~ "Bugfix: User-chosen package format would be overwritten if multiple "
+#~ "packages were installed simultaneously."
+#~ msgstr ""
+#~ "Opgelost: het gekozen pakketformaat werd overschreven indien er meerdere "
+#~ "pakketten waren geïnstalleerd."
+
+#~ msgid ""
+#~ "Fixed bug that prevented finding profile data for Firefox Snap users."
+#~ msgstr ""
+#~ "Opgelost: bug die voorkwam dat het profiel van Snap-gebruikers werd "
+#~ "gevonden."
+
+#~ msgid ""
+#~ "Fixed a bug that overwrote user.js file on every install. Thank you to "
+#~ "gxanshu for this."
+#~ msgstr ""
+#~ "Opgelost: bug die user.js overschreef. Met dank aan @gxanshu hiervoor."
+
+#~ msgid "Thank you to bragefuglseth for improving metainfo."
+#~ msgstr ""
+#~ "Met dank aan @bragefuglseth voor het verbeteren van de metagegevens."
+
+#~ msgid ""
+#~ "This is the initial release of Add Water. Let me know what you think."
+#~ msgstr "Dit is de eerste uitgave van Waterdrager - feedback is welkom."
