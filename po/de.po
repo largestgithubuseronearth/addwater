@@ -2,22 +2,23 @@
 # Copyright (C) 2025 addwater's COPYRIGHT HOLDER
 # This file is distributed under the same license as the addwater package.
 # Philipp Kiemle <l10n@prly.mozmail.com>,  2025.
+# Tim Sabsch <tim@sabsch.com>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: addwater main\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2025-07-20 15:24+0000\n"
-"PO-Revision-Date: 2025-08-16 14:01+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2025-09-05 03:24+0000\n"
+"PO-Revision-Date: 2025-09-20 09:26+0200\n"
+"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
 "Language-Team: German <German>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #. Branding Info
 #: data/dev.qwery.AddWater.desktop.in:2
@@ -42,6 +43,12 @@ msgid ""
 "GNOME design ecosystem, and provides many helpful features to customize the "
 "interface to make browsing even more pleasant:"
 msgstr ""
+"Eine Hilfsanwendung, mit der Sie das Firefox-GNOME-Thema* ganz einfach "
+"installieren und automatisch im Hintergrund aktualisieren können. Dieses "
+"Thema sorgt dafür, dass Firefox im GNOME-Thema-Ökosystem immer auf dem "
+"neuesten Stand bleibt, und bietet viele hilfreiche Funktionen zur Anpassung "
+"der Benutzeroberfläche, um das Stöbern im Internet noch angenehmer zu "
+"gestalten:"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:16
 msgid "Supports light and dark style, as well as accent colors"
@@ -50,19 +57,23 @@ msgstr "Unterstützt helle und dunkle Stile sowie Akzentfarben"
 #: data/dev.qwery.AddWater.metainfo.xml.in:17
 #: src/apps/firefox/firefox_options.py:11
 msgid "Hide Tab Bar when only one tab is open"
-msgstr ""
+msgstr "Ermöglicht es, die Tableiste ausblenden, wenn nur ein Tab geöffnet ist"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:18
 msgid "Use an OLED-friendly pitch black for the interface"
-msgstr ""
+msgstr "Verwendet für die Benutzeroberfläche ein OLED-freundliches Tiefschwarz"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:19
 msgid "Customize Tab Bar position, position of controls, alignment, and more"
 msgstr ""
+"Ermöglicht die Anpassung von Position und Ausrichtung der Tableiste, "
+"Steuerelementen und mehr"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:20
 msgid "Hide redundant microphone, webcam, screen share indicators"
 msgstr ""
+"Ermöglicht das Ausblenden der Freigabeanzeigen für Mikrofon, Kamera und "
+"Bildschirmfreigabe"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:21
 msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
@@ -73,6 +84,8 @@ msgid ""
 "*The Firefox GNOME Theme itself is independently developed and maintained by "
 "Rafael Mardojai CM."
 msgstr ""
+"* Das Firefox-GNOME-Thema selbst wird unabhängig von Rafael Mardojai CM "
+"entwickelt und gepflegt."
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:24
 msgid ""
@@ -80,22 +93,31 @@ msgid ""
 "project is not affiliated or endorsed by the Mozilla Foundation. Firefox is "
 "a trademark of the Mozilla Foundation in the U.S. and other countries."
 msgstr ""
+"Der Firefox-Browser ist nicht enthalten und muss separat heruntergeladen "
+"werden. Dieses Projekt steht in keiner Verbindung zur Mozilla Foundation und "
+"wird von dieser nicht unterstützt. Firefox ist eine Marke der Mozilla "
+"Foundation in den USA und anderen Ländern."
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:35
 msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
 msgstr ""
+"Mit „Add Water“ lässt sich das Firefox-GNOME-Thema ganz einfach anpassen"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:39
 msgid "The interface is clean, beautiful, and stays out of the way"
-msgstr ""
+msgstr "Die Benutzeroberfläche ist übersichtlich, ansprechend und unauffällig"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:43
 msgid "Supports a pure black Top Bar, perfect for OLED screens and dark rooms"
 msgstr ""
+"Unterstützt eine rein schwarze obere Leiste, ideal für OLED-Bildschirme und "
+"dunkle Räume"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:47
 msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
 msgstr ""
+"Unterstützt Akzentfarben und mehrere Positionen für Tab- und "
+"Lesezeichenleisten"
 
 #: data/dev.qwery.AddWater.gschema.xml.in:21
 msgid "Send notifications for background updates"
@@ -103,13 +125,14 @@ msgstr "Benachrichtigung für Aktualisierungen im Hintergrund senden"
 
 #: data/dev.qwery.AddWater.gschema.xml.in:33
 msgid "Automatically Discover the installed Firefox package format"
-msgstr ""
+msgstr "Das installierte Firefox-Paketformat automatisch erkennen"
 
 #: data/dev.qwery.AddWater.gschema.xml.in:38
 msgid ""
 "Most recently installed version of the firefox gnome theme "
 "(Major.Minor.Micro)"
 msgstr ""
+"Zuletzt installierte Version des Firefox GNOME-Themas (Major.Minor.Micro)"
 
 #: data/gtk/addwater-page.ui:15
 msgid "Firefox GNOME Theme"
@@ -126,7 +149,7 @@ msgstr "Paketformat"
 
 #: data/gtk/addwater-page.ui:29
 msgid "Profile data not found at selected location"
-msgstr ""
+msgstr "Profildaten wurden am ausgewählten Ort nicht gefunden"
 
 #: data/gtk/addwater-page.ui:34
 msgid "Automatically Discover"
@@ -178,6 +201,9 @@ msgid ""
 "state. Any custom changes made to your user.js file will remain after a "
 "reset."
 msgstr ""
+"Das Thema aus allen bekannten Profilen entfernen und »Add Water« auf den "
+"ursprünglichen Zustand zurücksetzen. Alle benutzerdefinierten Änderungen an "
+"Ihrer user.js-Datei bleiben nach einer Zurücksetzung erhalten."
 
 #: data/gtk/preferences.ui:34
 msgid "Reset and Close App"
@@ -190,7 +216,7 @@ msgstr "Profil"
 
 #: data/gtk/profile-selector.ui:6
 msgid "Select profile to apply changes toward"
-msgstr ""
+msgstr "Wählen Sie das zu ändernde Profil aus"
 
 #: data/gtk/window.ui:19
 msgid "Main Menu"
@@ -222,13 +248,17 @@ msgid ""
 "Please ensure {} is installed and Add Water has permission to access your "
 "profiles"
 msgstr ""
+"Bitte stellen Sie sicher, dass {} installiert ist und »Add Water« die "
+"Berechtigung zum Zugriff auf Ihre Profile hat"
 
 #. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
 #: src/window.py:168
 msgid "translator-credits"
 msgstr ""
 "Philipp Kiemle <l10n@prly.mozmail.com>\n"
-"Christian Kirbach <christian.kirbach@gmail.com>"
+"Christian Kirbach <christian.kirbach@gmail.com>\n"
+"Froschi <gb.yesterday091@passfwd.com>\n"
+"Tim Sabsch <tim@sabsch.com>"
 
 #. Translator: This is followed by a list of names
 #: src/window.py:173
@@ -241,7 +271,7 @@ msgstr "Nach Themen-Aktualisierung wird gesucht"
 
 #: src/page.py:95
 msgid "Checking for updates..."
-msgstr "Aktualisierungen werden gesucht …"
+msgstr "Aktualisierungen werden gesucht …"
 
 #. Translators: {} will be replaced by a version number (example: "v126.5.65")
 #: src/page.py:111
@@ -294,55 +324,61 @@ msgstr "Firefox GNOME-Thema — {}"
 
 #: src/apps/firefox/firefox_options.py:5
 msgid "Tab Position"
-msgstr "Reiterposition"
+msgstr "Tabposition"
 
 #: src/apps/firefox/firefox_options.py:10
 msgid "Hide Single Tab"
-msgstr "Einzelnen Reiter verstecken"
+msgstr "Einzelnen Tab ausblenden"
 
 #: src/apps/firefox/firefox_options.py:13
 msgid ""
 "Consider placing the New Tab button near the Search Bar. Otherwise it may "
 "get lost when only one tab is open."
 msgstr ""
+"Erwägen Sie, den Knopf „Neuer Tab“ in der Nähe der Suchleiste zu platzieren. "
+"Andernfalls könnte sie übersehen werden, wenn nur ein Tab geöffnet ist."
 
 #: src/apps/firefox/firefox_options.py:20
 msgid "Standard Tab Width"
-msgstr "Vorgegebene Reiterbreite"
+msgstr "Vorgegebene Tabbreite"
 
 #: src/apps/firefox/firefox_options.py:21
 msgid "Use same tab width as standard Firefox"
-msgstr ""
+msgstr "Die gleiche Tabbreite wie in Standard-Firefox verwenden"
 
 #: src/apps/firefox/firefox_options.py:28
 msgid "Swap Tab Close Button"
-msgstr ""
+msgstr "Den »Tab schließen«-Knopf tauschen"
 
 #: src/apps/firefox/firefox_options.py:30
 msgid "Place Close Tab button on opposite side from window controls"
 msgstr ""
+"Den »Tab schließen«-Knopf auf der entgegengesetzten Seite der Fensterknöpfe "
+"platzieren"
 
 #: src/apps/firefox/firefox_options.py:38
 msgid "Bookmarks Toolbar Under Tabs"
-msgstr ""
+msgstr "Lesezeichen-Symbolleiste unter Tabs"
 
 #: src/apps/firefox/firefox_options.py:39
 msgid "Place Bookmarks Bar underneath Tab Bar"
-msgstr ""
+msgstr "Die Lesezeichen-Symbolleiste unter der Tableiste platzieren"
 
 #: src/apps/firefox/firefox_options.py:46
 msgid "Tabs as Headerbar"
-msgstr ""
+msgstr "Tabs als Kopfleiste"
 
 #: src/apps/firefox/firefox_options.py:47
 msgid "Place Tab Bar at top of window"
-msgstr ""
+msgstr "Die Tabliste ganz oben am Fenster platzieren"
 
 #: src/apps/firefox/firefox_options.py:49
 msgid ""
 "Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
 "open"
 msgstr ""
+"Wenn auch »Einzelnen Tab verstecken« aktiviert ist, wird eine Titelleiste "
+"angezeigt, wenn nur ein Tab geöffnet ist"
 
 #: src/apps/firefox/firefox_options.py:56
 msgid "Left-Aligned Titles"
@@ -350,87 +386,91 @@ msgstr "Linksbündige Titel"
 
 #: src/apps/firefox/firefox_options.py:57
 msgid "Align tab title to left"
-msgstr "Reitertitel linksbündig anordnen"
+msgstr "Tabtitel linksbündig anordnen"
 
 #: src/apps/firefox/firefox_options.py:64
 msgid "Tab Behavior"
-msgstr "Reiterverhalten"
+msgstr "Tabverhalten"
 
 #: src/apps/firefox/firefox_options.py:69
 msgid "Active Tab Contrast"
-msgstr ""
+msgstr "Kontrast des aktiven Tabs"
 
 #: src/apps/firefox/firefox_options.py:70
 msgid "Add more visual contrast to the active tab"
-msgstr ""
+msgstr "Hebt den aktiven Tab durch mehr Kontrast stärker hervor"
 
 #: src/apps/firefox/firefox_options.py:77
 msgid "Close Only Selected Tabs"
-msgstr "Nur ausgewählte Reiter schließen"
+msgstr "Nur ausgewählte Tabs schließen"
 
 #: src/apps/firefox/firefox_options.py:78
 msgid "Only show the Close Tab button on the active tab"
-msgstr "Den »Reiter schließen«-Knopf nur auf dem aktiven Reiter anzeigen"
+msgstr "Den »Tab schließen«-Knopf nur auf dem aktiven Tab anzeigen"
 
 #: src/apps/firefox/firefox_options.py:85
 msgid "Symbolic Tab Icons"
-msgstr ""
+msgstr "Stilistische Tabsymbole"
 
 #: src/apps/firefox/firefox_options.py:86
 msgid "Make all tab icons appear similar to symbolic icons"
-msgstr ""
+msgstr "Alle Tabsymbole stilisiert anzeigen"
 
 #: src/apps/firefox/firefox_options.py:93
 msgid "List of Tabs"
-msgstr "Reiterliste"
+msgstr "Tabliste"
 
 #: src/apps/firefox/firefox_options.py:94
 msgid "Always show All Tabs button"
-msgstr ""
+msgstr "»Alle Tabs«-Knopf immer anzeigen"
 
 #: src/apps/firefox/firefox_options.py:101
 msgid "List of Tabs on Overflow"
-msgstr ""
+msgstr "Tabliste bei Überlauf"
 
 #: src/apps/firefox/firefox_options.py:102
 msgid "Only show All Tabs button when many tabs are open"
-msgstr ""
+msgstr "»Alle Tabs«-Knopf nur anzeigen, wenn viele Tabs geöffnet sind"
 
 #: src/apps/firefox/firefox_options.py:114
 msgid "Hide Privacy Indicators"
-msgstr ""
+msgstr "Privatsphäre-Indikatoren verstecken"
 
 #: src/apps/firefox/firefox_options.py:115
 msgid "Hide microphone, screen share, and camera warnings"
-msgstr ""
+msgstr "Mikrofon-, Bildschirm-Teilen- und Kamerawarnungen verstecken"
 
 #: src/apps/firefox/firefox_options.py:117
 msgid "GNOME will still show these privacy indicators in the Top Bar"
 msgstr ""
+"GNOME wird diese Privatsphäre-Indikatoren immer noch in der oberen Leiste "
+"anzeigen"
 
 #: src/apps/firefox/firefox_options.py:124
 msgid "True Black Dark Theme"
-msgstr ""
+msgstr "Echt schwarzes dunkles Thema"
 
 #: src/apps/firefox/firefox_options.py:126
 msgid "Use an OLED-friendly, deep black when dark theme is enabled"
 msgstr ""
+"Verwendet ein OLED-freundliches, tiefes Schwarz, wenn das dunkle Thema "
+"aktiviert ist"
 
 #: src/apps/firefox/firefox_options.py:134
 msgid "No Themed Icons"
-msgstr ""
+msgstr "Keine Thema-Symbole"
 
 #: src/apps/firefox/firefox_options.py:136
 msgid "Use standard Firefox icons instead of Adwaita-styled icons"
-msgstr ""
+msgstr "Standard-Firefox-Symbole statt Symbole im Adwaita-Stil verwenden"
 
 #: src/apps/firefox/firefox_options.py:144
 msgid "Fullscreen Bookmarks"
-msgstr ""
+msgstr "Vollbild-Lesezeichen"
 
 #: src/apps/firefox/firefox_options.py:145
 msgid "Show Bookmarks bar while in fullscreen"
-msgstr ""
+msgstr "Die Lesezeichen-Symbolleiste im Vollbildmodus anzeigen"
 
 #: src/gui/option_factory.py:93
 msgid "More Information"
@@ -442,7 +482,7 @@ msgstr "Thema aktualisiert"
 
 #: src/utils/background.py:93
 msgid "Firefox GNOME Theme Updated"
-msgstr ""
+msgstr "Firefox GNOME-Thema aktualisiert"
 
 #: src/utils/background.py:95
 msgid "Theme Update Failed"
@@ -451,6 +491,8 @@ msgstr "Aktualisieren des Themas fehlgeschlagen"
 #: src/utils/background.py:96
 msgid "Could not check for theme updates due to a network issue"
 msgstr ""
+"Aufgrund eines Netzwerkproblems konnte nicht auf Themenaktualisierungen "
+"überprüft werden"
 
 #: src/utils/background.py:98
 msgid "Theme Installation failed"
