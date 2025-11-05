@@ -74,9 +74,8 @@
 	<url type="bugtracker">https://github.com/largestgithubuseronearth/addwater/issues</url>
 	<url type="vcs-browser">https://github.com/largestgithubuseronearth/addwater</url>
 	<url type="donation">https://paypal.me/RafaelMardojaiCM</url>
-	<url type="help">https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md</url>
 	<url type="contribute">https://github.com/largestgithubuseronearth/addwater</url>
-	<!-- <url type="translate">https://github.com/largestgithubuseronearth/addwater/tree/main/po</url> -->
+	<url type="translate">https://l10n.gnome.org/module/addwater/</url>
 	<url type="contact">https://qwery.dev</url>
 
 	<!-- Technical Details -->
@@ -97,6 +96,34 @@
 
 	<!-- Release Notes -->
 	<releases>
+  		<release version="1.2.7" date="2025-11-04">
+			<description>
+				<p>Add Water has been translated into several new languages thanks to the work of the people listed below. Thank you.</p>
+				<ul>
+				  <li>Azerbaijani: rehimovv</li>
+					<li>Basque: Asier Sarasua Garmendia</li>
+				  <li>Brazilian Portuguese: Tuba2, Rafael Fontenelle, alvaroburns</li>
+					<li>Chinese: Jane Doe, lumingzh</li>
+					<li>Dutch: Nathan Follens</li>
+					<li>Finnish: Jiri Grönroos</li>
+					<li>Georgian: Ekaterine Papava</li>
+					<li>German: nazgul77, Froschi</li>
+					<li>Kabayle: BoFFire</li>
+				  <li>Russian: Ser82-png</li>
+				  <li>Slovenian: filmsi</li>
+				  <li>Spanish: dmustieles</li>
+				  <li>Swedish: haaninjo</li>
+				  <li>Ukrainian: yurchor</li>
+				</ul>
+			  <p>If you'd like to translate Add Water into your own language, visit the Damned Lies module page.</p>
+
+			  <p>There's also been a couple minor additions to Add Water:</p>
+			  <ul>
+			    <li>Shell Notifications can be toggled independently of background updates.</li>
+			    <li>Waterfox support.</li>
+			  </ul>
+			</description>
+		</release>
 		<release version="1.2.6" date="2025-02-20">
 			<description>
 				<p>Add Water:</p>
