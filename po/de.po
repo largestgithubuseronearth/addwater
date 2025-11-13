@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: addwater main\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2025-09-05 03:24+0000\n"
-"PO-Revision-Date: 2025-09-20 09:26+0200\n"
-"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
+"POT-Creation-Date: 2025-11-06 03:24+0000\n"
+"PO-Revision-Date: 2025-11-06 15:12+0100\n"
+"Last-Translator: Froschi <gb.yesterday091@passfwd.com>\n"
 "Language-Team: German <German>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. Branding Info
 #: data/dev.qwery.AddWater.desktop.in:2
@@ -129,8 +129,8 @@ msgstr "Das installierte Firefox-Paketformat automatisch erkennen"
 
 #: data/dev.qwery.AddWater.gschema.xml.in:38
 msgid ""
-"Most recently installed version of the firefox gnome theme "
-"(Major.Minor.Micro)"
+"Most recently installed version of the firefox gnome theme (Major.Minor."
+"Micro)"
 msgstr ""
 "Zuletzt installierte Version des Firefox GNOME-Themas (Major.Minor.Micro)"
 
@@ -336,7 +336,7 @@ msgid ""
 "get lost when only one tab is open."
 msgstr ""
 "Erwägen Sie, den Knopf „Neuer Tab“ in der Nähe der Suchleiste zu platzieren. "
-"Andernfalls könnte sie übersehen werden, wenn nur ein Tab geöffnet ist."
+"Andernfalls könnte er übersehen werden, wenn nur ein Tab geöffnet ist."
 
 #: src/apps/firefox/firefox_options.py:20
 msgid "Standard Tab Width"
