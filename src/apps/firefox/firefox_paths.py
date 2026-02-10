@@ -1,9 +1,12 @@
 from os.path import expanduser
 
 # FIREFOX PATHS
-BASE = expanduser("~/.mozilla/firefox/")
-FLATPAK = expanduser("~/.var/app/org.mozilla.firefox/.mozilla/firefox/")
-SNAP = expanduser("~/snap/firefox/common/.mozilla/firefox/")
+BASE_LEGACY = expanduser("~/.mozilla/firefox/")
+BASE = expanduser("~/.config/mozilla/firefox/")
+FLATPAK_LEGACY = expanduser("~/.var/app/org.mozilla.firefox/.mozilla/firefox/")
+FLATPAK = expanduser("~/.var/app/org.mozilla.firefox/.config/mozilla/firefox/")
+SNAP_LEGACY = expanduser("~/snap/firefox/common/.mozilla/firefox/")
+SNAP = expanduser("~/snap/firefox/common/.config/mozilla/firefox/")
 
 LIBREWOLF_BASE = expanduser("~/.librewolf/")
 LIBREWOLF_FLATPAK = expanduser("~/.var/app/io.gitlab.librewolf-community/.librewolf/")
@@ -17,8 +20,11 @@ WATERFOX_FLATPAK = expanduser("~/.var/app/net.waterfox.waterfox/.waterfox")
 CACHY_BASE = expanduser("~/.cachy")
 
 FIREFOX_PATHS = [
+    {"name": "Base (Alt)", "path": BASE_LEGACY},
     {"name": "Base", "path": BASE},
+    {"name": "Flatpak (Alt)", "path": FLATPAK_LEGACY},
     {"name": "Flatpak", "path": FLATPAK},
+    {"name": "Snap (Alt)", "path": SNAP_LEGACY},
     {"name": "Snap", "path": SNAP},
     {"name": "Librewolf Base", "path": LIBREWOLF_BASE},
     {"name": "Librewolf Flatpak", "path": LIBREWOLF_FLATPAK},
