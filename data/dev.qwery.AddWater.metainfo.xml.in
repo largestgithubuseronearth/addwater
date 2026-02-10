@@ -96,6 +96,20 @@
 
 	<!-- Release Notes -->
 	<releases>
+	  <release version="1.2.8" date="2026-02-10">
+	    <description>
+	      <p>Add Water:</p>
+	      <ul>
+	        <li>fix: Fail to launch when using a fresh install of Firefox 147.</li>
+	      </ul>
+	      <p>Translations:</p>
+	      <ul>
+	        <li>Cornish: linfindel</li>
+	        <li>German: Froschi</li>
+	        <li>Greek: Efstathios Iosifidis</li>
+	      </ul>
+	    </description>
+	  </release>
   		<release version="1.2.7" date="2025-11-04">
 			<description>
 				<p>Add Water has been translated into several new languages thanks to the work of the people listed below. Thank you.</p>
