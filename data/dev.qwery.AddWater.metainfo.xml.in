@@ -96,7 +96,14 @@
 
 	<!-- Release Notes -->
 	<releases>
-	  <release version="1.2.8" date="2026-02-10">
+	  <release version="1.2.9" date="2026-02-11">
+	    <description>
+	      <p>Add Water:</p>
+	      <ul>
+	        <li>fix: Fail to launch when using a fresh install of Librewolf 147.</li>
+	      </ul>
+	    </description>
+	  </release>	  <release version="1.2.8" date="2026-02-10">
 	    <description>
 	      <p>Add Water:</p>
 	      <ul>
