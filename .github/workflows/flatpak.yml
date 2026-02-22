@@ -1,6 +1,12 @@
-name: Devel Flatpak
-run-name: Dev Flatpak Builder
-on: [pull_request]
+name: Test Flatpak build
+run-name: Build Flatpak
+# Run when PR is opened or a commit is pushed to main branch.
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+  push:
+    branches:
+     - 'main'
 jobs:
   Flatpak-Builder-Action:
     runs-on: ubuntu-latest
@@ -12,5 +18,4 @@ jobs:
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: dev.qwery.AddWater.Devel.flatpak
-          manifest-path: build-aux/dev.qwery.AddWater.Devel.json
-          upload-artifact: false
+          manifest-path: build-aux/dev.qwery.AddWater.json
