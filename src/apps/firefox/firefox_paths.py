@@ -4,7 +4,7 @@ from os.path import expanduser
 BASE_LEGACY = expanduser("~/.mozilla/firefox/")
 BASE = expanduser("~/.config/mozilla/firefox/")
 FLATPAK_LEGACY = expanduser("~/.var/app/org.mozilla.firefox/.mozilla/firefox/")
-FLATPAK = expanduser("~/.var/app/org.mozilla.firefox/.config/mozilla/firefox/")
+FLATPAK = expanduser("~/.var/app/org.mozilla.firefox/config/mozilla/firefox/")
 SNAP_LEGACY = expanduser("~/snap/firefox/common/.mozilla/firefox/")
 SNAP = expanduser("~/snap/firefox/common/.config/mozilla/firefox/")
 
