@@ -1,0 +1,486 @@
+# Polish translation for addwater.
+# Copyright (C) 2025 addwater's COPYRIGHT HOLDER
+# This file is distributed under the same license as the addwater package.
+# Victoria <royal.victoria@proton.me>, 2025-2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: addwater main\n"
+"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
+"issues/\n"
+"POT-Creation-Date: 2025-12-07 15:24+0000\n"
+"PO-Revision-Date: 2026-03-13 13:51+0100\n"
+"Last-Translator: Victoria <royal.victoria@proton.me>\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Gtranslator 49.0\n"
+
+#. Branding Info
+#: data/dev.qwery.AddWater.desktop.in:2
+#: data/dev.qwery.AddWater.metainfo.xml.in:10
+msgid "Add Water"
+msgstr "Dodaj Wodę"
+
+#: data/dev.qwery.AddWater.desktop.in:4
+#: data/dev.qwery.AddWater.metainfo.xml.in:11
+msgid "Keep Firefox in fashion"
+msgstr "Zachowaj Firefoksa w modzie"
+
+#. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
+#: data/dev.qwery.AddWater.desktop.in:9
+msgid "theme;adwaita;firefox;"
+msgstr "motyw;adwaita;firefoks;firefox;"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:13
+msgid ""
+"A utility app to easily install the Firefox GNOME Theme* and automatically "
+"update it in the background. This theme keeps Firefox fashionable within the "
+"GNOME design ecosystem, and provides many helpful features to customize the "
+"interface to make browsing even more pleasant:"
+msgstr ""
+"Narzędzie do łatwego instalowania motywu GNOME dla Firefoksa* "
+"i automatycznego aktualizowania w tle. Ten motyw utrzymuje Firefoksa "
+"w modzie wśród ekosystemu projektowym GNOME i oferuje dużo przydatnych "
+"funkcji do konfigurowania interfejsu, aby przeglądanie sieci było jeszcze "
+"przyjemniejsze:"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:16
+msgid "Supports light and dark style, as well as accent colors"
+msgstr "Wspiera style jasne i ciemne, jak i kolory akcentowe"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:17
+#: src/apps/firefox/firefox_options.py:11
+msgid "Hide Tab Bar when only one tab is open"
+msgstr "Ukrywanie panelu kart, gdy jest tylko jedna karta"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:18
+msgid "Use an OLED-friendly pitch black for the interface"
+msgstr "Wspiera przyjazne dla ekranów OLED czystą czerń dla interfejsu"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:19
+msgid "Customize Tab Bar position, position of controls, alignment, and more"
+msgstr ""
+"Dostosowanie pozycji panelu kart, pozycji kontrolek, wyrównania i nie tylko"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:20
+msgid "Hide redundant microphone, webcam, screen share indicators"
+msgstr ""
+"Ukrywanie niepotrzebnych ikon mikrofonu, kamery i wskaźnika udostępniania "
+"ekranu"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:21
+msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
+msgstr "Wspiera flatpaki, snapy, Librewolf i warianty Floorp Firefoksa"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:23
+msgid ""
+"*The Firefox GNOME Theme itself is independently developed and maintained by "
+"Rafael Mardojai CM."
+msgstr ""
+"*Motyw GNOME dla Firefoksa jest niezależnie tworzony przez Rafael Mardojai "
+"CM."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:24
+msgid ""
+"The Firefox browser is not included and must be downloaded separately. This "
+"project is not affiliated or endorsed by the Mozilla Foundation. Firefox is "
+"a trademark of the Mozilla Foundation in the U.S. and other countries."
+msgstr ""
+"Firefox nie jest dołączony i musi być pobrany osobno. Ten projekt nie ma "
+"żadnych powiązań ani nie jest wspierany przez Fundację Mozilli. Firefox jest "
+"znakiem firmowym Fundacji Mozilla w USA i innych krajach."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:35
+msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
+msgstr "Dodaj Wodę ułatwia dostosowanie motywu GNOME dla Firefoksa"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:39
+msgid "The interface is clean, beautiful, and stays out of the way"
+msgstr "Interfejs jest czysty, piękny i nie wchodzi w drogę"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:43
+msgid "Supports a pure black Top Bar, perfect for OLED screens and dark rooms"
+msgstr ""
+"Wspiera czysto czarny panel górny, perfekcyjny dla ekranów OLED i ciemnych "
+"pomieszczeń"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:47
+msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
+msgstr "Wspiera kolory akcentów i wiele pozycji dla panelu kart i zakładek"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Wysyła powiadomienia dla aktualizacji w tle "
+
+#: data/dev.qwery.AddWater.gschema.xml.in:33
+msgid "Automatically Discover the installed Firefox package format"
+msgstr "Automatycznie wykrywa w jakim formacie został zapakowany Firefox"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:38
+msgid ""
+"Most recently installed version of the firefox gnome theme "
+"(Major.Minor.Micro)"
+msgstr ""
+"Najnowsza zainstalowana wersja motywu GNOME dla Firefoksa "
+"(Główne.Mniejsze.Mikro)"
+
+#: data/gtk/addwater-page.ui:15
+msgid "Firefox GNOME Theme"
+msgstr "Motyw GNOME dla Firefoksa"
+
+#: data/gtk/addwater-page.ui:20
+msgid "Enable Theme"
+msgstr "Włączenie motywu"
+
+#. Translators: This refers to how the user installed Firefox (package manager, Flatpak, Snap, etc.)
+#: data/gtk/addwater-page.ui:28
+msgid "Package Format"
+msgstr "Format pakowania"
+
+#: data/gtk/addwater-page.ui:29
+msgid "Profile data not found at selected location"
+msgstr "Dane profilu nie znalezione w wybranej lokalizacji"
+
+#: data/gtk/addwater-page.ui:34
+msgid "Automatically Discover"
+msgstr "Automatyczne wykrywanie"
+
+#: data/gtk/addwater-page.ui:51
+msgid "Confirm your changes?"
+msgstr "Zatwierdzić zmiany?"
+
+#: data/gtk/addwater-page.ui:60
+msgid "Discard"
+msgstr "Odrzuć"
+
+#: data/gtk/addwater-page.ui:71
+msgid "Apply"
+msgstr "Zastosuj"
+
+#: data/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Ogólne"
+
+#: data/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Wyświetlanie skrótów klawiszowych"
+
+#: data/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Zakończenie działania"
+
+#: data/gtk/preferences.ui:14
+msgid "Update in Background"
+msgstr "Aktualizowanie w tle"
+
+#: data/gtk/preferences.ui:15
+msgid "Automatically check for updates at login"
+msgstr "Automatyczne sprawdzanie dostępnych aktualizacji podczas logowania"
+
+#. Translators: This refers to options that could be unsafe.
+#: data/gtk/preferences.ui:30
+msgid "Danger Zone"
+msgstr "Strefa Niebezpieczeństwa"
+
+#: data/gtk/preferences.ui:31
+msgid ""
+"Remove the theme from all known profiles and reset Add Water to its default "
+"state. Any custom changes made to your user.js file will remain after a "
+"reset."
+msgstr ""
+"Usunięcie motywu ze wszystkich znanych profili i zresetowanie Dodaj Wodę do "
+"stanu domyślnego. Wszystkie zmiany wprowadzone do pliku user.js nie zostaną "
+"naruszone."
+
+#: data/gtk/preferences.ui:34
+msgid "Reset and Close App"
+msgstr "Zresetuj i zamknij aplikację"
+
+#. Translators: Profile as in Firefox profile/account
+#: data/gtk/profile-selector.ui:5
+msgid "Profile"
+msgstr "Profil"
+
+#: data/gtk/profile-selector.ui:6
+msgid "Select profile to apply changes toward"
+msgstr "Wybierz profil, do którego mają zostać zapisane zmiany"
+
+#: data/gtk/window.ui:19
+msgid "Main Menu"
+msgstr "Menu główne"
+
+#: data/gtk/window.ui:34
+msgid "_Preferences"
+msgstr "_Preferencje"
+
+#: data/gtk/window.ui:38
+msgid "_Keyboard Shortcuts"
+msgstr "_Skróty klawiszowe"
+
+#: data/gtk/window.ui:42
+msgid "_About Add Water"
+msgstr "_O programie"
+
+#: src/window.py:104
+msgid "Open Help Page"
+msgstr "Otwórz witrynę z pomocą"
+
+#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+#: src/window.py:111
+msgid "{} Profile Data Not Found"
+msgstr "Nie znaleziono danych profilu przeglądarki {}"
+
+#: src/window.py:114
+msgid ""
+"Please ensure {} is installed and Add Water has permission to access your "
+"profiles"
+msgstr ""
+"Proszę się upewnić, że przeglądarka {} jest zainstalowana i Dodaj Wodę ma "
+"zgodę na dostęp do profili"
+
+#. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
+#: src/window.py:168
+msgid "translator-credits"
+msgstr "tragivictoria <royal.victoria@proton.me>, 2025-2026"
+
+#. Translator: This is followed by a list of names
+#: src/window.py:173
+msgid "Theme Created and Maintained by"
+msgstr "Motyw jest tworzony przez"
+
+#: src/preferences.py:82
+msgid "Checking for theme updates"
+msgstr "Sprawdzanie aktualizacji motywu"
+
+#: src/page.py:95
+msgid "Checking for updates..."
+msgstr "Sprawdzanie aktualizacji…"
+
+#. Translators: {} will be replaced by a version number (example: "v126.5.65")
+#: src/page.py:111
+msgid "Updated theme to {}"
+msgstr "Zaktualizowano motyw do wersji {}"
+
+#: src/page.py:113
+msgid "Failed to check for updates due to a network issue"
+msgstr ""
+"Sprawdzanie aktualizacji nie powiodło się przez problemy z połączeniem "
+"sieciowym"
+
+#: src/page.py:115
+msgid "Failed to check for updates. Please try again later."
+msgstr ""
+"Sprawdzanie aktualizacji nie powiodło się. Proszę spróbować ponownie później."
+
+#: src/page.py:117
+msgid "Unknown error has occurred. Please report this to developer."
+msgstr "Wystąpił nieznany błąd. Proszę zgłosić problem do osoby programującej."
+
+#: src/page.py:137
+msgid "Installed Theme. Restart Firefox to see changes."
+msgstr "Zainstalowano motyw. Wymagane ponowne uruchomienie Firefoksa."
+
+#: src/page.py:143
+msgid "Removed Theme. Restart Firefox to see changes."
+msgstr "Usunięto motyw. Wymagane ponowne uruchomienie Firefoksa."
+
+#: src/page.py:147
+msgid "Installation failed"
+msgstr "Instalacja nie powiodła się"
+
+#. TODO Reset to prior selected profile
+#: src/page.py:162
+msgid "Changes reverted"
+msgstr "Cofnięto zmiany"
+
+#: src/page.py:264
+msgid "Not installed"
+msgstr "Nie zainstalowano"
+
+#. Translators: {} will be replaced with a version number (example: v132) or a status message
+#: src/page.py:268
+msgid "Firefox GNOME Theme — {}"
+msgstr "Motyw GNOME dla Firefoksa — wersja {}"
+
+#: src/apps/firefox/firefox_options.py:5
+msgid "Tab Position"
+msgstr "Pozycja panelu kart"
+
+#: src/apps/firefox/firefox_options.py:10
+msgid "Hide Single Tab"
+msgstr "Ukrywanie pojedynczej karty"
+
+#: src/apps/firefox/firefox_options.py:13
+msgid ""
+"Consider placing the New Tab button near the Search Bar. Otherwise it may "
+"get lost when only one tab is open."
+msgstr ""
+"Proszę rozważyć położenie przycisku „Nowa karta” koło panelu wyszukiwania, "
+"inaczej może zniknąć, gdy jest tylko jedna karta."
+
+#: src/apps/firefox/firefox_options.py:20
+msgid "Standard Tab Width"
+msgstr "Standardowa szerokość karty"
+
+#: src/apps/firefox/firefox_options.py:21
+msgid "Use same tab width as standard Firefox"
+msgstr "Używanie tej samej szerokości kart jak standardowy Firefox"
+
+#: src/apps/firefox/firefox_options.py:28
+msgid "Swap Tab Close Button"
+msgstr "Zamienienie przycisku zamknięcia kart"
+
+#: src/apps/firefox/firefox_options.py:30
+msgid "Place Close Tab button on opposite side from window controls"
+msgstr ""
+"Umieszczenie przycisku zamknięcia kart na przeciwko przycisków kontroli okna"
+
+#: src/apps/firefox/firefox_options.py:38
+msgid "Bookmarks Toolbar Under Tabs"
+msgstr "Pasek zakładek pod kartami"
+
+#: src/apps/firefox/firefox_options.py:39
+msgid "Place Bookmarks Bar underneath Tab Bar"
+msgstr "Umieszczenie paska zakładek pod panelem kart"
+
+#: src/apps/firefox/firefox_options.py:46
+msgid "Tabs as Headerbar"
+msgstr "Panel kart jako panel główny"
+
+#: src/apps/firefox/firefox_options.py:47
+msgid "Place Tab Bar at top of window"
+msgstr "Umieszczenie panelu kart na górze okna"
+
+#: src/apps/firefox/firefox_options.py:49
+msgid ""
+"Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
+"open"
+msgstr ""
+"Włączenie razem z „Ukryj pojedynczą kartę” pokaże panel tytułowy tylko jak "
+"będzie aktywna jedna karta"
+
+#: src/apps/firefox/firefox_options.py:56
+msgid "Left-Aligned Titles"
+msgstr "Tytuły wyrównane do lewej strony"
+
+#: src/apps/firefox/firefox_options.py:57
+msgid "Align tab title to left"
+msgstr "Wyrównanie tytułu karty do lewej strony"
+
+#: src/apps/firefox/firefox_options.py:64
+msgid "Tab Behavior"
+msgstr "Zachowanie kart"
+
+#: src/apps/firefox/firefox_options.py:69
+msgid "Active Tab Contrast"
+msgstr "Kontrast aktywnej karty"
+
+#: src/apps/firefox/firefox_options.py:70
+msgid "Add more visual contrast to the active tab"
+msgstr "Powiększenie wizualnego kontrastu do aktywnej karty"
+
+#: src/apps/firefox/firefox_options.py:77
+msgid "Close Only Selected Tabs"
+msgstr "Zamknięcie tylko zaznaczonych kart"
+
+#: src/apps/firefox/firefox_options.py:78
+msgid "Only show the Close Tab button on the active tab"
+msgstr "Pokazywanie przycisku zamknięcia kart tylko na aktywnych kartach"
+
+#: src/apps/firefox/firefox_options.py:85
+msgid "Symbolic Tab Icons"
+msgstr "Symboliczne ikony kart"
+
+#: src/apps/firefox/firefox_options.py:86
+msgid "Make all tab icons appear similar to symbolic icons"
+msgstr "Zmienienie ikon kart, aby były podobne do symbolicznych ikon"
+
+#: src/apps/firefox/firefox_options.py:93
+msgid "List of Tabs"
+msgstr "Lista kart"
+
+#: src/apps/firefox/firefox_options.py:94
+msgid "Always show All Tabs button"
+msgstr "Zawsze pokazuj przycisk „Wszystkie karty”"
+
+#: src/apps/firefox/firefox_options.py:101
+msgid "List of Tabs on Overflow"
+msgstr "Lista kart na wycieku"
+
+#: src/apps/firefox/firefox_options.py:102
+msgid "Only show All Tabs button when many tabs are open"
+msgstr ""
+"Pokazywanie przycisku „Wszystkie karty” tylko, gdy jest otwartych wiele kart"
+
+#: src/apps/firefox/firefox_options.py:114
+msgid "Hide Privacy Indicators"
+msgstr "Ukrywanie wskaźników prywatności"
+
+#: src/apps/firefox/firefox_options.py:115
+msgid "Hide microphone, screen share, and camera warnings"
+msgstr "Ukrywanie ostrzeżeń o mikrofonie, udostępnianiu ekranu i kamerze"
+
+#: src/apps/firefox/firefox_options.py:117
+msgid "GNOME will still show these privacy indicators in the Top Bar"
+msgstr "GNOME nadal będzie pokazywać te wskaźniki prywatności na pasku górnym"
+
+#: src/apps/firefox/firefox_options.py:124
+msgid "True Black Dark Theme"
+msgstr "Czysto czarny ciemny motyw"
+
+#: src/apps/firefox/firefox_options.py:126
+msgid "Use an OLED-friendly, deep black when dark theme is enabled"
+msgstr "Używanie przyjaznego dla ekranów OLED czysto czarnego ciemnego motywu"
+
+#: src/apps/firefox/firefox_options.py:134
+msgid "No Themed Icons"
+msgstr "Bez zmieniania motywu ikon"
+
+#: src/apps/firefox/firefox_options.py:136
+msgid "Use standard Firefox icons instead of Adwaita-styled icons"
+msgstr ""
+"Używanie standardowych ikon Firefoksa zamiast ikon stylizowanych na Adwaitę."
+
+#: src/apps/firefox/firefox_options.py:144
+msgid "Fullscreen Bookmarks"
+msgstr "Pełnoekranowe zakładki"
+
+#: src/apps/firefox/firefox_options.py:145
+msgid "Show Bookmarks bar while in fullscreen"
+msgstr "Pokazywanie paska zakładek podczas trybu pełnoekranowego"
+
+#: src/gui/option_factory.py:93
+msgid "More Information"
+msgstr "Więcej informacji"
+
+#: src/utils/background.py:92
+msgid "Theme updated"
+msgstr "Zaktualizowano motyw"
+
+#: src/utils/background.py:93
+msgid "Firefox GNOME Theme Updated"
+msgstr "Motyw GNOME dla Firefoksa został zaktualizowany"
+
+#: src/utils/background.py:95
+msgid "Theme Update Failed"
+msgstr "Aktualizacja motywu nie powiodła się"
+
+#: src/utils/background.py:96
+msgid "Could not check for theme updates due to a network issue"
+msgstr "Nie można sprawdzić dostępnych aktualizacji przez problemy z siecią"
+
+#: src/utils/background.py:98
+msgid "Theme Installation failed"
+msgstr "Instalowanie motywu nie powiodło się"
+
+#: src/utils/background.py:99
+msgid "A theme update was downloaded but installation failed"
+msgstr "Aktualizacja motywu została pobrana, ale instalacja nie powiodła się"
