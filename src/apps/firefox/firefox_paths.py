@@ -1,8 +1,11 @@
 from os.path import expanduser
+from os import environ
+
+config_dir = environ.get("XDG_CONFIG_HOME", expanduser("~/.config"))
 
 # FIREFOX PATHS
 BASE_LEGACY = expanduser("~/.mozilla/firefox/")
-BASE = expanduser("~/.config/mozilla/firefox/")
+BASE = expanduser(f"{config_dir}/mozilla/firefox/")
 FLATPAK_LEGACY = expanduser("~/.var/app/org.mozilla.firefox/.mozilla/firefox/")
 FLATPAK = expanduser("~/.var/app/org.mozilla.firefox/config/mozilla/firefox/")
 SNAP_LEGACY = expanduser("~/snap/firefox/common/.mozilla/firefox/")

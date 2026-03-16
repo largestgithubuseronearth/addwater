@@ -11,7 +11,7 @@
         "--device=dri",
         "--socket=wayland",
         "--filesystem=~/.mozilla/firefox/:rw",
-        "--filesystem=~/.config/mozilla/firefox/:rw",
+        "--firesystem=xdg-config/mozilla/firefox/:rw",
         "--filesystem=~/.var/app/org.mozilla.firefox/.mozilla/firefox/:rw",
         "--filesystem=~/.var/app/org.mozilla.firefox/config/mozilla/firefox/:rw",
         "--filesystem=~/snap/firefox/common/.mozilla/firefox/:rw",
