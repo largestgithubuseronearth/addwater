@@ -12,7 +12,7 @@ SNAP_LEGACY = expanduser("~/snap/firefox/common/.mozilla/firefox/")
 SNAP = expanduser("~/snap/firefox/common/.config/mozilla/firefox/")
 
 LIBREWOLF_BASE_LEGACY = expanduser("~/.librewolf/")
-LIBREWOLF_BASE = expanduser("~/.config/librewolf/librewolf")
+LIBREWOLF_BASE = expanduser("f"{config_dir}/librewolf/librewolf")
 LIBREWOLF_FLATPAK_LEGACY = expanduser("~/.var/app/io.gitlab.librewolf-community/.librewolf/")
 LIBREWOLF_FLATPAK = expanduser("~/.var/app/io.gitlab.librewolf-community/config/librewolf/librewolf/")
 
