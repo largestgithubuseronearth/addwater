@@ -1,7 +1,7 @@
 from os.path import expanduser
 from os import environ
 
-config_dir = environ.get("XDG_CONFIG_HOME", expanduser("~/.config"))
+config_dir = environ.get("HOST_XDG_CONFIG_HOME", expanduser("~/.config"))
 
 # FIREFOX PATHS
 BASE_LEGACY = expanduser("~/.mozilla/firefox/")
