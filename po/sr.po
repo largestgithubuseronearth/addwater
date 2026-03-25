@@ -1,0 +1,480 @@
+# Serbian translation for addwater.
+# Copyright (C) 2026 addwater's COPYRIGHT HOLDER
+# This file is distributed under the same license as the addwater package.
+# Марко Костић <marko.m.kostic@gmail.com>,  2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: addwater main\n"
+"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
+"issues/\n"
+"POT-Creation-Date: 2026-02-22 18:42+0000\n"
+"PO-Revision-Date: 2026-03-25 22:58+0100\n"
+"Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
+"Language-Team: Serbian <Serbian>\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Poedit 3.9\n"
+
+#. Branding Info
+#: data/dev.qwery.AddWater.desktop.in:2
+#: data/dev.qwery.AddWater.metainfo.xml.in:10
+msgid "Add Water"
+msgstr "Разводни"
+
+#: data/dev.qwery.AddWater.desktop.in:4
+#: data/dev.qwery.AddWater.metainfo.xml.in:11
+msgid "Keep Firefox in fashion"
+msgstr "Нека Фајерфокс буде у моди"
+
+#. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
+#: data/dev.qwery.AddWater.desktop.in:9
+msgid "theme;adwaita;firefox;"
+msgstr "theme;adwaita;firefox;тема;адвајта;фајерфокс;"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:13
+msgid ""
+"A utility app to easily install the Firefox GNOME Theme* and automatically "
+"update it in the background. This theme keeps Firefox fashionable within the "
+"GNOME design ecosystem, and provides many helpful features to customize the "
+"interface to make browsing even more pleasant:"
+msgstr ""
+"Корисна апликација за лако инсталирање Гномове теме за Firefox* и њено "
+"аутоматско ажурирање у позадини. Ова тема чини Фајерфокс модерним унутар "
+"Гномовог дизајнерског екосистема и пружа многе корисне могућности за "
+"прилагођавање сучеља како би разгледање било још пријатније:"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:16
+msgid "Supports light and dark style, as well as accent colors"
+msgstr "Подржава светли и тамни стил, као и боје нагласка"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:17
+#: src/apps/firefox/firefox_options.py:11
+msgid "Hide Tab Bar when only one tab is open"
+msgstr "Сакриј траку језичака када је отворен само један језичак"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:18
+msgid "Use an OLED-friendly pitch black for the interface"
+msgstr "Користите потпуно црну боју прилагођену ОЛЕД екранима за сучеље"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:19
+msgid "Customize Tab Bar position, position of controls, alignment, and more"
+msgstr ""
+"Прилагодите положај траке језичака, положај контрола, поравнање и још много "
+"тога"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:20
+msgid "Hide redundant microphone, webcam, screen share indicators"
+msgstr "Сакриј сувишне индикаторе микрофона, веб камерице и дељења екрана"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:21
+msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
+msgstr "Подржава Флетпек, Снеп, Либревулф и Floorp варијанте Фајерфокса"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:23
+msgid ""
+"*The Firefox GNOME Theme itself is independently developed and maintained by "
+"Rafael Mardojai CM."
+msgstr ""
+"*Саму Гномову тему за Фајерфокс независно развија и одржава Rafael Mardojai "
+"CM."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:24
+msgid ""
+"The Firefox browser is not included and must be downloaded separately. This "
+"project is not affiliated or endorsed by the Mozilla Foundation. Firefox is "
+"a trademark of the Mozilla Foundation in the U.S. and other countries."
+msgstr ""
+"Прегледач Фајерфокс није укључен и мора се преузети засебно. Овај пројекат "
+"није повезан са Мозила фондацијом нити га она подржава. Фајерфокс је "
+"заштитни знак Мозила фондације у САД и другим државама."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:35
+msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
+msgstr "Разводни“ олакшава лицкање Гномове теме за Фајерфокс"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:39
+msgid "The interface is clean, beautiful, and stays out of the way"
+msgstr "Прочеље је чисто, прелепо и не смета при раду"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:43
+msgid "Supports a pure black Top Bar, perfect for OLED screens and dark rooms"
+msgstr ""
+"Подржава потпуно црну горњу траку, савршену за ОЛЕД екране и тамне просторије"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:47
+msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
+msgstr "Подржава боје нагласка и више положаја за траке језичака и обележивача"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Шаљи обавештења за ажурирања у позадини"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:33
+msgid "Automatically Discover the installed Firefox package format"
+msgstr "Аутоматски откриј формат инсталираног Фајерфокс пакета"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:38
+msgid ""
+"Most recently installed version of the firefox gnome theme "
+"(Major.Minor.Micro)"
+msgstr ""
+"Последња инсталирана верзија Гномове теме за Фајерфокс "
+"(Главна.Споредна.Микро)"
+
+#: data/gtk/addwater-page.ui:15
+msgid "Firefox GNOME Theme"
+msgstr "Гномова тема за Фајерфокс"
+
+#: data/gtk/addwater-page.ui:20
+msgid "Enable Theme"
+msgstr "Омогући тему"
+
+#. Translators: This refers to how the user installed Firefox (package manager, Flatpak, Snap, etc.)
+#: data/gtk/addwater-page.ui:28
+msgid "Package Format"
+msgstr "Формат пакета"
+
+#: data/gtk/addwater-page.ui:29
+msgid "Profile data not found at selected location"
+msgstr "Подаци профила нису пронађени на изабраном месту"
+
+#: data/gtk/addwater-page.ui:34
+msgid "Automatically Discover"
+msgstr "Самостално откриј"
+
+#: data/gtk/addwater-page.ui:51
+msgid "Confirm your changes?"
+msgstr "Потврдити измене?"
+
+#: data/gtk/addwater-page.ui:60
+msgid "Discard"
+msgstr "Одбаци"
+
+#: data/gtk/addwater-page.ui:71
+msgid "Apply"
+msgstr "Примени"
+
+#: data/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Опште"
+
+#: data/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Прикажи пречице"
+
+#: data/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Изађи"
+
+#: data/gtk/preferences.ui:14
+msgid "Update in Background"
+msgstr "Ажурирај у позадини"
+
+#: data/gtk/preferences.ui:15
+msgid "Automatically check for updates at login"
+msgstr "Аутоматски провери ажурирања при пријави"
+
+#. Translators: This refers to options that could be unsafe.
+#: data/gtk/preferences.ui:30
+msgid "Danger Zone"
+msgstr "Опасна зона"
+
+#: data/gtk/preferences.ui:31
+msgid ""
+"Remove the theme from all known profiles and reset Add Water to its default "
+"state. Any custom changes made to your user.js file will remain after a "
+"reset."
+msgstr ""
+"Уклоните тему из свих познатих профила и вратите Разводни у подразумевано "
+"стање. Све прилагођене измене направљене у вашој user.js датотеци ће остати "
+"након ресетовања."
+
+#: data/gtk/preferences.ui:34
+msgid "Reset and Close App"
+msgstr "Ресетуј и затвори програм"
+
+#. Translators: Profile as in Firefox profile/account
+#: data/gtk/profile-selector.ui:5
+msgid "Profile"
+msgstr "Профил"
+
+#: data/gtk/profile-selector.ui:6
+msgid "Select profile to apply changes toward"
+msgstr "Изаберите профил на који ће се применити измене"
+
+#: data/gtk/window.ui:19
+msgid "Main Menu"
+msgstr "Главни мени"
+
+#: data/gtk/window.ui:34
+msgid "_Preferences"
+msgstr "_Поставке"
+
+#: data/gtk/window.ui:38
+msgid "_Keyboard Shortcuts"
+msgstr "Пречице _тастатуре"
+
+#: data/gtk/window.ui:42
+msgid "_About Add Water"
+msgstr "_О програму Разводни"
+
+#: src/window.py:104
+msgid "Open Help Page"
+msgstr "Отвори страницу помоћи"
+
+#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+#: src/window.py:111
+msgid "{} Profile Data Not Found"
+msgstr "{} подаци профила нису пронађени"
+
+#: src/window.py:114
+msgid ""
+"Please ensure {} is installed and Add Water has permission to access your "
+"profiles"
+msgstr ""
+"Уверите се да је {} инсталиран и да Разводни има дозволу за приступ вашим "
+"профилима"
+
+#. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
+#: src/window.py:168
+msgid "translator-credits"
+msgstr ""
+"Марко Костић <marko.m.kostic@gmail.com>\n"
+"Превод на српски језик https://гном.срб"
+
+#. Translator: This is followed by a list of names
+#: src/window.py:173
+msgid "Theme Created and Maintained by"
+msgstr "Тему направили и одржавају"
+
+#: src/preferences.py:82
+msgid "Checking for theme updates"
+msgstr "Проверавам ажурирања теме"
+
+#: src/page.py:95
+msgid "Checking for updates..."
+msgstr "Проверавам ажурирања..."
+
+#. Translators: {} will be replaced by a version number (example: "v126.5.65")
+#: src/page.py:111
+msgid "Updated theme to {}"
+msgstr "Тема је ажурирана на {}"
+
+#: src/page.py:113
+msgid "Failed to check for updates due to a network issue"
+msgstr "Провера ажурирања није успела због проблема са мрежом"
+
+#: src/page.py:115
+msgid "Failed to check for updates. Please try again later."
+msgstr "Провера ажурирања није успела. Покушајте поново касније."
+
+#: src/page.py:117
+msgid "Unknown error has occurred. Please report this to developer."
+msgstr "Дошло је до непознате грешке. Пријавите ово програмеру."
+
+#: src/page.py:137
+msgid "Installed Theme. Restart Firefox to see changes."
+msgstr "Инсталирана тема. Поново покрените Фајерфокс да видите измене."
+
+#: src/page.py:143
+msgid "Removed Theme. Restart Firefox to see changes."
+msgstr "Уклоњена тема. Поново покрените Фајерфокс да видите измене."
+
+#: src/page.py:147
+msgid "Installation failed"
+msgstr "Инсталирање није успело"
+
+#. TODO Reset to prior selected profile
+#: src/page.py:162
+msgid "Changes reverted"
+msgstr "Измене су поништене"
+
+#: src/page.py:264
+msgid "Not installed"
+msgstr "Није инсталирано"
+
+#. Translators: {} will be replaced with a version number (example: v132) or a status message
+#: src/page.py:268
+msgid "Firefox GNOME Theme — {}"
+msgstr "Гномова тема Фајерфокса — {}"
+
+#: src/apps/firefox/firefox_options.py:5
+msgid "Tab Position"
+msgstr "Положај језичака"
+
+#: src/apps/firefox/firefox_options.py:10
+msgid "Hide Single Tab"
+msgstr "Сакриј појединачни језичак"
+
+#: src/apps/firefox/firefox_options.py:13
+msgid ""
+"Consider placing the New Tab button near the Search Bar. Otherwise it may "
+"get lost when only one tab is open."
+msgstr ""
+"Размислите о постављању дугмета за нови језичак близу траке претраге. У "
+"супротном се може изгубити када је отворен само један језичак."
+
+#: src/apps/firefox/firefox_options.py:20
+msgid "Standard Tab Width"
+msgstr "Уобичајена ширина језичка"
+
+#: src/apps/firefox/firefox_options.py:21
+msgid "Use same tab width as standard Firefox"
+msgstr "Користи исту ширину језичка као уобичајени Фајерфокс"
+
+#: src/apps/firefox/firefox_options.py:28
+msgid "Swap Tab Close Button"
+msgstr "Размени дугме за затварање језичка"
+
+#: src/apps/firefox/firefox_options.py:30
+msgid "Place Close Tab button on opposite side from window controls"
+msgstr ""
+"Постави дугме за затварање језичка на супротну страну од контрола прозора"
+
+#: src/apps/firefox/firefox_options.py:38
+msgid "Bookmarks Toolbar Under Tabs"
+msgstr "Трака обележивача испод језичака"
+
+#: src/apps/firefox/firefox_options.py:39
+msgid "Place Bookmarks Bar underneath Tab Bar"
+msgstr "Постави траку обележивача испод траке језичака"
+
+#: src/apps/firefox/firefox_options.py:46
+msgid "Tabs as Headerbar"
+msgstr "Језичци као трака заглавља"
+
+#: src/apps/firefox/firefox_options.py:47
+msgid "Place Tab Bar at top of window"
+msgstr "Постави траку језичака на врх прозора"
+
+#: src/apps/firefox/firefox_options.py:49
+msgid ""
+"Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
+"open"
+msgstr ""
+"Омогућавање са „Сакриј појединачни језичак“ ће приказати траку наслова када "
+"је отворен само један језичак"
+
+#: src/apps/firefox/firefox_options.py:56
+msgid "Left-Aligned Titles"
+msgstr "Наслови поравнати лево"
+
+#: src/apps/firefox/firefox_options.py:57
+msgid "Align tab title to left"
+msgstr "Поравнај наслов језичка на лево"
+
+#: src/apps/firefox/firefox_options.py:64
+msgid "Tab Behavior"
+msgstr "Понашање језичака"
+
+#: src/apps/firefox/firefox_options.py:69
+msgid "Active Tab Contrast"
+msgstr "Контраст активног језичка"
+
+#: src/apps/firefox/firefox_options.py:70
+msgid "Add more visual contrast to the active tab"
+msgstr "Додајте више визуелног контраста активном језичку"
+
+#: src/apps/firefox/firefox_options.py:77
+msgid "Close Only Selected Tabs"
+msgstr "Затвори само изабране језичке"
+
+#: src/apps/firefox/firefox_options.py:78
+msgid "Only show the Close Tab button on the active tab"
+msgstr "Прикажи дугме за затварање језичка само на активном језичку"
+
+#: src/apps/firefox/firefox_options.py:85
+msgid "Symbolic Tab Icons"
+msgstr "Симболичке иконице језичака"
+
+#: src/apps/firefox/firefox_options.py:86
+msgid "Make all tab icons appear similar to symbolic icons"
+msgstr "Учини да све иконице језичака изгледају слично симболичким иконицама"
+
+#: src/apps/firefox/firefox_options.py:93
+msgid "List of Tabs"
+msgstr "Списак језичака"
+
+#: src/apps/firefox/firefox_options.py:94
+msgid "Always show All Tabs button"
+msgstr "Увек прикажи дугме „Сви језичци“"
+
+#: src/apps/firefox/firefox_options.py:101
+msgid "List of Tabs on Overflow"
+msgstr "Списак језичака при прекорачењу"
+
+#: src/apps/firefox/firefox_options.py:102
+msgid "Only show All Tabs button when many tabs are open"
+msgstr "Прикажи дугме „Сви језичци“ само када је отворено много језичака"
+
+#: src/apps/firefox/firefox_options.py:114
+msgid "Hide Privacy Indicators"
+msgstr "Сакриј индикаторе приватности"
+
+#: src/apps/firefox/firefox_options.py:115
+msgid "Hide microphone, screen share, and camera warnings"
+msgstr "Сакриј упозорења за микрофон, дељење екрана и камеру"
+
+#: src/apps/firefox/firefox_options.py:117
+msgid "GNOME will still show these privacy indicators in the Top Bar"
+msgstr "Гном ће и даље приказивати ове индикаторе приватности у горњој траци"
+
+#: src/apps/firefox/firefox_options.py:124
+msgid "True Black Dark Theme"
+msgstr "Потпуно црна тамна тема"
+
+#: src/apps/firefox/firefox_options.py:126
+msgid "Use an OLED-friendly, deep black when dark theme is enabled"
+msgstr "Користи дубоку црну погодну за ОЛЕД екране када је укључена тамна тема"
+
+#: src/apps/firefox/firefox_options.py:134
+msgid "No Themed Icons"
+msgstr "Без тематизованих иконица"
+
+#: src/apps/firefox/firefox_options.py:136
+msgid "Use standard Firefox icons instead of Adwaita-styled icons"
+msgstr "Користи стандардне Фајерфокс иконице уместо Адвајта иконица"
+
+#: src/apps/firefox/firefox_options.py:144
+msgid "Fullscreen Bookmarks"
+msgstr "Обележивачи преко целог екрана"
+
+#: src/apps/firefox/firefox_options.py:145
+msgid "Show Bookmarks bar while in fullscreen"
+msgstr "Прикажи траку са обележивачима у режиму целог екрана"
+
+#: src/gui/option_factory.py:93
+msgid "More Information"
+msgstr "Више информација"
+
+#: src/utils/background.py:92
+msgid "Theme updated"
+msgstr "Тема је ажурирана"
+
+#: src/utils/background.py:93
+msgid "Firefox GNOME Theme Updated"
+msgstr "Firefox GNOME тема је ажурирана"
+
+#: src/utils/background.py:95
+msgid "Theme Update Failed"
+msgstr "Ажурирање теме није успело"
+
+#: src/utils/background.py:96
+msgid "Could not check for theme updates due to a network issue"
+msgstr "Не могу да проверим ажурирања теме због проблема са мрежом"
+
+#: src/utils/background.py:98
+msgid "Theme Installation failed"
+msgstr "Инсталација теме није успела"
+
+#: src/utils/background.py:99
+msgid "A theme update was downloaded but installation failed"
+msgstr "Ажурирање теме је преузето, али инсталација није успела"
