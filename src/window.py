@@ -161,7 +161,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
         about.set_website(info.WEBSITE)
         about.set_debug_info(db_info)
         about.set_debug_info_filename(f"addwater_{now}.log")
-        about.set_support_url(info.TROUBLESHOOT_HELP)
 
         about.set_developers(["Qwery"])
         # Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
