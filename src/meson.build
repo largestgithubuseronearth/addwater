@@ -23,6 +23,7 @@ addwater_sources = [
 	'preferences.py',
 	'page.py',
 	'backend.py',
+	'profile.py',
 
 	'apps/firefox/firefox_install.py',
 	'apps/firefox/firefox_details.py',
