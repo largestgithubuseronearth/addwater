@@ -66,6 +66,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.backends = backends
         self.create_pages(self.backends)
 
+    # TODO just create a ViewStack and put the pages inside. Then hide the switcher
+         # if only one page is available
     def create_pages(self, app_backends: list):
         """Create and present app pages, and connect them to their respective app backend"""
         log.info("resetting gui pages")

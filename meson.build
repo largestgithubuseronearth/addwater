@@ -35,12 +35,9 @@ conf = configuration_data({
 conf.set('MOCK_API', mock_api)
 conf.set('FORCE_BG', force_bg)
 
-
 subdir('data')
 subdir('po')
 subdir('src')
-# subdir('build-aux')
-
 
 
 gnome.post_install(

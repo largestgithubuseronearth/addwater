@@ -24,6 +24,8 @@ WATERFOX_FLATPAK = expanduser("~/.var/app/net.waterfox.waterfox/.waterfox")
 
 CACHY_BASE = expanduser("~/.cachy")
 
+
+# TODO create an enum from this to pass around
 FIREFOX_PATHS = [
     {"name": "Base", "path": BASE},
     {"name": "Base (Alt)", "path": BASE_LEGACY},

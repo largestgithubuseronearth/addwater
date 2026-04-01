@@ -25,6 +25,7 @@ from os.path import exists, join
 from typing import Callable, Optional
 
 from addwater.utils.paths import DOWNLOAD_DIR
+from addwater.profile import Profile
 
 log = logging.getLogger(__name__)
 
@@ -67,42 +68,26 @@ class InstallManager:
     def combined_install(
         self,
         theme_path: PathLike,
-        profile_path: PathLike,
+        profile: Profile,
         options_results: Optional[dict[str, bool]] = None
     ) -> Enum:
-        # The preference setter should use a dict of gset_key:bool_value to set all the prefs to slim the number of required args.
-        """Handle installation of quick and full theme installs
-
-        Args:
-            theme_path: path to theme files
-            profile_path: path to profile which to apply theme to
-            options_results: optional; if included, theme options will be
-                                updated. otherwise that's skipped
-        """
-        log.info("kicking off install...")
-
-        if not exists(theme_path) or not exists(profile_path):
-            log.error("Install failed. can't find theme path OR profile path.")
-            return InstallStatus.FAILURE
-
-        # Run install script
         try:
             self._installer(
-                profile_path=profile_path,
+                profile=profile,
                 theme_path=theme_path,
             )
             if options_results:
-                self._preferences_handler(profile_path, options_results)
-        except InstallException as err:
+                self._preferences_handler(profile, options_results)
+        except (InstallException, FileNotFoundError) as err:
             log.critical(err)
             return InstallStatus.FAILURE
 
-        log.info("install complete!")
+        log.info("install complete")
         return InstallStatus.SUCCESS
 
-    def uninstall(self, profile_path, folder_name):
+    def uninstall(self, profile: Profile, folder_name):
         try:
-            self._uninstaller(profile_path, folder_name)
+            self._uninstaller(profile, folder_name)
         except InstallException as err:
             log.error(err)
             return InstallStatus.FAILURE
@@ -116,11 +101,11 @@ class InstallManager:
 
 
 @staticmethod  # To avoid InstallManager passing self
-def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
+def _set_theme_prefs(profile: Profile, options: dict[str, bool]) -> None:
     """Update user preferences in user.js according to GSettings.
 
     Args:
-        profile_path: full file path to the profile that the theme will be installed to
+        profile: profile to install to
         options: the theme options list dicts
         gset_reader: Gio.Settings object preconfigured for the correct schema
                                         to read the values of the keys
@@ -128,7 +113,7 @@ def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
     """
     log.info("Setting theme preferences in profile data...")
 
-    user_js = join(profile_path, "user.js")
+    user_js = join(profile.path, "user.js")
     # FIXME If the user.js file is gone, the other required prefs won't be set here
     # and thus the theme will not work properly
     try:
@@ -160,12 +145,12 @@ def _set_theme_prefs(profile_path: str, options: dict[str, bool]) -> None:
 
 
 @staticmethod  # To avoid InstallManager passing self
-def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
+def _do_uninstall_theme(profile: Profile, theme_folder: str) -> None:
     log.info("Uninstalling theme from profile...")
-    log.debug(f"Profile path: {profile_path}")
+    log.debug(f"Profile path: {profile.path}")
 
     # Delete theme folder
-    chrome_path = join(profile_path, "chrome")
+    chrome_path = join(profile.path, "chrome")
     try:
         theme_path = join(chrome_path, theme_folder)
         shutil.rmtree(theme_path)
@@ -175,7 +160,7 @@ def _do_uninstall_theme(profile_path: str, theme_folder: str) -> None:
     _remove_css_imports(chrome_path)
 
     # Set all user_prefs to false
-    user_js = join(profile_path, "user.js")
+    user_js = join(profile.path, "user.js")
     try:
         with open(file=user_js, mode="r", encoding="utf-8") as file:
             lines = file.readlines()

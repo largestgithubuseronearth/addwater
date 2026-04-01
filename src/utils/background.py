@@ -28,6 +28,7 @@ from gi.repository import Gio
 
 log = logging.getLogger(__name__)
 
+# TODO add unit testing for this
 # TODO clean up this whole thing
 class BackgroundUpdater:
     """Simple class to update and install the theme without a GUI."""
@@ -58,15 +59,19 @@ class BackgroundUpdater:
 
         self.bg_status = status
 
+        # TODO redo this to use the profile class and not rely on the id
     def silent_install(self):
         log.info("Update available. Silently installing")
-        profile_id = self.settings.get_string("profile-selected")
         # TODO Move this check into backend.get_selected_profile()?
-        if not profile_id:
-            profiles = self.backend.get_profile_list()
-            profile_id = profiles[0]["id"]
 
-        install_status = self.backend.begin_install(profile_id, False)
+        selected_id = self.settings.get_string("profile-selected")
+        profile_list = self.backend.get_profile_list()
+        profile = [p for p in profile_list if p.id == selected_id][0]
+
+        if not profile:
+            profile = profile_list[0]
+
+        install_status = self.backend.begin_install(profile, False)
 
         if install_status.SUCCESS:
             log.info("Silent install succeeded")

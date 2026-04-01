@@ -22,13 +22,14 @@ from configparser import ConfigParser
 from enum import Enum
 from os.path import exists, join
 from typing import Any, Callable, Optional
+from pathlib import Path
 
 from addwater.utils import paths
 from gi.repository import Gio
 from packaging.version import Version
 
 from addwater import info
-
+from addwater.profile import Profile
 from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_OPTIONS
 from .firefox_paths import FIREFOX_PATHS
@@ -67,7 +68,6 @@ class FirefoxAppDetails:
     installer: Callable = install_for_firefox
     options: list[dict[Any, Any]] = FIREFOX_OPTIONS
     data_path: str
-    profiles_list: list[dict[str, str]]
 
     # online
     theme_gh_url: str = (
@@ -90,7 +90,6 @@ class FirefoxAppDetails:
             self.set_data_path(current_path)
         except FileNotFoundError as err:
             available_paths = self._find_data_paths(self.package_formats)
-            # TODO if multiple paths are available find a way to signal to the GUI to send a dialog
             self.set_data_path(available_paths[0]["path"])
 
     """PUBLIC METHODS"""
@@ -144,11 +143,13 @@ class FirefoxAppDetails:
         return self.installed_version
 
     def get_options(self):
-        # TODO grab only the details the consumer would need. Multiple methods or add a flag?
+        # TODO grab only the details the consumer would need.
+        #      Multiple methods or add a flag?
         return self.options
 
-    def get_profiles(self):
+    def get_profiles(self) -> list[Profile]:
         return self._find_profiles(self.data_path)
+
 
     def get_info_url(self):
         return self.theme_gh_url
@@ -179,67 +180,31 @@ class FirefoxAppDetails:
     """PRIVATE METHODS"""
 
     @staticmethod
-    def _find_profiles(app_path: str) -> list[dict[str, str]]:
-        """Reads the app profile data files and returns a list of known profiles.
-        The user's preferred profiles are always first in the list.
-
-        Args:
-        app_path : The full path to where the app stores its profiles and the profiles.ini files
-
-        Returns:
-        A list of dicts with all profiles. Each dict includes the full ID path of the profile ["id"], and a display name to present in the UI ["name"].
-        """
+    def _find_profiles(app_path: Path) -> list[Profile]:
         cfg = ConfigParser()
-        defaults = []
-        # TODO use a set instead to remove duplicates
         profiles = []
 
-        install_file = join(app_path, "installs.ini")
-        profiles_file = join(app_path, "profiles.ini")
+        profiles_ini = join(app_path, "profiles.ini")
+        if not exists(profiles_ini):
+            raise FileNotFoundError("profiles.ini not found")
 
-        # TODO redo this to account for Firefox's new setup
-        if not exists(profiles_file):
-            raise FileNotFoundError("profiles.ini file not found")
-
-        # Find preferred profile paths
-        if exists(install_file):
-            cfg.read(install_file)
-            for each in cfg.sections():
-                default_profile = cfg[each]["Default"]
-                defaults.append(default_profile)
-                log.debug(f"Preferred profile: {default_profile}")
-        else:
-            # workaround: Firefox Snap doesn't use installs.ini OOTB
-            cfg.read(profiles_file)
-            for each in cfg.sections():
-                try:
-                    if cfg[each]["Default"] == "1":
-                        default_profile = cfg[each]["path"]
-                        defaults.append(default_profile)
-                except KeyError:
-                    pass
-
-        # Find all paths and names
-        cfg.read(profiles_file)
-        for each in cfg.sections():
+        cfg.read(profiles_ini)
+        for sect in filter(lambda sect: sect.startswith("Profile"), cfg.sections()):
+            name = cfg[sect]["Name"]
+            id = cfg[sect]["Path"]
+            fav = False
             try:
-                path = cfg[each]["path"]
-                name = cfg[each]["name"]
-                if path in defaults:
-                    name = name + " (Preferred)"
-                    pass
-
-                profiles.append({"id": path, "name": name})
+                # TODO it would be nice to flatten this check
+                if cfg[sect]["Default"] == '1':
+                    fav = True
             except KeyError:
                 pass
 
-        # Sort so preferred names are first
-        profiles.sort(reverse=True, key=_sort_profile_by_preferred)
+            filepath = Path(join(app_path, id))
 
-        if profiles is None:
-            log.critical(
-                "installs.ini and profiles.ini exist but do not have any profiles available."
-            )
+            # TODO add package label to the profile
+            #      probably requires pooling all profiles into one model first.
+            profiles.append(Profile(name, id, filepath, fav, 'TODO'))
 
         return profiles
 
@@ -261,7 +226,3 @@ class FirefoxAppDetails:
             log.critical("Could not find any valid data paths. App cannot function.")
 
         return found
-
-
-def _sort_profile_by_preferred(item: str) -> bool:
-    return item["name"].endswith(" (Preferred)")
