@@ -3,6 +3,7 @@
 <interface>
 	<template class="AddWaterPage" parent="AdwBin">
 		<property name="child">
+		  <!-- FIXME toast covers bottom bar -->
 			<object class="AdwToastOverlay" id="toast_overlay">
 				<child>
 
@@ -21,21 +22,14 @@
 											</object>
 										</child>
 										<child>
-											<object class="AddWaterProfileSelector" id="profile_combobox"/>
+											<object class="AddWaterProfileSelector" id="profile_combobox">
+											  <binding name="sensitive">
+											    <lookup name="valid-path">package_combobox</lookup>
+											  </binding>
+											</object>
 										</child>
 										<child>
-											<object class="AdwComboRow" id="firefox_package_combobox">
-												<property name="title" translatable="yes">Package Format</property>
-												<property name="tooltip-text"  translatable="yes">Profile data not found at selected location</property>
-												<property name="has-tooltip">false</property>
-												<property name="model">
-													<object class="GtkStringList" id="firefox_package_combobox_list">
-														<items>
-															<item translatable="yes">Automatically Discover</item>
-														</items>
-													</object>
-												</property>
-											</object>
+											<object class="WaterPackSelector" id="package_combobox"/>
 										</child>
 									</object>
 								</child>

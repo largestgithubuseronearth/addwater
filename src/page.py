@@ -29,6 +29,7 @@ from packaging.version import Version
 from addwater import info
 from addwater.profile import Profile
 from addwater.gui.profile_selector import ProfileSelector
+from addwater.gui.pack_selector import PackSelector
 
 from .backend import InterfaceMisuseError
 
@@ -56,8 +57,7 @@ class AddWaterPage(Adw.Bin):
 
     enable_button = Gtk.Template.Child()
     profile_combobox = Gtk.Template.Child()
-    firefox_package_combobox = Gtk.Template.Child()
-    firefox_package_combobox_list = Gtk.Template.Child()
+    package_combobox = Gtk.Template.Child()
 
     # TODO make this construct only later
     app_name = GObject.Property(
@@ -77,15 +77,13 @@ class AddWaterPage(Adw.Bin):
         self.settings = self.backend.get_app_settings()
         self.settings.delay()
 
-        self.profile_combobox.settings = self.backend.get_app_settings()
-
         self.init_gui(self.backend.get_app_options())
 
         # Package selector
         self.settings_instant = backend.get_app_settings()
         self.FIREFOX_FORMATS = backend.get_package_formats()
         self.firefox_path = self.backend.get_data_path()
-        self._init_firefox_combobox()
+        self.package_combobox.setup_list(self.FIREFOX_FORMATS, self.settings_instant, self.firefox_path)
 
         self._set_actions_signals()
 
@@ -149,7 +147,6 @@ class AddWaterPage(Adw.Bin):
         self.settings.revert()
         self.send_toast(_("Changes reverted"))
 
-    # TODO Toasts ought to be the window's job
     def send_toast(
         self, msg: Optional[str] = None, timeout_seconds: int = 2, priority: int = 0
     ) -> None:
@@ -221,6 +218,7 @@ class AddWaterPage(Adw.Bin):
 
         apply_action = Gio.SimpleAction(name="apply-changes")
         apply_action.connect("activate", lambda *blah: self.on_apply_action())
+        self.package_combobox.bind_property("valid-path", apply_action, "enabled", GObject.BindingFlags.SYNC_CREATE)
         action_group.add_action(apply_action)
 
         discard_action = Gio.SimpleAction(name="discard-changes")
@@ -230,11 +228,9 @@ class AddWaterPage(Adw.Bin):
         self.insert_action_group("water", action_group)
 
         # Combobox setup
-        self.firefox_package_combobox.notify("selected-item")
-        self.firefox_package_combobox.connect(
-            "notify::selected-item", lambda row, *blah: self._set_firefox_package(row)
-        )
-        self.connect(
+        self.package_combobox.notify("selected-item")
+        self.package_combobox.connect("notify::selected-item", lambda row, *blah: self._set_firefox_package(row))
+        self.package_combobox.connect(
             "package-changed",
             lambda *_blah: self.profile_combobox.setup_list(
                 self.backend.get_profile_list(),
@@ -253,19 +249,7 @@ class AddWaterPage(Adw.Bin):
         # Translators: {} will be replaced with a version number (example: v132) or a status message
         self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(v_str))
 
-    # TODO untangle this mess into its own class so it's easier to dispose later
-    def _init_firefox_combobox(self):
-        for each in self.FIREFOX_FORMATS:
-            self.firefox_package_combobox_list.append(each["name"])
-
-        if self.settings_instant.get_boolean("autofind-paths") is False:
-            user_path = self.firefox_path
-
-            for each in self.FIREFOX_FORMATS:
-                if each["path"] == user_path:
-                    i = self.FIREFOX_FORMATS.index(each) + 1
-                    self.firefox_package_combobox.set_selected(i)
-
+    # TODO simplify this and then move into its own class
     def _set_firefox_package(self, row):
         selected_index = row.get_selected()
         AUTO = 0
@@ -273,11 +257,8 @@ class AddWaterPage(Adw.Bin):
         if selected_index == AUTO:
             self.settings_instant.set_boolean("autofind-paths", True)
             log.info("Autofind paths enabled")
-            row.remove_css_class("error")
-            self.profile_combobox.set_sensitive(True)
-            row.set_has_tooltip(False)
-            self.action_set_enabled("water.apply-changes", True)
-            self.emit("package-changed")
+            self.package_combobox.valid_path = True
+            self.package_combobox.emit("package-changed")
             return
 
         self.settings_instant.set_boolean("autofind-paths", False)
@@ -293,19 +274,9 @@ class AddWaterPage(Adw.Bin):
                     self.backend.set_data_path(path)
                 except InterfaceMisuseError as err:  # invalid path provided
                     log.error(err)
-                    self.profile_combobox.set_sensitive(False)
-                    row.add_css_class("error")
-                    row.set_has_tooltip(True)
-                    self.action_set_enabled("water.apply-changes", False)
+                    self.package_combobox.valid_path = False
                 else:
-                    self.profile_combobox.set_sensitive(True)
-                    row.remove_css_class("error")
-                    row.set_has_tooltip(False)
-                    self.action_set_enabled("water.apply-changes", True)
-                    self.firefox_path = path
-                    self.emit("package-changed")
+                    self.package_combobox.valid_path = True
+                    self.package_combobox.firefox_path = path
+                    self.package_combobox.emit("package-changed")
                     break
-
-    @GObject.Signal(name="package-changed")
-    def package_changed(self):
-        pass
