@@ -47,6 +47,7 @@ class Profile(GObject.Object):
         type=str, flags=(ParamFlags.CONSTRUCT_ONLY | ParamFlags.READWRITE)
     )
 
+    # TODO convert pathstrs to Path here
     def __init__(self, name, id, path, favorite, package):
         super().__init__(name=name, id=id, favorite=favorite, package=package)
-        self.path = path
+        self.path = Path(path)

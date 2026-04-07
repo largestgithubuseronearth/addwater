@@ -25,6 +25,8 @@
 
 	<!-- Firefox -->
 	<schema id="@APP_ID@.Firefox" path="@PREFIX@/Firefox/">
+	  <!-- TODO replace this and profile-selected with the full selected profile
+	            path, or make it into a variant somehow? -->
 		<key name="data-path" type="s">
 			<default>""</default>
 		</key>

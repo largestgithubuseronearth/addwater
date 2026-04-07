@@ -25,6 +25,7 @@ from gi.repository import Adw, Gio, GObject, Gtk
 
 from addwater import info
 from addwater.backend import InterfaceMisuseError
+from addwater.apps.firefox.firefox_paths import FirefoxPack
 
 log = logging.getLogger(__name__)
 
@@ -33,6 +34,7 @@ log = logging.getLogger(__name__)
 class PackSelector(Adw.ComboRow):
     __gtype_name__ = "WaterPackSelector"
 
+    # TODO give this a reference to the backend itself so it's easier to remove from page'
     FIREFOX_FORMATS: dict = None
     settings: Gio.Settings = None
     firefox_path: str = None
@@ -47,21 +49,24 @@ class PackSelector(Adw.ComboRow):
             "valid-path", self, "has-tooltip", GObject.BindingFlags.INVERT_BOOLEAN
         )
 
-    # TODO untangle this from page with props
-    def setup_list(self, formats_dict, settings, firefox_path):
-        self.FIREFOX_FORMATS = formats_dict
+    # TODO untangle this from page with props. ideally it shouldn't need
+    #      help from Page at all and all of this can be in constructor
+    def setup_list(self, settings, firefox_path):
+        # FIXME temp adapter
+        self.FIREFOX_FORMATS = FirefoxPack
+
         self.settings = settings
         self.firefox_path = firefox_path
 
-        # TODO splice into model instead
-        for each in self.FIREFOX_FORMATS:
-            self.get_model().append(each["name"])
+        # TODO splice the enum values into a ListModel instead
+        for pack in self.FIREFOX_FORMATS:
+            self.get_model().append(pack.pack_name)
 
         if self.settings.get_boolean("autofind-paths") is False:
             user_path = self.firefox_path
 
-            for each in self.FIREFOX_FORMATS:
-                if each["path"] == user_path:
+            for pack in self.FIREFOX_FORMATS:
+                if pack.path == user_path:
                     i = self.FIREFOX_FORMATS.index(each) + 1
                     self.set_selected(i)
 

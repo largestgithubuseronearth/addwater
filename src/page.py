@@ -30,6 +30,7 @@ from addwater import info
 from addwater.profile import Profile
 from addwater.gui.profile_selector import ProfileSelector
 from addwater.gui.pack_selector import PackSelector
+from addwater.apps.firefox.firefox_paths import FirefoxPack
 
 from .backend import InterfaceMisuseError
 
@@ -81,9 +82,8 @@ class AddWaterPage(Adw.Bin):
 
         # Package selector
         self.settings_instant = backend.get_app_settings()
-        self.FIREFOX_FORMATS = backend.get_package_formats()
         self.firefox_path = self.backend.get_data_path()
-        self.package_combobox.setup_list(self.FIREFOX_FORMATS, self.settings_instant, self.firefox_path)
+        self.package_combobox.setup_list(self.settings_instant, self.firefox_path)
 
         self._set_actions_signals()
 
@@ -265,10 +265,10 @@ class AddWaterPage(Adw.Bin):
         log.warning("Autofind paths disabled")
 
         selected = row.get_selected_item().get_string()
-        for each in self.FIREFOX_FORMATS:
-            if selected == each["name"]:
-                path = each["path"]
-                log.info(f'User specified path: {each["path"]}')
+        for pack in FirefoxPack:
+            if selected == pack.pack_name:
+                path = pack.path
+                log.info(f'User specified path: {path}')
 
                 try:
                     self.backend.set_data_path(path)
