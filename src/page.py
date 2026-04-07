@@ -59,8 +59,11 @@ class AddWaterPage(Adw.Bin):
     firefox_package_combobox = Gtk.Template.Child()
     firefox_package_combobox_list = Gtk.Template.Child()
 
-    # Class Attributes
-    app_name: str  # Proper, capitalized name of the app, 'Firefox' or 'Thunderbird'
+    # TODO make this construct only later
+    app_name = GObject.Property(
+        type=str,
+        flags=(GObject.ParamFlags.READWRITE)
+    )
 
     current_toast = None
 
@@ -143,12 +146,7 @@ class AddWaterPage(Adw.Bin):
         self.send_toast(toast_msg, 3, 1)
 
     def on_discard_action(self):
-        """Revert all temporary changes and notify user"""
-        log.info("Discarded unapplied changes")
-
-        # Revert must ALWAYS be first
         self.settings.revert()
-
         self.send_toast(_("Changes reverted"))
 
     # TODO Toasts ought to be the window's job
@@ -245,6 +243,7 @@ class AddWaterPage(Adw.Bin):
         )
 
     # FIXME v140 shows as v14
+    # TODO try binding this instead and making this a closure
     def _display_version(self):
         version = self.backend.get_update_version()
         if version == Version("0.0.0"):
