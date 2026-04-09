@@ -34,11 +34,9 @@ log = logging.getLogger(__name__)
 class PackSelector(Adw.ComboRow):
     __gtype_name__ = "WaterPackSelector"
 
-    # TODO give this a reference to the backend itself so it's easier to remove from page'
-    FIREFOX_FORMATS: dict = None
+    # TODO give this a reference to the backend itself so it's easier to remove set_package from page
     settings: Gio.Settings = None
-    firefox_path: str = None
-
+    current_pack: FirefoxPack
     # Named to prevent recursion loop when getting prop
     inner_valid_path: bool
 
@@ -52,22 +50,15 @@ class PackSelector(Adw.ComboRow):
     # TODO untangle this from page with props. ideally it shouldn't need
     #      help from Page at all and all of this can be in constructor
     def setup_list(self, settings, firefox_path):
-        # FIXME temp adapter
-        self.FIREFOX_FORMATS = FirefoxPack
-
         self.settings = settings
-        self.firefox_path = firefox_path
 
-        # TODO splice the enum values into a ListModel instead
-        for pack in self.FIREFOX_FORMATS:
-            self.get_model().append(pack.pack_name)
+        self.get_model().splice(1, 0, [pack.pack_name for pack in FirefoxPack])
 
-        if self.settings.get_boolean("autofind-paths") is False:
-            user_path = self.firefox_path
-
-            for pack in self.FIREFOX_FORMATS:
-                if pack.path == user_path:
-                    i = self.FIREFOX_FORMATS.index(each) + 1
+        # FIXME this doesn't work
+        if not self.settings.get_boolean("autofind-paths"):
+            for pack in FirefoxPack:
+                if pack.path == firefox_path:
+                    i = FirefoxPack.index(pack) + 1
                     self.set_selected(i)
 
     @GObject.Property(type=bool, default=False)
@@ -79,7 +70,7 @@ class PackSelector(Adw.ComboRow):
         if value:
             self.remove_css_class("error")
         else:
-            # TODO what happens if we set it to true multiple times in a row?
+            # TODO what happens if we set it to false multiple times in a row?
             self.add_css_class("error")
 
         self.inner_valid_path = value
