@@ -34,7 +34,7 @@ log = logging.getLogger(__name__)
 class PackSelector(Adw.ComboRow):
     __gtype_name__ = "WaterPackSelector"
 
-    # TODO give this a reference to the backend itself so it's easier to remove set_package from page
+    backend = None
     settings: Gio.Settings = None
     current_pack: FirefoxPack
     # Named to prevent recursion loop when getting prop
@@ -49,17 +49,52 @@ class PackSelector(Adw.ComboRow):
 
     # TODO untangle this from page with props. ideally it shouldn't need
     #      help from Page at all and all of this can be in constructor
-    def setup_list(self, settings, firefox_path):
-        self.settings = settings
+    # TODO pass pack in directly so I don't have to check it
+    def setup_list(self, firefox_path, backend):
+        self.backend = backend
+        self.settings = backend.get_app_settings()
 
-        self.get_model().splice(1, 0, [pack.pack_name for pack in FirefoxPack])
+        self.get_model().splice(1, 0, [p.pack_name for p in FirefoxPack])
 
-        # FIXME this doesn't work
         if not self.settings.get_boolean("autofind-paths"):
-            for pack in FirefoxPack:
-                if pack.path == firefox_path:
-                    i = FirefoxPack.index(pack) + 1
-                    self.set_selected(i)
+            # FIXME temp adapter path -> pack
+            pack = FirefoxPack.new_from_path(firefox_path)
+            if pack:
+                # Offset 1 since Auto Discover is first
+                i = list(FirefoxPack).index(pack) + 1
+                self.set_selected(i)
+
+    # TODO rework and simplify
+    def set_package(self, row):
+        selected_index = row.get_selected()
+        AUTO = 0
+
+        if selected_index == AUTO:
+            self.settings.set_boolean("autofind-paths", True)
+            log.info("Autofind paths enabled")
+            self.valid_path = True
+            self.emit("package-changed")
+            return
+
+        self.settings.set_boolean("autofind-paths", False)
+        log.warning("Autofind paths disabled")
+
+        selected = row.get_selected_item().get_string()
+        for pack in FirefoxPack:
+            if selected == pack.pack_name:
+                path = pack.path
+                log.info(f"User specified path: {path}")
+
+                try:
+                    self.backend.set_data_path(path)
+                except InterfaceMisuseError as err:  # invalid path provided
+                    log.error(err)
+                    self.valid_path = False
+                else:
+                    self.valid_path = True
+                    self.firefox_path = path
+                    self.emit("package-changed")
+                    break
 
     @GObject.Property(type=bool, default=False)
     def valid_path(self) -> bool:

@@ -82,8 +82,9 @@ class AddWaterPage(Adw.Bin):
 
         # Package selector
         self.settings_instant = backend.get_app_settings()
-        self.firefox_path = self.backend.get_data_path()
-        self.package_combobox.setup_list(self.settings_instant, self.firefox_path)
+
+        # TODO use backend.get_package() instead
+        self.package_combobox.setup_list(self.backend.get_data_path(), self.backend)
 
         self._set_actions_signals()
 
@@ -228,6 +229,7 @@ class AddWaterPage(Adw.Bin):
         self.insert_action_group("water", action_group)
 
         # Combobox setup
+        # TODO move this into PackSelector
         self.package_combobox.notify("selected-item")
         self.package_combobox.connect("notify::selected-item", lambda row, *blah: self._set_firefox_package(row))
         self.package_combobox.connect(
@@ -249,7 +251,7 @@ class AddWaterPage(Adw.Bin):
         # Translators: {} will be replaced with a version number (example: v132) or a status message
         self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(v_str))
 
-    # TODO simplify this and then move into its own class
+    # TODO replace this with PackSelector version
     def _set_firefox_package(self, row):
         selected_index = row.get_selected()
         AUTO = 0
