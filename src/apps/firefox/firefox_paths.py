@@ -72,3 +72,11 @@ class FirefoxPack(Enum):
 
         return None
 
+    @staticmethod
+    def new_from_name(name: str) -> Optional[Enum]:
+        for pack in FirefoxPack:
+            if name == pack.pack_name:
+                return pack
+
+        return None
+
