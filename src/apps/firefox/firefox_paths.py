@@ -50,7 +50,6 @@ class FirefoxPack(Enum):
     WATERFOX_FLATPAK = ("Waterfox Flatpak", WATERFOX_FLATPAK)
     CACHY = ("CachyOS Browser", CACHY_BASE)
 
-    # TODO path is a pathlike
     def __init__(self, name: str, path: PathLike):
         self.pack_name = name
         self.path = Path(path)
@@ -65,7 +64,8 @@ class FirefoxPack(Enum):
 
 
     @staticmethod
-    def new_from_path(app_path: Path) -> Optional[Enum]:
+    def new_from_path(app_path: Path | PathLike) -> Optional[Enum]:
+        app_path = Path(app_path)
         for pack in FirefoxPack:
             if app_path == pack.path:
                 return pack
