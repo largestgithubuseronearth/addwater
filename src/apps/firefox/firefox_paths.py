@@ -32,6 +32,8 @@ WATERFOX_FLATPAK = expanduser("~/.var/app/net.waterfox.waterfox/.waterfox")
 
 CACHY_BASE = expanduser("~/.cachy")
 
+# TODO can this be a GObject so I can use it in ListModels?
+#      or must I make a wrapper?
 class FirefoxPack(Enum):
     # TODO rename these to just use the name instead of base later (Firefox / Firefox Flatpak / Librewolf / etc)
     BASE = ("Base", BASE)

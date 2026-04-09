@@ -36,37 +36,42 @@ class PackSelector(Adw.ComboRow):
 
     backend = None
     settings: Gio.Settings = None
-    current_pack: FirefoxPack
+    package: FirefoxPack
     # Named to prevent recursion loop when getting prop
     inner_valid_path: bool
+
+    # TODO make prop for 'auto-find paths'
 
     def __init__(self):
         super().__init__()
 
+        # TODO use a full bind instead of connect to signal
+        # FIXME this causes an error during GObject construction since
+        #       settings isn't in place yet
+        self.notify('selected-item')
+        self.connect('notify::selected-item', lambda *args: self.set_package())
+
+
+        # TODO can this be done in ui template?
         self.bind_property(
             "valid-path", self, "has-tooltip", GObject.BindingFlags.INVERT_BOOLEAN
         )
 
-    # TODO untangle this from page with props. ideally it shouldn't need
-    #      help from Page at all and all of this can be in constructor
-    # TODO pass pack in directly so I don't have to check it
-    def setup_list(self, firefox_path, backend):
+    # TODO this should be done in constructor; shouldn't need Page's help to do this
+    def setup_list(self, pack, backend):
         self.backend = backend
         self.settings = backend.get_app_settings()
 
         self.get_model().splice(1, 0, [p.pack_name for p in FirefoxPack])
 
-        if not self.settings.get_boolean("autofind-paths"):
-            # FIXME temp adapter path -> pack
-            pack = FirefoxPack.new_from_path(firefox_path)
-            if pack:
-                # Offset 1 since Auto Discover is first
-                i = list(FirefoxPack).index(pack) + 1
-                self.set_selected(i)
+        if pack and not self.settings.get_boolean("autofind-paths"):
+            self.package = pack
+            # Offset 1 since Auto Discover is first
+            i = list(FirefoxPack).index(pack) + 1
+            self.set_selected(i)
 
-    # TODO rework and simplify
-    def set_package(self, row):
-        selected_index = row.get_selected()
+    def set_package(self):
+        selected_index = self.get_selected()
         AUTO = 0
 
         if selected_index == AUTO:
@@ -79,36 +84,33 @@ class PackSelector(Adw.ComboRow):
         self.settings.set_boolean("autofind-paths", False)
         log.warning("Autofind paths disabled")
 
-        selected = row.get_selected_item().get_string()
-        for pack in FirefoxPack:
-            if selected == pack.pack_name:
-                path = pack.path
-                log.info(f"User specified path: {path}")
+        packstr = self.get_selected_item().get_string()
+        new_pack = FirefoxPack.new_from_name(packstr)
+        if new_pack:
+            try:
+                self.backend.set_package(new_pack)
+            except InterfaceMisuseError as err:
+                log.error(err)
+                self.valid_path = False
+            else:
+                self.valid_path = True
+                self.package = new_pack
+                self.emit("package-changed")
 
-                try:
-                    self.backend.set_data_path(path)
-                except InterfaceMisuseError as err:  # invalid path provided
-                    log.error(err)
-                    self.valid_path = False
-                else:
-                    self.valid_path = True
-                    self.firefox_path = path
-                    self.emit("package-changed")
-                    break
+        return
 
     @GObject.Property(type=bool, default=False)
     def valid_path(self) -> bool:
         return self.inner_valid_path
 
     @valid_path.setter
-    def set_valid_path(self, value: bool):
-        if value:
+    def set_valid_path(self, is_valid: bool):
+        if is_valid:
             self.remove_css_class("error")
         else:
-            # TODO what happens if we set it to false multiple times in a row?
             self.add_css_class("error")
 
-        self.inner_valid_path = value
+        self.inner_valid_path = is_valid
 
     @GObject.Signal(name="package-changed")
     def package_changed(self):

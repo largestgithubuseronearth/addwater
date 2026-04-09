@@ -3,7 +3,8 @@ from typing import Callable, Optional
 
 from gi.repository import Adw, Gio, GObject, Gtk
 
-
+# TODO this whole thing is a mess and should just be statically
+#      defined in a ui template
 def create_option_group(
     group_schematic: dict[str, list[dict]],
     gui_switch_factory: Callable,

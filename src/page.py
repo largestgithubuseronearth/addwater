@@ -60,31 +60,27 @@ class AddWaterPage(Adw.Bin):
     profile_combobox = Gtk.Template.Child()
     package_combobox = Gtk.Template.Child()
 
+    # TODO theme_enabled GProp
+
     # TODO make this construct only later
     app_name = GObject.Property(
         type=str,
-        flags=(GObject.ParamFlags.READWRITE)
+        flags=(GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY)
     )
 
     current_toast = None
 
     def __init__(self, backend):
-        super().__init__()
+        # TODO just write this in ui instead
+        super().__init__(app_name=backend.get_app_name())
 
         self.backend = backend
-        self.app_name = self.backend.get_app_name()
 
         # Stores changes as a transaction to apply all opts at once
         self.settings = self.backend.get_app_settings()
         self.settings.delay()
 
         self.init_gui(self.backend.get_app_options())
-
-        # Package selector
-        self.settings_instant = backend.get_app_settings()
-
-        # TODO use backend.get_package() instead
-        self.package_combobox.setup_list(self.backend.get_data_path(), self.backend)
 
         self._set_actions_signals()
 
@@ -177,6 +173,7 @@ class AddWaterPage(Adw.Bin):
         # details: https://gitlab.gnome.org/GNOME/libadwaita/-/issues/440
         self.enable_button.grab_focus()
 
+    # TODO reduce all of this as much as possible using props and constructors
     def init_gui(self, options):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
@@ -204,6 +201,8 @@ class AddWaterPage(Adw.Bin):
         )
         self.settings.bind("profile-selected", self.profile_combobox, "selected-profile-id", Gio.SettingsBindFlags.DEFAULT)
 
+        self.package_combobox.setup_list(self.backend.get_package(), self.backend)
+
     """PRIVATE METHODS"""
 
     def _set_actions_signals(self):
@@ -229,9 +228,7 @@ class AddWaterPage(Adw.Bin):
         self.insert_action_group("water", action_group)
 
         # Combobox setup
-        # TODO move this into PackSelector
-        self.package_combobox.notify("selected-item")
-        self.package_combobox.connect("notify::selected-item", lambda row, *blah: self._set_firefox_package(row))
+        # TODO try to connect this in ui
         self.package_combobox.connect(
             "package-changed",
             lambda *_blah: self.profile_combobox.setup_list(
@@ -250,35 +247,3 @@ class AddWaterPage(Adw.Bin):
             v_str = f"v{str(version).rstrip(".0")}"
         # Translators: {} will be replaced with a version number (example: v132) or a status message
         self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(v_str))
-
-    # TODO replace this with PackSelector version
-    def _set_firefox_package(self, row):
-        selected_index = row.get_selected()
-        AUTO = 0
-
-        if selected_index == AUTO:
-            self.settings_instant.set_boolean("autofind-paths", True)
-            log.info("Autofind paths enabled")
-            self.package_combobox.valid_path = True
-            self.package_combobox.emit("package-changed")
-            return
-
-        self.settings_instant.set_boolean("autofind-paths", False)
-        log.warning("Autofind paths disabled")
-
-        selected = row.get_selected_item().get_string()
-        for pack in FirefoxPack:
-            if selected == pack.pack_name:
-                path = pack.path
-                log.info(f'User specified path: {path}')
-
-                try:
-                    self.backend.set_data_path(path)
-                except InterfaceMisuseError as err:  # invalid path provided
-                    log.error(err)
-                    self.package_combobox.valid_path = False
-                else:
-                    self.package_combobox.valid_path = True
-                    self.package_combobox.firefox_path = path
-                    self.package_combobox.emit("package-changed")
-                    break
