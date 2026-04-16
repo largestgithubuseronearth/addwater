@@ -44,18 +44,12 @@ class PackSelector(Adw.ComboRow):
 
     def __init__(self):
         super().__init__()
-
         # TODO use a full bind instead of connect to signal
         # FIXME this causes an error during GObject construction since
         #       settings isn't in place yet
         self.notify('selected-item')
         self.connect('notify::selected-item', lambda *args: self.set_package())
 
-
-        # TODO can this be done in ui template?
-        self.bind_property(
-            "valid-path", self, "has-tooltip", GObject.BindingFlags.INVERT_BOOLEAN
-        )
 
     # TODO this should be done in constructor; shouldn't need Page's help to do this
     def setup_list(self, pack, backend):
@@ -82,7 +76,7 @@ class PackSelector(Adw.ComboRow):
             return
 
         self.settings.set_boolean("autofind-paths", False)
-        log.warning("Autofind paths disabled")
+        log.info("Autofind paths disabled")
 
         packstr = self.get_selected_item().get_string()
         new_pack = FirefoxPack.new_from_name(packstr)

@@ -3,7 +3,7 @@
 	<template class="WaterPackSelector" parent="AdwComboRow">
 	  <property name="title" translatable="yes">Package Format</property>
 	  <property name="tooltip-text" translatable="yes">Profile data not found at selected location</property>
-	  <property name="has-tooltip">false</property>
+	  <property name="has-tooltip" bind-source="WaterPackSelector" bind-property="valid-path" bind-flags="sync-create | invert-boolean"/>
     <property name="model">
 	    <!-- TODO use a ListStore as model instead so pack name & path can be connected -->
       <object class="GtkStringList">
