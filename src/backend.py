@@ -180,11 +180,9 @@ class AddWaterBackend:
         self.app_details.set_installed_version(new_version)
 
     def reset_app(self):
-        app_name = self.get_app_name()
-        log.warning(f"{app_name} is now being reset...")
         self._uninstall_all_profiles()
         self.app_details.reset_settings()
-        log.info(f"done. {app_name} has been reset to default state")
+        log.info(f"done. Add Water has been reset to default state")
 
     """PRIVATE METHODS"""
 

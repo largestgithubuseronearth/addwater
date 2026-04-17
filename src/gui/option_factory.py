@@ -9,7 +9,6 @@ def create_option_group(
     group_schematic: dict[str, list[dict]],
     gui_switch_factory: Callable,
     settings,
-    enable_button,
 ):
     """PreferenceGroup factory for theme options.
 
@@ -17,8 +16,6 @@ def create_option_group(
         group_schematic: A big dictionary list of all options to iterate through.
         gui_switch_factory: Function to use to create each switch for the group.
         settings: GSettings reader for the relevant app theme.
-        enable_button: Reference to the page's enable button. Needed to bind the
-            "enabled" property to whether the switches are sensitive or not.
 
     Returns:
         AdwPreferenceGroup that's ready to use in the page.
@@ -38,10 +35,6 @@ def create_option_group(
         row_switch = row.get_activatable_widget()
         settings.bind(
             option["key"], row_switch, "active", Gio.SettingsBindFlags.DEFAULT
-        )
-        # Grey-out row if theme isn't enabled.
-        enable_button.bind_property(
-            "active", row, "sensitive", GObject.BindingFlags.SYNC_CREATE
         )
 
         # FIXME bind to the "active" property of the row it depends on

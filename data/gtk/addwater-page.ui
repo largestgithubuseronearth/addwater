@@ -2,6 +2,7 @@
 <!-- This is the Template from which both Firefox and Thunderbird will derive their layouts. -->
 <interface>
 	<template class="AddWaterPage" parent="AdwBin">
+	  <property name="app-name">Firefox</property>
 		<property name="child">
 		  <!-- FIXME toast covers bottom bar -->
 			<object class="AdwToastOverlay" id="toast_overlay">
@@ -19,6 +20,7 @@
 										<child>
 											<object class="AdwSwitchRow" id="enable_button">
 												<property name="title" translatable="yes">Enable Theme</property>
+											  <property name="active" bind-source="AddWaterPage" bind-property="theme-enabled" bind-flags="sync-create | bidirectional"/>
 											</object>
 										</child>
 										<child>
@@ -39,6 +41,8 @@
 						<!-- Change Confirmation Bar -->
 						<child type="bottom">
 							<object class="GtkActionBar" id="change_confirm_bar">
+							  <!-- FIXME bar is revealed on app startup -->
+							  <property name="revealed">false</property>
 								<child type="start">
 									<object class="GtkLabel">
 										<property name="label" translatable="yes">Confirm your changes?</property>

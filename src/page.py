@@ -60,19 +60,23 @@ class AddWaterPage(Adw.Bin):
     profile_combobox = Gtk.Template.Child()
     package_combobox = Gtk.Template.Child()
 
-    # TODO theme_enabled GProp
+    theme_enabled = GObject.Property(
+        type=bool,
+        default=False,
+        flags=(GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT)
+    )
 
-    # TODO make this construct only later
+    # TODO is this even used anywhere?
     app_name = GObject.Property(
         type=str,
-        flags=(GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY)
+        flags=(GObject.ParamFlags.READWRITE)
     )
 
     current_toast = None
 
     def __init__(self, backend):
         # TODO just write this in ui instead
-        super().__init__(app_name=backend.get_app_name())
+        super().__init__()
 
         self.backend = backend
 
@@ -94,7 +98,7 @@ class AddWaterPage(Adw.Bin):
         update_status = self.backend.update_theme()
         match update_status:
             case update_status.UPDATED:
-                if self.settings.get_boolean("theme-enabled"):
+                if self.theme_enabled:
                     self.activate_action("apply-changes")
 
                 version = str(self.backend.get_update_version()).rstrip(".0")
@@ -120,9 +124,7 @@ class AddWaterPage(Adw.Bin):
 
         self.settings.apply()
 
-        # TODO make "enabled" a prop of this page so we don't need to call settings
-        theme_enabled = self.settings.get_boolean("theme-enabled")
-        if theme_enabled:
+        if self.theme_enabled:
             log.debug("GUI calling for install..")
             install_status = self.backend.begin_install(
                 self.profile_combobox.get_selected_item(), True
@@ -182,17 +184,21 @@ class AddWaterPage(Adw.Bin):
                     and options that the theme supports.
         """
         # App options
-        # TODO bind this to a theme-enabled gprop for this widget
         self.settings.bind(
-            "theme-enabled", self.enable_button, "active", Gio.SettingsBindFlags.DEFAULT
+            "theme-enabled", self, "theme-enabled",
+            Gio.SettingsBindFlags.DEFAULT
         )
         # Theme options
-        for each_group in options:
+        for group_definition in options:
             group = create_option_group(
-                group_schematic=each_group,
+                group_schematic=group_definition,
                 gui_switch_factory=create_option_switch,
                 settings=self.settings,
-                enable_button=self.enable_button,
+            )
+            self.bind_property(
+                "theme-enabled",
+                group, "sensitive",
+                GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE
             )
             self.preferences_page.add(group)
 

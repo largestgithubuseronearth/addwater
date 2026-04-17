@@ -34,17 +34,14 @@ log = logging.getLogger(__name__)
 class PackSelector(Adw.ComboRow):
     __gtype_name__ = "WaterPackSelector"
 
+    # TODO backend shouldn't be here at all
     backend = None
-    # TODO this shouldn't touch settings or backend at all
     package: FirefoxPack
     inner_valid_path: bool
     autofind_paths: bool = GObject.Property(type=bool, default=True, flags=GObject.ParamFlags.READWRITE)
 
     def __init__(self):
         super().__init__()
-        # TODO use a full bind instead of connect to signal
-        # FIXME this causes an error during GObject construction since
-        #       settings isn't in place yet
         self.notify('selected-item')
         self.connect('notify::selected-item', lambda *args: self.set_package())
 
