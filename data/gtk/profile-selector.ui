@@ -12,7 +12,8 @@
 	    </lookup>
 	  </binding>
     <property name="model">
-      <object class="GtkSortListModel">
+      <!-- TODO sort by favorites, then alphabetically. So it's the same order every time -->
+      <object class="GtkSortListModel" id="sort_model">
         <property name="model">
           <object class="GListStore" id="profiles">
             <property name="item-type">WaterProfile</property>

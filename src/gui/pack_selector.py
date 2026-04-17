@@ -74,6 +74,10 @@ class PackSelector(Adw.ComboRow):
 
         packstr = self.get_selected_item().get_string()
         new_pack = FirefoxPack.new_from_name(packstr)
+
+        # TODO redo this so i don't call backend. either this widget should be
+        #      responsible for packages altogether OR it should verify packages
+        #      itself and Page will commit the change only if it's valid.
         if new_pack:
             try:
                 self.backend.set_package(new_pack)

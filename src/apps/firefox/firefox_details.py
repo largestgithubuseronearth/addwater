@@ -75,7 +75,7 @@ class FirefoxAppDetails:
         if not current_pack:
             available_packs = self._get_valid_packs()
             # TODO what should the app do if no packs are available?
-            if not found:
+            if not available_packs:
                 log.critical("Could not find any valid data paths. App cannot function.")
                 return
             self.set_package(available_packs[0])

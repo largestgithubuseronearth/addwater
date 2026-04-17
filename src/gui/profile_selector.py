@@ -39,6 +39,7 @@ class ProfileSelector(Adw.ComboRow):
     # TODO store all profiles in the same model and the PackSelector
     #      changes the filter of visible ones; GtkFilter
     profiles: Gio.ListStore = Gtk.Template.Child()
+    sort_model: Gtk.SortListModel = Gtk.Template.Child()
 
     # Also GSettings needs this to store profile id
     selected_profile_id = GObject.Property(type=str, flags=(GObject.ParamFlags.READWRITE))
@@ -49,8 +50,7 @@ class ProfileSelector(Adw.ComboRow):
     def setup_list(self, profile_list, selected_profile_id):
         self.profiles.splice(0, self.profiles.get_n_items(), profile_list)
 
-        # FIXME the selected profile is wrong on startup
-        for i, profile in enumerate(profile_list):
+        for i, profile in enumerate(self.sort_model):
             if profile.id == selected_profile_id:
                 self.set_selected(i)
                 return
