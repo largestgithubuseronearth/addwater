@@ -182,6 +182,7 @@ class AddWaterPage(Adw.Bin):
                     and options that the theme supports.
         """
         # App options
+        # TODO bind this to a theme-enabled gprop for this widget
         self.settings.bind(
             "theme-enabled", self.enable_button, "active", Gio.SettingsBindFlags.DEFAULT
         )
@@ -201,6 +202,7 @@ class AddWaterPage(Adw.Bin):
         )
         self.settings.bind("profile-selected", self.profile_combobox, "selected-profile-id", Gio.SettingsBindFlags.DEFAULT)
 
+        self.settings.bind("autofind-paths", self.package_combobox, "autofind-paths", Gio.SettingsBindFlags.DEFAULT)
         self.package_combobox.setup_list(self.backend.get_package(), self.backend)
 
     """PRIVATE METHODS"""

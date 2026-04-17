@@ -35,12 +35,10 @@ class PackSelector(Adw.ComboRow):
     __gtype_name__ = "WaterPackSelector"
 
     backend = None
-    settings: Gio.Settings = None
+    # TODO this shouldn't touch settings or backend at all
     package: FirefoxPack
-    # Named to prevent recursion loop when getting prop
     inner_valid_path: bool
-
-    # TODO make prop for 'auto-find paths'
+    autofind_paths: bool = GObject.Property(type=bool, default=True, flags=GObject.ParamFlags.READWRITE)
 
     def __init__(self):
         super().__init__()
@@ -54,11 +52,10 @@ class PackSelector(Adw.ComboRow):
     # TODO this should be done in constructor; shouldn't need Page's help to do this
     def setup_list(self, pack, backend):
         self.backend = backend
-        self.settings = backend.get_app_settings()
 
         self.get_model().splice(1, 0, [p.pack_name for p in FirefoxPack])
 
-        if pack and not self.settings.get_boolean("autofind-paths"):
+        if pack and not self.autofind_paths:
             self.package = pack
             # Offset 1 since Auto Discover is first
             i = list(FirefoxPack).index(pack) + 1
@@ -69,13 +66,13 @@ class PackSelector(Adw.ComboRow):
         AUTO = 0
 
         if selected_index == AUTO:
-            self.settings.set_boolean("autofind-paths", True)
+            self.autofind_paths = True
             log.info("Autofind paths enabled")
             self.valid_path = True
             self.emit("package-changed")
             return
 
-        self.settings.set_boolean("autofind-paths", False)
+        self.autofind_paths = False
         log.info("Autofind paths disabled")
 
         packstr = self.get_selected_item().get_string()
