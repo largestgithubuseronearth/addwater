@@ -143,10 +143,6 @@ class AddWaterBackend:
     def get_app_options(self) -> list[dict[str, Any]]:
         return self.app_details.get_options()
 
-    # FIXME temp adapter; replace with get_package
-    def get_data_path(self) -> str:
-        return str(self.get_package().path)
-
     def get_package(self) -> FirefoxPack:
         return self.app_details.get_package()
 
@@ -160,11 +156,6 @@ class AddWaterBackend:
         return self.app_details.get_profiles()
 
     """Info Setters"""
-
-    # FIXME temp adapter; replace with set_package
-    def set_data_path(self, new_path: str):
-        new_pack = FirefoxPack.new_from_path(new_path)
-        self.set_package(new_pack)
 
     def set_package(self, pack: FirefoxPack):
         try:

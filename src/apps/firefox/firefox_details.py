@@ -170,9 +170,6 @@ class FirefoxAppDetails:
 
     @staticmethod
     def _find_profiles(package: FirefoxPack) -> list[Profile]:
-        # FIXME temp adapter
-        app_path = package.path
-
         cfg = ConfigParser()
         profiles = []
 

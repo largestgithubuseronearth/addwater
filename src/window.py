@@ -39,7 +39,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     main_menu = Gtk.Template.Child()
     # Use when only one page is available
-    # TODO make it dynamically use a ViewStack when there are multiple pages/app plugins to display
     main_toolbar_view = Gtk.Template.Child()
 
     def __init__(self, backends: list, **kwargs):
@@ -74,16 +73,15 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.main_toolbar_view.set_content(None)
         self.pages = []
 
-        for each in app_backends:
+        for backend in app_backends:
             # Check data path for validity
-            if exists(join(each.get_data_path(), "profiles.ini")):
-                page = AddWaterPage(backend=each)
+            try:
+                backend.get_package().get_profile_ini()
+                page = AddWaterPage(backend=backend)
                 log.debug("page created successfully")
-            else:
-                app_name = each.get_app_name()
-                log.critical(
-                    f"No data path for {app_name} available. Showing an error message"
-                )
+            except FileNotFoundError as e:
+                app_name = backend.get_app_name()
+                log.critical(e)
                 page = self.create_error_page(app_name)
 
             self.pages.append(page)

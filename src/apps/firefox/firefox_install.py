@@ -41,9 +41,6 @@ def install_for_firefox(profile: Profile, theme_path: PathLike) -> None:
         profile_path: path to the profile folder in which the theme will be installed.
 
     """
-    # FIXME temp adapter
-    profile_path = profile.path
-
     # Check paths to ensure they exist
     log.info("Installing theme file for Firefox...")
     if not exists(profile.path):
