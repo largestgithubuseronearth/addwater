@@ -12,7 +12,7 @@ SNAP_LEGACY = expanduser("~/snap/firefox/common/.mozilla/firefox/")
 SNAP = expanduser("~/snap/firefox/common/.config/mozilla/firefox/")
 
 LIBREWOLF_BASE_LEGACY = expanduser("~/.librewolf/")
-LIBREWOLF_BASE = expanduser("f"{config_dir}/librewolf/librewolf")
+LIBREWOLF_BASE = expanduser(f"{config_dir}/librewolf/librewolf")
 LIBREWOLF_FLATPAK_LEGACY = expanduser("~/.var/app/io.gitlab.librewolf-community/.librewolf/")
 LIBREWOLF_FLATPAK = expanduser("~/.var/app/io.gitlab.librewolf-community/config/librewolf/librewolf/")
 
@@ -24,6 +24,8 @@ WATERFOX_FLATPAK = expanduser("~/.var/app/net.waterfox.waterfox/.waterfox")
 
 CACHY_BASE = expanduser("~/.cachy")
 
+
+# TODO create an enum from this to pass around
 FIREFOX_PATHS = [
     {"name": "Base", "path": BASE},
     {"name": "Base (Alt)", "path": BASE_LEGACY},

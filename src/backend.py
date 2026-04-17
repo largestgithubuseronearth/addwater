@@ -21,8 +21,10 @@ import logging
 from enum import Enum
 from os.path import exists, join
 from typing import Any, Callable, Optional
+from pathlib import Path
 
-from addwater.components.install import InstallManager
+from addwater.profile import Profile
+from addwater.components.install import (InstallManager, InstallStatus)
 from addwater.components.online import OnlineManager
 from addwater.utils.mocks import mock_online
 from addwater.utils.paths import DOWNLOAD_DIR
@@ -32,6 +34,8 @@ from addwater import info
 
 log = logging.getLogger(__name__)
 
+# TODO remove this and let the page use the individual components directly.
+#      This requires everything to be bound correctly as GObjects
 
 class AddWaterBackend:
     """Interface to perform high-level app actions like installing, getting
@@ -74,13 +78,14 @@ class AddWaterBackend:
 
     """Install actions"""
 
-    def begin_install(self, profile_id, full_install=False) -> Enum:
+    def begin_install(self, profile: Profile, full_install=False) -> Enum:
         log.info("beginning installation...")
+        if not profile:
+            return InstallStatus.FAILURE
+
+        # FIXME this path stuff sucks
         result = self.app_details.get_download_path_info()
         theme_path = join(result[0], result[1], result[2])
-
-        app_path = self.app_details.get_data_path()
-        profile_path = join(app_path, profile_id)
 
         # Prep options for pref handler if full install
         if full_install:
@@ -88,33 +93,31 @@ class AddWaterBackend:
             gset = self.app_details.get_new_gsettings()
             options = self.app_details.get_options()
 
+            # TODO redo the options entirely into structs
             for group in options:
                 for option in group["options"]:
                     js_key = option["js_key"]
+                    # TODO shouldn't need to check gsettings at this point.
+                    #      associate the value to the option directly.
                     gset_value = gset.get_boolean(option["key"])
 
                     options_request[js_key] = gset_value
         else:
             options_request = None
 
-        # Call installer and return status to page
         status = self.install_manager.combined_install(
             theme_path=theme_path,
-            profile_path=profile_path,
+            profile=profile,
             options_results=options_request,
         )
 
         log.info("install process completed")
         return status
 
-    def remove_theme(self, profile_id) -> Enum:
+    def remove_theme(self, profile: Profile) -> Enum:
         folder_name = self.app_details.get_theme_folder_name()
 
-        app_path = self.get_data_path()
-        profile_path = join(app_path, profile_id)
-
-        install_status = self.install_manager.uninstall(profile_path, folder_name)
-        return install_status
+        return self.install_manager.uninstall(profile, folder_name)
 
     """Online Actions"""
 
@@ -148,7 +151,7 @@ class AddWaterBackend:
     def get_update_version(self) -> Version:
         return self.online_manager.get_update_version()
 
-    def get_profile_list(self) -> dict:
+    def get_profile_list(self) -> list[Profile]:
         return self.app_details.get_profiles()
 
     def get_package_formats(self) -> dict:
@@ -178,15 +181,9 @@ class AddWaterBackend:
 
     """PRIVATE METHODS"""
 
+    # TODO redo to use Profile class
     def _uninstall_all_profiles(self):
-        log.warning("uninstalling theme from all known profiles...")
-        profiles = self.app_details.get_profiles()
-        for each in profiles:
-            profile_id = each["id"]
-            self.remove_theme(profile_id)
-
-        log.info("done. theme removed from all profiles")
-
+        pass
 
 class InterfaceMisuseError(Exception):
     pass

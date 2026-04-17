@@ -1,4 +1,5 @@
-# TODO is there a simpler way to do this? .in files? json?
+#TODO Make a class of Widgets that holds all this info as props, then define
+#     these options in the UI Builder files instead
 
 FIREFOX_OPTIONS = [
     {

@@ -25,12 +25,13 @@ from os import PathLike
 from os.path import exists, join
 
 from addwater.components.install import InstallException
+from addwater.profile import Profile
 
 log = logging.getLogger(__name__)
 
 
-@staticmethod  # This is necessary to avoid InstallManager passing self as an arg. "Passed multiple values for profile_path"
-def install_for_firefox(profile_path: PathLike, theme_path: PathLike) -> None:
+@staticmethod
+def install_for_firefox(profile: Profile, theme_path: PathLike) -> None:
     """Install the Firefox theme. This method should be injected into the
     InstallManager at runtime. If it isn't obvious, this should not be reused for
     installing other app themes.
@@ -40,19 +41,17 @@ def install_for_firefox(profile_path: PathLike, theme_path: PathLike) -> None:
         profile_path: path to the profile folder in which the theme will be installed.
 
     """
+    # FIXME temp adapter
+    profile_path = profile.path
+
     # Check paths to ensure they exist
     log.info("Installing theme file for Firefox...")
-    try:
-        if not exists(profile_path):
-            raise FileNotFoundError("Install failed. Profile path not found.")
+    if not exists(profile.path):
+        raise FileNotFoundError("Install failed. Profile path not found.")
+    if not exists(theme_path):
+        raise FileNotFoundError("Install failed. Theme files not found.")
 
-        if not exists(theme_path):
-            raise FileNotFoundError("Install failed. Theme files not found.")
-    except (TypeError, FileNotFoundError) as err:
-        log.critical(err)
-        raise InstallException("Install failed")
-
-    chrome_path = join(profile_path, "chrome")
+    chrome_path = join(profile.path, "chrome")
 
     _copy_files(chrome_path, theme_path)
     _import_css(chrome_path)
@@ -60,7 +59,8 @@ def install_for_firefox(profile_path: PathLike, theme_path: PathLike) -> None:
     userjs_template = join(
         chrome_path, "firefox-gnome-theme", "configuration", "user.js"
     )
-    _copy_userjs(profile_path, userjs_template)
+    # FIXME temp adapter
+    _copy_userjs(profile.path, userjs_template)
 
     log.info("Firefox installation done.")
 

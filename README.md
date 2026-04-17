@@ -50,14 +50,13 @@ Add Water uses GNOME's Damned Lies system for translations. If you'd like to hel
 translate Add Water to your language, register with Damned Lies and join the team 
 for your language.
 
-https://l10n.gnome.org/module/addwater/
+[Translate Add Water here](https://l10n.gnome.org/module/addwater/)
 
-I don't accept translations through pull requests.
+Unfortunately, I will not accept translations through pull requests.
 
 
 --------
 
 ### Final Notes:
-* [Troubleshooting FAQ](https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md)
 * A few options are not supported in Add Water due to them being finicky or buggy but you can see a list of all options [here](https://github.com/rafaelmardojai/firefox-gnome-theme?tab=readme-ov-file#features).
 

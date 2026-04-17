@@ -25,6 +25,8 @@ from gi.repository import Gio
 
 from addwater import info
 
+from packaging.version import Version
+
 log = logging.getLogger(__name__)
 
 

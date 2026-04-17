@@ -24,75 +24,37 @@ from gi.repository import GObject, Gtk, Adw, Gio
 from packaging.version import Version
 
 from addwater import info
-
+from addwater.profile import Profile
 from addwater.backend import InterfaceMisuseError
 
 log = logging.getLogger(__name__)
 
+# TODO merge the package selector into this one combobox, and break them into
+#      sections by package format
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/profile-selector.ui")
 class ProfileSelector(Adw.ComboRow):
     __gtype_name__ = "AddWaterProfileSelector"
 
-    selected_profile = None
-    strlist = Gtk.Template.Child()
+    # TODO store all profiles in the same model and the PackSelector
+    #      changes the filter of visible ones GtkFilter
+    profiles: Gio.ListStore = Gtk.Template.Child()
 
-    settings = None
-
-    # TODO Make a simple profile data object to represent profiles instead of a dict
-
-    # TODO redo this using ListStore and factories instead.
-
-    # TODO reimplement resetting profile combobox cursor after I can track
-    # profiles across firefox installs via sql
-
-    # FIXME if a profile is removed, it's still selected in GSettings and causes an install fail
+    # TODO use ComboRow:selected-item prop once the installer can accept it
+    # Also GSettings needs this to store profile id
+    selected_profile_id = GObject.Property(type=str, flags=(GObject.ParamFlags.READWRITE))
 
     def __init__(self):
         super().__init__()
 
-    def setup_settings(self, settings):
-        if self.settings:
-            raise LogicError("ProfileSelector already has a settings reader")
-
-        self.settings = settings
-
-    # TODO add an icon to the preferred profile and set "Preferred profile" as tooltip?
     def setup_list(self, profile_list, selected_profile_id):
-        """Initialize internal profile list model"""
-        self.profile_list = profile_list
-        names = [each["name"] for each in profile_list]
+        self.profiles.splice(0, self.profiles.get_n_items(), profile_list)
 
-        self.strlist.splice(
-            0, self.strlist.get_n_items(), names
-        )
-
-        # TODO Do this cleaner
-        for i, each in enumerate(profile_list):
-            if each["id"] == selected_profile_id:
+        # FIXME the selected profile is wrong on startup
+        for i, profile in enumerate(profile_list):
+            if profile.id == selected_profile_id:
                 self.set_selected(i)
                 return
 
         self.set_selected(0)
 
-    def set_profile(self) -> None:
-        with self.freeze_notify():
-            profile_display_name = self.get_selected_item().get_string()
-            for each in self.profile_list:
-                if each["name"] == profile_display_name:
-                    self.selected_profile = each["id"]
-                    log.debug("set profile to %s", each["id"])
-                    break
-
-        # TODO make unapplied work with this
-        # if self.selected_profile != self.ProfileGSet:
-        #     self.ProfileGSet = self.selected_profile
-
-    @GObject.Property
-    def ProfileGSet(self) -> str:
-        return self.settings.get_string("profile-selected")
-
-    @ProfileGSet.setter
-    def ProfileGSet(self, profile_id: str) -> None:
-        self.settings.set_string("profile-selected", profile_id)
-        # TODO emit a notify here?

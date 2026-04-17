@@ -68,7 +68,7 @@ class AddWaterPreferences(Adw.PreferencesDialog):
             lambda *blah: self._do_background_request()
         )
 
-    # TODO is there a better way to handle this? copied from adwsteamgtk
+    # FIXME make sure it doesn't run in the bg when called via the CLI
     def _do_background_request(self):
         """Request permission from portals to launch at login time"""
         bg_enabled = self.settings_app.get_boolean("background-update")
