@@ -49,3 +49,14 @@ class Profile(GObject.Object):
     def __init__(self, name, id, path, favorite, package):
         super().__init__(name=name, id=id, favorite=favorite, package=package)
         self.path = Path(path)
+
+    # FIXME temporary prop until I redo ProfileSelector to use an icon instead
+    @GObject.Property(type=str)
+    def display_name(self) -> str:
+        out = self.name
+        if self.favorite:
+            out += " (Preferred)"
+
+        return out
+
+

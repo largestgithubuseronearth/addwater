@@ -29,9 +29,8 @@
         </property>
       </object>
     </property>
-	  <!-- TODO append "preferred" to favorite profiles -->
 	  <property name="expression">
-      <lookup name="name" type="WaterProfile"/>
+      <lookup name="display-name" type="WaterProfile"/>
 	  </property>
 	</template>
 </interface>
