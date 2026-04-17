@@ -37,10 +37,9 @@ class ProfileSelector(Adw.ComboRow):
     __gtype_name__ = "AddWaterProfileSelector"
 
     # TODO store all profiles in the same model and the PackSelector
-    #      changes the filter of visible ones GtkFilter
+    #      changes the filter of visible ones; GtkFilter
     profiles: Gio.ListStore = Gtk.Template.Child()
 
-    # TODO use ComboRow:selected-item prop once the installer can accept it
     # Also GSettings needs this to store profile id
     selected_profile_id = GObject.Property(type=str, flags=(GObject.ParamFlags.READWRITE))
 

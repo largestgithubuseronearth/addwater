@@ -37,7 +37,7 @@ def create_option_group(
             option["key"], row_switch, "active", Gio.SettingsBindFlags.DEFAULT
         )
 
-        # FIXME bind to the "active" property of the row it depends on
+        # FIXME bind to the "active" property of the row it depends on.
         # requires holding a reference to that row which I don't atm
 
         # Handle dependencies on other options

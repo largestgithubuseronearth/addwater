@@ -42,7 +42,6 @@ class Profile(GObject.Object):
         flags=(ParamFlags.CONSTRUCT_ONLY | ParamFlags.READWRITE)
     )
 
-    # TODO make this an enum or something
     package = GObject.Property(
         type=str, flags=(ParamFlags.CONSTRUCT_ONLY | ParamFlags.READWRITE)
     )

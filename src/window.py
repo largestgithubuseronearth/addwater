@@ -65,8 +65,8 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.backends = backends
         self.create_pages(self.backends)
 
-    # TODO just create a ViewStack and put the pages inside. Then hide the switcher
-         # if only one page is available
+    # TODO just create a ViewStack and put the pages inside. Then hide the switcher widget
+    #      if only one page is available. Makes it easy to switch to an error page
     def create_pages(self, app_backends: list):
         """Create and present app pages, and connect them to their respective app backend"""
         log.info("resetting gui pages")
@@ -91,7 +91,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
             log.debug("1 page available")
         else:
             log.error("multiple pages available")
-            # TODO else use a Viewstack
             raise NotImplementedError
 
     def create_error_page(self, app_name: str):

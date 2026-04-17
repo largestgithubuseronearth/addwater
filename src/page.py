@@ -40,13 +40,6 @@ log = logging.getLogger(__name__)
 # TODO grey out enable theme switch when there's no package to install (first launch, no internet)
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/addwater-page.ui")
 class AddWaterPage(Adw.Bin):
-    """The container that holds the GUI that allows the user to configure the
-    theme.
-
-    Args:
-        backend: an AddWaterBackend interface object
-    """
-
     __gtype_name__ = "AddWaterPage"
 
     # Widget controls
@@ -75,7 +68,6 @@ class AddWaterPage(Adw.Bin):
     current_toast = None
 
     def __init__(self, backend):
-        # TODO just write this in ui instead
         super().__init__()
 
         self.backend = backend
@@ -85,8 +77,8 @@ class AddWaterPage(Adw.Bin):
         self.settings.delay()
 
         self.init_gui(self.backend.get_app_options())
-
-        self._set_actions_signals()
+        self.init_actions()
+        self.bind_settings()
 
         self.send_toast(_("Checking for updates..."), 10)
         self.request_update_status()
@@ -117,7 +109,6 @@ class AddWaterPage(Adw.Bin):
         self._display_version()
         self.send_toast(msg)
 
-    # TODO make this a stateful action?
     def on_apply_action(self, *_args):
         """Apply changes to GSettings and call the proper install or uninstall method"""
         log.debug("Applied changes")
@@ -183,11 +174,6 @@ class AddWaterPage(Adw.Bin):
             options: a json-style list of dictionaries which include all option groups
                     and options that the theme supports.
         """
-        # App options
-        self.settings.bind(
-            "theme-enabled", self, "theme-enabled",
-            Gio.SettingsBindFlags.DEFAULT
-        )
         # Theme options
         for group_definition in options:
             group = create_option_group(
@@ -206,14 +192,17 @@ class AddWaterPage(Adw.Bin):
             self.backend.get_profile_list(),
             self.settings.get_string("profile-selected")
         )
-        self.settings.bind("profile-selected", self.profile_combobox, "selected-profile-id", Gio.SettingsBindFlags.DEFAULT)
-
-        self.settings.bind("autofind-paths", self.package_combobox, "autofind-paths", Gio.SettingsBindFlags.DEFAULT)
         self.package_combobox.setup_list(self.backend.get_package(), self.backend)
 
-    """PRIVATE METHODS"""
+    def bind_settings(self):
+        # Primary Options
+        self.settings.bind(
+            "theme-enabled", self, "theme-enabled",
+            Gio.SettingsBindFlags.DEFAULT
+        )
+        self.settings.bind("profile-selected", self.profile_combobox, "selected-profile-id", Gio.SettingsBindFlags.DEFAULT)
+        self.settings.bind("autofind-paths", self.package_combobox, "autofind-paths", Gio.SettingsBindFlags.DEFAULT)
 
-    def _set_actions_signals(self):
         # Change Confirmation bar
         self.settings.bind_property(
             "has-unapplied",
@@ -222,6 +211,8 @@ class AddWaterPage(Adw.Bin):
             GObject.BindingFlags.SYNC_CREATE,
         )
 
+
+    def init_actions(self):
         action_group = Gio.SimpleActionGroup.new()
 
         apply_action = Gio.SimpleAction(name="apply-changes")
