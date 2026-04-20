@@ -12,7 +12,6 @@
 	    </lookup>
 	  </binding>
     <property name="model">
-      <!-- TODO sort by favorites, then alphabetically. So it's the same order every time -->
       <object class="GtkSortListModel" id="sort_model">
         <property name="model">
           <object class="GListStore" id="profiles">
@@ -20,13 +19,7 @@
           </object>
         </property>
         <property name="sorter">
-          <!-- Sort favorites to top using bool as int -->
-          <object class="GtkNumericSorter">
-            <property name="sort-order">descending</property>
-            <property name="expression">
-              <lookup name="favorite" type="WaterProfile"/>
-            </property>
-          </object>
+          <object class="GtkCustomSorter" id="sorter"/>
         </property>
       </object>
     </property>

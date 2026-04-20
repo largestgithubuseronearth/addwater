@@ -40,12 +40,15 @@ class ProfileSelector(Adw.ComboRow):
     #      changes the filter of visible ones; GtkFilter
     profiles: Gio.ListStore = Gtk.Template.Child()
     sort_model: Gtk.SortListModel = Gtk.Template.Child()
+    sorter: Gtk.CustomSorter = Gtk.Template.Child()
 
     # Also GSettings needs this to store profile id
     selected_profile_id = GObject.Property(type=str, flags=(GObject.ParamFlags.READWRITE))
 
     def __init__(self):
         super().__init__()
+
+        self.sorter.set_sort_func(sort_profiles)
 
     def setup_list(self, profile_list, selected_profile_id):
         self.profiles.splice(0, self.profiles.get_n_items(), profile_list)
@@ -57,3 +60,8 @@ class ProfileSelector(Adw.ComboRow):
 
         self.set_selected(0)
 
+def sort_profiles(a: Profile, b: Profile, _data) -> int:
+    if (res := b.favorite - a.favorite) != 0:
+        return res
+
+    return (a.name > b.name) - (b.name > a.name)

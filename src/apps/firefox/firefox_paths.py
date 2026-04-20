@@ -56,7 +56,6 @@ class FirefoxPack(Enum):
         self.pack_name = name
         self.path = Path(path)
 
-    # TODO maybe make this a prop?
     def get_profile_ini(self) -> Path:
         prof_ini = join(self.path, "profiles.ini")
         if not exists(prof_ini):
