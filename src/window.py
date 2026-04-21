@@ -100,6 +100,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
         """Create basic error status page when the app faces a fatal error
         that must be communicated to the user.
         """
+        # FIXME remove troubleshooting from this
         help_page_button = Adw.Clamp(
             hexpand=False,
             child=Gtk.Button(
