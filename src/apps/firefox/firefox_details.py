@@ -73,7 +73,7 @@ class FirefoxAppDetails:
         current_path = self.settings.get_string("data-path")
         current_pack = FirefoxPack.new_from_path(Path(current_path))
         if not current_pack:
-            available_packs = self._get_valid_packs()
+            available_packs = get_valid_packs()
             # TODO what should the app do if no packs are available?
             if not available_packs:
                 log.critical("Could not find any valid data paths. App cannot function.")
@@ -144,7 +144,7 @@ class FirefoxAppDetails:
         profiles = []
 
         for pack in FirefoxPack:
-            profiles += self._find_profiles(pack)
+            profiles += find_profiles(pack)
 
         return profiles
 
@@ -171,42 +171,39 @@ class FirefoxAppDetails:
         self.settings.set_string("installed-version", str(new_version))
         self.installed_version = new_version
 
-    """PRIVATE METHODS"""
-    # TODO these ought to just be functions
 
-    @staticmethod
-    def _find_profiles(package: FirefoxPack) -> list[Profile]:
-        cfg = ConfigParser()
-        profiles = []
+def find_profiles(package: FirefoxPack) -> list[Profile]:
+    cfg = ConfigParser()
+    profiles = []
 
+    try:
+        profiles_ini = package.get_profile_ini()
+    except FileNotFoundError:
+        return []
+
+    cfg.read(profiles_ini)
+    for sect in filter(lambda sect: sect.startswith("Profile"), cfg.sections()):
+        name = cfg[sect]["Name"]
+        id = cfg[sect]["Path"]
+        filepath = join(package.path, id)
+        fav = False
         try:
-            profiles_ini = package.get_profile_ini()
+            if cfg[sect]["Default"] == '1':
+                fav = True
+        except KeyError:
+            pass
+
+        profiles.append(Profile(name, id, filepath, fav, package))
+
+    return profiles
+
+def get_valid_packs() -> list[FirefoxPack]:
+    found = []
+    for pack in FirefoxPack:
+        try:
+            if (pack.get_profile_ini()):
+                found.append(pack)
         except FileNotFoundError:
-            return []
+            pass
 
-        cfg.read(profiles_ini)
-        for sect in filter(lambda sect: sect.startswith("Profile"), cfg.sections()):
-            name = cfg[sect]["Name"]
-            id = cfg[sect]["Path"]
-            filepath = join(package.path, id)
-            fav = False
-            try:
-                if cfg[sect]["Default"] == '1':
-                    fav = True
-            except KeyError:
-                pass
-
-            profiles.append(Profile(name, id, filepath, fav, package))
-
-        return profiles
-
-    def _get_valid_packs() -> list[FirefoxPack]:
-        found = []
-        for pack in FirefoxPack:
-            try:
-                if (pack.get_profile_ini()):
-                    found.append(pack)
-            except FileNotFoundError:
-                pass
-
-        return found
+    return found
