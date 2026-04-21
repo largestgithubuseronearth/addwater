@@ -52,6 +52,7 @@ class PackSelector(Adw.ComboRow):
 
         self.get_model().splice(1, 0, [p.pack_name for p in FirefoxPack])
 
+        # FIXME always launches with Auto Discover selected
         if pack and not self.autofind_paths:
             self.package = pack
             # Offset 1 since Auto Discover is first

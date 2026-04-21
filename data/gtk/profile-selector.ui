@@ -5,21 +5,28 @@
 		<property name="title" translatable="yes">Profile</property>
 		<property name="subtitle" translatable="yes">Select profile to apply changes toward</property>
 	  <!-- TODO this prop is a stopgap to let this work with the rest of the program.
-	            Eventually, we will just pass the Profile itself around -->
+	            Eventually, I will just pass the Profile itself around -->
 	  <binding name="selected-profile-id">
 	    <lookup name="id" type="WaterProfile">
 	      <lookup name="selected-item" type="AdwComboRow"/>
 	    </lookup>
 	  </binding>
     <property name="model">
-      <object class="GtkSortListModel" id="sort_model">
+      <object class="GtkFilterListModel" id="filter_model">
         <property name="model">
-          <object class="GListStore" id="profiles">
-            <property name="item-type">WaterProfile</property>
+          <object class="GtkSortListModel" id="sort_model">
+            <property name="model">
+              <object class="GListStore" id="profiles">
+                <property name="item-type">WaterProfile</property>
+              </object>
+            </property>
+            <property name="sorter">
+              <object class="GtkCustomSorter" id="sorter"/>
+            </property>
           </object>
         </property>
-        <property name="sorter">
-          <object class="GtkCustomSorter" id="sorter"/>
+        <property name="filter">
+          <object class="GtkCustomFilter" id="filter"/>
         </property>
       </object>
     </property>

@@ -26,6 +26,7 @@ from packaging.version import Version
 from addwater import info
 from addwater.profile import Profile
 from addwater.backend import InterfaceMisuseError
+from addwater.apps.firefox.firefox_paths import FirefoxPack
 
 log = logging.getLogger(__name__)
 
@@ -42,7 +43,10 @@ class ProfileSelector(Adw.ComboRow):
     sort_model: Gtk.SortListModel = Gtk.Template.Child()
     sorter: Gtk.CustomSorter = Gtk.Template.Child()
 
-    # Also GSettings needs this to store profile id
+    filter_model: Gtk.FilterListModel = Gtk.Template.Child()
+    filter: Gtk.CustomFilter = Gtk.Template.Child()
+
+    # GSettings needs this to store profile id for now
     selected_profile_id = GObject.Property(type=str, flags=(GObject.ParamFlags.READWRITE))
 
     def __init__(self):
@@ -50,18 +54,31 @@ class ProfileSelector(Adw.ComboRow):
 
         self.sorter.set_sort_func(sort_profiles)
 
-    def setup_list(self, profile_list, selected_profile_id):
+    # TODO try and move this into constructor
+    def setup_list(self, profile_list, selected_profile_id, pack):
         self.profiles.splice(0, self.profiles.get_n_items(), profile_list)
+        self.update_package_filter(pack)
 
-        for i, profile in enumerate(self.sort_model):
+        # TODO simplify this mess
+        for i, profile in enumerate(self.filter_model):
             if profile.id == selected_profile_id:
                 self.set_selected(i)
                 return
 
         self.set_selected(0)
 
+    def update_package_filter(self, pack):
+        self.filter.set_filter_func(filter_profiles, pack)
+        self.filter.changed(Gtk.FilterChange.DIFFERENT)
+
 def sort_profiles(a: Profile, b: Profile, _data) -> int:
     if (res := b.favorite - a.favorite) != 0:
         return res
 
     return (a.name > b.name) - (b.name > a.name)
+
+def filter_profiles(item: Profile, new_package: FirefoxPack):
+    if not new_package:
+        return True
+
+    return item.package == new_package

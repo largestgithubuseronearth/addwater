@@ -140,8 +140,13 @@ class FirefoxAppDetails:
         return self.options
 
     def get_profiles(self) -> list[Profile]:
-        return self._find_profiles(self.package)
+        # TODO make this a set later to remove duplicates
+        profiles = []
 
+        for pack in FirefoxPack:
+            profiles += self._find_profiles(pack)
+
+        return profiles
 
     def get_info_url(self):
         return self.THEME_URL
@@ -167,31 +172,31 @@ class FirefoxAppDetails:
         self.installed_version = new_version
 
     """PRIVATE METHODS"""
+    # TODO these ought to just be functions
 
     @staticmethod
     def _find_profiles(package: FirefoxPack) -> list[Profile]:
         cfg = ConfigParser()
         profiles = []
 
-        profiles_ini = package.get_profile_ini()
+        try:
+            profiles_ini = package.get_profile_ini()
+        except FileNotFoundError:
+            return []
 
         cfg.read(profiles_ini)
         for sect in filter(lambda sect: sect.startswith("Profile"), cfg.sections()):
             name = cfg[sect]["Name"]
             id = cfg[sect]["Path"]
+            filepath = join(package.path, id)
             fav = False
             try:
-                # TODO it would be nice to flatten this check
                 if cfg[sect]["Default"] == '1':
                     fav = True
             except KeyError:
                 pass
 
-            filepath = join(package.path, id)
-
-            # TODO add package label to the profile
-            #      probably requires pooling all profiles into one model first.
-            profiles.append(Profile(name, id, filepath, fav, 'TODO'))
+            profiles.append(Profile(name, id, filepath, fav, package))
 
         return profiles
 

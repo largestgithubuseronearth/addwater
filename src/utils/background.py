@@ -65,9 +65,10 @@ class BackgroundUpdater:
         # TODO Move this check into backend.get_selected_profile()?
 
         selected_id = self.settings.get_string("profile-selected")
-        profile_list = self.backend.get_profile_list()
+        profile_list = self.backend.get_profiles()
         profile = [p for p in profile_list if p.id == selected_id][0]
 
+        # TODO if no profile, this should fail
         if not profile:
             profile = profile_list[0]
 

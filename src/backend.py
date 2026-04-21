@@ -152,7 +152,7 @@ class AddWaterBackend:
     def get_update_version(self) -> Version:
         return self.online_manager.get_update_version()
 
-    def get_profile_list(self) -> list[Profile]:
+    def get_profiles(self) -> list[Profile]:
         return self.app_details.get_profiles()
 
     """Info Setters"""

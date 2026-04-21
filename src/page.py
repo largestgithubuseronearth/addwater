@@ -36,8 +36,6 @@ from .backend import InterfaceMisuseError
 
 log = logging.getLogger(__name__)
 
-
-# TODO grey out enable theme switch when there's no package to install (first launch, no internet)
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/addwater-page.ui")
 class AddWaterPage(Adw.Bin):
     __gtype_name__ = "AddWaterPage"
@@ -53,6 +51,7 @@ class AddWaterPage(Adw.Bin):
     profile_combobox = Gtk.Template.Child()
     package_combobox = Gtk.Template.Child()
 
+    # TODO bind this to a prop that checks if the theme is installed
     theme_enabled = GObject.Property(
         type=bool,
         default=False,
@@ -188,16 +187,19 @@ class AddWaterPage(Adw.Bin):
             )
             self.preferences_page.add(group)
 
+        pack = self.backend.get_package()
+        self.package_combobox.setup_list(pack, self.backend)
         self.profile_combobox.setup_list(
-            self.backend.get_profile_list(),
-            self.settings.get_string("profile-selected")
+            self.backend.get_profiles(),
+            self.settings.get_string("profile-selected"),
+            pack,
         )
-        self.package_combobox.setup_list(self.backend.get_package(), self.backend)
 
     def bind_settings(self):
         # Primary Options
         self.settings.bind(
-            "theme-enabled", self, "theme-enabled",
+            "theme-enabled",
+            self, "theme-enabled",
             Gio.SettingsBindFlags.DEFAULT
         )
         self.settings.bind("profile-selected", self.profile_combobox, "selected-profile-id", Gio.SettingsBindFlags.DEFAULT)
@@ -210,7 +212,6 @@ class AddWaterPage(Adw.Bin):
             "revealed",
             GObject.BindingFlags.SYNC_CREATE,
         )
-
 
     def init_actions(self):
         action_group = Gio.SimpleActionGroup.new()
@@ -228,13 +229,11 @@ class AddWaterPage(Adw.Bin):
 
         # Combobox setup
         # TODO try to connect this in ui
-        self.package_combobox.connect(
-            "package-changed",
-            lambda *_blah: self.profile_combobox.setup_list(
-                self.backend.get_profile_list(),
-                self.settings.get_string("profile-selected")
-            )
-        )
+        self.package_combobox.connect("package-changed", self.package_changed_cb)
+
+    def package_changed_cb(self, pack_selector):
+        if (pack := pack_selector.package):
+            self.profile_combobox.update_package_filter(pack)
 
     # FIXME v140 shows as v14
     # TODO try binding this instead and making this a closure

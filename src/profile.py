@@ -21,6 +21,8 @@ from gi.repository import GObject
 from gi.repository.GObject import ParamFlags
 from pathlib import Path
 
+from addwater.apps.firefox.firefox_paths import FirefoxPack
+
 
 class Profile(GObject.Object):
     __gtype_name__ = "WaterProfile"
@@ -33,22 +35,19 @@ class Profile(GObject.Object):
     id = GObject.Property(
         type=str, flags=(ParamFlags.CONSTRUCT_ONLY | ParamFlags.READWRITE)
     )
-    # TODO make this a GObject prop?
-    path: Path
-
     favorite = GObject.Property(
         type=bool,
         default=False,
         flags=(ParamFlags.CONSTRUCT_ONLY | ParamFlags.READWRITE)
     )
-
-    package = GObject.Property(
-        type=str, flags=(ParamFlags.CONSTRUCT_ONLY | ParamFlags.READWRITE)
-    )
+    # TODO make this a GObject prop?
+    path: Path
+    package: FirefoxPack
 
     def __init__(self, name, id, path, favorite, package):
-        super().__init__(name=name, id=id, favorite=favorite, package=package)
+        super().__init__(name=name, id=id, favorite=favorite)
         self.path = Path(path)
+        self.package = package
 
     # FIXME temporary prop until I redo ProfileSelector to use an icon instead
     @GObject.Property(type=str)
