@@ -35,6 +35,8 @@ class PackSelector(Adw.ComboRow):
     __gtype_name__ = "WaterPackSelector"
 
     # TODO backend shouldn't be here at all
+    str_model: Gtk.StringList = Gtk.Template.Child()
+
     backend = None
     package: FirefoxPack
     inner_valid_path: bool
@@ -50,9 +52,13 @@ class PackSelector(Adw.ComboRow):
     def setup_list(self, pack, backend):
         self.backend = backend
 
-        self.get_model().splice(1, 0, [p.pack_name for p in FirefoxPack])
+        # FIXME HACK. the autofind setting is only bound after this method is called.
+        # this would be fixed by not doing it this way to begin with
+        self.autofind_paths = self.backend.get_app_settings().get_boolean('autofind-paths')
 
-        # FIXME always launches with Auto Discover selected
+        # Don't remove the first item, Auto discover
+        self.str_model.splice(1, len(self.str_model) - 1, [p.pack_name for p in FirefoxPack])
+
         if pack and not self.autofind_paths:
             self.package = pack
             # Offset 1 since Auto Discover is first

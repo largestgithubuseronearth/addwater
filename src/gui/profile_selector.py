@@ -37,8 +37,6 @@ log = logging.getLogger(__name__)
 class ProfileSelector(Adw.ComboRow):
     __gtype_name__ = "AddWaterProfileSelector"
 
-    # TODO store all profiles in the same model and the PackSelector
-    #      changes the filter of visible ones; GtkFilter
     profiles: Gio.ListStore = Gtk.Template.Child()
     sort_model: Gtk.SortListModel = Gtk.Template.Child()
     sorter: Gtk.CustomSorter = Gtk.Template.Child()
@@ -54,7 +52,7 @@ class ProfileSelector(Adw.ComboRow):
 
         self.sorter.set_sort_func(sort_profiles)
 
-    # TODO try and move this into constructor
+    # TODO move this into constructor
     def setup_list(self, profile_list, selected_profile_id, pack):
         self.profiles.splice(0, self.profiles.get_n_items(), profile_list)
         self.update_package_filter(pack)
