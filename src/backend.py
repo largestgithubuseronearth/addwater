@@ -28,6 +28,7 @@ from addwater.components.install import (InstallManager, InstallStatus)
 from addwater.components.online import OnlineManager
 from addwater.utils.mocks import mock_online
 from addwater.utils.paths import DOWNLOAD_DIR
+from addwater.apps.firefox.firefox_paths import FirefoxPack
 from packaging.version import Version
 
 from addwater import info
@@ -142,8 +143,8 @@ class AddWaterBackend:
     def get_app_options(self) -> list[dict[str, Any]]:
         return self.app_details.get_options()
 
-    def get_data_path(self) -> str:
-        return self.app_details.get_data_path()
+    def get_package(self) -> FirefoxPack:
+        return self.app_details.get_package()
 
     def get_installed_version(self) -> Version:
         return self.app_details.get_installed_version()
@@ -151,19 +152,16 @@ class AddWaterBackend:
     def get_update_version(self) -> Version:
         return self.online_manager.get_update_version()
 
-    def get_profile_list(self) -> list[Profile]:
+    def get_profiles(self) -> list[Profile]:
         return self.app_details.get_profiles()
-
-    def get_package_formats(self) -> dict:
-        return self.app_details.package_formats
 
     """Info Setters"""
 
-    def set_data_path(self, new_path: str) -> None:
+    def set_package(self, pack: FirefoxPack):
         try:
-            self.app_details.set_data_path(new_path)
+            self.app_details.set_package(pack)
         except FileNotFoundError as err:
-            raise InterfaceMisuseError(err)
+            raise InterfaceMisuseError(f"Invalid path: {err}")
 
     def set_installed_version(self, new_version: Version) -> None:
         if not isinstance(new_version, Version):
@@ -173,11 +171,9 @@ class AddWaterBackend:
         self.app_details.set_installed_version(new_version)
 
     def reset_app(self):
-        app_name = self.get_app_name()
-        log.warning(f"{app_name} is now being reset...")
         self._uninstall_all_profiles()
         self.app_details.reset_settings()
-        log.info(f"done. {app_name} has been reset to default state")
+        log.info(f"done. Add Water has been reset to default state")
 
     """PRIVATE METHODS"""
 
@@ -185,6 +181,7 @@ class AddWaterBackend:
     def _uninstall_all_profiles(self):
         pass
 
+# TODO probably should just remove these?
 class InterfaceMisuseError(Exception):
     pass
 

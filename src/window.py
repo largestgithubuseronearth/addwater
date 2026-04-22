@@ -39,7 +39,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     main_menu = Gtk.Template.Child()
     # Use when only one page is available
-    # TODO make it dynamically use a ViewStack when there are multiple pages/app plugins to display
     main_toolbar_view = Gtk.Template.Child()
 
     def __init__(self, backends: list, **kwargs):
@@ -66,24 +65,23 @@ class AddWaterWindow(Adw.ApplicationWindow):
         self.backends = backends
         self.create_pages(self.backends)
 
-    # TODO just create a ViewStack and put the pages inside. Then hide the switcher
-         # if only one page is available
+    # TODO just create a ViewStack and put the pages inside. Then hide the switcher widget
+    #      if only one page is available. Makes it easy to switch to an error page
     def create_pages(self, app_backends: list):
         """Create and present app pages, and connect them to their respective app backend"""
         log.info("resetting gui pages")
         self.main_toolbar_view.set_content(None)
         self.pages = []
 
-        for each in app_backends:
+        for backend in app_backends:
             # Check data path for validity
-            if exists(join(each.get_data_path(), "profiles.ini")):
-                page = AddWaterPage(backend=each)
+            try:
+                backend.get_package().get_profile_ini()
+                page = AddWaterPage(backend=backend)
                 log.debug("page created successfully")
-            else:
-                app_name = each.get_app_name()
-                log.critical(
-                    f"No data path for {app_name} available. Showing an error message"
-                )
+            except FileNotFoundError as e:
+                app_name = backend.get_app_name()
+                log.critical(e)
                 page = self.create_error_page(app_name)
 
             self.pages.append(page)
@@ -93,7 +91,6 @@ class AddWaterWindow(Adw.ApplicationWindow):
             log.debug("1 page available")
         else:
             log.error("multiple pages available")
-            # TODO else use a Viewstack
             raise NotImplementedError
 
     def create_error_page(self, app_name: str):

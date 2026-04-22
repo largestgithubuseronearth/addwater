@@ -257,7 +257,7 @@ class OnlineManager:
 
     @staticmethod
     def _is_ratelimit_exceeded(api_calls_left: int) -> bool:
-        # TODO Set API limit more robust and strict before flathub release
+        # TODO improve this?
 
         # Maybe set the time and api calls remaining in gsettings. There is
         # only a warning and no mechanism stopping user from continuing to spam.

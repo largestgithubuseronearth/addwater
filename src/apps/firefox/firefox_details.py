@@ -32,33 +32,15 @@ from addwater import info
 from addwater.profile import Profile
 from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_OPTIONS
-from .firefox_paths import FIREFOX_PATHS
+from .firefox_paths import FirefoxPack
 
 log = logging.getLogger(__name__)
 
-# TODO specialize this into Firefox first and then make it an injectible,
-# dynamic class in the future once the app's core logic has settled and it's
-# clearer what exact variables and roles AppDetails should take responsibility
-# for.
-
-
 class FirefoxAppDetails:
-    """Conveniently stores important app info to reduce how many arguments
-    need to be passed around. If a method requires more than three pieces of info,
-    just pass this object into managers and let them find what they need.
-
-    Avoid altering the state of an AppDetails instance outside of
-    construction or dedicated setter methods in the backend interface.
-
-
-    Args
-        name: proper, capitalized name of the app. i.e. 'Firefox' or 'Thunderbird
-        options: theme options that the user can modify from the page GUI
-        data_path:full path to the directory which includes all profile folders
-                                        as well as profiles.ini and installs.ini
     """
-
-    package_formats: list[dict[str, str]] = FIREFOX_PATHS
+    name: proper, capitalized name of the app. i.e. 'Firefox' or 'Thunderbird
+    options: theme options that the user can modify from the page GUI
+    """
 
     # primary
     name: str = "Firefox"
@@ -67,13 +49,15 @@ class FirefoxAppDetails:
     # install
     installer: Callable = install_for_firefox
     options: list[dict[Any, Any]] = FIREFOX_OPTIONS
-    data_path: str
+    package: FirefoxPack
 
     # online
-    theme_gh_url: str = (
+    # TODO this should be defined as a const elsewhere
+    THEME_URL: str = (
         "https://api.github.com/repos/rafaelmardojai/firefox-gnome-theme/releases"
     )
 
+    # TODO just save the unzipped download in /tmp/ and then unzip into addwater/cache
     save_to = paths.DOWNLOAD_DIR
     app_folder = "firefox"
     theme_folder = "firefox-gnome-theme"
@@ -85,12 +69,20 @@ class FirefoxAppDetails:
         version = Version(self.settings.get_string("installed-version"))
         self.set_installed_version(version)
 
+        # If the path in GSettings is invalid, use the first available package
         current_path = self.settings.get_string("data-path")
-        try:
-            self.set_data_path(current_path)
-        except FileNotFoundError as err:
-            available_paths = self._find_data_paths(self.package_formats)
-            self.set_data_path(available_paths[0]["path"])
+        current_pack = FirefoxPack.new_from_path(Path(current_path))
+        if not current_pack:
+            available_packs = get_valid_packs()
+            # TODO what should the app do if no packs are available?
+            if not available_packs:
+                log.critical("Could not find any valid data paths. App cannot function.")
+                return
+            self.set_package(available_packs[0])
+            return
+
+        self.set_package(current_pack)
+        return
 
     """PUBLIC METHODS"""
 
@@ -130,11 +122,11 @@ class FirefoxAppDetails:
     def get_full_theme_path(self) -> str:
         return self.full_path
 
-    def get_name(self):
+    def get_name(self) -> str:
         return self.name
 
-    def get_data_path(self):
-        return self.data_path
+    def get_package(self) -> FirefoxPack:
+        return self.package
 
     def get_installer(self):
         return self.installer
@@ -148,24 +140,26 @@ class FirefoxAppDetails:
         return self.options
 
     def get_profiles(self) -> list[Profile]:
-        return self._find_profiles(self.data_path)
+        # TODO make this a set later to remove duplicates
+        profiles = []
 
+        for pack in FirefoxPack:
+            profiles += find_profiles(pack)
+
+        return profiles
 
     def get_info_url(self):
-        return self.theme_gh_url
+        return self.THEME_URL
 
     """Setters"""
 
-    def set_data_path(self, new_path: str):
-        log.info(f"Setting {self.name} data path: {new_path}")
-        if exists(join(new_path, "profiles.ini")):
-            self.data_path = new_path
-            self.settings.set_string("data-path", self.data_path)
-            log.info(f"Valid path. Done.")
-            return
+    def set_package(self, package: FirefoxPack):
+        # check if path is valid before setting
+        _ini = package.get_profile_ini()
 
-        log.error(f"Tried to set app_path to non-existant path. Path given: {new_path}")
-        raise FileNotFoundError("Invalid data path")
+        self.settings.set_string("data-path", str(package.path))
+        self.package = package
+
 
     def set_installed_version(self, new_version: Version) -> None:
         log.debug(f"Set installed version number to {new_version}")
@@ -177,52 +171,39 @@ class FirefoxAppDetails:
         self.settings.set_string("installed-version", str(new_version))
         self.installed_version = new_version
 
-    """PRIVATE METHODS"""
 
-    @staticmethod
-    def _find_profiles(app_path: Path) -> list[Profile]:
-        cfg = ConfigParser()
-        profiles = []
+def find_profiles(package: FirefoxPack) -> list[Profile]:
+    cfg = ConfigParser()
+    profiles = []
 
-        profiles_ini = join(app_path, "profiles.ini")
-        if not exists(profiles_ini):
-            raise FileNotFoundError("profiles.ini not found")
+    try:
+        profiles_ini = package.get_profile_ini()
+    except FileNotFoundError:
+        return []
 
-        cfg.read(profiles_ini)
-        for sect in filter(lambda sect: sect.startswith("Profile"), cfg.sections()):
-            name = cfg[sect]["Name"]
-            id = cfg[sect]["Path"]
-            fav = False
-            try:
-                # TODO it would be nice to flatten this check
-                if cfg[sect]["Default"] == '1':
-                    fav = True
-            except KeyError:
-                pass
+    cfg.read(profiles_ini)
+    for sect in filter(lambda sect: sect.startswith("Profile"), cfg.sections()):
+        name = cfg[sect]["Name"]
+        id = cfg[sect]["Path"]
+        filepath = join(package.path, id)
+        fav = False
+        try:
+            if cfg[sect]["Default"] == '1':
+                fav = True
+        except KeyError:
+            pass
 
-            filepath = Path(join(app_path, id))
+        profiles.append(Profile(name, id, filepath, fav, package))
 
-            # TODO add package label to the profile
-            #      probably requires pooling all profiles into one model first.
-            profiles.append(Profile(name, id, filepath, fav, 'TODO'))
+    return profiles
 
-        return profiles
+def get_valid_packs() -> list[FirefoxPack]:
+    found = []
+    for pack in FirefoxPack:
+        try:
+            if (pack.get_profile_ini()):
+                found.append(pack)
+        except FileNotFoundError:
+            pass
 
-    @staticmethod
-    def _find_data_paths(path_list: list[dict[str, str]]) -> list[dict[str, str]]:
-        """Iterates over all common Firefox config directories return all that exist.
-
-        Args:
-                path_list: Either of the list of dicts from the paths module to make it easy to iterate over
-        """
-        found = []
-        for each in path_list:
-            path = each["path"]
-            if exists(join(path, "profiles.ini")):
-                name = each["name"]
-                log.debug(f"Found Firefox path: {name} — {path}")
-                found.append(each)
-        if not found:
-            log.critical("Could not find any valid data paths. App cannot function.")
-
-        return found
+    return found

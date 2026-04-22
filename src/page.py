@@ -29,22 +29,15 @@ from packaging.version import Version
 from addwater import info
 from addwater.profile import Profile
 from addwater.gui.profile_selector import ProfileSelector
+from addwater.gui.pack_selector import PackSelector
+from addwater.apps.firefox.firefox_paths import FirefoxPack
 
 from .backend import InterfaceMisuseError
 
 log = logging.getLogger(__name__)
 
-
-# TODO grey out enable theme switch when there's no package to install (first launch, no internet)
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/addwater-page.ui")
 class AddWaterPage(Adw.Bin):
-    """The container that holds the GUI that allows the user to configure the
-    theme.
-
-    Args:
-        backend: an AddWaterBackend interface object
-    """
-
     __gtype_name__ = "AddWaterPage"
 
     # Widget controls
@@ -56,10 +49,16 @@ class AddWaterPage(Adw.Bin):
 
     enable_button = Gtk.Template.Child()
     profile_combobox = Gtk.Template.Child()
-    firefox_package_combobox = Gtk.Template.Child()
-    firefox_package_combobox_list = Gtk.Template.Child()
+    package_combobox = Gtk.Template.Child()
 
-    # TODO make this construct only later
+    # TODO bind this to a prop that checks if the theme is installed
+    theme_enabled = GObject.Property(
+        type=bool,
+        default=False,
+        flags=(GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT)
+    )
+
+    # TODO is this even used anywhere?
     app_name = GObject.Property(
         type=str,
         flags=(GObject.ParamFlags.READWRITE)
@@ -71,23 +70,14 @@ class AddWaterPage(Adw.Bin):
         super().__init__()
 
         self.backend = backend
-        self.app_name = self.backend.get_app_name()
 
         # Stores changes as a transaction to apply all opts at once
         self.settings = self.backend.get_app_settings()
         self.settings.delay()
 
-        self.profile_combobox.settings = self.backend.get_app_settings()
-
         self.init_gui(self.backend.get_app_options())
-
-        # Package selector
-        self.settings_instant = backend.get_app_settings()
-        self.FIREFOX_FORMATS = backend.get_package_formats()
-        self.firefox_path = self.backend.get_data_path()
-        self._init_firefox_combobox()
-
-        self._set_actions_signals()
+        self.init_actions()
+        self.bind_settings()
 
         self.send_toast(_("Checking for updates..."), 10)
         self.request_update_status()
@@ -99,7 +89,7 @@ class AddWaterPage(Adw.Bin):
         update_status = self.backend.update_theme()
         match update_status:
             case update_status.UPDATED:
-                if self.settings.get_boolean("theme-enabled"):
+                if self.theme_enabled:
                     self.activate_action("apply-changes")
 
                 version = str(self.backend.get_update_version()).rstrip(".0")
@@ -118,16 +108,13 @@ class AddWaterPage(Adw.Bin):
         self._display_version()
         self.send_toast(msg)
 
-    # TODO make this a stateful action?
     def on_apply_action(self, *_args):
         """Apply changes to GSettings and call the proper install or uninstall method"""
         log.debug("Applied changes")
 
         self.settings.apply()
 
-        # TODO make "enabled" a prop of this page so we don't need to call settings
-        theme_enabled = self.settings.get_boolean("theme-enabled")
-        if theme_enabled:
+        if self.theme_enabled:
             log.debug("GUI calling for install..")
             install_status = self.backend.begin_install(
                 self.profile_combobox.get_selected_item(), True
@@ -149,7 +136,6 @@ class AddWaterPage(Adw.Bin):
         self.settings.revert()
         self.send_toast(_("Changes reverted"))
 
-    # TODO Toasts ought to be the window's job
     def send_toast(
         self, msg: Optional[str] = None, timeout_seconds: int = 2, priority: int = 0
     ) -> None:
@@ -179,6 +165,7 @@ class AddWaterPage(Adw.Bin):
         # details: https://gitlab.gnome.org/GNOME/libadwaita/-/issues/440
         self.enable_button.grab_focus()
 
+    # TODO reduce all of this as much as possible using props and constructors
     def init_gui(self, options):
         """Create and bind all SwitchRows according to their respective GSettings keys
 
@@ -186,29 +173,38 @@ class AddWaterPage(Adw.Bin):
             options: a json-style list of dictionaries which include all option groups
                     and options that the theme supports.
         """
-        # App options
-        self.settings.bind(
-            "theme-enabled", self.enable_button, "active", Gio.SettingsBindFlags.DEFAULT
-        )
         # Theme options
-        for each_group in options:
+        for group_definition in options:
             group = create_option_group(
-                group_schematic=each_group,
+                group_schematic=group_definition,
                 gui_switch_factory=create_option_switch,
                 settings=self.settings,
-                enable_button=self.enable_button,
+            )
+            self.bind_property(
+                "theme-enabled",
+                group, "sensitive",
+                GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE
             )
             self.preferences_page.add(group)
 
+        pack = self.backend.get_package()
+        self.package_combobox.setup_list(pack, self.backend)
         self.profile_combobox.setup_list(
-            self.backend.get_profile_list(),
-            self.settings.get_string("profile-selected")
+            self.backend.get_profiles(),
+            self.settings.get_string("profile-selected"),
+            pack,
+        )
+
+    def bind_settings(self):
+        # Primary Options
+        self.settings.bind(
+            "theme-enabled",
+            self, "theme-enabled",
+            Gio.SettingsBindFlags.DEFAULT
         )
         self.settings.bind("profile-selected", self.profile_combobox, "selected-profile-id", Gio.SettingsBindFlags.DEFAULT)
+        self.settings.bind("autofind-paths", self.package_combobox, "autofind-paths", Gio.SettingsBindFlags.DEFAULT)
 
-    """PRIVATE METHODS"""
-
-    def _set_actions_signals(self):
         # Change Confirmation bar
         self.settings.bind_property(
             "has-unapplied",
@@ -217,10 +213,12 @@ class AddWaterPage(Adw.Bin):
             GObject.BindingFlags.SYNC_CREATE,
         )
 
+    def init_actions(self):
         action_group = Gio.SimpleActionGroup.new()
 
         apply_action = Gio.SimpleAction(name="apply-changes")
         apply_action.connect("activate", lambda *blah: self.on_apply_action())
+        self.package_combobox.bind_property("valid-path", apply_action, "enabled", GObject.BindingFlags.SYNC_CREATE)
         action_group.add_action(apply_action)
 
         discard_action = Gio.SimpleAction(name="discard-changes")
@@ -230,17 +228,12 @@ class AddWaterPage(Adw.Bin):
         self.insert_action_group("water", action_group)
 
         # Combobox setup
-        self.firefox_package_combobox.notify("selected-item")
-        self.firefox_package_combobox.connect(
-            "notify::selected-item", lambda row, *blah: self._set_firefox_package(row)
-        )
-        self.connect(
-            "package-changed",
-            lambda *_blah: self.profile_combobox.setup_list(
-                self.backend.get_profile_list(),
-                self.settings.get_string("profile-selected")
-            )
-        )
+        # TODO try to connect this in ui
+        self.package_combobox.connect("package-changed", self.package_changed_cb)
+
+    def package_changed_cb(self, pack_selector):
+        if (pack := pack_selector.package):
+            self.profile_combobox.update_package_filter(pack)
 
     # FIXME v140 shows as v14
     # TODO try binding this instead and making this a closure
@@ -252,60 +245,3 @@ class AddWaterPage(Adw.Bin):
             v_str = f"v{str(version).rstrip(".0")}"
         # Translators: {} will be replaced with a version number (example: v132) or a status message
         self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(v_str))
-
-    # TODO untangle this mess into its own class so it's easier to dispose later
-    def _init_firefox_combobox(self):
-        for each in self.FIREFOX_FORMATS:
-            self.firefox_package_combobox_list.append(each["name"])
-
-        if self.settings_instant.get_boolean("autofind-paths") is False:
-            user_path = self.firefox_path
-
-            for each in self.FIREFOX_FORMATS:
-                if each["path"] == user_path:
-                    i = self.FIREFOX_FORMATS.index(each) + 1
-                    self.firefox_package_combobox.set_selected(i)
-
-    def _set_firefox_package(self, row):
-        selected_index = row.get_selected()
-        AUTO = 0
-
-        if selected_index == AUTO:
-            self.settings_instant.set_boolean("autofind-paths", True)
-            log.info("Autofind paths enabled")
-            row.remove_css_class("error")
-            self.profile_combobox.set_sensitive(True)
-            row.set_has_tooltip(False)
-            self.action_set_enabled("water.apply-changes", True)
-            self.emit("package-changed")
-            return
-
-        self.settings_instant.set_boolean("autofind-paths", False)
-        log.warning("Autofind paths disabled")
-
-        selected = row.get_selected_item().get_string()
-        for each in self.FIREFOX_FORMATS:
-            if selected == each["name"]:
-                path = each["path"]
-                log.info(f'User specified path: {each["path"]}')
-
-                try:
-                    self.backend.set_data_path(path)
-                except InterfaceMisuseError as err:  # invalid path provided
-                    log.error(err)
-                    self.profile_combobox.set_sensitive(False)
-                    row.add_css_class("error")
-                    row.set_has_tooltip(True)
-                    self.action_set_enabled("water.apply-changes", False)
-                else:
-                    self.profile_combobox.set_sensitive(True)
-                    row.remove_css_class("error")
-                    row.set_has_tooltip(False)
-                    self.action_set_enabled("water.apply-changes", True)
-                    self.firefox_path = path
-                    self.emit("package-changed")
-                    break
-
-    @GObject.Signal(name="package-changed")
-    def package_changed(self):
-        pass

@@ -49,7 +49,8 @@ class AddWaterPreferences(Adw.PreferencesDialog):
         self.settings_app = Gio.Settings(schema_id=info.APP_ID)
         self.portal = Xdp.Portal()
 
-        # TODO bind into Gsettings
+        # what did i mean by this?
+        # TODO bind into Gsettings.
         self.settings_app.bind(
             "background-update",
             self.bg_update_switch,
