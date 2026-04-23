@@ -1,5 +1,5 @@
 project('addwater',
-	version: '1.2.9.1',
+	version: '1.3',
 	meson_version: '>= 1.1',
 	default_options: [ 'warning_level=2', 'werror=false', ],
 )
