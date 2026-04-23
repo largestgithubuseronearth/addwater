@@ -58,7 +58,6 @@ class AddWaterPage(Adw.Bin):
         flags=(GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT)
     )
 
-    # TODO is this even used anywhere?
     app_name = GObject.Property(
         type=str,
         flags=(GObject.ParamFlags.READWRITE)
@@ -92,10 +91,9 @@ class AddWaterPage(Adw.Bin):
                 if self.theme_enabled:
                     self.activate_action("apply-changes")
 
-                version = str(self.backend.get_update_version()).rstrip(".0")
-                version = f"v{version}"
+                v = self.backend.get_update_version()
                 # Translators: {} will be replaced by a version number (example: "v126.5.65")
-                msg = _("Updated theme to {}").format(version)
+                msg = _("Updated theme to {}").format(str(v))
             case update_status.DISCONNECTED:
                 msg = _("Failed to check for updates due to a network issue")
             case update_status.RATELIMITED:
@@ -105,7 +103,7 @@ class AddWaterPage(Adw.Bin):
             case update_status.NO_UPDATE:
                 msg = None
 
-        self._display_version()
+        self.update_version_title()
         self.send_toast(msg)
 
     def on_apply_action(self, *_args):
@@ -235,13 +233,16 @@ class AddWaterPage(Adw.Bin):
         if (pack := pack_selector.package):
             self.profile_combobox.update_package_filter(pack)
 
-    # FIXME v140 shows as v14
-    # TODO try binding this instead and making this a closure
-    def _display_version(self):
-        version = self.backend.get_update_version()
-        if version == Version("0.0.0"):
-            v_str = _("Not installed")
-        else:
-            v_str = f"v{str(version).rstrip(".0")}"
+    def update_version_title(self):
+        v = self.backend.get_update_version()
+        version_str = parse_version_str(v)
+
         # Translators: {} will be replaced with a version number (example: v132) or a status message
-        self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(v_str))
+        self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(version_str))
+
+def parse_version_str(version: Version):
+    if version == Version("0.0.0"):
+        return _("Not installed")
+
+    return "v{}".format(str(version).removesuffix(".0"))
+
