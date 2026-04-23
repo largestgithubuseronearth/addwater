@@ -29,13 +29,11 @@
     "cleanup" : [
         "/include",
         "/lib/pkgconfig",
-        "/man",
-        "/share/doc",
-        "/share/gtk-doc",
-        "/share/man",
-        "/share/pkgconfig",
-        "*.la",
-        "*.a"
+        "/share/gir-1.0",
+        "/share/vala"
+    ],
+    "cleanup-commands": [
+        "python3 -m compileall --invalidation-mode=unchecked-hash /app"
     ],
     "modules" : [
         {
@@ -97,13 +95,13 @@
                 {
                     "type" : "git",
                     "url" : "https://github.com/flatpak/libportal",
-                    "tag" : "0.9.1"
+                    "tag" : "0.9.1",
+                    "commit" : "8f5dc8d192f6e31dafe69e35219e3b707bde71ce"
                 }
             ]
         },
         {
             "name" : "addwater",
-            "builddir" : true,
             "buildsystem" : "meson",
             "config-opts" : [
                 "-Dprofile=development"
@@ -113,7 +111,8 @@
                     "type" : "dir",
                     "path" : "../"
                 }
-            ]
+            ],
+            "builddir" : true
         }
     ]
 }

@@ -5,3 +5,4 @@ firefox-gnome-theme
 pylint-results.txt
 .pytest_cache
 tests/__pycache__
+.flathub
