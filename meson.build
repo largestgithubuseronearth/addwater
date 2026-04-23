@@ -18,7 +18,7 @@ if profile == 'default'
 	force_bg = false
 elif profile =='development'
 	app_id = 'dev.qwery.AddWater.Devel'
-	mock_api = get_option('use-mock-api')
+	mock_api = get_option('online-mock')
 	force_bg = get_option('force-background')
 endif
 
@@ -38,6 +38,10 @@ conf.set('FORCE_BG', force_bg)
 subdir('data')
 subdir('po')
 subdir('src')
+
+if get_option('tests')
+	subdir('build-aux')
+endif
 
 
 gnome.post_install(
