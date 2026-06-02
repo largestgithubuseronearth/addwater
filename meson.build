@@ -1,6 +1,6 @@
 project('addwater',
 	version: '1.3',
-	meson_version: '>= 1.1',
+	meson_version: '>= 1.4.0',
 	default_options: [ 'warning_level=2', 'werror=false', ],
 )
 
@@ -42,7 +42,6 @@ subdir('src')
 if get_option('tests')
 	subdir('build-aux')
 endif
-
 
 gnome.post_install(
 	glib_compile_schemas: true,
