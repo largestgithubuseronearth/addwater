@@ -1,5 +1,3 @@
-# TODO set options in flathub manifest
-
 option('profile',
 	type : 'combo',
 	choices : ['default', 'development'],
@@ -8,8 +6,8 @@ option('profile',
 
 # Testing options (developer profile only)
 option('tests',
-			 type: 'boolean',
-			 value: false
+	type: 'boolean',
+	value: false
 )
 
 option('online-mock',
