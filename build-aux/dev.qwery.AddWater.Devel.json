@@ -31,8 +31,7 @@
     "cleanup" : [
         "/include",
         "/lib/pkgconfig",
-        "/share/gir-1.0",
-        "/share/vala"
+        "/share/gir-1.0"
     ],
     "cleanup-commands" : [
         "python3 -m compileall --invalidation-mode=unchecked-hash /app"
@@ -87,6 +86,35 @@
             ]
         },
         {
+            "name": "python3-pytest",
+            "buildsystem": "simple",
+            "build-commands": [
+                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"pytest\" --no-build-isolation"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/cb/b1/3846dd7f199d53cb17f49cba7e651e9ce294d8497c8c150530ed11865bb8/iniconfig-2.3.0-py3-none-any.whl",
+                    "sha256": "f631c04d2c48c52b84d0d0549c99ff3859c98df65b3101406327ecc7d53fbf12"
+                },
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl",
+                    "sha256": "e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746"
+                },
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/f4/7e/a72dd26f3b0f4f2bf1dd8923c85f7ceb43172af56d63c7383eb62b332364/pygments-2.20.0-py3-none-any.whl",
+                    "sha256": "81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176"
+                },
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/d4/24/a372aaf5c9b7208e7112038812994107bc65a84cd00e0354a88c2c77a617/pytest-9.0.3-py3-none-any.whl",
+                    "sha256": "2c5efc453d45394fdd706ade797c0a81091eccd1d6e4bccfcd476e2b8e0ab5d9"
+                }
+            ]
+        },
+        {
             "name" : "libportal",
             "buildsystem" : "meson",
             "config-opts" : [
@@ -97,7 +125,7 @@
                 "-Dbackend-qt6=disabled",
                 "-Dvapi=false",
                 "-Dtests=false",
-                "-Ddocs=false"
+                "-Ddocs=true"
             ],
             "sources" : [
                 {

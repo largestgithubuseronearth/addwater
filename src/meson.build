@@ -11,7 +11,20 @@ configure_file(
 	install_mode: 'r-xr-xr-x'
 )
 
-install_subdir('apps', install_dir: moduledir)
+# TODO setup / teardown data to simulate profiles
+# TODO test: background updater
+# TODO test: installer
+# TODO test: find old profiles
+# TODO test: finding new profiles
+# TODO test: translations with podebug
+if get_option('tests')
+	pytest = find_program('pytest')
+
+	install_subdir('tests', install_dir: moduledir)
+	test('pytest', pytest, args: [moduledir / 'tests', '--quiet'])
+endif
+
+install_subdir('apps',       install_dir: moduledir)
 install_subdir('components', install_dir: moduledir)
 install_subdir('utils', install_dir: moduledir)
 install_subdir('gui', install_dir: moduledir)
