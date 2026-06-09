@@ -35,6 +35,8 @@ conf = configuration_data({
 conf.set('MOCK_API', mock_api)
 conf.set('FORCE_BG', force_bg)
 
+dependency('libportal', version: '>=0.9.1')
+
 subdir('data')
 subdir('po')
 subdir('src')

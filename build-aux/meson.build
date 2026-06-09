@@ -1,7 +1,5 @@
 # Lint Flatpak Manifest
 
-# FIXME set unnecessary libportal build options to false
-
 flatpak = find_program('flatpak', required: false)
 
 # Docs: https://docs.flathub.org/docs/for-app-authors/linter

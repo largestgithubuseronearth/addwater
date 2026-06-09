@@ -1,3 +1,5 @@
+# TODO set options in flathub manifest
+
 option('profile',
 	type : 'combo',
 	choices : ['default', 'development'],
