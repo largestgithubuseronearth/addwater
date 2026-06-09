@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-	<template class="AddWaterPreferences" parent="AdwPreferencesDialog">
+	<template class="WaterPreferences" parent="AdwPreferencesDialog">
 		<property name="content-height">375</property>
 	  <property name="vexpand">true</property>
 		<child>

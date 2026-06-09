@@ -35,7 +35,7 @@ log = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/profile-selector.ui")
 class ProfileSelector(Adw.ComboRow):
-    __gtype_name__ = "AddWaterProfileSelector"
+    __gtype_name__ = "WaterProfileSelector"
 
     profiles: Gio.ListStore = Gtk.Template.Child()
     sort_model: Gtk.SortListModel = Gtk.Template.Child()

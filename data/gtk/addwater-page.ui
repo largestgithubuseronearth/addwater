@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This is the Template from which both Firefox and Thunderbird will derive their layouts. -->
 <interface>
-	<template class="AddWaterPage" parent="AdwBin">
+	<template class="WaterPage" parent="AdwBin">
 	  <property name="app-name">Firefox</property>
 		<property name="child">
 		  <!-- FIXME toast covers bottom bar -->
@@ -20,11 +20,11 @@
 										<child>
 											<object class="AdwSwitchRow" id="enable_button">
 												<property name="title" translatable="yes">Enable Theme</property>
-											  <property name="active" bind-source="AddWaterPage" bind-property="theme-enabled" bind-flags="sync-create | bidirectional"/>
+											  <property name="active" bind-source="WaterPage" bind-property="theme-enabled" bind-flags="sync-create | bidirectional"/>
 											</object>
 										</child>
 										<child>
-											<object class="AddWaterProfileSelector" id="profile_combobox">
+											<object class="WaterProfileSelector" id="profile_combobox">
 											  <binding name="sensitive">
 											    <lookup name="valid-path">package_combobox</lookup>
 											  </binding>

@@ -38,7 +38,7 @@ log = logging.getLogger(__name__)
 # TODO remove this and let the page use the individual components directly.
 #      This requires everything to be bound correctly as GObjects
 
-class AddWaterBackend:
+class Backend:
     """Interface to perform high-level app actions like installing, getting
     profile information, data paths, and so on. Only this class should ever
     interact with its own provider components directly.
@@ -207,7 +207,7 @@ class BackendFactory:
                 theme_url=theme_url,
             )
 
-        firefox_backend = AddWaterBackend(
+        firefox_backend = Backend(
             app_details=app_details,
             install_manager=install_manager,
             online_manager=online_manager,

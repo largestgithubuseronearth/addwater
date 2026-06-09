@@ -37,12 +37,12 @@ from addwater import info
 from .utils import paths
 from .utils.background import BackgroundUpdater
 from .utils.logs import init_logs
-from .window import AddWaterWindow
+from .window import Window
 
 log = logging.getLogger(__name__)
 
 
-class AddWaterApplication(Adw.Application):
+class Application(Adw.Application):
     """The main application singleton class."""
 
     def __init__(self):
@@ -99,7 +99,7 @@ class AddWaterApplication(Adw.Application):
         # Create window with the logic it needs
         win = self.props.active_window
         if not win:
-            win = AddWaterWindow(application=self, backends=self.backends)
+            win = Window(application=self, backends=self.backends)
 
         win.present()
 
@@ -176,7 +176,7 @@ class AddWaterApplication(Adw.Application):
 
 def main(version):
     """The application's entry point."""
-    app = AddWaterApplication()
+    app = Application()
     return app.run(sys.argv)
 
 

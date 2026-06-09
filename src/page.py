@@ -37,8 +37,8 @@ from .backend import InterfaceMisuseError
 log = logging.getLogger(__name__)
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/addwater-page.ui")
-class AddWaterPage(Adw.Bin):
-    __gtype_name__ = "AddWaterPage"
+class Page(Adw.Bin):
+    __gtype_name__ = "WaterPage"
 
     # Widget controls
     toast_overlay = Gtk.Template.Child()

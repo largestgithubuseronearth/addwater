@@ -22,20 +22,20 @@ import logging
 from datetime import datetime, timezone
 from os.path import exists, join
 
-from addwater.page import AddWaterPage
+from addwater.page import Page
 from gi.repository import Adw, Gio, Gtk
 
 from addwater import info
 
-from .preferences import AddWaterPreferences
+from .preferences import Preferences
 from .utils import paths
 
 log = logging.getLogger(__name__)
 
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/window.ui")
-class AddWaterWindow(Adw.ApplicationWindow):
-    __gtype_name__ = "AddWaterWindow"
+class Window(Adw.ApplicationWindow):
+    __gtype_name__ = "WaterWindow"
 
     main_menu = Gtk.Template.Child()
     # Use when only one page is available
@@ -77,7 +77,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
             # Check data path for validity
             try:
                 backend.get_package().get_profile_ini()
-                page = AddWaterPage(backend=backend)
+                page = Page(backend=backend)
                 log.debug("page created successfully")
             except FileNotFoundError as e:
                 app_name = backend.get_app_name()
@@ -137,7 +137,7 @@ class AddWaterWindow(Adw.ApplicationWindow):
 
     def on_preferences_action(self, *_args):
         """Callback for the app.preferences action."""
-        pref = AddWaterPreferences()
+        pref = Preferences()
         pref.present(self)
 
     def on_about_action(self, *_args):
