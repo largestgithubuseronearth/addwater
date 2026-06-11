@@ -51,10 +51,8 @@ class Application(Adw.Application):
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             resource_base_path=info.PREFIX,
         )
-        self.create_action(
-            "quit", lambda *_args: self.quit(), ["<primary>q", "<primary>w"]
-        )
-        self.create_action("reset-app", self.on_reset_app_action)
+
+        self.init_actions()
 
         paths.init_paths()
         init_logs()
@@ -89,15 +87,7 @@ class Application(Adw.Application):
         return 0
 
     def do_activate(self):
-        """Called when the application is activated.
-
-        We raise the application's main window, creating it if
-        necessary.
-        """
-
-        # Create window with the logic it needs
-        win = self.props.active_window
-        if not win:
+        if not (win := self.props.active_window):
             win = Window(application=self, backends=self.backends)
 
         win.present()
@@ -110,10 +100,7 @@ class Application(Adw.Application):
         # TODO handle the option better and handle the error better
         if "quick-update" in options and options["quick-update"]:
             if not self.backends:
-                log.error("Cannot find Firefox Profile Data")
-                log.info(
-                    "Please ensure Firefox is installed and Add Water has permission to access your profiles."
-                )
+                log.error("Cannot find any Firefox ")
                 return
 
             background_updater = BackgroundUpdater(self.backends[0])
@@ -152,21 +139,18 @@ class Application(Adw.Application):
         log.info("app has been reset and will now exit")
         self.quit()
 
-    def create_action(self, name, callback, shortcuts=None):
-        """Add an application action.
+    def init_actions(self):
+        actions = {
+                 "quit": (lambda *_a: self.quit(), ["<primary>q", "<primary>w"]),
+            "reset-app": (self.on_reset_app_action, None)
+        }
 
-        Args:
-                name: the name of the action
-                callback: the function to be called when the action is
-                  activated
-                shortcuts: an optional list of accelerators
-        """
-        action = Gio.SimpleAction.new(name, None)
-        action.connect("activate", callback)
-        self.add_action(action)
-        if shortcuts:
-            self.set_accels_for_action(f"app.{name}", shortcuts)
-
+        for name, details in actions.items():
+            action = Gio.SimpleAction.new(name, None)
+            action.connect("activate", details[0])
+            self.add_action(action)
+            if shortcuts := details[1]:
+                self.set_accels_for_action(f"app.{name}", shortcuts)
 
 def main(version):
     app = Application()
