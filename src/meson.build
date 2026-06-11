@@ -26,8 +26,8 @@ endif
 
 install_subdir('apps',       install_dir: moduledir)
 install_subdir('components', install_dir: moduledir)
-install_subdir('utils', install_dir: moduledir)
-install_subdir('gui', install_dir: moduledir)
+install_subdir('utils',      install_dir: moduledir)
+install_subdir('gui',        install_dir: moduledir)
 
 addwater_sources = [
 	'__init__.py',
@@ -37,21 +37,6 @@ addwater_sources = [
 	'page.py',
 	'backend.py',
 	'profile.py',
-
-	'apps/firefox/firefox_install.py',
-	'apps/firefox/firefox_details.py',
-	'apps/firefox/firefox_options.py',
-	'apps/firefox/firefox_paths.py',
-
-	'components/install.py',
-	'components/online.py',
-
-	'gui/option_factory.py',
-	'gui/profile_selector.py',
-
-	'utils/paths.py',
-	'utils/logs.py',
-	'utils/background.py',
 
 	configure_file(input: 'info.py.in', output: 'info.py', configuration: conf),
 ]
