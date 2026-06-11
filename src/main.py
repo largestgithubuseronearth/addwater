@@ -54,7 +54,6 @@ class Application(Adw.Application):
         self.create_action(
             "quit", lambda *_args: self.quit(), ["<primary>q", "<primary>w"]
         )
-        self.create_action("open-help-page", self.on_help_action)
         self.create_action("reset-app", self.on_reset_app_action)
 
         paths.init_paths()
@@ -167,11 +166,6 @@ class Application(Adw.Application):
         self.add_action(action)
         if shortcuts:
             self.set_accels_for_action(f"app.{name}", shortcuts)
-
-    def on_help_action(self, *_):
-        log.info("help page action activated")
-        weblaunch = Gtk.UriLauncher.new(info.TROUBLESHOOT_HELP)
-        weblaunch.launch(None, None, None, None)
 
 
 def main(version):
