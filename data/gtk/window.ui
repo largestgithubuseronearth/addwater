@@ -9,9 +9,16 @@
 		<property name="content">
 
 				<object class="AdwToolbarView" id="main_toolbar_view">
-					<!-- HEADER BAR -->
+					<!-- Header bar -->
 					<child type="top">
 						<object class="AdwHeaderBar" id="header_bar">
+						  <property name="title-widget">
+						    <!-- FIXME if this is hidden, then it should show normal title -->
+						    <object class="AdwViewSwitcher" id="view_switcher">
+						      <property name="policy">narrow</property>
+						      <property name="stack">view_stack</property>
+						    </object>
+						  </property>
 							<child type="end">
 								<object class="GtkMenuButton" id="main_menu">
 									<property name="primary">True</property>
@@ -22,7 +29,20 @@
 							</child>
 						</object>
 					</child>
-					<!-- WINDOW CONTENT PLACED BY CODE -->
+				  <property name="content">
+				    <object class="AdwViewStack" id="view_stack">
+				      <!-- FirefoxPage is inserted by code -->
+				      <child>
+				        <!-- Error page -->
+				        <object class="AdwViewStackPage">
+				          <property name="name">error</property>
+				          <property name="child">
+				            <object class="AdwStatusPage" id="error_page"/>
+				          </property>
+				        </object>
+				      </child>
+				    </object>
+				  </property>
 				</object>
 
 		</property>

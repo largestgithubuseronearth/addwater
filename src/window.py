@@ -40,6 +40,10 @@ class Window(Adw.ApplicationWindow):
     main_menu = Gtk.Template.Child()
     # Use when only one page is available
     main_toolbar_view = Gtk.Template.Child()
+    
+    view_switcher = Gtk.Template.Child()
+    view_stack = Gtk.Template.Child()
+    error_page = Gtk.Template.Child()
 
     def __init__(self, backends: list, **kwargs):
         super().__init__(**kwargs)
@@ -47,7 +51,7 @@ class Window(Adw.ApplicationWindow):
         if info.PROFILE == "development":
             self.add_css_class("devel")
 
-        self.set_size_request(360, 294)  # Minimum size of window Width x Height
+        self.set_size_request(360, 294)
 
         self.settings = Gio.Settings(schema_id=info.APP_ID)
         self.settings.bind(
@@ -70,8 +74,6 @@ class Window(Adw.ApplicationWindow):
     def create_pages(self, app_backends: list):
         """Create and present app pages, and connect them to their respective app backend"""
         log.info("resetting gui pages")
-        self.main_toolbar_view.set_content(None)
-        self.pages = []
 
         for backend in app_backends:
             # Check data path for validity
@@ -81,41 +83,14 @@ class Window(Adw.ApplicationWindow):
                 log.debug("page created successfully")
             except FileNotFoundError as e:
                 app_name = backend.get_app_name()
+                setup_error_page(self.error_page, "Firefox")
+                self.view_stack.set_visible_child_name("error")
                 log.critical(e)
-                page = self.create_error_page(app_name)
 
-            self.pages.append(page)
+            self.view_stack.add_titled(page, "firefox", "Firefox")
+            self.view_stack.set_visible_child_name("firefox")
 
-        if len(self.pages) == 1:
-            self.main_toolbar_view.set_content(self.pages[0])
-            log.debug("1 page available")
-        else:
-            log.error("multiple pages available")
-            raise NotImplementedError
-
-    def create_error_page(self, app_name: str):
-        """Create basic error status page when the app faces a fatal error
-        that must be communicated to the user.
-        """
-        # FIXME remove troubleshooting from this
-        help_page_button = Adw.Clamp(
-            hexpand=False,
-            child=Gtk.Button(
-                label=_("Open Help Page"),
-                action_name="app.open-help-page",
-                css_classes=["suggested-action", "pill"],
-            ),
-        )
-        statuspage = Adw.StatusPage(
-            # Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
-            title=_("{} Profile Data Not Found").format(app_name),
-            # Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
-            description=_(
-                "Please ensure {} is installed and Add Water has permission to access your profiles"
-            ).format(app_name),
-            child=help_page_button,
-        )
-        return statuspage
+        self.view_switcher.set_visible(len(self.view_stack.get_pages()) > 2)
 
     def create_action(self, name: str, callback, shortcuts: list[str] = None):
         """Add a window action and shortcut.
@@ -137,7 +112,7 @@ class Window(Adw.ApplicationWindow):
 
     def on_preferences_action(self, *_args):
         """Callback for the app.preferences action."""
-        pref = Preferences()
+        pref = Preferences()    
         pref.present(self)
 
     def on_about_action(self, *_args):
@@ -148,6 +123,7 @@ class Window(Adw.ApplicationWindow):
         with open(file=CURRENT_LOGFILE, mode="r", encoding="utf-8") as f:
             db_info = f.read()
 
+        # TODO is all of this necessary?
         # Setting up About dialog
         about = Adw.AboutDialog.new_from_appdata(
             (info.PREFIX + "/" + "dev.qwery.AddWater.metainfo"), info.VERSION
@@ -180,3 +156,17 @@ class Window(Adw.ApplicationWindow):
         )
 
         about.present(self)
+        
+def setup_error_page(self, page: Adw.StatusPage, app_name: str):
+    """Create basic error status page when the app faces a fatal error
+    that must be communicated to the user.
+    """
+    # Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+    title=_("{} Profile Data Not Found").format(app_name)
+    # Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+    description=_(
+        "Please ensure {} is installed and Add Water has permission to access your profiles"
+    ).format(app_name)
+    
+    statuspage.set_title(title)
+    statuspage.set_description(description)
