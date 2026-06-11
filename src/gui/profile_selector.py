@@ -26,7 +26,7 @@ from packaging.version import Version
 from addwater import info
 from addwater.profile import Profile
 from addwater.backend import InterfaceMisuseError
-from addwater.apps.firefox.firefox_paths import FirefoxPack
+from addwater.apps.firefox import FirefoxPack
 
 log = logging.getLogger(__name__)
 

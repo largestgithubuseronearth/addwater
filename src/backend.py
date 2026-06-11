@@ -24,11 +24,10 @@ from typing import Any, Callable, Optional
 from pathlib import Path
 
 from addwater.profile import Profile
-from addwater.components.install import (InstallManager, InstallStatus)
-from addwater.components.online import OnlineManager
+from addwater.components import (OnlineManager, InstallManager, InstallStatus)
 from addwater.utils.mocks import mock_online
 from addwater.utils.paths import DOWNLOAD_DIR
-from addwater.apps.firefox.firefox_paths import FirefoxPack
+from addwater.apps.firefox import FirefoxPack
 from packaging.version import Version
 
 from addwater import info

@@ -25,7 +25,7 @@ from gi.repository import Adw, Gio, GObject, Gtk
 
 from addwater import info
 from addwater.backend import InterfaceMisuseError
-from addwater.apps.firefox.firefox_paths import FirefoxPack
+from addwater.apps.firefox import FirefoxPack
 
 log = logging.getLogger(__name__)
 

@@ -28,9 +28,8 @@ from packaging.version import Version
 
 from addwater import info
 from addwater.profile import Profile
-from addwater.gui.profile_selector import ProfileSelector
-from addwater.gui.pack_selector import PackSelector
-from addwater.apps.firefox.firefox_paths import FirefoxPack
+from addwater.gui import ProfileSelector, PackSelector
+from addwater.apps.firefox import FirefoxPack
 
 from .backend import InterfaceMisuseError
 

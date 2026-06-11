@@ -28,7 +28,7 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from addwater.apps.firefox.firefox_details import FirefoxAppDetails
+from addwater.apps.firefox import FirefoxAppDetails
 from addwater.backend import Backend
 from gi.repository import Adw, Gio, GLib, Gtk
 

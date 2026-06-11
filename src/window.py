@@ -27,8 +27,8 @@ from gi.repository import Adw, Gio, Gtk
 
 from addwater import info
 
-from .gui.preferences import Preferences
-from .utils import paths
+from addwater.gui import Preferences
+from .utils.paths import LOG_DIR
 
 log = logging.getLogger(__name__)
 
@@ -107,7 +107,7 @@ class Window(Adw.ApplicationWindow):
         """Callback for the app.about action."""
         # Grab log info for debug info page
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        CURRENT_LOGFILE = join(paths.LOG_DIR, f"addwater_{now}.log")
+        CURRENT_LOGFILE = join(LOG_DIR, f"addwater_{now}.log")
         with open(file=CURRENT_LOGFILE, mode="r", encoding="utf-8") as f:
             db_info = f.read()
 

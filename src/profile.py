@@ -21,9 +21,6 @@ from gi.repository import GObject
 from gi.repository.GObject import ParamFlags
 from pathlib import Path
 
-from addwater.apps.firefox.firefox_paths import FirefoxPack
-
-
 class Profile(GObject.Object):
     __gtype_name__ = "WaterProfile"
 
@@ -42,7 +39,6 @@ class Profile(GObject.Object):
     )
     # TODO make this a GObject prop?
     path: Path
-    package: FirefoxPack
 
     def __init__(self, name, id, path, favorite, package):
         super().__init__(name=name, id=id, favorite=favorite)
