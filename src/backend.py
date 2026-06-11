@@ -57,6 +57,27 @@ class Backend:
             handles network errors, downloads theme releases, and preps
             those releases to be installed.
     """
+    @staticmethod
+    def new_from_appdetails(app_details):
+        install_method = app_details.get_installer()
+        install_manager = InstallManager(
+            installer=install_method,
+        )
+
+        if info.MOCK_API == "True":
+            online_manager = mock_online.MockOnlineManager()
+        else:
+            theme_url = app_details.get_info_url()
+            online_manager = OnlineManager(
+                theme_url=theme_url,
+            )
+
+        firefox_backend = Backend(
+            app_details=app_details,
+            install_manager=install_manager,
+            online_manager=online_manager,
+        )
+        return firefox_backend
 
     def __init__(
         self,
@@ -189,27 +210,3 @@ class InterfaceMisuseError(Exception):
 class FatalInterfaceError(Exception):
     pass
 
-
-class BackendFactory:
-
-    @staticmethod
-    def new_from_appdetails(app_details):
-        install_method = app_details.get_installer()
-        install_manager = InstallManager(
-            installer=install_method,
-        )
-
-        if info.MOCK_API == "True":
-            online_manager = mock_online.MockOnlineManager()
-        else:
-            theme_url = app_details.get_info_url()
-            online_manager = OnlineManager(
-                theme_url=theme_url,
-            )
-
-        firefox_backend = Backend(
-            app_details=app_details,
-            install_manager=install_manager,
-            online_manager=online_manager,
-        )
-        return firefox_backend

@@ -29,7 +29,7 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
 from addwater.apps.firefox.firefox_details import FirefoxAppDetails
-from addwater.backend import BackendFactory
+from addwater.backend import Backend
 from gi.repository import Adw, Gio, GLib, Gtk
 
 from addwater import info
@@ -131,7 +131,7 @@ class Application(Adw.Application):
         # TODO make this dynamic to find all available app details
         backends = []
         ff_app_detail = FirefoxAppDetails()
-        backends.append(BackendFactory.new_from_appdetails(ff_app_detail))
+        backends.append(Backend.new_from_appdetails(ff_app_detail))
 
         return backends
 
@@ -175,7 +175,6 @@ class Application(Adw.Application):
 
 
 def main(version):
-    """The application's entry point."""
     app = Application()
     return app.run(sys.argv)
 
