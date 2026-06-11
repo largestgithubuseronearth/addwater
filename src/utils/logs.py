@@ -49,10 +49,9 @@ def init_logs():
 
         logging.basicConfig(
             handlers=[file_handler, console_handler],
-            style="{",
-            # TODO how to give a consistent spacing between levelname and name?
-            format="[{levelname}]   {name} — {asctime} || {message}",
-            datefmt="%H:%M",
+            # TODO add color
+            format="[%(asctime)s] %(levelname)7s >> %(name)20s - %(message)s",
+            datefmt="%Y/%m/%d %H:%M",
             level=logging.DEBUG,
         )
     except Exception as err:
@@ -83,3 +82,4 @@ def init_logs():
 	------------------------------------------------------------------------
 	"""
     logging.debug(info)
+
