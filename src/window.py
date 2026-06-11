@@ -71,6 +71,9 @@ class Window(Adw.ApplicationWindow):
 
             setup_error_page(self.error_page, "Firefox")
             self.view_stack.add_titled(page, "firefox", "Firefox")
+            self.view_stack.get_page(
+                self.view_stack.get_child_by_name("firefox")
+            ).set_icon_name("globe-symbolic")
             self.view_stack.set_visible_child_name("firefox")
 
         self.view_switcher.set_visible(len(self.view_stack.get_pages()) > 2)

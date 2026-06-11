@@ -31,8 +31,6 @@ from addwater.profile import Profile
 from addwater.gui import ProfileSelector, PackSelector
 from addwater.apps.firefox import FirefoxPack
 
-from .backend import InterfaceMisuseError
-
 log = logging.getLogger("page")
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/addwater-page.ui")

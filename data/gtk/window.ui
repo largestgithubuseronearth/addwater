@@ -13,11 +13,23 @@
 					<child type="top">
 						<object class="AdwHeaderBar" id="header_bar">
 						  <property name="title-widget">
-						    <!-- FIXME if this is hidden, then it should show normal title -->
-						    <object class="AdwViewSwitcher" id="view_switcher">
-						      <!-- TODO add icon -->
-						      <property name="policy">narrow</property>
-						      <property name="stack">view_stack</property>
+						    <object class="GtkBox">
+						      <child>
+						        <object class="AdwViewSwitcher" id="view_switcher">
+						          <property name="policy">wide</property>
+						          <property name="stack">view_stack</property>
+						        </object>
+						      </child>
+						      <child>
+						        <!-- If there's only one app page, show title instead -->
+						        <object class="AdwWindowTitle">
+						          <property name="title" translatable="no">Add Water</property>
+					            <property name="visible"
+					                      bind-source="view_switcher"
+					                      bind-property="visible"
+					                      bind-flags="sync-create | invert-boolean"/>
+						        </object>
+						      </child>
 						    </object>
 						  </property>
 							<child type="end">
@@ -66,3 +78,4 @@
 		</section>
 	</menu>
 </interface>
+
