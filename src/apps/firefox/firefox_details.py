@@ -34,7 +34,7 @@ from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_OPTIONS
 from . import FirefoxPack
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("firefox_details")
 
 class FirefoxAppDetails:
     """

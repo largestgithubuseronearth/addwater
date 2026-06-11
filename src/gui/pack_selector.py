@@ -27,7 +27,7 @@ from addwater import info
 from addwater.backend import InterfaceMisuseError
 from addwater.apps.firefox import FirefoxPack
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("pack_selector")
 
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/pack-selector.ui")

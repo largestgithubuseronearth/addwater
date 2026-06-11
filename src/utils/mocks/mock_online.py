@@ -27,7 +27,7 @@ from addwater import info
 
 from packaging.version import Version
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("MOCK_online_manager")
 
 
 class MockOnlineManager:

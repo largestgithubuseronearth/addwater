@@ -32,7 +32,7 @@ from packaging.version import Version
 
 from addwater import info
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("backend")
 
 # TODO remove this and let the page use the individual components directly.
 #      This requires everything to be bound correctly as GObjects

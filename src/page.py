@@ -33,7 +33,7 @@ from addwater.apps.firefox import FirefoxPack
 
 from .backend import InterfaceMisuseError
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("page")
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/addwater-page.ui")
 class Page(Adw.Bin):

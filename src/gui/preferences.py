@@ -28,7 +28,7 @@ from gi.repository import Adw, Gio, GObject, Gtk, Xdp
 
 from addwater import info
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("preferences_dialog")
 
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/preferences.ui")

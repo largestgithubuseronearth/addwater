@@ -30,7 +30,7 @@ from addwater import info
 from addwater.gui import Preferences
 from .utils.paths import LOG_DIR
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("window")
 
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/window.ui")

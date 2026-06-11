@@ -39,7 +39,7 @@ from .utils.background import BackgroundUpdater
 from .utils.logs import init_logs
 from .window import Window
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("application")
 
 
 class Application(Adw.Application):

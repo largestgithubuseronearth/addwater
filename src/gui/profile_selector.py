@@ -28,7 +28,7 @@ from addwater.profile import Profile
 from addwater.backend import InterfaceMisuseError
 from addwater.apps.firefox import FirefoxPack
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("profile_selector")
 
 # TODO merge the package selector into this one combobox, and break them into
 #      sections by package format

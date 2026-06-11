@@ -26,7 +26,7 @@ from addwater import info
 from addwater.backend import Backend
 from gi.repository import Gio
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("background_updater")
 
 # TODO add unit testing for this
 # TODO clean up this whole thing
