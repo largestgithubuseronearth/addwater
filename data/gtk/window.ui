@@ -15,6 +15,7 @@
 						  <property name="title-widget">
 						    <!-- FIXME if this is hidden, then it should show normal title -->
 						    <object class="AdwViewSwitcher" id="view_switcher">
+						      <!-- TODO add icon -->
 						      <property name="policy">narrow</property>
 						      <property name="stack">view_stack</property>
 						    </object>
