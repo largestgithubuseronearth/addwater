@@ -33,7 +33,6 @@ addwater_sources = [
 	'__init__.py',
 	'main.py',
 	'window.py',
-	'preferences.py',
 	'page.py',
 	'backend.py',
 	'profile.py',

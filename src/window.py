@@ -27,7 +27,7 @@ from gi.repository import Adw, Gio, Gtk
 
 from addwater import info
 
-from .preferences import Preferences
+from .gui.preferences import Preferences
 from .utils import paths
 
 log = logging.getLogger(__name__)
