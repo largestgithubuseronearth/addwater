@@ -27,7 +27,7 @@ from os.path import exists, join
 from addwater.components.install import InstallException
 from addwater.profile import Profile
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("firefox_install")
 
 
 @staticmethod

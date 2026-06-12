@@ -27,7 +27,7 @@ from typing import Callable, Optional
 from addwater.utils.paths import DOWNLOAD_DIR
 from addwater.profile import Profile
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("install_manager")
 
 
 class InstallManager:

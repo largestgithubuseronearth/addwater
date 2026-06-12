@@ -28,17 +28,14 @@ from packaging.version import Version
 
 from addwater import info
 from addwater.profile import Profile
-from addwater.gui.profile_selector import ProfileSelector
-from addwater.gui.pack_selector import PackSelector
-from addwater.apps.firefox.firefox_paths import FirefoxPack
+from addwater.gui import ProfileSelector, PackSelector
+from addwater.apps.firefox import FirefoxPack
 
-from .backend import InterfaceMisuseError
-
-log = logging.getLogger(__name__)
+log = logging.getLogger("page")
 
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/addwater-page.ui")
-class AddWaterPage(Adw.Bin):
-    __gtype_name__ = "AddWaterPage"
+class Page(Adw.Bin):
+    __gtype_name__ = "WaterPage"
 
     # Widget controls
     toast_overlay = Gtk.Template.Child()

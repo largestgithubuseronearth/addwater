@@ -24,21 +24,20 @@ from typing import Any, Callable, Optional
 from pathlib import Path
 
 from addwater.profile import Profile
-from addwater.components.install import (InstallManager, InstallStatus)
-from addwater.components.online import OnlineManager
+from addwater.components import (OnlineManager, InstallManager, InstallStatus)
 from addwater.utils.mocks import mock_online
 from addwater.utils.paths import DOWNLOAD_DIR
-from addwater.apps.firefox.firefox_paths import FirefoxPack
+from addwater.apps.firefox import FirefoxPack
 from packaging.version import Version
 
 from addwater import info
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("backend")
 
 # TODO remove this and let the page use the individual components directly.
 #      This requires everything to be bound correctly as GObjects
 
-class AddWaterBackend:
+class Backend:
     """Interface to perform high-level app actions like installing, getting
     profile information, data paths, and so on. Only this class should ever
     interact with its own provider components directly.
@@ -57,6 +56,27 @@ class AddWaterBackend:
             handles network errors, downloads theme releases, and preps
             those releases to be installed.
     """
+    @staticmethod
+    def new_from_appdetails(app_details):
+        install_method = app_details.get_installer()
+        install_manager = InstallManager(
+            installer=install_method,
+        )
+
+        if info.MOCK_API == "True":
+            online_manager = mock_online.MockOnlineManager()
+        else:
+            theme_url = app_details.get_info_url()
+            online_manager = OnlineManager(
+                theme_url=theme_url,
+            )
+
+        firefox_backend = Backend(
+            app_details=app_details,
+            install_manager=install_manager,
+            online_manager=online_manager,
+        )
+        return firefox_backend
 
     def __init__(
         self,
@@ -189,27 +209,3 @@ class InterfaceMisuseError(Exception):
 class FatalInterfaceError(Exception):
     pass
 
-
-class BackendFactory:
-
-    @staticmethod
-    def new_from_appdetails(app_details):
-        install_method = app_details.get_installer()
-        install_manager = InstallManager(
-            installer=install_method,
-        )
-
-        if info.MOCK_API == "True":
-            online_manager = mock_online.MockOnlineManager()
-        else:
-            theme_url = app_details.get_info_url()
-            online_manager = OnlineManager(
-                theme_url=theme_url,
-            )
-
-        firefox_backend = AddWaterBackend(
-            app_details=app_details,
-            install_manager=install_manager,
-            online_manager=online_manager,
-        )
-        return firefox_backend

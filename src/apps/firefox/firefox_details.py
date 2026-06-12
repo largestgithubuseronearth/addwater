@@ -32,9 +32,9 @@ from addwater import info
 from addwater.profile import Profile
 from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_OPTIONS
-from .firefox_paths import FirefoxPack
+from . import FirefoxPack
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("firefox_details")
 
 class FirefoxAppDetails:
     """

@@ -1,6 +1,6 @@
 project('addwater',
 	version: '1.3',
-	meson_version: '>= 1.1',
+	meson_version: '>= 1.4.0',
 	default_options: [ 'warning_level=2', 'werror=false', ],
 )
 
@@ -18,7 +18,7 @@ if profile == 'default'
 	force_bg = false
 elif profile =='development'
 	app_id = 'dev.qwery.AddWater.Devel'
-	mock_api = get_option('use-mock-api')
+	mock_api = get_option('online-mock')
 	force_bg = get_option('force-background')
 endif
 
@@ -35,10 +35,15 @@ conf = configuration_data({
 conf.set('MOCK_API', mock_api)
 conf.set('FORCE_BG', force_bg)
 
+dependency('libportal', version: '>=0.9.1')
+
 subdir('data')
 subdir('po')
 subdir('src')
 
+if get_option('tests')
+	subdir('build-aux')
+endif
 
 gnome.post_install(
 	glib_compile_schemas: true,

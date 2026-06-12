@@ -33,7 +33,7 @@ from packaging.version import Version
 
 from addwater import info
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("online_manager")
 
 
 # TODO make this handle requests asynchronously and use callbacks to report the status

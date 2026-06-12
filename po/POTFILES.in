@@ -3,9 +3,10 @@ data/dev.qwery.AddWater.metainfo.xml.in
 data/dev.qwery.AddWater.gschema.xml.in
 
 data/gtk/addwater-page.ui
-data/gtk/help-overlay.ui
+data/gtk/shortcuts-dialog.ui
 data/gtk/preferences.ui
 data/gtk/profile-selector.ui
+data/gtk/pack-selector.ui
 data/gtk/window.ui
 
 src/main.py

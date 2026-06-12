@@ -1,19 +1,21 @@
-option(
-	'profile',
+option('profile',
 	type : 'combo',
 	choices : ['default', 'development'],
 	value : 'development'
 )
 
 # Testing options (developer profile only)
-option(
-	'use-mock-api',
+option('tests',
 	type: 'boolean',
 	value: false
 )
 
-option(
-	'force-background',
+option('online-mock',
+	type: 'boolean',
+	value: false
+)
+
+option('force-background',
 	type: 'boolean',
 	value: false
 )

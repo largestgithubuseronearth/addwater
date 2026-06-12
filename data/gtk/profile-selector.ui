@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-	<template class="AddWaterProfileSelector" parent="AdwComboRow">
+	<template class="WaterProfileSelector" parent="AdwComboRow">
 		<!-- Translators: Profile the noun, as in Firefox profile/account-->
 		<property name="title" translatable="yes">Profile</property>
 		<property name="subtitle" translatable="yes">Select profile to apply changes toward</property>

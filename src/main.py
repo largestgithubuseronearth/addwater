@@ -28,8 +28,8 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from addwater.apps.firefox.firefox_details import FirefoxAppDetails
-from addwater.backend import BackendFactory
+from addwater.apps.firefox import FirefoxAppDetails
+from addwater.backend import Backend
 from gi.repository import Adw, Gio, GLib, Gtk
 
 from addwater import info
@@ -37,12 +37,12 @@ from addwater import info
 from .utils import paths
 from .utils.background import BackgroundUpdater
 from .utils.logs import init_logs
-from .window import AddWaterWindow
+from .window import Window
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("application")
 
 
-class AddWaterApplication(Adw.Application):
+class Application(Adw.Application):
     """The main application singleton class."""
 
     def __init__(self):
@@ -51,11 +51,8 @@ class AddWaterApplication(Adw.Application):
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             resource_base_path=info.PREFIX,
         )
-        self.create_action(
-            "quit", lambda *_args: self.quit(), ["<primary>q", "<primary>w"]
-        )
-        self.create_action("open-help-page", self.on_help_action)
-        self.create_action("reset-app", self.on_reset_app_action)
+
+        self.init_actions()
 
         paths.init_paths()
         init_logs()
@@ -90,16 +87,8 @@ class AddWaterApplication(Adw.Application):
         return 0
 
     def do_activate(self):
-        """Called when the application is activated.
-
-        We raise the application's main window, creating it if
-        necessary.
-        """
-
-        # Create window with the logic it needs
-        win = self.props.active_window
-        if not win:
-            win = AddWaterWindow(application=self, backends=self.backends)
+        if not (win := self.props.active_window):
+            win = Window(application=self, backends=self.backends)
 
         win.present()
 
@@ -111,10 +100,7 @@ class AddWaterApplication(Adw.Application):
         # TODO handle the option better and handle the error better
         if "quick-update" in options and options["quick-update"]:
             if not self.backends:
-                log.error("Cannot find Firefox Profile Data")
-                log.info(
-                    "Please ensure Firefox is installed and Add Water has permission to access your profiles."
-                )
+                log.error("Cannot find any Firefox ")
                 return
 
             background_updater = BackgroundUpdater(self.backends[0])
@@ -131,7 +117,7 @@ class AddWaterApplication(Adw.Application):
         # TODO make this dynamic to find all available app details
         backends = []
         ff_app_detail = FirefoxAppDetails()
-        backends.append(BackendFactory.new_from_appdetails(ff_app_detail))
+        backends.append(Backend.new_from_appdetails(ff_app_detail))
 
         return backends
 
@@ -153,30 +139,21 @@ class AddWaterApplication(Adw.Application):
         log.info("app has been reset and will now exit")
         self.quit()
 
-    def create_action(self, name, callback, shortcuts=None):
-        """Add an application action.
+    def init_actions(self):
+        actions = {
+                 "quit": (lambda *_a: self.quit(), ["<primary>q", "<primary>w"]),
+            "reset-app": (self.on_reset_app_action, None)
+        }
 
-        Args:
-                name: the name of the action
-                callback: the function to be called when the action is
-                  activated
-                shortcuts: an optional list of accelerators
-        """
-        action = Gio.SimpleAction.new(name, None)
-        action.connect("activate", callback)
-        self.add_action(action)
-        if shortcuts:
-            self.set_accels_for_action(f"app.{name}", shortcuts)
-
-    def on_help_action(self, *_):
-        log.info("help page action activated")
-        weblaunch = Gtk.UriLauncher.new(info.TROUBLESHOOT_HELP)
-        weblaunch.launch(None, None, None, None)
-
+        for name, details in actions.items():
+            action = Gio.SimpleAction.new(name, None)
+            action.connect("activate", details[0])
+            self.add_action(action)
+            if shortcuts := details[1]:
+                self.set_accels_for_action(f"app.{name}", shortcuts)
 
 def main(version):
-    """The application's entry point."""
-    app = AddWaterApplication()
+    app = Application()
     return app.run(sys.argv)
 
 

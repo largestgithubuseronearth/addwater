@@ -2,16 +2,36 @@
 <interface>
 <requires lib="gtk" version="4.0"/>
 <requires lib="Adw" version="1.0"/>
-	<template class="AddWaterWindow" parent="AdwApplicationWindow">
+	<template class="WaterWindow" parent="AdwApplicationWindow">
 		<property name="default-width">500</property>
 		<property name="default-height">800</property>
 		<property name="title" translatable="no">Add Water</property>
 		<property name="content">
 
 				<object class="AdwToolbarView" id="main_toolbar_view">
-					<!-- HEADER BAR -->
+					<!-- Header bar -->
 					<child type="top">
 						<object class="AdwHeaderBar" id="header_bar">
+						  <property name="title-widget">
+						    <object class="GtkBox">
+						      <child>
+						        <object class="AdwViewSwitcher" id="view_switcher">
+						          <property name="policy">wide</property>
+						          <property name="stack">view_stack</property>
+						        </object>
+						      </child>
+						      <child>
+						        <!-- If there's only one app page, show title instead -->
+						        <object class="AdwWindowTitle">
+						          <property name="title" translatable="no">Add Water</property>
+					            <property name="visible"
+					                      bind-source="view_switcher"
+					                      bind-property="visible"
+					                      bind-flags="sync-create | invert-boolean"/>
+						        </object>
+						      </child>
+						    </object>
+						  </property>
 							<child type="end">
 								<object class="GtkMenuButton" id="main_menu">
 									<property name="primary">True</property>
@@ -22,7 +42,20 @@
 							</child>
 						</object>
 					</child>
-					<!-- WINDOW CONTENT PLACED BY CODE -->
+				  <property name="content">
+				    <object class="AdwViewStack" id="view_stack">
+				      <!-- FirefoxPage is inserted by code -->
+				      <child>
+				        <!-- Error page -->
+				        <object class="AdwViewStackPage">
+				          <property name="name">error</property>
+				          <property name="child">
+				            <object class="AdwStatusPage" id="error_page"/>
+				          </property>
+				        </object>
+				      </child>
+				    </object>
+				  </property>
 				</object>
 
 		</property>
@@ -45,3 +78,4 @@
 		</section>
 	</menu>
 </interface>
+
