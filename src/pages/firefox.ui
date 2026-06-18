@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="Adw" version="1.0"/>
+  <template class="WaterFirefoxPage" parent="AdwBin">
+    <child>
+      <object class="AdwClamp">
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
+        <property name="orientation">horizontal</property>
+        <property name="maximum-size">500</property>
+        <property name="tightening-threshold">300</property>
+        <property name="child">
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes" comments="Don't translate GNOME or Firefox. They're brand names">Firefox GNOME Theme</property>
+                <property name="description" translatable="yes">Changes will take effect upon restarting Firefox</property>
+                <child>
+                  <object class="AdwSwitchRow" id="enable_toggle">
+                    <property name="title" translatable="yes">Enable Theme</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="WaterProfileSelector" id="profile_select"/>
+                </child>
+              </object>
+            </child>
+
+            <!-- TODO replace this with the actual options -->
+            <!-- TODO separate options into their own template so this can be reused for thunderbird -->
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title">The rest of it goes down here</property>
+                <child>
+                  <object class="WaterBoolRow">
+                    <property name="title">This is a title</property>
+                    <property name="subtitle">What an unbelievably, inconceivably, undoubtedly, incredibly, unfathomably long subtitle</property>
+                    <property name="extra-info"></property>
+                    <property name="pref-id">snug.squish</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>
+

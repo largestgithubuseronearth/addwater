@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="Adw" version="1.0"/>
+  <!-- Parent is not a SwitchRow because we want the info button placed before the switch, not after it -->
+  <template class="WaterBoolRow" parent="AdwActionRow">
+    <property name="activatable-widget">toggle_switch</property>
+
+    <!-- "More Information" button -->
+    <!-- "Borrowed" from GNOME Settings -->
+    <child type="suffix">
+      <object class="GtkMenuButton" id="info_button">
+        <property name="icon-name">info-outline-symbolic</property>
+        <property name="has-frame">False</property>
+        <property name="valign">center</property>
+        <property name="vexpand">False</property>
+        <property name="tooltip-text" translatable="yes">More Information</property>
+        <binding name="visible">
+            <lookup name="extra-info-available">WaterBoolRow</lookup>
+        </binding>
+        <property name="popover">
+          <object class="GtkPopover">
+            <property name="autohide">True</property>
+            <property name="hexpand">True</property>
+            <property name="child">
+              <object class="GtkLabel">
+                <binding name="label">
+                  <lookup name="extra-info">WaterBoolRow</lookup>
+                </binding>
+                <!-- TODO make this selectable without being selected immediately -->
+                <!-- <property name="selectable">True</property> -->
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
+                <property name="max-width-chars">50</property>
+                <property name="wrap">True</property>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </child>
+
+    <!-- Toggle switch -->
+    <child type="suffix">
+      <object class="GtkSwitch" id="toggle_switch">
+        <property name="valign">center</property>
+        <property name="vexpand">False</property>
+        <binding name="active">
+          <lookup name="enabled">WaterBoolRow</lookup>
+        </binding>
+      </object>
+    </child>
+  </template>
+</interface>

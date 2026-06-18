@@ -1,10 +1,2 @@
-.flatpak-builder
-.buildconfig
-build-dir
-dev.qwery.AddWater*.json~
-firefox-gnome-theme
-pylint-results.txt
-.pytest_cache
-tests/__pycache__
-subprojects/libportal
-.wraplock
+target/
+src/config.rs

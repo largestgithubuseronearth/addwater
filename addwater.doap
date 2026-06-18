@@ -5,7 +5,7 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
 
-	<name xml:lang="en">Add Water</name>
+	<name xml:lang="en">Add Water (RUST)</name>
 	<shortdesc xml:lang="en">Keep Firefox in fashion</shortdesc>
 	<description>
 		A utility app to easily install the Firefox GNOME Theme* and automatically update it in the background. This theme keeps Firefox fashionable within the GNOME design ecosystem, and provides many helpful features to customize the interface to make browsing even more pleasant:
@@ -23,7 +23,7 @@
 	<homepage rdf:resource="https://addwater.qwery.dev/"/>
 	<bug-database rdf:resource="https://github.com/largestgithubuseronearth/addwater/issues/"/>
 
-	<programming-language>Python</programming-language>
+	<programming-language>Rust</programming-language>
 	<platform>GTK 4</platform>
 	<platform>Libadwaita</platform>
 

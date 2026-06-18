@@ -1,5 +1,0 @@
-[wrap-git]
-directory = libportal
-url = https://github.com/flatpak/libportal.git
-revision = 8f5dc8d192f6e31dafe69e35219e3b707bde71ce
-depth = 1

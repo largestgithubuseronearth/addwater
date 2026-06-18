@@ -20,23 +20,18 @@ This theme supports a variety of options for Tab positioning, behavior, look and
 </div>
 
 # Preview Images
-<div align="center">
- The interface is clean, beautiful, and stays out of the way
- <img src="https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image2.png" />
-</div>
+The interface is clean, beautiful, and stays out of the way
+![The interface is clean, beautiful, and stays out of the way](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image2.png)
 
-<details><summary><b>Click to View More</b></summary>
+<details><summary>Click to View More</summary>
+Supports a pure black Top Bar, perfect for OLED screens and dark rooms
+![Supports a pure black Top Bar, perfect for OLED screens and dark rooms](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image3.png)
 
-<div align="center">
- Supports a pure black Top Bar, perfect for OLED screens and dark rooms
- <img src="https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image3.png" />
+Supports Accent Colors and multiple positions for Tab and Bookmark Bars
+![Supports Accent Colors and multiple positions for Tab and Bookmark Bars](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image4.png)
 
- Supports Accent Colors and multiple positions for Tab and Bookmark Bars
- <img src="https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image4.png" />
-
- Add Water makes it easy to tweak the Firefox GNOME Theme
- <img src="https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image1.png" />
-</div>
+Add Water makes it easy to tweak the Firefox GNOME Theme
+![Add Water makes it easy to tweak the Firefox GNOME Theme](https://raw.githubusercontent.com/largestgithubuseronearth/addwater/main/docs/image-previews/image1.png)
 </details>
 
 # Support Rafael's work by
@@ -45,18 +40,19 @@ This theme supports a variety of options for Tab positioning, behavior, look and
 
 ### [Sponsoring him on Github](https://github.com/sponsors/rafaelmardojai) 
 
-# Translating Add Water
+## Translating Add Water
 Add Water uses GNOME's Damned Lies system for translations. If you'd like to help 
 translate Add Water to your language, register with Damned Lies and join the team 
 for your language.
 
-[Translate Add Water here](https://l10n.gnome.org/module/addwater/)
+https://l10n.gnome.org/module/addwater/
 
-Unfortunately, I will not accept translations through pull requests.
+I don't accept translations through pull requests.
 
 
 --------
 
 ### Final Notes:
+* [Troubleshooting FAQ](https://github.com/largestgithubuseronearth/addwater/blob/main/docs/troubleshooting.md)
 * A few options are not supported in Add Water due to them being finicky or buggy but you can see a list of all options [here](https://github.com/rafaelmardojai/firefox-gnome-theme?tab=readme-ov-file#features).
 

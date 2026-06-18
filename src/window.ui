@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="Adw" version="1.0"/>
+  <template class="WaterWindow" parent="AdwApplicationWindow">
+    <property name="title" translatable="no">Add Water</property>
+    <property name="default-width">500</property>
+    <property name="default-height">800</property>
+    <!-- TODO set a breakpoint -->
+    <property name="content">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <!-- TODO add toast overlay -->
+          <object class="AdwHeaderBar">
+            <property name="title-widget">
+              <object class="AdwViewSwitcher">
+                <!-- TODO add mneumonics for the pages-->
+                <property name="stack">view_stack</property>
+                <property name="policy">narrow</property>
+              </object>
+            </property>
+            <child type="end">
+              <object class="GtkMenuButton">
+                <property name="primary">True</property>
+                <property name="icon-name">open-menu-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Main Menu</property>
+                <property name="menu-model">primary_menu</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="AdwViewStack" id="view_stack">
+            <!-- FIXME "prop doesn't exist". but it does... why? -->
+            <!-- <property name="enable-transitions">True</property> -->
+            <child>
+              <object class="AdwViewStackPage">
+                <property name="name">main-view</property>
+                <property name="title" translatable="no">Firefox</property>
+                <property name="icon-name">globe-symbolic</property>
+                <property name="child">
+                  <!-- TODO firefox page -->
+                  <object class="WaterFirefoxPage" />
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwViewStackPage">
+                <property name="name">thunderbird-page</property>
+                <property name="title" translatable="no">Thunderbird</property>
+                <property name="icon-name">mail-symbolic</property>
+                <property name="child">
+                  <object class="GtkLabel">
+                    <property name="label">Sneed</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <!-- TODO thunderbird page -->
+            
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+  <menu id="primary_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Preferences</attribute>
+        <attribute name="action">app.preferences</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
+        <attribute name="action">win.show-help-overlay</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_About Add Water</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>

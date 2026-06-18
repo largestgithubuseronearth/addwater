@@ -1,6 +1,10 @@
-name: Devel Flatpak
-run-name: Dev Flatpak Builder
-on: [pull_request]
+name: User Flatpak
+run-name: User Flatpak Builder
+# ON MERGE TO MAIN RUN THIS
+on:
+  push:
+    branches:
+     - 'main'
 jobs:
   Flatpak-Builder-Action:
     runs-on: ubuntu-latest
@@ -11,6 +15,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          bundle: dev.qwery.AddWater.Devel.flatpak
-          manifest-path: build-aux/dev.qwery.AddWater.Devel.json
-          upload-artifact: false
+          bundle: dev.qwery.AddWater.flatpak
+          manifest-path: build-aux/dev.qwery.AddWater.json

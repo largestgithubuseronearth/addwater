@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="Adw" version="1.0"/>
+  <template class="WaterProfileSelector" parent="AdwComboRow">
+     <property name="title" translatable="yes" comments="Profile as a noun">Profile</property>
+      <!-- TODO fix this so it only shows a checkmark on the row's selected item. Currently ListItem thinks hovering is "selection" -->
+      <!-- I could include a "selected" property as part of the profile state obj -->
+      <!-- Otherwise I probably need to just use SignalListItemFactory instead -->
+      <property name="list-factory">
+        <object class="GtkBuilderListItemFactory">
+          <property name="bytes"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GtkListItem">
+    <property name="child">
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <property name="valign">center</property>
+        <child>
+          <object class="GtkImage">
+            <property name="icon-name">star-filled-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Favorite</property>
+            <binding name="visible">
+              <lookup name="favorite" type="WaterProfile">
+                <lookup name="item">GtkListItem</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <binding name="label">
+              <lookup name="name" type="WaterProfile">
+                <lookup name="item">GtkListItem</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImage">
+            <property name="icon-name">object-select-symbolic</property>
+            <property name="opacity">0</property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>
+]]>
+          </property>
+        </object>
+      </property>
+      <property name="header-factory">
+        <!-- TODO refine this a bit more so it looks tasteful and consistent with other menus-->
+        <object class="GtkBuilderListItemFactory">
+          <property name="bytes"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="GtkListHeader">
+    <property name="child">
+      <object class="GtkLabel">
+        <property name="sensitive">True</property>
+        <property name="selectable">True</property>
+        <property name="justify">left</property>
+        <binding name="label">
+          <lookup name="format-name" type="WaterProfile">
+            <lookup name="item">GtkListHeader</lookup>
+          </lookup>
+        </binding>
+        <style>
+          <class name="separator"/>
+          <class name="title"/>
+        </style>
+      </object>
+    </property>
+  </template>
+</interface>
+]]>
+          </property>
+        </object>
+      </property>
+      <property name="expression">
+        <lookup name="name" type="WaterProfile"/>
+      </property>
+      <property name="model">
+        <object class="GtkSortListModel">
+          <property name="model">
+            <object class="GListStore" id="profile_model"/>
+          </property>
+          <!-- Sort by favorite -> alphabetical -->
+          <property name="sorter">
+            <object class="GtkCustomSorter" id="sorter"/>
+          </property>
+          <!-- Sort by package format -->
+          <property name="section-sorter">
+            <object class="GtkCustomSorter" id="section_sorter"/>
+          </property>
+        </object>
+      </property>
+  </template>
+</interface>

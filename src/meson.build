@@ -1,42 +1,50 @@
-# src/
+pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
+gnome = import('gnome')
 
-moduledir = pkgdatadir / 'addwater'
-
-configure_file(
-	input: 'addwater.in',
-	output: 'addwater',
-	configuration: conf,
-	install: true,
-	install_dir: get_option('bindir'),
-	install_mode: 'r-xr-xr-x'
+gnome.compile_resources('addwater',
+  'addwater.gresource.xml',
+  gresource_bundle: true,
+  install: true,
+  install_dir: pkgdatadir,
 )
 
-# TODO setup / teardown data to simulate profiles
-# TODO test: background updater
-# TODO test: installer
-# TODO test: find old profiles
-# TODO test: finding new profiles
-# TODO test: translations with podebug
-if get_option('tests')
-	pytest = find_program('pytest')
+configure_file(
+    input: 'config.rs.in',
+    output: 'config.rs',
+    configuration: conf
+)
 
-	install_subdir('tests', install_dir: moduledir)
-	test('pytest', pytest, args: [moduledir / 'tests', '--quiet'])
+# Copy the config.rs output to the source directory.
+run_command(
+  'cp',
+  meson.project_build_root() / 'src' / 'config.rs',
+  meson.project_source_root() / 'src' / 'config.rs',
+  check: true
+)
+
+cargo_bin  = find_program('cargo')
+cargo_opt  = [ '--manifest-path', meson.project_source_root() / 'Cargo.toml' ]
+cargo_opt += [ '--target-dir', meson.project_build_root()  / 'src' ]
+cargo_env  = [ 'CARGO_HOME=' + meson.project_build_root()  / 'cargo-home' ]
+
+if get_option('buildtype') == 'release'
+  cargo_opt += [ '--release' ]
+  rust_target = 'release'
+else
+  rust_target = 'debug'
 endif
 
-install_subdir('apps',       install_dir: moduledir)
-install_subdir('components', install_dir: moduledir)
-install_subdir('utils',      install_dir: moduledir)
-install_subdir('gui',        install_dir: moduledir)
-
-addwater_sources = [
-	'__init__.py',
-	'main.py',
-	'window.py',
-	'page.py',
-	'backend.py',
-	'profile.py',
-
-	configure_file(input: 'info.py.in', output: 'info.py', configuration: conf),
-]
-install_data(addwater_sources, install_dir: moduledir)
+cargo_build = custom_target(
+  'cargo-build',
+  build_by_default: true,
+  build_always_stale: true,
+  output: meson.project_name(),
+  console: true,
+  install: true,
+  install_dir: get_option('bindir'),
+  command: [
+    'env', cargo_env,
+    cargo_bin, 'build',
+    cargo_opt, '&&', 'cp', 'src' / rust_target / meson.project_name(), '@OUTPUT@',
+  ]
+)

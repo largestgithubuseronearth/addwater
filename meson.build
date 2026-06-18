@@ -1,52 +1,45 @@
-project('addwater',
-	version: '1.3',
-	meson_version: '>= 1.4.0',
-	default_options: [ 'warning_level=2', 'werror=false', ],
+project('addwater', 'rust', 
+          version: '0.1.0',
+    meson_version: '>= 1.0.0',
+  default_options: [ 'warning_level=2', 'werror=false', ],
 )
 
 i18n = import('i18n')
 gnome = import('gnome')
-python = import('python')
 
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 
-# Get profile and if user release, disable ALL testing options
 profile = get_option('profile')
 if profile == 'default'
 	app_id = 'dev.qwery.AddWater'
-	mock_api = false
-	force_bg = false
-elif profile =='development'
+elif profile == 'development'
 	app_id = 'dev.qwery.AddWater.Devel'
-	mock_api = get_option('online-mock')
-	force_bg = get_option('force-background')
+
+  # Setup pre-commit hook for ensuring coding style is always consistent
+  message('Setting up git pre-commit hook..')
+  run_command('cp', '-f', 'hooks/pre-commit.hook', '.git/hooks/pre-commit', check: false)
 endif
 
-
-conf = configuration_data({
-	'PYTHON' : python.find_installation('python3').full_path(),
-	'VERSION' : meson.project_version(),
-	'APP_ID' : app_id,
-	'PREFIX' : '/dev/qwery/AddWater',
-	'PROFILE': profile,
-	'localedir' : get_option('prefix') / get_option('localedir'),
-	'pkgdatadir': pkgdatadir
-})
-conf.set('MOCK_API', mock_api)
-conf.set('FORCE_BG', force_bg)
-
-dependency('libportal', version: '>=0.9.1')
+conf = configuration_data()
+conf.set_quoted('APP_ID', app_id)
+conf.set_quoted('PROFILE', profile)
+conf.set_quoted('VERSION', meson.project_version())
+conf.set_quoted('GETTEXT_PACKAGE', 'addwater')
+conf.set_quoted('LOCALEDIR', get_option('prefix') / get_option('localedir'))
+conf.set_quoted('PKGDATADIR', pkgdatadir)
 
 subdir('data')
-subdir('po')
 subdir('src')
+subdir('po')
 
-if get_option('tests')
-	subdir('build-aux')
-endif
+meson.add_dist_script(
+	'build-aux/dist-vendor.sh',
+	meson.project_build_root() / 'meson-dist' / meson.project_name() + '-' + meson.project_version(),
+	meson.project_source_root()
+)
 
 gnome.post_install(
-	glib_compile_schemas: true,
-	gtk_update_icon_cache: true,
-	update_desktop_database: true,
+     glib_compile_schemas: true,
+    gtk_update_icon_cache: true,
+  update_desktop_database: true,
 )
