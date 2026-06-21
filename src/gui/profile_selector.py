@@ -18,15 +18,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
-from typing import Callable, Optional
-
-from gi.repository import GObject, Gtk, Adw, Gio
-from packaging.version import Version
+from typing import Any
 
 from addwater import info
-from addwater.profile import Profile
-from addwater.backend import InterfaceMisuseError
 from addwater.apps.firefox import FirefoxPack
+from addwater.profile import Profile
+from gi.repository import Adw, Gio, GObject, Gtk
 
 log = logging.getLogger("profile_selector")
 
@@ -45,15 +42,22 @@ class ProfileSelector(Adw.ComboRow):
     filter: Gtk.CustomFilter = Gtk.Template.Child()
 
     # GSettings needs this to store profile id for now
-    selected_profile_id = GObject.Property(type=str, flags=(GObject.ParamFlags.READWRITE))
+    selected_profile_id = GObject.Property(
+        type=str, flags=(GObject.ParamFlags.READWRITE)
+    )
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.sorter.set_sort_func(sort_profiles)
 
     # TODO move this into constructor
-    def setup_list(self, profile_list, selected_profile_id, pack):
+    def setup_list(
+        self,
+        profile_list: list[Profile],
+        selected_profile_id: str,
+        pack: FirefoxPack,
+    ) -> None:
         self.profiles.splice(0, self.profiles.get_n_items(), profile_list)
         self.update_package_filter(pack)
 
@@ -65,17 +69,18 @@ class ProfileSelector(Adw.ComboRow):
 
         self.set_selected(0)
 
-    def update_package_filter(self, pack):
+    def update_package_filter(self, pack: FirefoxPack) -> None:
         self.filter.set_filter_func(filter_profiles, pack)
         self.filter.changed(Gtk.FilterChange.DIFFERENT)
 
-def sort_profiles(a: Profile, b: Profile, _data) -> int:
+# FIXME How to "discard" an argument in a type hint?
+def sort_profiles(a: Profile, b: Profile, _data: Any) -> int:
     if (res := b.favorite - a.favorite) != 0:
         return res
 
     return (a.name > b.name) - (b.name > a.name)
 
-def filter_profiles(item: Profile, new_package: FirefoxPack):
+def filter_profiles(item: Profile, new_package: FirefoxPack) -> None:
     if not new_package:
         return True
 

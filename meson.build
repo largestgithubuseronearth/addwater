@@ -35,6 +35,8 @@ conf = configuration_data({
 conf.set('MOCK_API', mock_api)
 conf.set('FORCE_BG', force_bg)
 
+dependency('gtk4')
+dependency('libadwaita-1', version: '>=1.9.0')
 dependency('libportal', version: '>=0.9.1')
 
 subdir('data')

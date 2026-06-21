@@ -1,8 +1,7 @@
-from os.path import expanduser, join, exists
-from os import environ, PathLike
 from enum import Enum
+from os import PathLike, environ
+from os.path import exists, expanduser, join
 from pathlib import Path
-from typing import Optional
 
 config_dir = environ.get("HOST_XDG_CONFIG_HOME", expanduser("~/.config"))
 
@@ -52,7 +51,7 @@ class FirefoxPack(Enum):
     WATERFOX_FLATPAK = ("Waterfox Flatpak", WATERFOX_FLATPAK)
     CACHY = ("CachyOS Browser", CACHY_BASE)
 
-    def __init__(self, name: str, path: PathLike):
+    def __init__(self, name: str, path: PathLike) -> None:
         self.pack_name = name
         self.path = Path(path)
 
@@ -65,7 +64,7 @@ class FirefoxPack(Enum):
 
 
     @staticmethod
-    def new_from_path(app_path: Path | PathLike) -> Optional[Enum]:
+    def new_from_path(app_path: Path | PathLike) -> Enum | None:
         app_path = Path(app_path)
         for pack in FirefoxPack:
             if app_path == pack.path:
@@ -74,7 +73,7 @@ class FirefoxPack(Enum):
         return None
 
     @staticmethod
-    def new_from_name(name: str) -> Optional[Enum]:
+    def new_from_name(name: str) -> Enum | None:
         for pack in FirefoxPack:
             if name == pack.pack_name:
                 return pack

@@ -18,21 +18,18 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
-import os.path
 import shutil
 import sys
-from datetime import datetime, timezone
 
 import gi
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
+from addwater import info
 from addwater.apps.firefox import FirefoxAppDetails
 from addwater.backend import Backend
-from gi.repository import Adw, Gio, GLib, Gtk
-
-from addwater import info
+from gi.repository import Adw, Gio, GLib
 
 from .utils import paths
 from .utils.background import BackgroundUpdater
@@ -41,21 +38,22 @@ from .window import Window
 
 log = logging.getLogger("application")
 
+# TODO create a CLI class to handle commands instead
 
 class Application(Adw.Application):
     """The main application singleton class."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             application_id=info.APP_ID,
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             resource_base_path=info.PREFIX,
         )
 
-        self.init_actions()
-
         paths.init_paths()
         init_logs()
+
+        self.init_actions()
 
         self.backends = self.construct_backends()
 
@@ -68,7 +66,7 @@ class Application(Adw.Application):
             None,
         )
 
-    def do_command_line(self, command_line):
+    def do_command_line(self, command_line) -> int:
         """Handles command line args and options if given, or starts the GUI
         window if none are provided.
         """
@@ -78,27 +76,29 @@ class Application(Adw.Application):
         if options or info.FORCE_BG == "True":
             try:
                 self.handle_background_update(options)
-                return 0
             except CommandMisuseException as err:
+                #TODO show usage
                 log.error(f"Use --help for proper usage notes: {err}")
                 return 1
+            else:
+                return 0
 
         self.activate()
         return 0
 
-    def do_activate(self):
+    def do_activate(self) -> None:
         if not (win := self.props.active_window):
             win = Window(application=self, backends=self.backends)
 
         win.present()
 
-    def handle_background_update(self, options):
+    def handle_background_update(self, options) -> None:
         if info.FORCE_BG == "True":
             options = {"quick-update": True}
 
         # TODO add flag to reset app from CLI
         # TODO handle the option better and handle the error better
-        if "quick-update" in options and options["quick-update"]:
+        if options.get("quick-update"):
             if not self.backends:
                 log.error("Cannot find any Firefox ")
                 return
@@ -111,9 +111,9 @@ class Application(Adw.Application):
                 self.send_notification("addwater-bg-update-status", notif)
             return
 
-        raise CommandMisuseException(f"Unknown options: {options}")
+        raise CommandMisuseException(f"unknown options: {options}")
 
-    def construct_backends(self):
+    def construct_backends(self) -> None:
         # TODO make this dynamic to find all available app details
         backends = []
         ff_app_detail = FirefoxAppDetails()
@@ -121,7 +121,7 @@ class Application(Adw.Application):
 
         return backends
 
-    def on_reset_app_action(self, *_args):
+    def on_reset_app_action(self, *_args) -> None:
         log.warning("resetting the entire app...")
 
         settings = Gio.Settings(info.APP_ID)
@@ -139,9 +139,10 @@ class Application(Adw.Application):
         log.info("app has been reset and will now exit")
         self.quit()
 
-    def init_actions(self):
+    def init_actions(self) -> None:
         actions = {
-                 "quit": (lambda *_a: self.quit(), ["<primary>q", "<primary>w"]),
+            "quit"     : (lambda *_a: self.quit(),
+                          ["<primary>q", "<primary>w"]),
             "reset-app": (self.on_reset_app_action, None)
         }
 
@@ -152,7 +153,7 @@ class Application(Adw.Application):
             if shortcuts := details[1]:
                 self.set_accels_for_action(f"app.{name}", shortcuts)
 
-def main(version):
+def main(version) -> int:
     app = Application()
     return app.run(sys.argv)
 

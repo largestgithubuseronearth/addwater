@@ -44,9 +44,9 @@ def install_for_firefox(profile: Profile, theme_path: PathLike) -> None:
     # Check paths to ensure they exist
     log.info("Installing theme file for Firefox...")
     if not exists(profile.path):
-        raise FileNotFoundError("Install failed. Profile path not found.")
+        raise FileNotFoundError("profile path not found.")
     if not exists(theme_path):
-        raise FileNotFoundError("Install failed. Theme files not found.")
+        raise FileNotFoundError("theme files not found.")
 
     chrome_path = join(profile.path, "chrome")
 
@@ -61,14 +61,14 @@ def install_for_firefox(profile: Profile, theme_path: PathLike) -> None:
     log.info("Firefox installation done.")
 
 
-def _copy_files(chrome_path: str, theme_path: str):
+def _copy_files(chrome_path: str, theme_path: str) -> None:
     # Make chrome folder if it doesn't already exist
     log.debug("Copying theme files into profile path...")
     try:
         os.mkdir(chrome_path)
     except FileNotFoundError:
         log.critical("Profile path does not exist. Install canceled.")
-        raise InstallException("Profile doesn't exist.")
+        raise InstallException("profile doesn't exist.")
     except FileExistsError:
         pass
 
@@ -79,7 +79,7 @@ def _copy_files(chrome_path: str, theme_path: str):
     log.debug("Done.")
 
 
-def _import_css(chrome_path: str):
+def _import_css(chrome_path: str) -> None:
     log.debug("Adding CSS imports...")
     css_files = ["userChrome.css", "userContent.css"]
 
@@ -138,6 +138,6 @@ def _copy_userjs(profile_path: str, template_path: str) -> None:
 
     except Exception as e:
         log.critical(f"Failed to append to user.js: {e}")
-        raise InstallException("Failed to append user.js")
+        raise InstallException("failed to append user.js")
 
     log.debug("Done.")

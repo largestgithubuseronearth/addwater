@@ -23,27 +23,19 @@ import gi
 
 gi.require_version("Xdp", "1.0")
 
-from addwater.backend import InterfaceMisuseError
-from gi.repository import Adw, Gio, GObject, Gtk, Xdp
-
 from addwater import info
+from gi.repository import Adw, Gio, Gtk, Xdp
 
 log = logging.getLogger("preferences_dialog")
 
-
 @Gtk.Template(resource_path=info.PREFIX + "/gtk/preferences.ui")
 class Preferences(Adw.PreferencesDialog):
-    """Only used to change Add Water options.
-    No theme options should be presented in this dialog. Include them in the
-    future "Config" dialog section.
-    """
-
     __gtype_name__ = "WaterPreferences"
 
     bg_notify_switch = Gtk.Template.Child()
     bg_update_switch = Gtk.Template.Child()
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         log.info("Preferences Window activated")
         self.settings_app = Gio.Settings(schema_id=info.APP_ID)
@@ -70,7 +62,7 @@ class Preferences(Adw.PreferencesDialog):
         )
 
     # FIXME make sure it doesn't run in the bg when called via the CLI
-    def _do_background_request(self):
+    def _do_background_request(self) -> None:
         """Request permission from portals to launch at login time"""
         bg_enabled = self.settings_app.get_boolean("background-update")
         if bg_enabled:

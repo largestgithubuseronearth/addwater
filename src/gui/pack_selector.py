@@ -19,13 +19,11 @@
 
 
 import logging
-from typing import Callable, Optional
 
-from gi.repository import Adw, Gio, GObject, Gtk
-
-from addwater import info
-from addwater.backend import InterfaceMisuseError
+from addwater import Backend, info
 from addwater.apps.firefox import FirefoxPack
+from addwater.backend import InterfaceMisuseError
+from gi.repository import Adw, GObject, Gtk
 
 log = logging.getLogger("pack_selector")
 
@@ -42,14 +40,14 @@ class PackSelector(Adw.ComboRow):
     inner_valid_path: bool
     autofind_paths: bool = GObject.Property(type=bool, default=True, flags=GObject.ParamFlags.READWRITE)
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.notify('selected-item')
         self.connect('notify::selected-item', lambda *args: self.set_package())
 
 
     # TODO this should be done in constructor; shouldn't need Page's help to do this
-    def setup_list(self, pack, backend):
+    def setup_list(self, pack: FirefoxPack, backend: Backend) -> None:
         self.backend = backend
 
         # FIXME HACK. the autofind setting is only bound after this method is called.
@@ -65,7 +63,7 @@ class PackSelector(Adw.ComboRow):
             i = list(FirefoxPack).index(pack) + 1
             self.set_selected(i)
 
-    def set_package(self):
+    def set_package(self) -> None:
         selected_index = self.get_selected()
         AUTO = 0
 
@@ -88,22 +86,20 @@ class PackSelector(Adw.ComboRow):
         if new_pack:
             try:
                 self.backend.set_package(new_pack)
-            except InterfaceMisuseError as err:
-                log.error(err)
+            except InterfaceMisuseError:
+                log.exception()
                 self.valid_path = False
             else:
                 self.valid_path = True
                 self.package = new_pack
                 self.emit("package-changed")
 
-        return
-
     @GObject.Property(type=bool, default=False)
     def valid_path(self) -> bool:
         return self.inner_valid_path
 
     @valid_path.setter
-    def set_valid_path(self, is_valid: bool):
+    def set_valid_path(self, is_valid: bool) -> None:
         if is_valid:
             self.remove_css_class("error")
         else:
@@ -112,5 +108,5 @@ class PackSelector(Adw.ComboRow):
         self.inner_valid_path = is_valid
 
     @GObject.Signal(name="package-changed")
-    def package_changed(self):
+    def package_changed(self) -> None:
         pass

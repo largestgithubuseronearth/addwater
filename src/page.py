@@ -19,17 +19,15 @@
 
 
 import logging
-from typing import Callable, Optional
 
-from addwater.gui.option_factory import (create_option_group,
-                                         create_option_switch)
+from addwater import Backend, info
+from addwater.gui import PackSelector
+from addwater.gui.option_factory import (
+    create_option_group,
+    create_option_switch,
+)
 from gi.repository import Adw, Gio, GObject, Gtk
 from packaging.version import Version
-
-from addwater import info
-from addwater.profile import Profile
-from addwater.gui import ProfileSelector, PackSelector
-from addwater.apps.firefox import FirefoxPack
 
 log = logging.getLogger("page")
 
@@ -62,7 +60,7 @@ class Page(Adw.Bin):
 
     current_toast = None
 
-    def __init__(self, backend):
+    def __init__(self, backend: Backend) -> None:
         super().__init__()
 
         self.backend = backend
@@ -81,7 +79,7 @@ class Page(Adw.Bin):
     """PUBLIC METHODS"""
 
     # TODO turn this into an async callback
-    def request_update_status(self):
+    def request_update_status(self) -> None:
         update_status = self.backend.update_theme()
         match update_status:
             case update_status.UPDATED:
@@ -103,7 +101,7 @@ class Page(Adw.Bin):
         self.update_version_title()
         self.send_toast(msg)
 
-    def on_apply_action(self, *_args):
+    def on_apply_action(self, *_args: list) -> None:
         """Apply changes to GSettings and call the proper install or uninstall method"""
         log.debug("Applied changes")
 
@@ -127,12 +125,12 @@ class Page(Adw.Bin):
 
         self.send_toast(toast_msg, 3, 1)
 
-    def on_discard_action(self):
+    def on_discard_action(self) -> None:
         self.settings.revert()
         self.send_toast(_("Changes reverted"))
 
     def send_toast(
-        self, msg: Optional[str] = None, timeout_seconds: int = 2, priority: int = 0
+        self, msg: str | None = None, timeout_seconds: int = 2, priority: int = 0
     ) -> None:
         """Convenience method to send an AdwToast quickly.
 
@@ -161,7 +159,7 @@ class Page(Adw.Bin):
         self.enable_button.grab_focus()
 
     # TODO reduce all of this as much as possible using props and constructors
-    def init_gui(self, options):
+    def init_gui(self, options: list[dict]) -> None:
         """Create and bind all SwitchRows according to their respective GSettings keys
 
         Args:
@@ -190,7 +188,7 @@ class Page(Adw.Bin):
             pack,
         )
 
-    def bind_settings(self):
+    def bind_settings(self) -> None:
         # Primary Options
         self.settings.bind(
             "theme-enabled",
@@ -208,7 +206,7 @@ class Page(Adw.Bin):
             GObject.BindingFlags.SYNC_CREATE,
         )
 
-    def init_actions(self):
+    def init_actions(self) -> None:
         action_group = Gio.SimpleActionGroup.new()
 
         apply_action = Gio.SimpleAction(name="apply-changes")
@@ -226,18 +224,18 @@ class Page(Adw.Bin):
         # TODO try to connect this in ui
         self.package_combobox.connect("package-changed", self.package_changed_cb)
 
-    def package_changed_cb(self, pack_selector):
+    def package_changed_cb(self, pack_selector: PackSelector) -> None:
         if (pack := pack_selector.package):
             self.profile_combobox.update_package_filter(pack)
 
-    def update_version_title(self):
+    def update_version_title(self) -> None:
         v = self.backend.get_update_version()
         version_str = parse_version_str(v)
 
         # Translators: {} will be replaced with a version number (example: v132) or a status message
         self.general_pref_group.set_title(_("Firefox GNOME Theme — {}").format(version_str))
 
-def parse_version_str(version: Version):
+def parse_version_str(version: Version) -> str:
     if version == Version("0.0.0"):
         return _("Not installed")
 

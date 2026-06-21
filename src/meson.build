@@ -18,10 +18,9 @@ configure_file(
 # TODO test: finding new profiles
 # TODO test: translations with podebug
 if get_option('tests')
-	pytest = find_program('pytest')
-
 	install_subdir('tests', install_dir: moduledir)
-	test('pytest', pytest, args: [moduledir / 'tests', '--quiet'])
+	test('pytest', find_program('pytest'),
+		   args: [moduledir / 'tests', '--quiet'])
 endif
 
 install_subdir('apps',       install_dir: moduledir)

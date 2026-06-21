@@ -19,12 +19,9 @@
 
 import logging
 from enum import Enum
-from typing import Optional
-
-from gi.repository import Gio
 
 from addwater import info
-
+from gi.repository import Gio
 from packaging.version import Version
 
 log = logging.getLogger("MOCK_online_manager")
@@ -33,7 +30,7 @@ log = logging.getLogger("MOCK_online_manager")
 class MockOnlineManager:
     """PUBLIC METHODS"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         log.warning("Mock online manager created!!!")
         self.online_status = OnlineStatus.UPDATED
         schema_id = info.APP_ID + ".Firefox"
@@ -41,14 +38,14 @@ class MockOnlineManager:
 
         self.update_version = Version(self.settings.get_string("installed-version"))
 
-    def get_updates_online(self, *args, **kwargs) -> Enum:
+    def get_updates_online(self, *args: list, **kwargs : dict) -> Enum:
         log.debug(f"returning fake status code of {self.online_status}")
         return self.online_status
 
-    def get_release(self, base_name: str, final_name: str, tarball_url: str):
+    def get_release(self, base_name: str, final_name: str, tarball_url: str) -> None:
         pass
 
-    def get_update_version(self):
+    def get_update_version(self) -> Version:
         return self.update_version
 
 

@@ -20,7 +20,7 @@
 # This module owns all app paths and must be used when referring to general paths like config or firefox paths
 
 import os
-from os.path import expanduser, join
+from os.path import join
 
 from gi.repository import GLib
 
@@ -37,13 +37,13 @@ DOWNLOAD_DIR = join(APP_CACHE, "downloads")
 LOG_DIR = join(APP_CACHE, "logs")
 
 
-def init_paths():
+def init_paths() -> None:
     paths = [APP_CACHE, DOWNLOAD_DIR, LOG_DIR]
     for each in paths:
         try:
             os.mkdir(path=each)
             print(f"{each} directory created.")
-        except FileExistsError as err:
+        except FileExistsError:
             print(f"{each} already exists. Skipped.")
         except FileNotFoundError as err:
             print("Couldn't find parent dir when initializing dirs ::", err)

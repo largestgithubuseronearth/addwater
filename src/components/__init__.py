@@ -1,2 +1,8 @@
-from .install import InstallManager, InstallStatus, InstallException
-from .online import OnlineManager, OnlineStatus, NetworkException, OnlineManagerError, ExtractionException
+from .install import InstallException, InstallManager, InstallStatus
+from .online import (
+    ExtractionException,
+    NetworkException,
+    OnlineManager,
+    OnlineManagerError,
+    OnlineStatus,
+)

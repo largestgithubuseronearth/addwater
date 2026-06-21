@@ -1,15 +1,15 @@
-import logging
-from typing import Callable, Optional
+from collections.abc import Callable
 
-from gi.repository import Adw, Gio, GObject, Gtk
+from gi.repository import Adw, Gio, Gtk
+
 
 # TODO this whole thing is a mess and should just be statically
 #      defined in a ui template
 def create_option_group(
     group_schematic: dict[str, list[dict]],
     gui_switch_factory: Callable,
-    settings,
-):
+    settings: Gio.Settings,
+) -> Adw.PreferencesGroup:
     """PreferenceGroup factory for theme options.
 
     Args:
@@ -54,7 +54,9 @@ def create_option_group(
     return group
 
 
-def create_option_switch(title: str, subtitle: str, extra_info: Optional[str] = None):
+def create_option_switch(
+    title: str, subtitle: str, extra_info: str | None = None
+) -> Adw.ActionRow:
     """Toggle row factory for theme options.
 
     Args:

@@ -20,14 +20,13 @@
 
 import logging
 from datetime import datetime, timezone
-from os.path import exists, join
+from os.path import join
 
+from addwater import info
+from addwater.gui import Preferences
 from addwater.page import Page
 from gi.repository import Adw, Gio, Gtk
 
-from addwater import info
-
-from addwater.gui import Preferences
 from .utils.paths import LOG_DIR
 
 log = logging.getLogger("window")
@@ -41,7 +40,7 @@ class Window(Adw.ApplicationWindow):
     view_stack = Gtk.Template.Child()
     error_page = Gtk.Template.Child()
 
-    def __init__(self, backends: list, **kwargs):
+    def __init__(self, backends: list, **kwargs: dict) -> None:
         super().__init__(**kwargs)
 
         if info.PROFILE == "development":
@@ -55,7 +54,7 @@ class Window(Adw.ApplicationWindow):
         self.backends = backends
         self.create_pages(self.backends)
 
-    def create_pages(self, app_backends: list):
+    def create_pages(self, app_backends: list) -> None:
         """Create and present app pages, and connect them to their respective app backend"""
         # TODO completely redo this. May just give the page its backend directly
         for backend in app_backends:
@@ -64,10 +63,9 @@ class Window(Adw.ApplicationWindow):
                 backend.get_package().get_profile_ini()
                 page = Page(backend=backend)
                 log.debug("page created successfully")
-            except FileNotFoundError as e:
-                app_name = backend.get_app_name()
+            except FileNotFoundError as err:
                 self.view_stack.set_visible_child_name("error")
-                log.critical(e)
+                log.critical(err)
 
             setup_error_page(self.error_page, "Firefox")
             self.view_stack.add_titled(page, "firefox", "Firefox")
@@ -78,19 +76,19 @@ class Window(Adw.ApplicationWindow):
 
         self.view_switcher.set_visible(len(self.view_stack.get_pages()) > 2)
 
-    def init_settings(self):
+    def init_settings(self) -> None:
         self.settings = Gio.Settings(schema_id=info.APP_ID)
-        self.settings.bind(
-            "window-height", self, "default-height", Gio.SettingsBindFlags.DEFAULT
-        )
-        self.settings.bind(
-            "window-width", self, "default-width", Gio.SettingsBindFlags.DEFAULT
-        )
-        self.settings.bind(
-            "window-maximized", self, "maximized", Gio.SettingsBindFlags.DEFAULT
-        )
+        self.settings.bind("window-height",
+                           self, "default-height",
+                           Gio.SettingsBindFlags.DEFAULT)
+        self.settings.bind("window-width",
+                           self, "default-width",
+                           Gio.SettingsBindFlags.DEFAULT)
+        self.settings.bind("window-maximized",
+                           self, "maximized",
+                           Gio.SettingsBindFlags.DEFAULT)
 
-    def init_actions(self):
+    def init_actions(self) -> None:
         actions = {
             "preferences": (lambda *_args: Preferences().present(self), ["<Ctrl>comma"]),
                   "about": (self.on_about_action, None)
@@ -106,7 +104,7 @@ class Window(Adw.ApplicationWindow):
 
     """Dialogs"""
 
-    def on_about_action(self, *_args):
+    def on_about_action(self, *_args: list) -> None:
         """Callback for the app.about action."""
         # Grab log info for debug info page
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -142,7 +140,7 @@ class Window(Adw.ApplicationWindow):
 
         about.present(self)
         
-def setup_error_page(page: Adw.StatusPage, app_name: str):
+def setup_error_page(page: Adw.StatusPage, app_name: str) -> None:
     """Create basic error status page when the app faces a fatal error
     that must be communicated to the user.
     """
