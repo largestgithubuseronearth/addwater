@@ -1,0 +1,14 @@
+cache-dir = "~/.cache/ruff"
+builtins = ["_"]
+
+line-length = 79
+
+[lint]
+extend-select = [
+	"A",
+	"INT",
+	# "FIX",
+	"TRY",
+	"ANN",
+	"ERA"
+]

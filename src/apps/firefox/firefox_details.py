@@ -18,21 +18,21 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
+from collections.abc import Callable
 from configparser import ConfigParser
-from enum import Enum
-from os.path import exists, join
-from typing import Any, Callable, Optional
+from os.path import join
 from pathlib import Path
+from typing import Any
 
+from addwater import info
+from addwater.profile import Profile
 from addwater.utils import paths
 from gi.repository import Gio
 from packaging.version import Version
 
-from addwater import info
-from addwater.profile import Profile
+from . import FirefoxPack
 from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_OPTIONS
-from . import FirefoxPack
 
 log = logging.getLogger("firefox_details")
 
@@ -63,7 +63,7 @@ class FirefoxAppDetails:
     theme_folder = "firefox-gnome-theme"
     full_path = join(save_to, app_folder, theme_folder)
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.settings = self.get_new_gsettings()
 
         version = Version(self.settings.get_string("installed-version"))
@@ -82,11 +82,10 @@ class FirefoxAppDetails:
             return
 
         self.set_package(current_pack)
-        return
 
     """PUBLIC METHODS"""
 
-    def reset_settings(self):
+    def reset_settings(self) -> None:
         """Resets all GSettings keys to their default"""
         log.info(f"Resetting all gsettings for {self.name}")
         self.settings.reset("theme-enabled")
@@ -103,13 +102,13 @@ class FirefoxAppDetails:
 
     """Getters"""
 
-    def get_new_gsettings(self):
+    def get_new_gsettings(self) -> Gio.Settings:
         """Returns a ready-to-use Gsettings reader pre-configured for the relevant app theme."""
         log.debug(f"creating new Gsettings reader for {self.get_name()}")
         schema_id = info.APP_ID + "." + self.get_name()
         return Gio.Settings(schema_id=schema_id)
 
-    def get_theme_folder_name(self):
+    def get_theme_folder_name(self) -> str | Path:
         return self.theme_folder
 
     def get_download_path_info(self) -> tuple:
@@ -128,13 +127,13 @@ class FirefoxAppDetails:
     def get_package(self) -> FirefoxPack:
         return self.package
 
-    def get_installer(self):
+    def get_installer(self) -> Callable:
         return self.installer
 
-    def get_installed_version(self):
+    def get_installed_version(self) -> Version:
         return self.installed_version
 
-    def get_options(self):
+    def get_options(self) -> list[dict]:
         # TODO grab only the details the consumer would need.
         #      Multiple methods or add a flag?
         return self.options
@@ -148,12 +147,12 @@ class FirefoxAppDetails:
 
         return profiles
 
-    def get_info_url(self):
+    def get_info_url(self) -> str:
         return self.THEME_URL
 
     """Setters"""
 
-    def set_package(self, package: FirefoxPack):
+    def set_package(self, package: FirefoxPack) -> None:
         # check if path is valid before setting
         _ini = package.get_profile_ini()
 
@@ -184,8 +183,8 @@ def find_profiles(package: FirefoxPack) -> list[Profile]:
     cfg.read(profiles_ini)
     for sect in filter(lambda sect: sect.startswith("Profile"), cfg.sections()):
         name = cfg[sect]["Name"]
-        id = cfg[sect]["Path"]
-        filepath = join(package.path, id)
+        path = cfg[sect]["Path"]
+        filepath = join(package.path, path)
         fav = False
         try:
             if cfg[sect]["Default"] == '1':
@@ -193,7 +192,7 @@ def find_profiles(package: FirefoxPack) -> list[Profile]:
         except KeyError:
             pass
 
-        profiles.append(Profile(name, id, filepath, fav, package))
+        profiles.append(Profile(name, path, filepath, fav, package))
 
     return profiles
 

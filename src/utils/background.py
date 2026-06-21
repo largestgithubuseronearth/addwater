@@ -20,7 +20,6 @@
 
 import logging
 from enum import Enum
-from typing import Any, Callable
 
 from addwater import info
 from addwater.backend import Backend
@@ -33,7 +32,7 @@ log = logging.getLogger("background_updater")
 class BackgroundUpdater:
     """Simple class to update and install the theme without a GUI."""
 
-    def __init__(self, backend: type[Backend]):
+    def __init__(self, backend: type[Backend]) -> None:
         app_name = backend.get_app_name()
         log.debug(f"BackgroundUpdater created for {app_name}")
         self.backend = backend
@@ -60,13 +59,13 @@ class BackgroundUpdater:
         self.bg_status = status
 
         # TODO redo this to use the profile class and not rely on the id
-    def silent_install(self):
+    def silent_install(self) -> Enum:
         log.info("Update available. Silently installing")
         # TODO Move this check into backend.get_selected_profile()?
 
         selected_id = self.settings.get_string("profile-selected")
         profile_list = self.backend.get_profiles()
-        profile = [p for p in profile_list if p.id == selected_id][0]
+        profile = next(p for p in profile_list if p.id == selected_id)
 
         # TODO if no profile, this should fail
         if not profile:
@@ -84,7 +83,7 @@ class BackgroundUpdater:
     def get_update_status(self) -> Enum:
         return self.bg_status
 
-    def get_status_notification(self):
+    def get_status_notification(self) -> Gio.Notification:
         log.debug("prepping a desktop notification for the bg update/install status")
         if not Gio.Settings(schema_id=info.APP_ID).get_boolean("background-notifications"):
             log.info("desktop notifications disabled")
@@ -113,7 +112,7 @@ class BackgroundUpdater:
             notif.set_priority(Gio.NotificationPriority.LOW)
             return notif
 
-        log.debug(f"nothing to report thus no notification sent")
+        log.debug("nothing to report thus no notification sent")
         return None
 
 

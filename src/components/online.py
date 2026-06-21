@@ -18,20 +18,16 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
-import json
 import logging
 import os
 import shutil
 import tarfile
 from enum import Enum
 from os.path import exists, join
-from typing import Optional
 
 import requests
-from addwater.utils.paths import DOWNLOAD_DIR
-from packaging.version import Version
-
 from addwater import info
+from packaging.version import Version
 
 log = logging.getLogger("online_manager")
 
@@ -52,7 +48,7 @@ class OnlineManager:
     update_version: Version
     theme_url: str
 
-    def __init__(self, theme_url: str):
+    def __init__(self, theme_url: str) -> None:
         log.debug("online manager is now alive")
         self.theme_url = theme_url
 
@@ -92,12 +88,12 @@ class OnlineManager:
         log.info("no update available")
         return OnlineStatus.NO_UPDATE
 
-    def get_update_version(self):
+    def get_update_version(self) -> None:
         return self.update_version
 
     """PRIVATE METHODS"""
 
-    def _begin_download(self, path_info, tarball_url) -> Enum:
+    def _begin_download(self, path_info: str, tarball_url: str) -> Enum:
         # Update if necessary
         # TODO simplify to just pass the path info into get_release
         base_path = join(path_info[0], path_info[1])
@@ -106,12 +102,13 @@ class OnlineManager:
             self._get_release(
                 base_path=base_path, final_name=final_name, tarball_url=tarball_url
             )
-            return OnlineStatus.UPDATED
-        except NetworkException as err:
+        except NetworkException:
             return OnlineStatus.DISCONNECTED
-        except ExtractionException as err:
-            log.error(err)
+        except ExtractionException:
+            log.exception()
             return OnlineStatus.OTHER_ERROR  # TODO handle this error better
+        else:
+            return OnlineStatus.UPDATED
 
     def _get_release(self, base_path: str, final_name: str, tarball_url: str) -> None:
         """Download and prep a theme release for installati
@@ -126,13 +123,13 @@ class OnlineManager:
         extract_path = f"{base_path}"
         final_path = join(extract_path, final_name.lower())
 
-        log.info(f"Getting release...")
+        log.info("Getting release...")
 
         if not exists(zipfile) or not exists(extract_path):
             try:
                 self._download_tarball(tarball_url, zipfile)
             except (requests.RequestException, requests.ConnectionError) as err:
-                log.error(err)
+                log.exception()
                 raise NetworkException(err)
 
         try:
@@ -142,8 +139,8 @@ class OnlineManager:
 
         try:
             self._extract_tarball(zipfile, extract_path)
-        except (FileNotFoundError, tarfile.TarError) as err:
-            raise ExtractionException("Theme files failed to extract")
+        except (FileNotFoundError, tarfile.TarError):
+            raise ExtractionException("theme files failed to extract")
 
         # rename inner folder
         self._rename_theme_folder(extract_path, final_name)
@@ -230,20 +227,20 @@ class OnlineManager:
         }
         try:
             response = requests.get(gh_url, headers=headers, timeout=10)
-        except requests.RequestException as err:
+        except requests.RequestException:
             # TODO use specific exceptions to handle being disconnected. It'll
             # 	be more helpful if the issue isn't just being offline but an API or
             # 	programmer error
-            log.error(f"Could not connect to Github to grab release info: {err}")
-            raise NetworkException(err)
+            log.exception()
+            raise NetworkException("failed to connect to Github")
 
         api_calls_left = int(response.headers["x-ratelimit-remaining"])
         try:
             latest_release = response.json()[0]
             version = Version(latest_release["tag_name"])
             tarball_url = latest_release["tarball_url"]
-        except requests.JSONDecodeError as err:
-            log.error(err)
+        except requests.JSONDecodeError:
+            log.exception()
             version = None
             tarball_url = None
 
@@ -267,11 +264,6 @@ class OnlineManager:
 
     @staticmethod
     def _is_update_available(new: Version, current: Version) -> bool:
-        if not isinstance(current, Version) or not isinstance(new, Version):
-            raise TypeError(
-                "checking updates requires both values to be Version objects"
-            )
-
         return new > current
 
 

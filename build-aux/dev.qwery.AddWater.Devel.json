@@ -142,7 +142,7 @@
             "config-opts" : [
                 "-Dprofile=development",
                 "-Dtests=true",
-                "-Donline-mock=true",
+                "-Donline-mock=false",
                 "--libdir=lib"
             ],
             "sources" : [

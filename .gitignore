@@ -8,3 +8,5 @@ pylint-results.txt
 tests/__pycache__
 subprojects/libportal
 .wraplock
+.ruff_cache
+

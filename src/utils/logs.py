@@ -23,7 +23,7 @@ import logging
 import os
 import os.path
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 from addwater.info import PROFILE, VERSION
 from gi.repository import Adw, Gtk
@@ -31,7 +31,7 @@ from gi.repository import Adw, Gtk
 from . import paths
 
 
-def init_logs():
+def init_logs() -> None:
     """Set up logging system"""
     LOG_DIR = paths.LOG_DIR
     try:
@@ -59,13 +59,12 @@ def init_logs():
 
     # Delete logs that are over two weeks old
     with os.scandir(path=LOG_DIR) as scan:
-        oldest = ""
         for each in scan:
             time = datetime.strptime(
                 each.name,
                 "addwater_%Y-%m-%d.log",
-            )
-            time = time.replace(tzinfo=timezone.utc)
+            ).replace(tzinfo=timezone.utc)
+
             difference = datetime.now(timezone.utc) - time
             if difference.days > 7:
                 os.remove(os.path.join(LOG_DIR, each.name))

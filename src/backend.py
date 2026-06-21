@@ -19,22 +19,20 @@
 
 import logging
 from enum import Enum
-from os.path import exists, join
-from typing import Any, Callable, Optional
-from pathlib import Path
-
-from addwater.profile import Profile
-from addwater.components import (OnlineManager, InstallManager, InstallStatus)
-from addwater.utils.mocks import mock_online
-from addwater.utils.paths import DOWNLOAD_DIR
-from addwater.apps.firefox import FirefoxPack
-from packaging.version import Version
+from os.path import join
+from typing import Any
 
 from addwater import info
+from addwater.apps.firefox import FirefoxAppDetails, FirefoxPack
+from addwater.components import InstallManager, InstallStatus, OnlineManager
+from addwater.profile import Profile
+from addwater.utils.mocks import mock_online
+from gi.repository import Gio
+from packaging.version import Version
 
 log = logging.getLogger("backend")
 
-# TODO remove this and let the page use the individual components directly.
+# TODO remove this and let the page use the AppDetails directly.
 #      This requires everything to be bound correctly as GObjects
 
 class Backend:
@@ -57,7 +55,7 @@ class Backend:
             those releases to be installed.
     """
     @staticmethod
-    def new_from_appdetails(app_details):
+    def new_from_appdetails(app_details: FirefoxAppDetails) -> None:
         install_method = app_details.get_installer()
         install_manager = InstallManager(
             installer=install_method,
@@ -80,10 +78,10 @@ class Backend:
 
     def __init__(
         self,
-        app_details,
+        app_details: type[FirefoxAppDetails],
         install_manager: type[InstallManager],
         online_manager: type[OnlineManager],
-    ):
+    ) -> None:
         self.app_details = app_details
         self.install_manager = install_manager
         self.online_manager = online_manager
@@ -99,7 +97,7 @@ class Backend:
 
     """Install actions"""
 
-    def begin_install(self, profile: Profile, full_install=False) -> Enum:
+    def begin_install(self, profile: Profile, full_install: bool=False) -> Enum:
         log.info("beginning installation...")
         if not profile:
             return InstallStatus.FAILURE
@@ -157,7 +155,7 @@ class Backend:
     def get_app_name(self) -> str:
         return self.app_details.get_name()
 
-    def get_app_settings(self):
+    def get_app_settings(self) -> Gio.Settings:
         return self.app_details.get_new_gsettings()
 
     def get_app_options(self) -> list[dict[str, Any]]:
@@ -177,11 +175,11 @@ class Backend:
 
     """Info Setters"""
 
-    def set_package(self, pack: FirefoxPack):
+    def set_package(self, pack: FirefoxPack) -> None:
         try:
             self.app_details.set_package(pack)
         except FileNotFoundError as err:
-            raise InterfaceMisuseError(f"Invalid path: {err}")
+            raise InterfaceMisuseError(f"invalid path: {err}")
 
     def set_installed_version(self, new_version: Version) -> None:
         if not isinstance(new_version, Version):
@@ -190,16 +188,13 @@ class Backend:
             )
         self.app_details.set_installed_version(new_version)
 
-    def reset_app(self):
-        self._uninstall_all_profiles()
+    def reset_app(self) -> None:
         self.app_details.reset_settings()
-        log.info(f"done. Add Water has been reset to default state")
+        log.info("add water has been reset to defaults")
 
     """PRIVATE METHODS"""
 
-    # TODO redo to use Profile class
-    def _uninstall_all_profiles(self):
-        pass
+    # TODO convenience method to uninstall from all profiles
 
 # TODO probably should just remove these?
 class InterfaceMisuseError(Exception):

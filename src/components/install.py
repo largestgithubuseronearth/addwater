@@ -19,16 +19,17 @@
 
 import logging
 import shutil
+from collections.abc import Callable
 from enum import Enum
 from os import PathLike
-from os.path import exists, join
-from typing import Callable, Optional
+from os.path import join
 
-from addwater.utils.paths import DOWNLOAD_DIR
 from addwater.profile import Profile
 
 log = logging.getLogger("install_manager")
 
+
+# TODO split this into two classes: install and configure managers
 
 class InstallManager:
     """Provides API for all interactions that write or modify Firefox profiles.
@@ -50,13 +51,13 @@ class InstallManager:
     def __init__(
         self,
         installer: Callable,
-        preference_handler: Optional[Callable] = None,
-        uninstaller: Optional[Callable] = None
-    ):
+        preferences_handler: Callable | None = None,
+        uninstaller: Callable | None = None
+    ) -> None:
         self._installer = installer
 
         self._preferences_handler = _set_theme_prefs
-        if preference_handler:
+        if preferences_handler:
             self._preferences_handler = preferences_handler
 
         self._uninstaller = _do_uninstall_theme
@@ -69,7 +70,7 @@ class InstallManager:
         self,
         theme_path: PathLike,
         profile: Profile,
-        options_results: Optional[dict[str, bool]] = None
+        options_results: dict[str, bool] | None = None
     ) -> Enum:
         try:
             self._installer(
@@ -85,11 +86,11 @@ class InstallManager:
         log.info("install complete")
         return InstallStatus.SUCCESS
 
-    def uninstall(self, profile: Profile, folder_name):
+    def uninstall(self, profile: Profile, folder_name: str) -> None:
         try:
             self._uninstaller(profile, folder_name)
-        except InstallException as err:
-            log.error(err)
+        except InstallException:
+            log.exception()
             return InstallStatus.FAILURE
 
         return InstallStatus.SUCCESS
@@ -176,9 +177,9 @@ def _do_uninstall_theme(profile: Profile, theme_folder: str) -> None:
                     lines[i] = line.replace("true", "false")
 
             file.writelines(lines)
-    except OSError as err:
-        log.error(f"Resetting user.js prefs to false failed: {err}")
-        raise InstallException("Uninstall failed")
+    except OSError:
+        log.exception()
+        raise InstallException("uninstall failed")
 
     log.info("Done.")
 
@@ -202,8 +203,7 @@ def _remove_css_imports(chrome_path: PathLike) -> None:
 
                 file.writelines(lines)
         except FileNotFoundError:
-            log.error(f"couldn't find file {each}")
-            pass
+            log.exception()
 
 class InstallStatus(Enum):
     SUCCESS = 0
