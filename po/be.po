@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: addwater main\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2026-04-09 20:20+0000\n"
-"PO-Revision-Date: 2026-05-13 16:54+0300\n"
+"POT-Creation-Date: 2026-06-21 20:18+0000\n"
+"PO-Revision-Date: 2026-06-22 23:13+0300\n"
 "Last-Translator: Yuras Shumovich <shumovichy@gmail.com>\n"
 "Language-Team: Belarusian <Belarusian>\n"
 "Language: be\n"
@@ -35,6 +35,22 @@ msgstr "Зрабіце Firefox стыльным"
 #: data/dev.qwery.AddWater.desktop.in:9
 msgid "theme;adwaita;firefox;"
 msgstr "theme;adwaita;firefox;тэма;"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Адпраўляць паведамленні пра абнаўленні ў фоне"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:35
+msgid "Automatically Discover the installed Firefox package format"
+msgstr "Аўтаматычна выкрываць усталяваны фармат пакета для Firefox"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:40
+msgid ""
+"Most recently installed version of the firefox gnome theme "
+"(Major.Minor.Micro)"
+msgstr ""
+"Самая апошняя ўсталяваная версія тэмы gnome для firefox "
+"(Старэйшая.Малодшая.Мікра)"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:13
 msgid ""
@@ -116,69 +132,33 @@ msgstr ""
 "Падтрымлівае акцэнтныя колеры і разнастайнае размяшчэнне панэляў укладак і "
 "закладак"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:21
-msgid "Send notifications for background updates"
-msgstr "Адпраўляць паведамленні пра абнаўленні ў фоне"
-
-#: data/dev.qwery.AddWater.gschema.xml.in:33
-msgid "Automatically Discover the installed Firefox package format"
-msgstr "Аўтаматычна выкрываць усталяваны фармат пакета для Firefox"
-
-#: data/dev.qwery.AddWater.gschema.xml.in:38
-#, fuzzy
-msgid ""
-"Most recently installed version of the firefox gnome theme "
-"(Major.Minor.Micro)"
-msgstr ""
-"Самая апошняя ўсталяваная версія тэмы gnome для firefox "
-"(Старэйшая.Малодшая.Мікра)"
-
-#: data/gtk/addwater-page.ui:15
+#: data/gtk/addwater-page.ui:17
 msgid "Firefox GNOME Theme"
 msgstr "Тэма GNOME для Firefox"
 
-#: data/gtk/addwater-page.ui:20
+#: data/gtk/addwater-page.ui:22
 msgid "Enable Theme"
 msgstr "Уключыць тэму"
 
-#: data/gtk/addwater-page.ui:28
-msgid "Package Format"
-msgstr "Фармат пакета"
-
-#: data/gtk/addwater-page.ui:29
-msgid "Profile data not found at selected location"
-msgstr "Даныя профілю не знойдзены ў выбраным месцы"
-
-#: data/gtk/addwater-page.ui:34
-msgid "Automatically Discover"
-msgstr "Аўтаматычнае выяўленне"
-
-#: data/gtk/addwater-page.ui:50
+#: data/gtk/addwater-page.ui:47
 msgid "Confirm your changes?"
 msgstr "Пацвердзіць змены?"
 
-#: data/gtk/addwater-page.ui:59
+#: data/gtk/addwater-page.ui:56
 msgid "Discard"
 msgstr "Адхіліць"
 
-#: data/gtk/addwater-page.ui:70
+#: data/gtk/addwater-page.ui:67
 msgid "Apply"
 msgstr "Прымяніць"
 
-#: data/gtk/help-overlay.ui:11
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Агульнае"
+#: data/gtk/pack-selector.ui:4
+msgid "Package Format"
+msgstr "Фармат пакета"
 
-#: data/gtk/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Show Shortcuts"
-msgstr "Паказаць спалучэнні клавіш"
-
-#: data/gtk/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "Выйсці"
+#: data/gtk/pack-selector.ui:5
+msgid "Profile data not found at selected location"
+msgstr "Даныя профілю не знойдзены ў выбраным месцы"
 
 #: data/gtk/preferences.ui:14
 msgid "Update in Background"
@@ -190,9 +170,8 @@ msgstr "Аўтаматычна правяраць наяўнасць абнаў�
 
 #. Translators: This refers to options that could be unsafe.
 #: data/gtk/preferences.ui:30
-#, fuzzy
 msgid "Danger Zone"
-msgstr "Зона небяспекі"
+msgstr "Небяспечная зона"
 
 #: data/gtk/preferences.ui:31
 msgid ""
@@ -217,98 +196,36 @@ msgstr "Профіль"
 msgid "Select profile to apply changes toward"
 msgstr "Выберыце профіль, да якога прымяніць змены"
 
-#: data/gtk/window.ui:19
+#: data/gtk/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Агульнае"
+
+#: data/gtk/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Паказаць спалучэнні клавіш"
+
+#: data/gtk/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Выйсці"
+
+#: data/gtk/window.ui:39
 msgid "Main Menu"
 msgstr "Галоўнае меню"
 
-#: data/gtk/window.ui:34
+#: data/gtk/window.ui:67
 msgid "_Preferences"
 msgstr "_Параметры"
 
-#: data/gtk/window.ui:38
+#: data/gtk/window.ui:71
 msgid "_Keyboard Shortcuts"
 msgstr "_Спалучэнні клавіш"
 
-#: data/gtk/window.ui:42
+#: data/gtk/window.ui:75
 msgid "_About Add Water"
 msgstr "П_ра Add Water"
-
-#: src/window.py:106
-msgid "Open Help Page"
-msgstr "Адкрыць старонку даведкі"
-
-#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
-#: src/window.py:113
-msgid "{} Profile Data Not Found"
-msgstr "Даныя профілю {} не знойдзены"
-
-#: src/window.py:116
-msgid ""
-"Please ensure {} is installed and Add Water has permission to access your "
-"profiles"
-msgstr ""
-"Пераканайцеся, што {} усталяваны і Add Water мае дазвол на доступ да вашага "
-"профілю"
-
-#. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
-#: src/window.py:169
-msgid "translator-credits"
-msgstr "Аляксандр Клюеў <katoshrodingera@protonmail.ch>, 2026"
-
-#. Translator: This is followed by a list of names
-#: src/window.py:174
-msgid "Theme Created and Maintained by"
-msgstr "Тэма створана і падтрымліваецца"
-
-#: src/preferences.py:82
-msgid "Checking for theme updates"
-msgstr "Ідзе праверка абнаўленняў тэмы"
-
-#: src/page.py:92
-msgid "Checking for updates..."
-msgstr "Ідзе праверка абнаўленняў…"
-
-#. Translators: {} will be replaced by a version number (example: "v126.5.65")
-#: src/page.py:108
-msgid "Updated theme to {}"
-msgstr "Тэма абноўлена да {}"
-
-#: src/page.py:110
-msgid "Failed to check for updates due to a network issue"
-msgstr "З-за праблемы з сеткай, не ўдалося праверыць наяўнасць абнаўленняў"
-
-#: src/page.py:112
-msgid "Failed to check for updates. Please try again later."
-msgstr "Не ўдалося праверыць наяўнасць абнаўленняў. Паспрабуйце пазней."
-
-#: src/page.py:114
-msgid "Unknown error has occurred. Please report this to developer."
-msgstr "Адбылася невядомая памылка. Паведаміце пра яе распрацоўшчыку."
-
-#: src/page.py:135
-msgid "Installed Theme. Restart Firefox to see changes."
-msgstr "Тэма ўсталявана. Перазапусціце Firefox, каб пабачыць змены."
-
-#: src/page.py:141
-msgid "Removed Theme. Restart Firefox to see changes."
-msgstr "Тэма выдалена. Перазапусціце Firefox, каб пабачыць змены."
-
-#: src/page.py:144
-msgid "Installation failed"
-msgstr "Збой усталявання"
-
-#: src/page.py:150
-msgid "Changes reverted"
-msgstr "Змены скінуты"
-
-#: src/page.py:250
-msgid "Not installed"
-msgstr "Не ўсталявана"
-
-#. Translators: {} will be replaced with a version number (example: v132) or a status message
-#: src/page.py:254
-msgid "Firefox GNOME Theme — {}"
-msgstr "Тэма GNOME для Firefox — {}"
 
 #: src/apps/firefox/firefox_options.py:6
 msgid "Tab Position"
@@ -461,30 +378,109 @@ msgstr "Поўнаэкранныя закладкі"
 msgid "Show Bookmarks bar while in fullscreen"
 msgstr "Паказваць панэль закладак у поўнаэкранным рэжыме"
 
-#: src/gui/option_factory.py:93
+#: src/gui/option_factory.py:87
 msgid "More Information"
 msgstr "Больш звестак"
 
-#: src/utils/background.py:97
+#: src/gui/preferences.py:83
+msgid "Checking for theme updates"
+msgstr "Ідзе праверка абнаўленняў тэмы"
+
+#: src/utils/background.py:98
 msgid "Theme updated"
 msgstr "Тэма абноўлена"
 
-#: src/utils/background.py:98
+#: src/utils/background.py:99
 msgid "Firefox GNOME Theme Updated"
 msgstr "Тэма GNOME для Firefox абноўлена"
 
-#: src/utils/background.py:100
+#: src/utils/background.py:101
 msgid "Theme Update Failed"
 msgstr "Не ўдалося абнавіць тэму"
 
-#: src/utils/background.py:101
+#: src/utils/background.py:102
 msgid "Could not check for theme updates due to a network issue"
 msgstr "З-за праблем з сеткай, не ўдалося праверыць абнаўленняў тэмы"
 
-#: src/utils/background.py:103
+#: src/utils/background.py:104
 msgid "Theme Installation failed"
 msgstr "Не ўдалося ўсталяваць тэму"
 
-#: src/utils/background.py:104
+#: src/utils/background.py:105
 msgid "A theme update was downloaded but installation failed"
 msgstr "Абнаўленне для тэмы было спампавана, але ўсталяваць яго не ўдалося"
+
+#: src/page.py:78
+msgid "Checking for updates..."
+msgstr "Ідзе праверка абнаўленняў…"
+
+#. Translators: {} will be replaced by a version number (example: "v126.5.65")
+#: src/page.py:93
+msgid "Updated theme to {}"
+msgstr "Тэма абноўлена да {}"
+
+#: src/page.py:95
+msgid "Failed to check for updates due to a network issue"
+msgstr "З-за праблемы з сеткай, не ўдалося праверыць наяўнасць абнаўленняў"
+
+#: src/page.py:97
+msgid "Failed to check for updates. Please try again later."
+msgstr "Не ўдалося праверыць наяўнасць абнаўленняў. Паспрабуйце пазней."
+
+#: src/page.py:99
+msgid "Unknown error has occurred. Please report this to developer."
+msgstr "Адбылася невядомая памылка. Паведаміце пра яе распрацоўшчыку."
+
+#: src/page.py:117
+msgid "Installed Theme. Restart Firefox to see changes."
+msgstr "Тэма ўсталявана. Перазапусціце Firefox, каб пабачыць змены."
+
+#: src/page.py:123
+msgid "Removed Theme. Restart Firefox to see changes."
+msgstr "Тэма выдалена. Перазапусціце Firefox, каб пабачыць змены."
+
+#: src/page.py:126
+msgid "Installation failed"
+msgstr "Збой усталявання"
+
+#: src/page.py:132
+msgid "Changes reverted"
+msgstr "Змены скінуты"
+
+#. Translators: {} will be replaced with a version number (example: v132) or a status message
+#: src/page.py:238
+msgid "Firefox GNOME Theme — {}"
+msgstr "Тэма GNOME для Firefox — {}"
+
+#: src/page.py:242
+msgid "Not installed"
+msgstr "Не ўсталявана"
+
+#. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
+#: src/window.py:129
+msgid "translator-credits"
+msgstr "Аляксандр Клюеў <katoshrodingera@protonmail.ch>, 2026"
+
+#. Translator: This is followed by a list of names
+#: src/window.py:132
+msgid "Theme Created and Maintained by"
+msgstr "Тэма створана і падтрымліваецца"
+
+#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+#: src/window.py:150
+msgid "{} Profile Data Not Found"
+msgstr "Даныя профілю {} не знойдзены"
+
+#: src/window.py:153
+msgid ""
+"Please ensure {} is installed and Add Water has permission to access your "
+"profiles"
+msgstr ""
+"Пераканайцеся, што {} усталяваны і Add Water мае дазвол на доступ да вашага "
+"профілю"
+
+#~ msgid "Automatically Discover"
+#~ msgstr "Аўтаматычнае выяўленне"
+
+#~ msgid "Open Help Page"
+#~ msgstr "Адкрыць старонку даведкі"
