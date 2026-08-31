@@ -8,3 +8,10 @@ pylint-results.txt
 tests/__pycache__
 subprojects/libportal
 .wraplock
+# hyperresearch (per-project research vault)
+.hyperresearch/
+research/temp/
+research/index/
+# Claude Code local config/instructions, not part of upstream project
+CLAUDE.md
+.claude/
