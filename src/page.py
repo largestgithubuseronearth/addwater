@@ -27,7 +27,6 @@ from gi.repository import Adw, Gio, GObject, Gtk
 from packaging.version import Version
 
 from addwater import info
-from addwater.backend import InterfaceMisuseError
 from addwater.profile import Profile
 from addwater.gui import ProfileSelector, PackSelector
 from addwater.apps.firefox import FirefoxPack
@@ -193,10 +192,6 @@ class Page(Adw.Bin):
             self.settings.get_string("profile-selected"),
             filter_pack,
         )
-        self.profile_combobox.connect(
-            "notify::selected-item", self.profile_changed_cb
-        )
-        self.profile_changed_cb()
 
     def bind_settings(self):
         # Primary Options
@@ -236,26 +231,6 @@ class Page(Adw.Bin):
 
     def package_changed_cb(self, pack_selector):
         self.profile_combobox.update_package_filter(pack_selector.package)
-
-    def profile_changed_cb(self, *_args):
-        """Keep 'data-path' truthful to the currently selected profile while autofinding.
-
-        The package selector is only a UI filter; it isn't the source of truth for
-        installation. When autofind is on, whichever browser owns the selected profile
-        should be reflected back into the backend so status queries (get_package) and
-        the persisted 'data-path' GSetting stay accurate across restarts.
-        """
-        if not self.package_combobox.autofind_paths:
-            return
-
-        profile = self.profile_combobox.get_selected_item()
-        if not profile:
-            return
-
-        try:
-            self.backend.set_package(profile.package)
-        except InterfaceMisuseError as err:
-            log.error(f"Could not sync package to selected profile: {err}")
 
     def update_version_title(self):
         v = self.backend.get_update_version()
