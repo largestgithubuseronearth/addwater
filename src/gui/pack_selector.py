@@ -19,7 +19,7 @@
 
 
 import logging
-from typing import Callable, Optional
+from typing import Optional
 
 from gi.repository import Adw, Gio, GObject, Gtk
 
@@ -38,7 +38,7 @@ class PackSelector(Adw.ComboRow):
     str_model: Gtk.StringList = Gtk.Template.Child()
 
     backend = None
-    package: FirefoxPack
+    package: Optional[FirefoxPack] = None
     inner_valid_path: bool
     autofind_paths: bool = GObject.Property(type=bool, default=True, flags=GObject.ParamFlags.READWRITE)
 
@@ -71,6 +71,7 @@ class PackSelector(Adw.ComboRow):
 
         if selected_index == AUTO:
             self.autofind_paths = True
+            self.package = None
             log.info("Autofind paths enabled")
             self.valid_path = True
             self.emit("package-changed")

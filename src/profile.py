@@ -49,6 +49,8 @@ class Profile(GObject.Object):
     @GObject.Property(type=str)
     def display_name(self) -> str:
         out = self.name
+        if self.package:
+            out += f" ({self.package.pack_name})"
         if self.favorite:
             out += " (Preferred)"
 
