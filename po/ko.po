@@ -1,0 +1,470 @@
+# Korean translation for addwater.
+# Copyright (C) 2026 addwater's COPYRIGHT HOLDER
+# This file is distributed under the same license as the addwater package.
+# Seong-ho Cho <shcho@gnome.org>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: addwater main\n"
+"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
+"issues/\n"
+"POT-Creation-Date: 2026-06-21 20:18+0000\n"
+"PO-Revision-Date: 2026-09-10 16:35+0900\n"
+"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
+"Language-Team: Korean <Korean>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.6\n"
+
+#: data/dev.qwery.AddWater.desktop.in:2
+msgid "Add Water"
+msgstr "애드워터"
+
+#: data/dev.qwery.AddWater.desktop.in:4
+#: data/dev.qwery.AddWater.metainfo.xml.in:11
+msgid "Keep Firefox in fashion"
+msgstr "파이어폭스를 최신 모양새로"
+
+#. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
+#: data/dev.qwery.AddWater.desktop.in:9
+msgid "theme;adwaita;firefox;"
+msgstr "theme;테마;adwaita;애드와이타;firefox;파이어폭스;"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "배경 화면 업데이트 알림을 보냅니다"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:35
+msgid "Automatically Discover the installed Firefox package format"
+msgstr "설치한 파이어폭스 패키지 형식을 자동으로 찾아냅니다"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:40
+msgid ""
+"Most recently installed version of the firefox gnome theme "
+"(Major.Minor.Micro)"
+msgstr "최근 설치한 파이어폭스 그놈 테마 버전 (주.부.하위)"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:13
+msgid ""
+"A utility app to easily install the Firefox GNOME Theme* and automatically "
+"update it in the background. This theme keeps Firefox fashionable within the "
+"GNOME design ecosystem, and provides many helpful features to customize the "
+"interface to make browsing even more pleasant:"
+msgstr ""
+"파이어폭스 그놈 테마를 쉽게 설치하고 백그라운드에서 자동으로 업데이트하는 유"
+"틸리티 앱입니다. 이 테마는 파이어폭스를 그놈 설계 생태계 내에서 최신의 스타일"
+"을 유지하고, 웹 브라우징을 기분 좋게 진행할 수 있도록 개별 설정할 수 있는 여"
+"러가지 보조적 특징 기능을 제공합니다:"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:16
+msgid "Supports light and dark style, as well as accent colors"
+msgstr "밝음, 어두움 모양새 뿐만 아니라 강조 색상 모양새도 지원합니다"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:17
+#: src/apps/firefox/firefox_options.py:12
+msgid "Hide Tab Bar when only one tab is open"
+msgstr "탭 하나만 열었을 경우 탭 표시줄을 숨깁니다"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:18
+msgid "Use an OLED-friendly pitch black for the interface"
+msgstr "OLED에 적절한 피치 블랙 색상을 인터페이스에 활용합니다"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:19
+msgid "Customize Tab Bar position, position of controls, alignment, and more"
+msgstr "탭 표시줄 위치, 컨트롤 위치, 정렬 상태 등을 별도로 설정합니다"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:20
+msgid "Hide redundant microphone, webcam, screen share indicators"
+msgstr "마이크로폰, 웹캠, 화면공유 중복 표시 숨김"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:21
+msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
+msgstr "파이어폭스의 플랫팩, 스냅, 리브레울프, 플로어피 버전을 지원합니다"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:23
+msgid ""
+"*The Firefox GNOME Theme itself is independently developed and maintained by "
+"Rafael Mardojai CM."
+msgstr "*파이어폭스 그놈 테마는 Rafael Mardojai CM이 개별 개발하고 관리합니다."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:24
+msgid ""
+"The Firefox browser is not included and must be downloaded separately. This "
+"project is not affiliated or endorsed by the Mozilla Foundation. Firefox is "
+"a trademark of the Mozilla Foundation in the U.S. and other countries."
+msgstr ""
+"파이어폭스 브라우저가 들어있지 않아 따로 다운로드해야 합니다. 이 프로젝트는 "
+"모질라 재단에 속해있거나 재단에서 보증하지 않습니다. 파이어폭스는 미국과 해외"
+"국가에 등록한 모질러 재단의 상표입니다."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:35
+msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
+msgstr "애드워터에서는 파이어폭스 그놈 테마를 쉽게 별도 설정할 수 있습니다"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:39
+msgid "The interface is clean, beautiful, and stays out of the way"
+msgstr "인터페이스는 깔끔하고, 미려하며, 방해 요소가 없습니다"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:43
+msgid "Supports a pure black Top Bar, perfect for OLED screens and dark rooms"
+msgstr ""
+"상단 표시줄의 순수 검정색을 지원하여 OLED 화면과 어두운 방에 안성맞춤입니다"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:47
+msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
+msgstr "탭과 책갈피 표시줄의 강조 색상과 여러 위치 배치를 지원합니다"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:68
+msgid "Adwaita"
+msgstr "애드와이타"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:69
+msgid "theme"
+msgstr "테마"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:70
+msgid "Firefox"
+msgstr "파이어폭스"
+
+#: data/gtk/addwater-page.ui:17
+msgid "Firefox GNOME Theme"
+msgstr "파이어폭스 그놈 테마"
+
+#: data/gtk/addwater-page.ui:22
+msgid "Enable Theme"
+msgstr "테마 사용"
+
+#: data/gtk/addwater-page.ui:47
+msgid "Confirm your changes?"
+msgstr "정말로 바꾸시겠습니까?"
+
+#: data/gtk/addwater-page.ui:56
+msgid "Discard"
+msgstr "취소"
+
+#: data/gtk/addwater-page.ui:67
+msgid "Apply"
+msgstr "적용"
+
+#: data/gtk/pack-selector.ui:4
+msgid "Package Format"
+msgstr "패키지 형식"
+
+#: data/gtk/pack-selector.ui:5
+msgid "Profile data not found at selected location"
+msgstr "프로파일 데이터가 선택한 위치에 없습니다"
+
+#: data/gtk/preferences.ui:14
+msgid "Update in Background"
+msgstr "백그라운드에서 업데이트"
+
+#: data/gtk/preferences.ui:15
+msgid "Automatically check for updates at login"
+msgstr "로그인할 때 업데이트 자동 확인"
+
+#. Translators: This refers to options that could be unsafe.
+#: data/gtk/preferences.ui:30
+msgid "Danger Zone"
+msgstr "위험 영역"
+
+#: data/gtk/preferences.ui:31
+msgid ""
+"Remove the theme from all known profiles and reset Add Water to its default "
+"state. Any custom changes made to your user.js file will remain after a "
+"reset."
+msgstr ""
+"모든 공개 프로파일에서 테마를 제거하고 애드워터를 기본 상태로 되돌립니다. "
+"user.js 파일에 저장한 개별 변경 사항은 나중에 초기화할 수 있도록 남겨둡니다."
+
+#: data/gtk/preferences.ui:34
+msgid "Reset and Close App"
+msgstr "앱 초기화 후 닫기"
+
+#. Translators: Profile the noun, as in Firefox profile/account
+#: data/gtk/profile-selector.ui:5
+msgid "Profile"
+msgstr "프로파일"
+
+#: data/gtk/profile-selector.ui:6
+msgid "Select profile to apply changes toward"
+msgstr "바꿔 적용하려는 프로파일을 선택하십시오"
+
+#: data/gtk/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "일반"
+
+#: data/gtk/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "단축키 표시"
+
+#: data/gtk/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "나가기"
+
+#: data/gtk/window.ui:39
+msgid "Main Menu"
+msgstr "기본 메뉴"
+
+#: data/gtk/window.ui:67
+msgid "_Preferences"
+msgstr "기본 설정(_P)"
+
+#: data/gtk/window.ui:71
+msgid "_Keyboard Shortcuts"
+msgstr "키보드 단축키(_K)"
+
+#: data/gtk/window.ui:75
+msgid "_About Add Water"
+msgstr "애드워터 정보(_A)"
+
+#: src/apps/firefox/firefox_options.py:6
+msgid "Tab Position"
+msgstr "탭 위치"
+
+#: src/apps/firefox/firefox_options.py:11
+msgid "Hide Single Tab"
+msgstr "단일 탭 숨기기"
+
+#: src/apps/firefox/firefox_options.py:14
+msgid ""
+"Consider placing the New Tab button near the Search Bar. Otherwise it may "
+"get lost when only one tab is open."
+msgstr ""
+"검색 표시줄 부근의 새 탭 단추 배치를 고려합니다. 그렇지 않으면 하나의 탭만을 "
+"열면 사라질 수도 있습니다."
+
+#: src/apps/firefox/firefox_options.py:21
+msgid "Standard Tab Width"
+msgstr "표준 탭 너비"
+
+#: src/apps/firefox/firefox_options.py:22
+msgid "Use same tab width as standard Firefox"
+msgstr "표준 파이어폭스용 동일 탭 너비를 활용합니다"
+
+#: src/apps/firefox/firefox_options.py:29
+msgid "Swap Tab Close Button"
+msgstr "탭 닫기 단추 전환"
+
+#: src/apps/firefox/firefox_options.py:31
+msgid "Place Close Tab button on opposite side from window controls"
+msgstr "창 컨트롤이 아닌 반대 방향에 탭 닫기 단추를 배치합니다"
+
+#: src/apps/firefox/firefox_options.py:39
+msgid "Bookmarks Toolbar Under Tabs"
+msgstr "책갈피 도구 모음 내 탭"
+
+#: src/apps/firefox/firefox_options.py:40
+msgid "Place Bookmarks Bar underneath Tab Bar"
+msgstr "탭 표시줄 아래에 책갈피 표시줄 배치"
+
+#: src/apps/firefox/firefox_options.py:47
+msgid "Tabs as Headerbar"
+msgstr "헤더바에 탭 표시"
+
+#: src/apps/firefox/firefox_options.py:48
+msgid "Place Tab Bar at top of window"
+msgstr "창 상단에 탭 표시줄을 둡니다"
+
+#: src/apps/firefox/firefox_options.py:50
+msgid ""
+"Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
+"open"
+msgstr ""
+"\"단일 탭 숨김\" 옵션을 사용하면 하나의 탭을 열었을 때 제목 표시줄에 나타납니"
+"다"
+
+#: src/apps/firefox/firefox_options.py:57
+msgid "Left-Aligned Titles"
+msgstr "제목 좌측 정렬"
+
+#: src/apps/firefox/firefox_options.py:58
+msgid "Align tab title to left"
+msgstr "탭 제목을 좌측으로 정렬합니다"
+
+#: src/apps/firefox/firefox_options.py:65
+msgid "Tab Behavior"
+msgstr "탭 동작"
+
+#: src/apps/firefox/firefox_options.py:70
+msgid "Active Tab Contrast"
+msgstr "활성 탭 대비"
+
+#: src/apps/firefox/firefox_options.py:71
+msgid "Add more visual contrast to the active tab"
+msgstr "활성 탭에 시각적 대비 요소를 추가합니다"
+
+#: src/apps/firefox/firefox_options.py:78
+msgid "Close Only Selected Tabs"
+msgstr "선택한 탭만 닫기"
+
+#: src/apps/firefox/firefox_options.py:79
+msgid "Only show the Close Tab button on the active tab"
+msgstr "활성 탭의 탭 닫기 단추만 보여줍니다"
+
+#: src/apps/firefox/firefox_options.py:86
+msgid "Symbolic Tab Icons"
+msgstr "탭 상징 아이콘"
+
+#: src/apps/firefox/firefox_options.py:87
+msgid "Make all tab icons appear similar to symbolic icons"
+msgstr "모든 탭 아이콘을 상징 아이콘처럼 나타나게 합니다"
+
+#: src/apps/firefox/firefox_options.py:94
+msgid "List of Tabs"
+msgstr "탭 목록"
+
+#: src/apps/firefox/firefox_options.py:95
+msgid "Always show All Tabs button"
+msgstr "모든 탭 단추 항상 표시"
+
+#: src/apps/firefox/firefox_options.py:102
+msgid "List of Tabs on Overflow"
+msgstr "넘쳐날 경우 탭 목록"
+
+#: src/apps/firefox/firefox_options.py:103
+msgid "Only show All Tabs button when many tabs are open"
+msgstr "많은 탭을 열었을 경우에만 모든 탭 단추 표시"
+
+#: src/apps/firefox/firefox_options.py:115
+msgid "Hide Privacy Indicators"
+msgstr "개인 정보 표시"
+
+#: src/apps/firefox/firefox_options.py:116
+msgid "Hide microphone, screen share, and camera warnings"
+msgstr "마이크로폰, 화면 공유, 카메라 경고 숨김"
+
+#: src/apps/firefox/firefox_options.py:118
+msgid "GNOME will still show these privacy indicators in the Top Bar"
+msgstr "그놈은 개인 정보 알림을 최상단 표시줄에 보여줍니다"
+
+#: src/apps/firefox/firefox_options.py:125
+msgid "True Black Dark Theme"
+msgstr "트루 검은 어두움 테마"
+
+#: src/apps/firefox/firefox_options.py:127
+msgid "Use an OLED-friendly, deep black when dark theme is enabled"
+msgstr "어두움 테마를 사용하는 경우 OLED에 어울리는, 심도있는 검은 색을 사용"
+
+#: src/apps/firefox/firefox_options.py:135
+msgid "No Themed Icons"
+msgstr "테마 작업한 아이콘이 없습니다"
+
+#: src/apps/firefox/firefox_options.py:137
+msgid "Use standard Firefox icons instead of Adwaita-styled icons"
+msgstr "애드와이타 형식 아이콘이 아닌 표준 파이어폭스 아이콘을 사용"
+
+#: src/apps/firefox/firefox_options.py:145
+msgid "Fullscreen Bookmarks"
+msgstr "전체 화면 책갈피"
+
+#: src/apps/firefox/firefox_options.py:146
+msgid "Show Bookmarks bar while in fullscreen"
+msgstr "전체 화면일 때 책갈피 표시줄 표시"
+
+#: src/gui/option_factory.py:87
+msgid "More Information"
+msgstr "추가 정보"
+
+#: src/gui/preferences.py:83
+msgid "Checking for theme updates"
+msgstr "테마 업데이트 확인 중"
+
+#: src/utils/background.py:98
+msgid "Theme updated"
+msgstr "테마 업데이트함"
+
+#: src/utils/background.py:99
+msgid "Firefox GNOME Theme Updated"
+msgstr "파이어폭스 그놈 테마를 업데이트했습니다"
+
+#: src/utils/background.py:101
+msgid "Theme Update Failed"
+msgstr "테마 업데이트 실패"
+
+#: src/utils/background.py:102
+msgid "Could not check for theme updates due to a network issue"
+msgstr "네트워크 문제로 테마 업데이트를 확인하지 못했습니다"
+
+#: src/utils/background.py:104
+msgid "Theme Installation failed"
+msgstr "테마 설치에 실패했습니다"
+
+#: src/utils/background.py:105
+msgid "A theme update was downloaded but installation failed"
+msgstr "테마 업데이트를 다운로드했으나 설치에 실패했습니다"
+
+#: src/page.py:78
+msgid "Checking for updates..."
+msgstr "업데이트 확인중..."
+
+#. Translators: {} will be replaced by a version number (example: "v126.5.65")
+#: src/page.py:93
+msgid "Updated theme to {}"
+msgstr "{} 버전으로 테마를 업데이트했습니다"
+
+#: src/page.py:95
+msgid "Failed to check for updates due to a network issue"
+msgstr "네트워크 문제로 업데이트 확인에 실패했습니다"
+
+#: src/page.py:97
+msgid "Failed to check for updates. Please try again later."
+msgstr "업데이트 확인에 실패했습니다. 나중에 다시 시도하십시오."
+
+#: src/page.py:99
+msgid "Unknown error has occurred. Please report this to developer."
+msgstr "알 수 없는 오류가 나타났습니다. 이 문제를 개발자에게 보고하십시오."
+
+#: src/page.py:117
+msgid "Installed Theme. Restart Firefox to see changes."
+msgstr ""
+"테마를 설치했습니다. 바뀐 상태를 보려면 파이어폭스를 다시 시작하십시오."
+
+#: src/page.py:123
+msgid "Removed Theme. Restart Firefox to see changes."
+msgstr ""
+"테마를 제거했습니다. 바뀐 상태를 보려면 파이어폭스를 다시 시작하십시오."
+
+#: src/page.py:126
+msgid "Installation failed"
+msgstr "설치 실패"
+
+#: src/page.py:132
+msgid "Changes reverted"
+msgstr "변경 복원함"
+
+#. Translators: {} will be replaced with a version number (example: v132) or a status message
+#: src/page.py:238
+msgid "Firefox GNOME Theme — {}"
+msgstr "파이어폭스 그놈 테마 - {}"
+
+#: src/page.py:242
+msgid "Not installed"
+msgstr "설치 안함"
+
+#. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
+#: src/window.py:129
+msgid "translator-credits"
+msgstr "조성호 <shcho@gnome.org>, 2026"
+
+#. Translator: This is followed by a list of names
+#: src/window.py:132
+msgid "Theme Created and Maintained by"
+msgstr "테마 제작/관리자: "
+
+#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+#: src/window.py:150
+msgid "{} Profile Data Not Found"
+msgstr "{} 프로파일 데이터가 없습니다"
+
+#: src/window.py:153
+msgid ""
+"Please ensure {} is installed and Add Water has permission to access your "
+"profiles"
+msgstr ""
+"{}을(를) 설치하고 애드워터의 프로파일 접근 권한을 부여했는지 확인하십시오"
