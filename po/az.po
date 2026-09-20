@@ -1,46 +1,59 @@
-# Azerbaijani translation for Add Water
-# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# Azerbaijani translation for Add Water.
+# Copyright (C) 2026 Add Water's COPYRIGHT HOLDER
 # This file is distributed under the same license as the Add Water package.
-# Ramal Rəhimov <jhoaluman@gmail.com>, 2025.
+# Ramal Rəhimov <jhoaluman@gmail.com>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Add Water\n"
-"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
-"issues/\n"
-"POT-Creation-Date: 2025-05-25 15:24+0000\n"
-"PO-Revision-Date: 2025-06-04 14:16+0400\n"
+"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/issues/\n"
+"POT-Creation-Date: 2026-06-21 20:18+0000\n"
+"PO-Revision-Date: 2026-09-20 17:40+0300\n"
 "Last-Translator: Ramal Rəhimov <jhoaluman@gmail.com>\n"
-"Language-Team: Azerbaijani <contact@azlinux.org>\n"
+"Language-Team: Azerbaijani <contact@azelinux.com>\n"
 "Language: az\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 46.0\n"
+"X-Generator: Google Antigravity / Gtranslator\n"
 
-#. Branding Info
-#: data/dev.qwery.AddWater.desktop.in:3
-#: data/dev.qwery.AddWater.metainfo.xml.in:10
+#: data/dev.qwery.AddWater.desktop.in:2
 msgid "Add Water"
-msgstr "Su Əlavə Et"
+msgstr "Add Water"
 
-#: data/dev.qwery.AddWater.desktop.in:5
+#: data/dev.qwery.AddWater.desktop.in:4
 #: data/dev.qwery.AddWater.metainfo.xml.in:11
 msgid "Keep Firefox in fashion"
 msgstr "Firefox-u dəbdə saxlayın"
 
-#. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
-#: data/dev.qwery.AddWater.desktop.in:10
+#. Translators: Keywords to search for this app. Ensure each is separated with
+#. a semi-colon and the list ends with one too.
+#: data/dev.qwery.AddWater.desktop.in:9
 msgid "theme;adwaita;firefox;"
 msgstr "mövzu;adwaita;firefox;"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Arxa plan yeniləmələri üçün bildirişlər göndər"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:35
+msgid "Automatically Discover the installed Firefox package format"
+msgstr "Quraşdırılmış Firefox paket formatını avtomatik aşkar et"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:40
+msgid ""
+"Most recently installed version of the firefox gnome theme "
+"(Major.Minor.Micro)"
+msgstr ""
+"Firefox GNOME mövzusunun ən son quraşdırılmış versiyası (Əsas.Kiçik.Mikro)"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:13
 msgid ""
 "A utility app to easily install the Firefox GNOME Theme* and automatically "
-"update it in the background. This theme keeps Firefox fashionable within the "
-"GNOME design ecosystem, and provides many helpful features to customize the "
-"interface to make browsing even more pleasant:"
+"update it in the background. This theme keeps Firefox fashionable within the"
+" GNOME design ecosystem, and provides many helpful features to customize the"
+" interface to make browsing even more pleasant:"
 msgstr ""
 "Firefox GNOME Mövzusunu* asanlıqla quraşdırmaq və arxa planda avtomatik "
 "yeniləmək üçün faydalı bir tətbiq. Bu mövzu Firefox-u GNOME dizayn "
@@ -52,7 +65,7 @@ msgid "Supports light and dark style, as well as accent colors"
 msgstr "Açıq və qaranlıq üslubları, həmçinin vurğu rənglərini dəstəkləyir"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:17
-#: src/apps/firefox/firefox_options.py:11
+#: src/apps/firefox/firefox_options.py:12
 msgid "Hide Tab Bar when only one tab is open"
 msgstr "Yalnız bir tab açıq olduqda tab panelini gizlət"
 
@@ -78,8 +91,8 @@ msgstr ""
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:23
 msgid ""
-"*The Firefox GNOME Theme itself is independently developed and maintained by "
-"Rafael Mardojai CM."
+"*The Firefox GNOME Theme itself is independently developed and maintained by"
+" Rafael Mardojai CM."
 msgstr ""
 "*Firefox GNOME Mövzusu özü Rafael Mardojai CM tərəfindən müstəqil olaraq "
 "hazırlanır və saxlanılır."
@@ -96,7 +109,7 @@ msgstr ""
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:35
 msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
-msgstr "Su Əlavə Et Firefox GNOME Mövzusunu asanlıqla tənzimləməyə imkan verir"
+msgstr "Add Water Firefox GNOME mövzusunu asanlıqla tənzimləməyə imkan verir"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:39
 msgid "The interface is clean, beautiful, and stays out of the way"
@@ -109,73 +122,51 @@ msgstr ""
 "dəstəkləyir"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:47
-msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
+msgid ""
+"Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
 msgstr ""
 "Vurğu rənglərini və tab və əlfəcin panelləri üçün çoxsaylı mövqeləri "
 "dəstəkləyir"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:21
-msgid "Send notifications for background updates"
-msgstr "Arxa plan yeniləmələri üçün bildirişlər göndər"
+#: data/dev.qwery.AddWater.metainfo.xml.in:68
+msgid "Adwaita"
+msgstr "Adwaita"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:33
-msgid "Automatically Discover the installed Firefox package format"
-msgstr "Quraşdırılmış Firefox paket formatını avtomatik aşkar et"
+#: data/dev.qwery.AddWater.metainfo.xml.in:69
+msgid "theme"
+msgstr "mövzu"
 
-#: data/dev.qwery.AddWater.gschema.xml.in:38
-msgid ""
-"Most recently installed version of the firefox gnome theme (Major.Minor."
-"Micro)"
-msgstr ""
-"Firefox GNOME mövzusunun ən son quraşdırılmış versiyası (Əsas.Kiçik.Mikro)"
+#: data/dev.qwery.AddWater.metainfo.xml.in:70
+msgid "Firefox"
+msgstr "Firefox"
 
-#: data/gtk/addwater-page.ui:15
+#: data/gtk/addwater-page.ui:17
 msgid "Firefox GNOME Theme"
 msgstr "Firefox GNOME Mövzusu"
 
-#: data/gtk/addwater-page.ui:20
+#: data/gtk/addwater-page.ui:22
 msgid "Enable Theme"
 msgstr "Mövzunu Aktivləşdir"
 
-#. Translators: This refers to how the user installed Firefox (package manager, Flatpak, Snap, etc.)
-#: data/gtk/addwater-page.ui:28
-msgid "Package Format"
-msgstr "Paket Formatı"
-
-#: data/gtk/addwater-page.ui:29
-msgid "Profile data not found at selected location"
-msgstr "Seçilmiş yerdə profil məlumatları tapılmadı"
-
-#: data/gtk/addwater-page.ui:34
-msgid "Automatically Discover"
-msgstr "Avtomatik Aşkar Et"
-
-#: data/gtk/addwater-page.ui:51
+#: data/gtk/addwater-page.ui:47
 msgid "Confirm your changes?"
 msgstr "Dəyişiklikləri təsdiqləyin?"
 
-#: data/gtk/addwater-page.ui:60
+#: data/gtk/addwater-page.ui:56
 msgid "Discard"
 msgstr "Ləğv et"
 
-#: data/gtk/addwater-page.ui:71
+#: data/gtk/addwater-page.ui:67
 msgid "Apply"
 msgstr "Tətbiq et"
 
-#: data/gtk/help-overlay.ui:11
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Ümumi"
+#: data/gtk/pack-selector.ui:4
+msgid "Package Format"
+msgstr "Paket Formatı"
 
-#: data/gtk/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Show Shortcuts"
-msgstr "Qısayolları Göstər"
-
-#: data/gtk/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "Çıx"
+#: data/gtk/pack-selector.ui:5
+msgid "Profile data not found at selected location"
+msgstr "Seçilmiş yerdə profil məlumatları tapılmadı"
 
 #: data/gtk/preferences.ui:14
 msgid "Update in Background"
@@ -196,7 +187,7 @@ msgid ""
 "state. Any custom changes made to your user.js file will remain after a "
 "reset."
 msgstr ""
-"Bütün məlum profillərdən mövzunu silin və Su Əlavə Et tətbiqini standart "
+"Bütün məlum profillərdən mövzunu silin və Add Water tətbiqini standart "
 "vəziyyətinə sıfırlayın. user.js faylınızda edilən hər hansı fərdi "
 "dəyişikliklər sıfırlamadan sonra qalacaq."
 
@@ -204,7 +195,7 @@ msgstr ""
 msgid "Reset and Close App"
 msgstr "Tətbiqi Sıfırla və Bağla"
 
-#. Translators: Profile as in Firefox profile/account
+#. Translators: Profile the noun, as in Firefox profile/account
 #: data/gtk/profile-selector.ui:5
 msgid "Profile"
 msgstr "Profil"
@@ -213,111 +204,46 @@ msgstr "Profil"
 msgid "Select profile to apply changes toward"
 msgstr "Dəyişiklikləri tətbiq etmək üçün profil seçin"
 
-#: data/gtk/window.ui:19
+#: data/gtk/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Ümumi"
+
+#: data/gtk/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Qısayolları Göstər"
+
+#: data/gtk/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Çıx"
+
+#: data/gtk/window.ui:39
 msgid "Main Menu"
 msgstr "Əsas Menyu"
 
-#: data/gtk/window.ui:34
+#: data/gtk/window.ui:67
 msgid "_Preferences"
-msgstr "_Tərcihlər"
+msgstr "_Tənzimləmələr"
 
-#: data/gtk/window.ui:38
+#: data/gtk/window.ui:71
 msgid "_Keyboard Shortcuts"
 msgstr "_Klaviatura Qısayolları"
 
-#: data/gtk/window.ui:42
+#: data/gtk/window.ui:75
 msgid "_About Add Water"
-msgstr "_Su Əlavə Et Haqqında"
+msgstr "Add Water _haqqında"
 
-#: src/window.py:104
-msgid "Open Help Page"
-msgstr "Kömək Səhifəsini Aç"
-
-#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
-#: src/window.py:111
-msgid "{} Profile Data Not Found"
-msgstr "{} Profil Məlumatları Tapılmadı"
-
-#: src/window.py:114
-msgid ""
-"Please ensure {} is installed and Add Water has permission to access your "
-"profiles"
-msgstr ""
-"{} quraşdırıldığından və Su Əlavə Et tətbiqinin profillərinizə giriş icazəsi "
-"olduğundan əmin olun"
-
-#. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
-#: src/window.py:168
-msgid "translator-credits"
-msgstr "Grok <grok@x.ai>"
-
-#. Translator: This is followed by a list of names
-#: src/window.py:173
-msgid "Theme Created and Maintained by"
-msgstr "Mövzu Yaradılıb və Saxlanılır"
-
-#: src/preferences.py:82
-msgid "Checking for theme updates"
-msgstr "Mövzu yeniləmələri yoxlanılır"
-
-#: src/page.py:95
-msgid "Checking for updates..."
-msgstr "Yeniləmələr yoxlanılır..."
-
-#. Translators: {} will be replaced by a version number (example: "v126.5.65")
-#: src/page.py:111
-msgid "Updated theme to {}"
-msgstr "Mövzu {} versiyasına yeniləndi"
-
-#: src/page.py:113
-msgid "Failed to check for updates due to a network issue"
-msgstr "Şəbəkə problemi səbəbindən yeniləmələr yoxlanıla bilmədi"
-
-#: src/page.py:115
-msgid "Failed to check for updates. Please try again later."
-msgstr ""
-"Yeniləmələr yoxlanıla bilmədi. Zəhmət olmasa daha sonra yenidən cəhd edin."
-
-#: src/page.py:117
-msgid "Unknown error has occurred. Please report this to developer."
-msgstr "Naməlum xəta baş verdi. Zəhmət olmasa bunu tərtibatçıya bildirin."
-
-#: src/page.py:137
-msgid "Installed Theme. Restart Firefox to see changes."
-msgstr ""
-"Mövzu quraşdırıldı. Dəyişiklikləri görmək üçün Firefox-u yenidən başladın."
-
-#: src/page.py:143
-msgid "Removed Theme. Restart Firefox to see changes."
-msgstr "Mövzu silindi. Dəyişiklikləri görmək üçün Firefox-u yenidən başladın."
-
-#: src/page.py:147
-msgid "Installation failed"
-msgstr "Quraşdırma uğursuz oldu"
-
-#. TODO Reset to prior selected profile
-#: src/page.py:162
-msgid "Changes reverted"
-msgstr "Dəyişikliklər geri qaytarıldı"
-
-#: src/page.py:264
-msgid "Not installed"
-msgstr "Quraşdırılmayıb"
-
-#. Translators: {} will be replaced with a version number (example: v132) or a status message
-#: src/page.py:268
-msgid "Firefox GNOME Theme — {}"
-msgstr "Firefox GNOME Mövzusu — {}"
-
-#: src/apps/firefox/firefox_options.py:5
+#: src/apps/firefox/firefox_options.py:6
 msgid "Tab Position"
 msgstr "Tab Mövqeyi"
 
-#: src/apps/firefox/firefox_options.py:10
+#: src/apps/firefox/firefox_options.py:11
 msgid "Hide Single Tab"
 msgstr "Tək Tabı Gizlət"
 
-#: src/apps/firefox/firefox_options.py:13
+#: src/apps/firefox/firefox_options.py:14
 msgid ""
 "Consider placing the New Tab button near the Search Bar. Otherwise it may "
 "get lost when only one tab is open."
@@ -325,159 +251,247 @@ msgstr ""
 "Yeni Tab düyməsini Axtarış Panelinin yaxınlığına yerləşdirməyi düşünün. Əks "
 "halda, yalnız bir tab açıq olduqda itkin düşə bilər."
 
-#: src/apps/firefox/firefox_options.py:20
+#: src/apps/firefox/firefox_options.py:21
 msgid "Standard Tab Width"
 msgstr "Standart Tab Eni"
 
-#: src/apps/firefox/firefox_options.py:21
+#: src/apps/firefox/firefox_options.py:22
 msgid "Use same tab width as standard Firefox"
 msgstr "Standart Firefox ilə eyni tab enini istifadə et"
 
-#: src/apps/firefox/firefox_options.py:28
+#: src/apps/firefox/firefox_options.py:29
 msgid "Swap Tab Close Button"
 msgstr "Tab Bağlama Düyməsini Dəyişdir"
 
-#: src/apps/firefox/firefox_options.py:30
+#: src/apps/firefox/firefox_options.py:31
 msgid "Place Close Tab button on opposite side from window controls"
 msgstr "Tab Bağlama düyməsini pəncərə idarəetmələrindən əks tərəfə yerləşdir"
 
-#: src/apps/firefox/firefox_options.py:38
+#: src/apps/firefox/firefox_options.py:39
 msgid "Bookmarks Toolbar Under Tabs"
 msgstr "Əlfəcin Paneli Tabların Altında"
 
-#: src/apps/firefox/firefox_options.py:39
+#: src/apps/firefox/firefox_options.py:40
 msgid "Place Bookmarks Bar underneath Tab Bar"
 msgstr "Əlfəcin Panelini Tab Panelinin altına yerləşdir"
 
-#: src/apps/firefox/firefox_options.py:46
+#: src/apps/firefox/firefox_options.py:47
 msgid "Tabs as Headerbar"
 msgstr "Tablar Başlıq Paneli Kimi"
 
-#: src/apps/firefox/firefox_options.py:47
+#: src/apps/firefox/firefox_options.py:48
 msgid "Place Tab Bar at top of window"
 msgstr "Tab Panelini pəncərənin yuxarısına yerləşdir"
 
-#: src/apps/firefox/firefox_options.py:49
+#: src/apps/firefox/firefox_options.py:50
 msgid ""
-"Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
-"open"
+"Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is"
+" open"
 msgstr ""
 "\"Tək Tabı Gizlət\" ilə aktivləşdirildikdə, yalnız bir tab açıq olduqda "
 "Başlıq Paneli göstəriləcək"
 
-#: src/apps/firefox/firefox_options.py:56
+#: src/apps/firefox/firefox_options.py:57
 msgid "Left-Aligned Titles"
 msgstr "Sola Hizalı Başlıqlar"
 
-#: src/apps/firefox/firefox_options.py:57
+#: src/apps/firefox/firefox_options.py:58
 msgid "Align tab title to left"
 msgstr "Tab başlığını sola hizala"
 
-#: src/apps/firefox/firefox_options.py:64
+#: src/apps/firefox/firefox_options.py:65
 msgid "Tab Behavior"
 msgstr "Tab Davranışı"
 
-#: src/apps/firefox/firefox_options.py:69
+#: src/apps/firefox/firefox_options.py:70
 msgid "Active Tab Contrast"
 msgstr "Aktiv Tab Kontrastı"
 
-#: src/apps/firefox/firefox_options.py:70
+#: src/apps/firefox/firefox_options.py:71
 msgid "Add more visual contrast to the active tab"
 msgstr "Aktiv tabda daha çox vizual kontrast əlavə et"
 
-#: src/apps/firefox/firefox_options.py:77
+#: src/apps/firefox/firefox_options.py:78
 msgid "Close Only Selected Tabs"
 msgstr "Yalnız Seçilmiş Tabları Bağla"
 
-#: src/apps/firefox/firefox_options.py:78
+#: src/apps/firefox/firefox_options.py:79
 msgid "Only show the Close Tab button on the active tab"
 msgstr "Tab Bağlama düyməsini yalnız aktiv tabda göstər"
 
-#: src/apps/firefox/firefox_options.py:85
+#: src/apps/firefox/firefox_options.py:86
 msgid "Symbolic Tab Icons"
 msgstr "Simvolik Tab İkonları"
 
-#: src/apps/firefox/firefox_options.py:86
+#: src/apps/firefox/firefox_options.py:87
 msgid "Make all tab icons appear similar to symbolic icons"
 msgstr "Bütün tab ikonlarını simvolik ikonlara bənzər et"
 
-#: src/apps/firefox/firefox_options.py:93
+#: src/apps/firefox/firefox_options.py:94
 msgid "List of Tabs"
 msgstr "Tab Siyahısı"
 
-#: src/apps/firefox/firefox_options.py:94
+#: src/apps/firefox/firefox_options.py:95
 msgid "Always show All Tabs button"
 msgstr "Həmişə Bütün Tablar düyməsini göstər"
 
-#: src/apps/firefox/firefox_options.py:101
+#: src/apps/firefox/firefox_options.py:102
 msgid "List of Tabs on Overflow"
 msgstr "Daşma Zamanı Tab Siyahısı"
 
-#: src/apps/firefox/firefox_options.py:102
+#: src/apps/firefox/firefox_options.py:103
 msgid "Only show All Tabs button when many tabs are open"
 msgstr "Yalnız çox tab açıq olduqda Bütün Tablar düyməsini göstər"
 
-#: src/apps/firefox/firefox_options.py:114
+#: src/apps/firefox/firefox_options.py:115
 msgid "Hide Privacy Indicators"
 msgstr "Məxfilik Göstəricilərini Gizlət"
 
-#: src/apps/firefox/firefox_options.py:115
+#: src/apps/firefox/firefox_options.py:116
 msgid "Hide microphone, screen share, and camera warnings"
 msgstr "Mikrofon, ekran paylaşımı və kamera xəbərdarlıqlarını gizlət"
 
-#: src/apps/firefox/firefox_options.py:117
+#: src/apps/firefox/firefox_options.py:118
 msgid "GNOME will still show these privacy indicators in the Top Bar"
 msgstr "GNOME hələ də bu məxfilik göstəricilərini Üst Paneldə göstərəcək"
 
-#: src/apps/firefox/firefox_options.py:124
+#: src/apps/firefox/firefox_options.py:125
 msgid "True Black Dark Theme"
 msgstr "Həqiqi Qara Qaranlıq Mövzu"
 
-#: src/apps/firefox/firefox_options.py:126
+#: src/apps/firefox/firefox_options.py:127
 msgid "Use an OLED-friendly, deep black when dark theme is enabled"
 msgstr "Qaranlıq mövzu aktivləşdirildikdə OLED-dostu, dərin qara istifadə et"
 
-#: src/apps/firefox/firefox_options.py:134
+#: src/apps/firefox/firefox_options.py:135
 msgid "No Themed Icons"
 msgstr "Mövzulu İkonlar Yoxdur"
 
-#: src/apps/firefox/firefox_options.py:136
+#: src/apps/firefox/firefox_options.py:137
 msgid "Use standard Firefox icons instead of Adwaita-styled icons"
 msgstr ""
 "Adwaita üslublu ikonlar əvəzinə standart Firefox ikonlarını istifadə et"
 
-#: src/apps/firefox/firefox_options.py:144
+#: src/apps/firefox/firefox_options.py:145
 msgid "Fullscreen Bookmarks"
 msgstr "Tam Ekran Əlfəcinləri"
 
-#: src/apps/firefox/firefox_options.py:145
+#: src/apps/firefox/firefox_options.py:146
 msgid "Show Bookmarks bar while in fullscreen"
 msgstr "Tam ekranda olarkən Əlfəcin Panelini göstər"
 
-#: src/gui/option_factory.py:93
+#: src/gui/option_factory.py:87
 msgid "More Information"
 msgstr "Ətraflı Məlumat"
 
-#: src/utils/background.py:92
+#: src/gui/preferences.py:83
+msgid "Checking for theme updates"
+msgstr "Mövzu yeniləmələri yoxlanılır"
+
+#: src/utils/background.py:98
 msgid "Theme updated"
 msgstr "Mövzu yeniləndi"
 
-#: src/utils/background.py:93
+#: src/utils/background.py:99
 msgid "Firefox GNOME Theme Updated"
 msgstr "Firefox GNOME Mövzusu Yeniləndi"
 
-#: src/utils/background.py:95
+#: src/utils/background.py:101
 msgid "Theme Update Failed"
 msgstr "Mövzu Yenilənməsi Uğursuz Oldu"
 
-#: src/utils/background.py:96
+#: src/utils/background.py:102
 msgid "Could not check for theme updates due to a network issue"
 msgstr "Şəbəkə problemi səbəbindən mövzu yeniləmələri yoxlanıla bilmədi"
 
-#: src/utils/background.py:98
+#: src/utils/background.py:104
 msgid "Theme Installation failed"
 msgstr "Mövzu Quraşdırılması Uğursuz Oldu"
 
-#: src/utils/background.py:99
+#: src/utils/background.py:105
 msgid "A theme update was downloaded but installation failed"
 msgstr "Mövzu yeniləməsi yükləndi, lakin quraşdırma uğursuz oldu"
+
+#: src/page.py:78
+msgid "Checking for updates..."
+msgstr "Yeniləmələr yoxlanılır..."
+
+#. Translators: {} will be replaced by a version number (example: "v126.5.65")
+#: src/page.py:93
+#, python-brace-format
+msgid "Updated theme to {}"
+msgstr "Mövzu {} versiyasına yeniləndi"
+
+#: src/page.py:95
+msgid "Failed to check for updates due to a network issue"
+msgstr "Şəbəkə problemi səbəbindən yeniləmələr yoxlanıla bilmədi"
+
+#: src/page.py:97
+msgid "Failed to check for updates. Please try again later."
+msgstr ""
+"Yeniləmələr yoxlanıla bilmədi. Zəhmət olmasa daha sonra yenidən cəhd edin."
+
+#: src/page.py:99
+msgid "Unknown error has occurred. Please report this to developer."
+msgstr "Naməlum xəta baş verdi. Zəhmət olmasa bunu tərtibatçıya bildirin."
+
+#: src/page.py:117
+msgid "Installed Theme. Restart Firefox to see changes."
+msgstr ""
+"Mövzu quraşdırıldı. Dəyişiklikləri görmək üçün Firefox-u yenidən başladın."
+
+#: src/page.py:123
+msgid "Removed Theme. Restart Firefox to see changes."
+msgstr "Mövzu silindi. Dəyişiklikləri görmək üçün Firefox-u yenidən başladın."
+
+#: src/page.py:126
+msgid "Installation failed"
+msgstr "Quraşdırma uğursuz oldu"
+
+#: src/page.py:132
+msgid "Changes reverted"
+msgstr "Dəyişikliklər geri qaytarıldı"
+
+#. Translators: {} will be replaced with a version number (example: v132) or a
+#. status message
+#: src/page.py:238
+#, python-brace-format
+msgid "Firefox GNOME Theme — {}"
+msgstr "Firefox GNOME Mövzusu — {}"
+
+#: src/page.py:242
+msgid "Not installed"
+msgstr "Quraşdırılmayıb"
+
+#. Translators: Replace this with "Your Name https://www.your-website.com" or
+#. "Your Name <your-email@example.com>"
+#: src/window.py:129
+msgid "translator-credits"
+msgstr "Ramal Rəhimov <jhoaluman@gmail.com>"
+
+#. Translator: This is followed by a list of names
+#: src/window.py:132
+msgid "Theme Created and Maintained by"
+msgstr "Mövzu Yaradılıb və Saxlanılır"
+
+#. Translators: {} will be replaced with the app name ("Firefox" or
+#. "Thunderbird")
+#: src/window.py:150
+#, python-brace-format
+msgid "{} Profile Data Not Found"
+msgstr "{} Profil Məlumatları Tapılmadı"
+
+#: src/window.py:153
+#, python-brace-format
+msgid ""
+"Please ensure {} is installed and Add Water has permission to access your "
+"profiles"
+msgstr ""
+"{} quraşdırıldığından və Add Water tətbiqinin profillərinizə giriş icazəsi "
+"olduğundan əmin olun"
+
+#~ msgid "Automatically Discover"
+#~ msgstr "Avtomatik Aşkar Et"
+
+#~ msgid "Open Help Page"
+#~ msgstr "Kömək Səhifəsini Aç"
