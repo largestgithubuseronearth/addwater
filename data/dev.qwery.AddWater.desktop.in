@@ -7,4 +7,5 @@ Terminal=false
 Type=Application
 # Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
 Keywords=theme;adwaita;firefox;
+Categories=Utility;GNOME;
 StartupNotify=true
