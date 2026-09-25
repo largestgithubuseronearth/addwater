@@ -1,12 +1,13 @@
-.flatpak-builder
 .buildconfig
+.flathub
+.flatpak-builder
+.pytest_cache
+.ruff_cache
+.wraplock
 build-dir
 dev.qwery.AddWater*.json~
 firefox-gnome-theme
 pylint-results.txt
-.pytest_cache
-tests/__pycache__
 subprojects/libportal
-.wraplock
-.ruff_cache
+tests/__pycache__
 
