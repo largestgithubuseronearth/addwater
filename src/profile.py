@@ -24,7 +24,7 @@ from gi.repository import GObject
 from gi.repository.GObject import ParamFlags
 
 
-class Profile(GObject.Object):
+class AppProfile(GObject.Object):
     __gtype_name__ = "WaterProfile"
 
     name = GObject.Property(

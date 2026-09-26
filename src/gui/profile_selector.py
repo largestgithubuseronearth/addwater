@@ -22,7 +22,7 @@ from typing import Any
 
 from addwater import info
 from addwater.apps.firefox import FirefoxPack
-from addwater.profile import Profile
+from addwater.profile import AppProfile
 from gi.repository import Adw, Gio, GObject, Gtk
 
 log = logging.getLogger("profile_selector")
@@ -54,7 +54,7 @@ class ProfileSelector(Adw.ComboRow):
     # TODO move this into constructor
     def setup_list(
         self,
-        profile_list: list[Profile],
+        profile_list: list[AppProfile],
         selected_profile_id: str,
         pack: FirefoxPack,
     ) -> None:
@@ -74,13 +74,13 @@ class ProfileSelector(Adw.ComboRow):
         self.filter.changed(Gtk.FilterChange.DIFFERENT)
 
 # FIXME How to "discard" an argument in a type hint?
-def sort_profiles(a: Profile, b: Profile, _data: Any) -> int:
+def sort_profiles(a: AppProfile, b: AppProfile, _data: Any) -> int:
     if (res := b.favorite - a.favorite) != 0:
         return res
 
     return (a.name > b.name) - (b.name > a.name)
 
-def filter_profiles(item: Profile, new_package: FirefoxPack) -> None:
+def filter_profiles(item: AppProfile, new_package: FirefoxPack) -> None:
     if not new_package:
         return True
 

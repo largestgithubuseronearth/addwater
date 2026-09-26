@@ -25,7 +25,7 @@ from typing import Any
 from addwater import info
 from addwater.apps.firefox import FirefoxAppDetails, FirefoxPack
 from addwater.components import InstallManager, InstallStatus, OnlineManager
-from addwater.profile import Profile
+from addwater.profile import AppProfile
 from addwater.utils.mocks import mock_online
 from gi.repository import Gio
 from packaging.version import Version
@@ -97,7 +97,7 @@ class Backend:
 
     """Install actions"""
 
-    def begin_install(self, profile: Profile, full_install: bool=False) -> Enum:
+    def begin_install(self, profile: AppProfile, full_install: bool=False) -> Enum:
         log.info("beginning installation...")
         if not profile:
             return InstallStatus.FAILURE
@@ -133,7 +133,7 @@ class Backend:
         log.info("install process completed")
         return status
 
-    def remove_theme(self, profile: Profile) -> Enum:
+    def remove_theme(self, profile: AppProfile) -> Enum:
         folder_name = self.app_details.get_theme_folder_name()
 
         return self.install_manager.uninstall(profile, folder_name)
@@ -170,7 +170,7 @@ class Backend:
     def get_update_version(self) -> Version:
         return self.online_manager.get_update_version()
 
-    def get_profiles(self) -> list[Profile]:
+    def get_profiles(self) -> list[AppProfile]:
         return self.app_details.get_profiles()
 
     """Info Setters"""

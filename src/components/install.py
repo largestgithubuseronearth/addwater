@@ -24,7 +24,7 @@ from enum import Enum
 from os import PathLike
 from os.path import join
 
-from addwater.profile import Profile
+from addwater.profile import AppProfile
 
 log = logging.getLogger("install_manager")
 
@@ -69,7 +69,7 @@ class InstallManager:
     def combined_install(
         self,
         theme_path: PathLike,
-        profile: Profile,
+        profile: AppProfile,
         options_results: dict[str, bool] | None = None
     ) -> Enum:
         try:
@@ -86,7 +86,7 @@ class InstallManager:
         log.info("install complete")
         return InstallStatus.SUCCESS
 
-    def uninstall(self, profile: Profile, folder_name: str) -> None:
+    def uninstall(self, profile: AppProfile, folder_name: str) -> None:
         try:
             self._uninstaller(profile, folder_name)
         except InstallException:
@@ -102,7 +102,7 @@ class InstallManager:
 
 
 @staticmethod  # To avoid InstallManager passing self
-def _set_theme_prefs(profile: Profile, options: dict[str, bool]) -> None:
+def _set_theme_prefs(profile: AppProfile, options: dict[str, bool]) -> None:
     """Update user preferences in user.js according to GSettings.
 
     Args:
@@ -146,9 +146,9 @@ def _set_theme_prefs(profile: Profile, options: dict[str, bool]) -> None:
 
 
 @staticmethod  # To avoid InstallManager passing self
-def _do_uninstall_theme(profile: Profile, theme_folder: str) -> None:
+def _do_uninstall_theme(profile: AppProfile, theme_folder: str) -> None:
     log.info("Uninstalling theme from profile...")
-    log.debug(f"Profile path: {profile.path}")
+    log.debug(f"profile path: {profile.path}")
 
     # Delete theme folder
     chrome_path = join(profile.path, "chrome")

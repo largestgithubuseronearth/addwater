@@ -25,13 +25,13 @@ from os import PathLike
 from os.path import exists, join
 
 from addwater.components.install import InstallException
-from addwater.profile import Profile
+from addwater.profile import AppProfile
 
 log = logging.getLogger("firefox_install")
 
 
 @staticmethod
-def install_for_firefox(profile: Profile, theme_path: PathLike) -> None:
+def install_for_firefox(profile: AppProfile, theme_path: PathLike) -> None:
     """Install the Firefox theme. This method should be injected into the
     InstallManager at runtime. If it isn't obvious, this should not be reused for
     installing other app themes.
@@ -63,11 +63,11 @@ def install_for_firefox(profile: Profile, theme_path: PathLike) -> None:
 
 def _copy_files(chrome_path: str, theme_path: str) -> None:
     # Make chrome folder if it doesn't already exist
-    log.debug("Copying theme files into profile path...")
+    log.debug("copying theme files into profile path...")
     try:
         os.mkdir(chrome_path)
     except FileNotFoundError:
-        log.critical("Profile path does not exist. Install canceled.")
+        log.critical("profile path does not exist. Install canceled.")
         raise InstallException("profile doesn't exist.")
     except FileExistsError:
         pass
@@ -80,7 +80,7 @@ def _copy_files(chrome_path: str, theme_path: str) -> None:
 
 
 def _import_css(chrome_path: str) -> None:
-    log.debug("Adding CSS imports...")
+    log.debug("adding CSS imports...")
     css_files = ["userChrome.css", "userContent.css"]
 
     for each in css_files:
@@ -109,7 +109,7 @@ def _import_css(chrome_path: str) -> None:
 
 def _copy_userjs(profile_path: str, template_path: str) -> None:
     """Append content of user.js template to the existing user.js if the URL doesn't exist."""
-    log.debug("Checking if URL already exists in user.js...")
+    log.debug("checking if URL already exists in user.js...")
     user_js = join(profile_path, "user.js")
     user_js_backup = join(profile_path, "user.js.bak")
     url_to_check = "https://github.com/rafaelmardojai/firefox-gnome-theme/"
@@ -124,7 +124,7 @@ def _copy_userjs(profile_path: str, template_path: str) -> None:
 
     # Backup user.js if it exists and backup does not exist
     if exists(user_js) and not exists(user_js_backup):
-        log.debug("Backing up user's previous user.js file")
+        log.debug("backing up user's previous user.js file")
         shutil.copy(user_js, user_js_backup)
 
     # Append the content of the template user.js to the existing user.js
@@ -137,7 +137,7 @@ def _copy_userjs(profile_path: str, template_path: str) -> None:
             log.debug("Appended user.js content successfully.")
 
     except Exception as e:
-        log.critical(f"Failed to append to user.js: {e}")
+        log.critical(f"failed to append to user.js: {e}")
         raise InstallException("failed to append user.js")
 
     log.debug("Done.")

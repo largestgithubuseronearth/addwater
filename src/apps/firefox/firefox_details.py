@@ -22,10 +22,9 @@ from collections.abc import Callable
 from configparser import ConfigParser
 from os.path import join
 from pathlib import Path
-from typing import Any
 
 from addwater import info
-from addwater.profile import Profile
+from addwater.profile import AppProfile
 from addwater.utils import paths
 from gi.repository import Gio
 from packaging.version import Version
@@ -48,7 +47,7 @@ class FirefoxAppDetails:
 
     # install
     installer: Callable = install_for_firefox
-    options: list[dict[Any, Any]] = FIREFOX_OPTIONS
+    options: list[dict] = FIREFOX_OPTIONS
     package: FirefoxPack
 
     # online
@@ -75,8 +74,9 @@ class FirefoxAppDetails:
         if not current_pack:
             available_packs = get_valid_packs()
             # TODO what should the app do if no packs are available?
+            #      maybe show an error page?
             if not available_packs:
-                log.critical("Could not find any valid data paths. App cannot function.")
+                log.critical("could not find any valid data paths")
                 return
             self.set_package(available_packs[0])
             return
@@ -138,7 +138,7 @@ class FirefoxAppDetails:
         #      Multiple methods or add a flag?
         return self.options
 
-    def get_profiles(self) -> list[Profile]:
+    def get_profiles(self) -> list[AppProfile]:
         # TODO make this a set later to remove duplicates
         profiles = []
 
@@ -171,7 +171,7 @@ class FirefoxAppDetails:
         self.installed_version = new_version
 
 
-def find_profiles(package: FirefoxPack) -> list[Profile]:
+def find_profiles(package: FirefoxPack) -> list[AppProfile]:
     cfg = ConfigParser()
     profiles = []
 
@@ -192,7 +192,7 @@ def find_profiles(package: FirefoxPack) -> list[Profile]:
         except KeyError:
             pass
 
-        profiles.append(Profile(name, path, filepath, fav, package))
+        profiles.append(AppProfile(name, path, filepath, fav, package))
 
     return profiles
 
