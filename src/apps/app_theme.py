@@ -3,6 +3,7 @@ from addwater.apps.firefox import FirefoxPack
 from addwater.components import InstallStatus, OnlineStatus
 from gi.repository import Gio
 from packaging.version import Version
+from typing import readonly
 
 # TODO abstract AppDetails class to define the interface
 # Move what Backend does into this.
@@ -10,18 +11,20 @@ from packaging.version import Version
 class AppTheme:
     _pack: FirefoxPack
     _profiles: set[AppProfile]
-    _settings: Gio.Settings
+    _settings: readonly[Gio.Settings]
     _version: Version
 
+    """Apply base theme files. Don't configure anything here."""
     def install(self, profile: AppProfile) -> InstallStatus:
-        pass
+        raise NotImplementedError
 
-    def update(self) -> OnlineStatus:
-        pass
-
+    """Remove theme files. Don't remove configuration"""
     def uninstall(self, profile: AppProfile) -> InstallStatus:
-        pass
+        raise NotImplementedError
 
+    """Search online for available updates and automatically download it."""
+    def update(self) -> OnlineStatus:
+        raise NotImplementedError
 
     # TODO automatically write to the file when this is changed
     """ Preferences
@@ -30,11 +33,11 @@ class AppTheme:
     """
     @property
     def preferences(self):
-        pass
+        raise NotImplementedError
 
     @preferences.setter
     def preferences(self, prefs) -> InstallStatus:
-        pass
+        raise NotImplementedError
 
     # TODO only let consumers track profiles since that's
     #      all they should be working with.
@@ -45,7 +48,7 @@ class AppTheme:
     #TODO try to handle this here instead of subclasses
     @pack.setter
     def pack(self, pack: FirefoxPack) -> None:
-        pass
+        raise NotImplementedError
 
     # TODO should this be in the base class?
     @property
@@ -59,4 +62,4 @@ class AppTheme:
     #TODO
     @version.setter
     def version(self, version: Version) -> None:
-        pass
+        raise NotImplementedError
