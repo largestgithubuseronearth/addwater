@@ -1,4 +1,4 @@
-from addwater import Profile
+from addwater import AppProfile
 from addwater.apps.firefox import FirefoxPack
 from addwater.components import InstallStatus, OnlineStatus
 from gi.repository import Gio
@@ -9,20 +9,17 @@ from packaging.version import Version
 
 class AppTheme:
     _pack: FirefoxPack
-    _profiles: set[Profile]
+    _profiles: set[AppProfile]
     _settings: Gio.Settings
     _version: Version
 
-    def __init__(self) -> None:
-        pass
-
-    def install(self, profile: Profile) -> InstallStatus:
+    def install(self, profile: AppProfile) -> InstallStatus:
         pass
 
     def update(self) -> OnlineStatus:
         pass
 
-    def uninstall(self, profile: Profile) -> InstallStatus:
+    def uninstall(self, profile: AppProfile) -> InstallStatus:
         pass
 
 
@@ -52,7 +49,7 @@ class AppTheme:
 
     # TODO should this be in the base class?
     @property
-    def profiles(self) -> set[Profile]:
+    def profiles(self) -> set[AppProfile]:
         return self._profiles
 
     @property
