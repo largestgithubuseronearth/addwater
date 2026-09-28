@@ -30,11 +30,12 @@ from addwater import info
 from addwater.apps.firefox import FirefoxAppDetails
 from addwater.backend import Backend
 from gi.repository import Adw, Gio, GLib
+from .cli import CliProvider
 
 from .utils import paths
-from .utils.background import BackgroundUpdater
 from .utils.logs import init_logs
 from .window import Window
+from typing import Any
 
 log = logging.getLogger("application")
 
@@ -42,6 +43,7 @@ log = logging.getLogger("application")
 
 class Application(Adw.Application):
     """The main application singleton class."""
+    _cli_provider: CliProvider
 
     def __init__(self) -> None:
         super().__init__(
@@ -57,61 +59,16 @@ class Application(Adw.Application):
 
         self.backends = self.construct_backends()
 
-        self.add_main_option(
-            "quick-update",
-            ord("q"),
-            GLib.OptionFlags.IN_MAIN,
-            GLib.OptionArg.NONE,
-            "Quickly update and install theme with the last-used settings",
-            None,
-        )
+        self._cli_provider = CliProvider(self)
 
-    def do_command_line(self, command_line) -> int:
-        """Handles command line args and options if given, or starts the GUI
-        window if none are provided.
-        """
-        options = command_line.get_options_dict()
-        options = options.end().unpack()
-
-        if options or info.FORCE_BG == "True":
-            try:
-                self.handle_background_update(options)
-            except CommandMisuseException as err:
-                #TODO show usage
-                log.error(f"Use --help for proper usage notes: {err}")
-                return 1
-            else:
-                return 0
-
-        self.activate()
-        return 0
+    def do_command_line(self, cmdline: Gio.ApplicationCommandLine) -> int:
+        return self._cli_provider.do_command_line(self, cmdline)
 
     def do_activate(self) -> None:
         if not (win := self.props.active_window):
             win = Window(application=self, backends=self.backends)
 
         win.present()
-
-    def handle_background_update(self, options) -> None:
-        if info.FORCE_BG == "True":
-            options = {"quick-update": True}
-
-        # TODO add flag to reset app from CLI
-        # TODO handle the option better and handle the error better
-        if options.get("quick-update"):
-            if not self.backends:
-                log.error("Cannot find any Firefox ")
-                return
-
-            background_updater = BackgroundUpdater(self.backends[0])
-            background_updater.quick_update()
-
-            notif = background_updater.get_status_notification()
-            if notif:
-                self.send_notification("addwater-bg-update-status", notif)
-            return
-
-        raise CommandMisuseException(f"unknown options: {options}")
 
     def construct_backends(self) -> None:
         # TODO make this dynamic to find all available app details
@@ -153,10 +110,7 @@ class Application(Adw.Application):
             if shortcuts := details[1]:
                 self.set_accels_for_action(f"app.{name}", shortcuts)
 
-def main(version) -> int:
+def main(version: str) -> int:
     app = Application()
     return app.run(sys.argv)
 
-
-class CommandMisuseException(Exception):
-    pass
