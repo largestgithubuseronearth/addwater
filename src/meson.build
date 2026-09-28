@@ -24,9 +24,10 @@ if get_option('tests')
 endif
 
 install_subdir('apps',       install_dir: moduledir)
+install_subdir('cli',        install_dir: moduledir)
 install_subdir('components', install_dir: moduledir)
-install_subdir('utils',      install_dir: moduledir)
 install_subdir('gui',        install_dir: moduledir)
+install_subdir('utils',      install_dir: moduledir)
 
 addwater_sources = [
 	'__init__.py',

@@ -32,7 +32,9 @@ conf = configuration_data({
 	'localedir' : get_option('prefix') / get_option('localedir'),
 	'pkgdatadir': pkgdatadir
 })
+# TODO make this an env instead
 conf.set('MOCK_API', mock_api)
+# TODO remove this build option and just make some tests
 conf.set('FORCE_BG', force_bg)
 
 dependency('gtk4')
