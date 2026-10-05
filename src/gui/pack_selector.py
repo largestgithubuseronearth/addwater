@@ -86,8 +86,8 @@ class PackSelector(Adw.ComboRow):
         if new_pack:
             try:
                 self.backend.set_package(new_pack)
-            except InterfaceMisuseError:
-                log.exception()
+            except InterfaceMisuseError as err:
+                log.exception(err)
                 self.valid_path = False
             else:
                 self.valid_path = True
