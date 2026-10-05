@@ -1,7 +1,8 @@
-from enum import Enum
 from os import PathLike, environ
 from os.path import exists, expanduser, join
 from pathlib import Path
+
+from addwater.model import AppPack
 
 config_dir = environ.get("HOST_XDG_CONFIG_HOME", expanduser("~/.config"))
 
@@ -33,7 +34,7 @@ CACHY_BASE = expanduser("~/.cachy")
 
 # TODO can this be a GObject so I can use it in ListModels?
 #      or must I make a wrapper?
-class FirefoxPack(Enum):
+class FirefoxPack(AppPack):
     # TODO rename these to just use the name instead of base later (Firefox / Firefox Flatpak / Librewolf / etc)
     BASE                  = ("Base", BASE)
     BASE_ALT              = ("Base (Alt)", BASE_LEGACY)
@@ -51,10 +52,6 @@ class FirefoxPack(Enum):
     WATERFOX_FLATPAK      = ("Waterfox Flatpak", WATERFOX_FLATPAK)
     CACHY                 = ("CachyOS Browser", CACHY_BASE)
 
-    def __init__(self, name: str, path: PathLike) -> None:
-        self.pack_name = name
-        self.path = Path(path)
-
     def get_profile_ini(self) -> Path:
         prof_ini = join(self.path, "profiles.ini")
         if not exists(prof_ini):
@@ -64,7 +61,7 @@ class FirefoxPack(Enum):
 
 
     @staticmethod
-    def new_from_path(app_path: Path | PathLike) -> Enum | None:
+    def new_from_path(app_path: Path | PathLike) -> AppPack | None:
         app_path = Path(app_path)
         for pack in FirefoxPack:
             if app_path == pack.path:
@@ -73,7 +70,7 @@ class FirefoxPack(Enum):
         return None
 
     @staticmethod
-    def new_from_name(name: str) -> Enum | None:
+    def new_from_name(name: str) -> AppPack | None:
         for pack in FirefoxPack:
             if name == pack.pack_name:
                 return pack

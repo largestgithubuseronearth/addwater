@@ -17,11 +17,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from . import AppPack
 from pathlib import Path
 
 from gi.repository import GObject
 from gi.repository.GObject import ParamFlags
+
+from . import AppPack
+
 
 class AppProfile(GObject.Object):
     __gtype_name__ = "WaterProfile"

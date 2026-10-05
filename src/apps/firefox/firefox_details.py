@@ -29,9 +29,9 @@ from addwater.utils import paths
 from gi.repository import Gio
 from packaging.version import Version
 
-from . import FirefoxPack
 from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_OPTIONS
+from .firefox_paths import FirefoxPack
 
 log = logging.getLogger("firefox_details")
 

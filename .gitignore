@@ -9,5 +9,5 @@ dev.qwery.AddWater*.json~
 firefox-gnome-theme
 pylint-results.txt
 subprojects/libportal
-tests/__pycache__
+__pycache__
 
