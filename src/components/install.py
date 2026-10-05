@@ -24,7 +24,7 @@ from enum import Enum
 from os import PathLike
 from os.path import join
 
-from addwater.profile import AppProfile
+from addwater.model import AppProfile
 
 log = logging.getLogger("install_manager")
 

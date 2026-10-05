@@ -27,6 +27,7 @@ install_subdir('apps',       install_dir: moduledir)
 install_subdir('components', install_dir: moduledir)
 install_subdir('utils',      install_dir: moduledir)
 install_subdir('gui',        install_dir: moduledir)
+install_subdir('model',      install_dir: moduledir)
 
 addwater_sources = [
 	'__init__.py',
@@ -34,7 +35,6 @@ addwater_sources = [
 	'window.py',
 	'page.py',
 	'backend.py',
-	'profile.py',
 
 	configure_file(input: 'info.py.in', output: 'info.py', configuration: conf),
 ]

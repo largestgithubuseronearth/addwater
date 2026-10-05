@@ -25,7 +25,7 @@ from typing import Any
 from addwater import info
 from addwater.apps.firefox import FirefoxAppDetails, FirefoxPack
 from addwater.components import InstallManager, InstallStatus, OnlineManager
-from addwater.profile import AppProfile
+from addwater.model import AppProfile
 from addwater.utils.mocks import mock_online
 from gi.repository import Gio
 from packaging.version import Version

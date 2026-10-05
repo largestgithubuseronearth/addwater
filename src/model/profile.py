@@ -17,12 +17,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from . import AppPack
 from pathlib import Path
 
-from addwater.apps.firefox import FirefoxPack
 from gi.repository import GObject
 from gi.repository.GObject import ParamFlags
-
 
 class AppProfile(GObject.Object):
     __gtype_name__ = "WaterProfile"
@@ -49,7 +48,7 @@ class AppProfile(GObject.Object):
         id: str,
         path: str | Path,
         favorite: bool,
-        package: FirefoxPack,
+        package: AppPack,
     ) -> None:
         super().__init__(name=name, id=id, favorite=favorite)
         self.path = Path(path)

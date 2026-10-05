@@ -24,7 +24,7 @@ from os.path import join
 from pathlib import Path
 
 from addwater import info
-from addwater.profile import AppProfile
+from addwater.model import AppProfile
 from addwater.utils import paths
 from gi.repository import Gio
 from packaging.version import Version
