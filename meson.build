@@ -6,7 +6,8 @@ project('addwater',
 
 i18n = import('i18n')
 gnome = import('gnome')
-python = import('python')
+python = import('python').find_installation('python3',
+                                            modules: ['packaging', 'requests',])
 
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 
@@ -24,7 +25,7 @@ endif
 
 
 conf = configuration_data({
-	'PYTHON' : python.find_installation('python3').full_path(),
+	'PYTHON' : python.full_path(),
 	'VERSION' : meson.project_version(),
 	'APP_ID' : app_id,
 	'PREFIX' : '/dev/qwery/AddWater',
