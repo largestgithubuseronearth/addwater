@@ -1,0 +1,481 @@
+# Norwegian Nynorsk translation for addwater.
+# Copyright (C) 2026 addwater's COPYRIGHT HOLDER
+# This file is distributed under the same license as the addwater package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: addwater main\n"
+"Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
+"issues/\n"
+"POT-Creation-Date: 2026-09-25 22:32+0000\n"
+"PO-Revision-Date: 2026-10-10 21:30+0200\n"
+"Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
+"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
+"Language: nn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/dev.qwery.AddWater.desktop.in:2
+msgid "Add Water"
+msgstr "Add Water"
+
+#: data/dev.qwery.AddWater.desktop.in:4
+#: data/dev.qwery.AddWater.metainfo.xml.in:11
+msgid "Keep Firefox in fashion"
+msgstr "Hald Firefox i vinden"
+
+#. Translators: Keywords to search for this app. Ensure each is separated with a semi-colon and the list ends with one too.
+#: data/dev.qwery.AddWater.desktop.in:9
+msgid "theme;adwaita;firefox;"
+msgstr "tema;drakt;adwaita;firefox;"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:21
+msgid "Send notifications for background updates"
+msgstr "Send varsel om oppdateringar i bakgrunnen"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:35
+msgid "Automatically Discover the installed Firefox package format"
+msgstr "Finn automatisk pakkeformatet til den installerte Firefox-pakken"
+
+#: data/dev.qwery.AddWater.gschema.xml.in:40
+msgid ""
+"Most recently installed version of the firefox gnome theme "
+"(Major.Minor.Micro)"
+msgstr ""
+"Nyaste installerte versjon av Firefox GNOME-temaet (Major.Minor.Micro)"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:13
+msgid ""
+"A utility app to easily install the Firefox GNOME Theme* and automatically "
+"update it in the background. This theme keeps Firefox fashionable within the "
+"GNOME design ecosystem, and provides many helpful features to customize the "
+"interface to make browsing even more pleasant:"
+msgstr ""
+"Ein enkel app for å installere Firefox GNOME-temaet* og oppdatere det "
+"automatisk i bakgrunnen. Temaet held Firefox i vinden innanfor GNOME-"
+"designøkosystemet, og har mange nyttige val for å tilpasse grensesnittet, "
+"slik at nettlesinga vert endå hyggelegare:"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:16
+msgid "Supports light and dark style, as well as accent colors"
+msgstr "Støttar lys og mørk stil, og aksentfargar"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:17
+#: src/apps/firefox/firefox_options.py:12
+msgid "Hide Tab Bar when only one tab is open"
+msgstr "Gøym fanelinja når berre éi fane er open"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:18
+msgid "Use an OLED-friendly pitch black for the interface"
+msgstr "Bruk ei kolsvart farge som er OLED-venleg i grensesnittet"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:19
+msgid "Customize Tab Bar position, position of controls, alignment, and more"
+msgstr ""
+"Tilpass plasseringa av fanelinja, plasseringa av kontrollane, justering og "
+"meir"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:20
+msgid "Hide redundant microphone, webcam, screen share indicators"
+msgstr "Gøym overflødige indikatorar for mikrofon, webkamera og skjermdeling"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:21
+msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
+msgstr "Støttar Flatpak-, Snap-, Librewolf- og Floorp-variantar av Firefox"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:23
+msgid ""
+"*The Firefox GNOME Theme itself is independently developed and maintained by "
+"Rafael Mardojai CM."
+msgstr ""
+"*Sjølve Firefox GNOME-temaet vert utvikla og vedlikehalde uavhengig av "
+"Rafael Mardojai CM."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:24
+msgid ""
+"The Firefox browser is not included and must be downloaded separately. This "
+"project is not affiliated or endorsed by the Mozilla Foundation. Firefox is "
+"a trademark of the Mozilla Foundation in the U.S. and other countries."
+msgstr ""
+"Firefox-nettlesaren er ikkje med og må lastast ned separat. Dette prosjektet"
+" er ikkje tilknytt eller støtta av Mozilla Foundation. Firefox er eit "
+"varemerke som tilhøyrer Mozilla Foundation i USA og andre land."
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:35
+msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
+msgstr "Add Water gjer det enkelt å justere Firefox GNOME-temaet"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:39
+msgid "The interface is clean, beautiful, and stays out of the way"
+msgstr "Grensesnittet er reint og vakkert, og held seg unna"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:43
+msgid "Supports a pure black Top Bar, perfect for OLED screens and dark rooms"
+msgstr ""
+"Støttar eit reint svart toppfelt, perfekt for OLED-skjermar og mørke rom"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:47
+msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
+msgstr ""
+"Støttar aksentfargar og fleire plasseringar for fane- og bokmerkelinjer"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:68
+msgid "Adwaita"
+msgstr "Adwaita"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:69
+msgid "theme"
+msgstr "tema"
+
+#: data/dev.qwery.AddWater.metainfo.xml.in:70
+msgid "Firefox"
+msgstr "Firefox"
+
+#: data/gtk/addwater-page.ui:17
+msgid "Firefox GNOME Theme"
+msgstr "Firefox GNOME-tema"
+
+#: data/gtk/addwater-page.ui:22
+msgid "Enable Theme"
+msgstr "Slå på temaet"
+
+#: data/gtk/addwater-page.ui:47
+msgid "Confirm your changes?"
+msgstr "Stadfest endringane dine?"
+
+#: data/gtk/addwater-page.ui:56
+msgid "Discard"
+msgstr "Forkast"
+
+#: data/gtk/addwater-page.ui:67
+msgid "Apply"
+msgstr "Bruk"
+
+#: data/gtk/pack-selector.ui:4
+msgid "Package Format"
+msgstr "Pakkeformat"
+
+#: data/gtk/pack-selector.ui:5
+msgid "Profile data not found at selected location"
+msgstr "Fann ikkje profildata på den valde staden"
+
+#: data/gtk/preferences.ui:14
+msgid "Update in Background"
+msgstr "Oppdater i bakgrunnen"
+
+#: data/gtk/preferences.ui:15
+msgid "Automatically check for updates at login"
+msgstr "Sjekk automatisk etter oppdateringar ved innlogging"
+
+#. Translators: This refers to options that could be unsafe.
+#: data/gtk/preferences.ui:30
+msgid "Danger Zone"
+msgstr "Faresone"
+
+#: data/gtk/preferences.ui:31
+msgid ""
+"Remove the theme from all known profiles and reset Add Water to its default "
+"state. Any custom changes made to your user.js file will remain after a "
+"reset."
+msgstr ""
+"Fjernar temaet frå alle kjende profilar og tilbakestiller Add Water til "
+"standardtilstanden. Eigne endringar du har gjort i user.js-fila, vert "
+"ståande etter ei tilbakestilling."
+
+#: data/gtk/preferences.ui:34
+msgid "Reset and Close App"
+msgstr "Tilbakestill og lukk appen"
+
+#. Translators: Profile the noun, as in Firefox profile/account
+#: data/gtk/profile-selector.ui:5
+msgid "Profile"
+msgstr "Profil"
+
+#: data/gtk/profile-selector.ui:6
+msgid "Select profile to apply changes toward"
+msgstr "Vel kva profil endringane skal brukast på"
+
+#: data/gtk/shortcuts-dialog.ui:6
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Generelt"
+
+#: data/gtk/shortcuts-dialog.ui:9
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Vis snarvegar"
+
+#: data/gtk/shortcuts-dialog.ui:15
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Avslutt"
+
+#: data/gtk/window.ui:39
+msgid "Main Menu"
+msgstr "Hovudmeny"
+
+#: data/gtk/window.ui:67
+msgid "_Preferences"
+msgstr "_Innstillingar"
+
+#: data/gtk/window.ui:71
+msgid "_Keyboard Shortcuts"
+msgstr "_Tastatursnarvegar"
+
+#: data/gtk/window.ui:75
+msgid "_About Add Water"
+msgstr "_Om Add Water"
+
+#: src/apps/firefox/firefox_options.py:6
+msgid "Tab Position"
+msgstr "Plassering av faner"
+
+#: src/apps/firefox/firefox_options.py:11
+msgid "Hide Single Tab"
+msgstr "Gøym enkeltfane"
+
+#: src/apps/firefox/firefox_options.py:14
+msgid ""
+"Consider placing the New Tab button near the Search Bar. Otherwise it may "
+"get lost when only one tab is open."
+msgstr ""
+"Vurder å plassere «Ny fane»-knappen nær søkjefeltet. Elles kan han forsvinne"
+" når berre éi fane er open."
+
+#: src/apps/firefox/firefox_options.py:21
+msgid "Standard Tab Width"
+msgstr "Standard fanebreidd"
+
+#: src/apps/firefox/firefox_options.py:22
+msgid "Use same tab width as standard Firefox"
+msgstr "Bruk same fanebreidd som standard Firefox"
+
+#: src/apps/firefox/firefox_options.py:29
+msgid "Swap Tab Close Button"
+msgstr "Bytt plassering på lukkeknappen"
+
+#: src/apps/firefox/firefox_options.py:31
+msgid "Place Close Tab button on opposite side from window controls"
+msgstr "Plasser «Lukk fane»-knappen på motsett side av vindaugekontrollane"
+
+#: src/apps/firefox/firefox_options.py:39
+msgid "Bookmarks Toolbar Under Tabs"
+msgstr "Bokmerkelinje under faner"
+
+#: src/apps/firefox/firefox_options.py:40
+msgid "Place Bookmarks Bar underneath Tab Bar"
+msgstr "Plasser bokmerkelinja under fanelinja"
+
+#: src/apps/firefox/firefox_options.py:47
+msgid "Tabs as Headerbar"
+msgstr "Faner som topplinje"
+
+#: src/apps/firefox/firefox_options.py:48
+msgid "Place Tab Bar at top of window"
+msgstr "Plasser fanelinja øvst i vindauget"
+
+#: src/apps/firefox/firefox_options.py:50
+msgid ""
+"Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
+"open"
+msgstr ""
+"Viss du slår dette på saman med «Gøym enkeltfane», vert det vist ei "
+"tittellinje når berre éi fane er open"
+
+#: src/apps/firefox/firefox_options.py:57
+msgid "Left-Aligned Titles"
+msgstr "Venstrejusterte titlar"
+
+#: src/apps/firefox/firefox_options.py:58
+msgid "Align tab title to left"
+msgstr "Juster fanetittelen til venstre"
+
+#: src/apps/firefox/firefox_options.py:65
+msgid "Tab Behavior"
+msgstr "Fanåtferd"
+
+#: src/apps/firefox/firefox_options.py:70
+msgid "Active Tab Contrast"
+msgstr "Kontrast for gjeldande fane"
+
+#: src/apps/firefox/firefox_options.py:71
+msgid "Add more visual contrast to the active tab"
+msgstr "Legg til meir visuell kontrast på gjeldande fane"
+
+#: src/apps/firefox/firefox_options.py:78
+msgid "Close Only Selected Tabs"
+msgstr "Lukk berre valde faner"
+
+#: src/apps/firefox/firefox_options.py:79
+msgid "Only show the Close Tab button on the active tab"
+msgstr "Vis berre «Lukk fane»-knappen på gjeldande fane"
+
+#: src/apps/firefox/firefox_options.py:86
+msgid "Symbolic Tab Icons"
+msgstr "Symbolske fanikon"
+
+#: src/apps/firefox/firefox_options.py:87
+msgid "Make all tab icons appear similar to symbolic icons"
+msgstr "Gjer at alle fanikon ser ut som symbolske ikon"
+
+#: src/apps/firefox/firefox_options.py:94
+msgid "List of Tabs"
+msgstr "Liste over faner"
+
+#: src/apps/firefox/firefox_options.py:95
+msgid "Always show All Tabs button"
+msgstr "Vis alltid «Alle faner»-knappen"
+
+#: src/apps/firefox/firefox_options.py:102
+msgid "List of Tabs on Overflow"
+msgstr "Liste over faner ved overflyt"
+
+#: src/apps/firefox/firefox_options.py:103
+msgid "Only show All Tabs button when many tabs are open"
+msgstr "Vis «Alle faner»-knappen berre når mange faner er opne"
+
+#: src/apps/firefox/firefox_options.py:115
+msgid "Hide Privacy Indicators"
+msgstr "Gøym personverninndikatorar"
+
+#: src/apps/firefox/firefox_options.py:116
+msgid "Hide microphone, screen share, and camera warnings"
+msgstr "Gøym åtvaringar om mikrofon, skjermdeling og kamera"
+
+#: src/apps/firefox/firefox_options.py:118
+msgid "GNOME will still show these privacy indicators in the Top Bar"
+msgstr "GNOME vil framleis vise desse personverninndikatorane i toppfeltet"
+
+#: src/apps/firefox/firefox_options.py:125
+msgid "True Black Dark Theme"
+msgstr "Ekte svart mørkt tema"
+
+#: src/apps/firefox/firefox_options.py:127
+msgid "Use an OLED-friendly, deep black when dark theme is enabled"
+msgstr "Bruk ei OLED-venleg, djup svart når det mørke temaet er slått på"
+
+#: src/apps/firefox/firefox_options.py:135
+msgid "No Themed Icons"
+msgstr "Ingen tematiserte ikon"
+
+#: src/apps/firefox/firefox_options.py:137
+msgid "Use standard Firefox icons instead of Adwaita-styled icons"
+msgstr "Bruk standard Firefox-ikon i staden for Adwaita-ikon"
+
+#: src/apps/firefox/firefox_options.py:145
+msgid "Fullscreen Bookmarks"
+msgstr "Bokmerke i fullskjerm"
+
+#: src/apps/firefox/firefox_options.py:146
+msgid "Show Bookmarks bar while in fullscreen"
+msgstr "Vis bokmerkelinja i fullskjermmodus"
+
+#: src/gui/option_factory.py:89
+msgid "More Information"
+msgstr "Meir informasjon"
+
+#: src/gui/preferences.py:75
+msgid "Checking for theme updates"
+msgstr "Sjekkar etter temaoppdateringar"
+
+#: src/utils/background.py:97
+msgid "Theme updated"
+msgstr "Temaet er oppdatert"
+
+#: src/utils/background.py:98
+msgid "Firefox GNOME Theme Updated"
+msgstr "Firefox GNOME-temaet er oppdatert"
+
+#: src/utils/background.py:100
+msgid "Theme Update Failed"
+msgstr "Temaoppdateringa mislukkast"
+
+#: src/utils/background.py:101
+msgid "Could not check for theme updates due to a network issue"
+msgstr ""
+"Klarte ikkje sjekke etter temaoppdateringar på grunn av eit nettverksproblem"
+
+#: src/utils/background.py:103
+msgid "Theme Installation failed"
+msgstr "Temainstallasjonen mislukkast"
+
+#: src/utils/background.py:104
+msgid "A theme update was downloaded but installation failed"
+msgstr "Ei temaoppdatering vart lasta ned, men installasjonen mislukkast"
+
+#: src/page.py:76
+msgid "Checking for updates..."
+msgstr "Sjekkar etter oppdateringar ..."
+
+#. Translators: {} will be replaced by a version number (example: "v126.5.65")
+#: src/page.py:91
+#, python-brace-format
+msgid "Updated theme to {}"
+msgstr "Oppdaterte temaet til {}"
+
+#: src/page.py:93
+msgid "Failed to check for updates due to a network issue"
+msgstr ""
+"Klarte ikkje sjekke etter oppdateringar på grunn av eit nettverksproblem"
+
+#: src/page.py:95
+msgid "Failed to check for updates. Please try again later."
+msgstr "Klarte ikkje sjekke etter oppdateringar. Prøv igjen seinare."
+
+#: src/page.py:97
+msgid "Unknown error has occurred. Please report this to developer."
+msgstr "Ein ukjend feil oppstod. Rapporter dette til utviklaren."
+
+#: src/page.py:115
+msgid "Installed Theme. Restart Firefox to see changes."
+msgstr "Temaet er installert. Start Firefox på nytt for å sjå endringane."
+
+#: src/page.py:121
+msgid "Removed Theme. Restart Firefox to see changes."
+msgstr "Temaet er fjerna. Start Firefox på nytt for å sjå endringane."
+
+#: src/page.py:124
+msgid "Installation failed"
+msgstr "Installasjonen mislukkast"
+
+#: src/page.py:130
+msgid "Changes reverted"
+msgstr "Endringane er tilbakestilte"
+
+#. Translators: {} will be replaced with a version number (example: v132) or a status message
+#: src/page.py:236
+#, python-brace-format
+msgid "Firefox GNOME Theme — {}"
+msgstr "Firefox GNOME-tema — {}"
+
+#: src/page.py:240
+msgid "Not installed"
+msgstr "Ikkje installert"
+
+#. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
+#: src/window.py:127
+msgid "translator-credits"
+msgstr "Roy-Magne Mo <rmo@sunnmore.net>"
+
+#. Translator: This is followed by a list of names
+#: src/window.py:130
+msgid "Theme Created and Maintained by"
+msgstr "Tema laga og vedlikehalde av"
+
+#. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
+#: src/window.py:148
+#, python-brace-format
+msgid "{} Profile Data Not Found"
+msgstr "Fann ikkje profildata for {}"
+
+#: src/window.py:151
+#, python-brace-format
+msgid ""
+"Please ensure {} is installed and Add Water has permission to access your "
+"profiles"
+msgstr ""
+"Sjekk at {} er installert og at Add Water har løyve til å få tilgang til "
+"profilane dine"
