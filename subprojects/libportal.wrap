@@ -3,3 +3,8 @@ directory = libportal
 url = https://github.com/flatpak/libportal.git
 revision = 8f5dc8d192f6e31dafe69e35219e3b707bde71ce
 depth = 1
+
+[provide]
+dependency_names = libportal, libportal-gtk4
+libportal = libportal_dep
+libportal-gtk4 = libportal_gtk4_dep
