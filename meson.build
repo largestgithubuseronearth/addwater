@@ -59,6 +59,7 @@ subdir('src')
 
 if get_option('tests')
 	subdir('build-aux')
+  subdir('tests')
 endif
 
 gnome.post_install(
