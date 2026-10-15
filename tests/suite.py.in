@@ -1,0 +1,13 @@
+import gettext
+import locale
+import signal
+import sys
+
+pkgdatadir = '@pkgdatadir@'
+localedir = '@localedir@'
+
+sys.path.insert(1, pkgdatadir)
+signal.signal(signal.SIGINT, signal.SIG_DFL)
+locale.bindtextdomain('addwater', localedir)
+locale.textdomain('addwater')
+gettext.install('addwater', localedir)
