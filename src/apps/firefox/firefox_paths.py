@@ -1,36 +1,33 @@
-from os import PathLike, environ
-from os.path import exists, expanduser, join
+from os import PathLike
+from os.path import exists, join
 from pathlib import Path
 
 from addwater.model import AppPack
+from addwater.model.paths import user_config, user_home
 
-config_dir = environ.get("HOST_XDG_CONFIG_HOME", expanduser("~/.config"))
+# TODO use new paths mod
 
 # FIREFOX PATHS
-# TODO replace fstring with join()
-BASE_LEGACY = expanduser("~/.mozilla/firefox/")
-BASE = expanduser(f"{config_dir}/mozilla/firefox/")
-FLATPAK_LEGACY = expanduser("~/.var/app/org.mozilla.firefox/.mozilla/firefox/")
-FLATPAK = expanduser("~/.var/app/org.mozilla.firefox/config/mozilla/firefox/")
-SNAP_LEGACY = expanduser("~/snap/firefox/common/.mozilla/firefox/")
-SNAP = expanduser("~/snap/firefox/common/.config/mozilla/firefox/")
+BASE_LEGACY              = user_home() / ".mozilla/firefox/"
+BASE                     = user_config() / "mozilla/firefox/"
+FLATPAK_LEGACY           = user_home() / ".var/app/org.mozilla.firefox/.mozilla/firefox/"
+FLATPAK                  = user_home() / ".var/app/org.mozilla.firefox/config/mozilla/firefox/"
 
-LIBREWOLF_BASE_LEGACY = expanduser("~/.librewolf/")
-LIBREWOLF_BASE = expanduser(f"{config_dir}/librewolf/librewolf")
-LIBREWOLF_FLATPAK_LEGACY = expanduser(
-    "~/.var/app/io.gitlab.librewolf-community/.librewolf/"
-)
-LIBREWOLF_FLATPAK = expanduser(
-    "~/.var/app/io.gitlab.librewolf-community/config/librewolf/librewolf/"
-)
+SNAP_LEGACY              = user_home() / "snap/firefox/common/.mozilla/firefox/"
+SNAP                     = user_home() / "snap/firefox/common/.config/mozilla/firefox/"
 
-FLOORP_BASE = expanduser("~/.floorp")
-FLOORP_FLATPAK = expanduser("~/.var/app/one.ablaze.floorp/.floorp")
+LIBREWOLF_BASE_LEGACY    = user_home() / ".librewolf/"
+LIBREWOLF_BASE           = user_config() / "librewolf/librewolf"
+LIBREWOLF_FLATPAK_LEGACY = user_home() / ".var/app/io.gitlab.librewolf-community/.librewolf/"
+LIBREWOLF_FLATPAK        = user_home() / ".var/app/io.gitlab.librewolf-community/config/librewolf/librewolf/"
 
-WATERFOX_BASE = expanduser("~/.waterfox")
-WATERFOX_FLATPAK = expanduser("~/.var/app/net.waterfox.waterfox/.waterfox")
+FLOORP_BASE              = user_home() / ".floorp"
+FLOORP_FLATPAK           = user_home() / ".var/app/one.ablaze.floorp/.floorp"
 
-CACHY_BASE = expanduser("~/.cachy")
+WATERFOX_BASE            = user_home() / ".waterfox"
+WATERFOX_FLATPAK         = user_home() / ".var/app/net.waterfox.waterfox/.waterfox"
+
+CACHY_BASE               = user_home() / ".cachy"
 
 # TODO can this be a GObject so I can use it in ListModels?
 #      or must I make a wrapper?
