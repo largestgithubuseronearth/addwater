@@ -22,7 +22,7 @@ from typing import Any
 
 from addwater import info
 from addwater.apps.firefox import FirefoxPack
-from addwater.profile import AppProfile
+from addwater.model import AppProfile
 from gi.repository import Adw, Gio, GObject, Gtk
 
 log = logging.getLogger("profile_selector")

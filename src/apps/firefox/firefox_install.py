@@ -25,7 +25,7 @@ from os import PathLike
 from os.path import exists, join
 
 from addwater.components.install import InstallException
-from addwater.profile import AppProfile
+from addwater.model import AppProfile
 
 log = logging.getLogger("firefox_install")
 

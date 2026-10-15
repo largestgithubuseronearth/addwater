@@ -104,8 +104,8 @@ class OnlineManager:
             )
         except NetworkException:
             return OnlineStatus.DISCONNECTED
-        except ExtractionException:
-            log.exception()
+        except ExtractionException as err:
+            log.exception(err)
             return OnlineStatus.OTHER_ERROR  # TODO handle this error better
         else:
             return OnlineStatus.UPDATED
@@ -129,7 +129,7 @@ class OnlineManager:
             try:
                 self._download_tarball(tarball_url, zipfile)
             except (requests.RequestException, requests.ConnectionError) as err:
-                log.exception()
+                log.exception(err)
                 raise NetworkException(err)
 
         try:
@@ -227,11 +227,11 @@ class OnlineManager:
         }
         try:
             response = requests.get(gh_url, headers=headers, timeout=10)
-        except requests.RequestException:
+        except requests.RequestException as err:
             # TODO use specific exceptions to handle being disconnected. It'll
             # 	be more helpful if the issue isn't just being offline but an API or
             # 	programmer error
-            log.exception()
+            log.exception(err)
             raise NetworkException("failed to connect to Github")
 
         api_calls_left = int(response.headers["x-ratelimit-remaining"])
@@ -239,8 +239,8 @@ class OnlineManager:
             latest_release = response.json()[0]
             version = Version(latest_release["tag_name"])
             tarball_url = latest_release["tarball_url"]
-        except requests.JSONDecodeError:
-            log.exception()
+        except requests.JSONDecodeError as err:
+            log.exception(err)
             version = None
             tarball_url = None
 

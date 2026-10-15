@@ -19,11 +19,14 @@
 
 from pathlib import Path
 
-from addwater.apps.firefox import FirefoxPack
 from gi.repository import GObject
 from gi.repository.GObject import ParamFlags
 
+from . import AppPack
 
+
+# FIXME also check for profiles in new FF profile system.
+#       that's the default now
 class AppProfile(GObject.Object):
     __gtype_name__ = "WaterProfile"
 
@@ -49,7 +52,7 @@ class AppProfile(GObject.Object):
         id: str,
         path: str | Path,
         favorite: bool,
-        package: FirefoxPack,
+        package: AppPack,
     ) -> None:
         super().__init__(name=name, id=id, favorite=favorite)
         self.path = Path(path)

@@ -24,7 +24,7 @@ from enum import Enum
 from os import PathLike
 from os.path import join
 
-from addwater.profile import AppProfile
+from addwater.model import AppProfile
 
 log = logging.getLogger("install_manager")
 
@@ -89,8 +89,8 @@ class InstallManager:
     def uninstall(self, profile: AppProfile, folder_name: str) -> None:
         try:
             self._uninstaller(profile, folder_name)
-        except InstallException:
-            log.exception()
+        except InstallException as err:
+            log.exception(err)
             return InstallStatus.FAILURE
 
         return InstallStatus.SUCCESS
@@ -177,8 +177,8 @@ def _do_uninstall_theme(profile: AppProfile, theme_folder: str) -> None:
                     lines[i] = line.replace("true", "false")
 
             file.writelines(lines)
-    except OSError:
-        log.exception()
+    except OSError as err:
+        log.exception(err)
         raise InstallException("uninstall failed")
 
     log.info("Done.")
@@ -202,8 +202,8 @@ def _remove_css_imports(chrome_path: PathLike) -> None:
                         lines.remove(line)
 
                 file.writelines(lines)
-        except FileNotFoundError:
-            log.exception()
+        except FileNotFoundError as err:
+            log.exception(err)
 
 class InstallStatus(Enum):
     SUCCESS = 0

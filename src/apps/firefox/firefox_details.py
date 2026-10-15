@@ -24,14 +24,14 @@ from os.path import join
 from pathlib import Path
 
 from addwater import info
-from addwater.profile import AppProfile
-from addwater.utils import paths
+from addwater.model import AppProfile
+from addwater.model.paths import aw_cache_dir
 from gi.repository import Gio
 from packaging.version import Version
 
-from . import FirefoxPack
 from .firefox_install import install_for_firefox
 from .firefox_options import FIREFOX_OPTIONS
+from .firefox_paths import FirefoxPack
 
 log = logging.getLogger("firefox_details")
 
@@ -57,12 +57,14 @@ class FirefoxAppDetails:
     )
 
     # TODO just save the unzipped download in /tmp/ and then unzip into addwater/cache
-    save_to = paths.DOWNLOAD_DIR
+    # TODO make these into Paths, not PathLike strs
+    save_to = aw_cache_dir() / "themes"
     app_folder = "firefox"
     theme_folder = "firefox-gnome-theme"
     full_path = join(save_to, app_folder, theme_folder)
 
     def __init__(self) -> None:
+        self.save_to.mkdir(exist_ok=True, parents=False)
         self.settings = self.get_new_gsettings()
 
         version = Version(self.settings.get_string("installed-version"))

@@ -1,59 +1,53 @@
-from enum import Enum
-from os import PathLike, environ
-from os.path import exists, expanduser, join
+from os import PathLike
+from os.path import exists, join
 from pathlib import Path
 
-config_dir = environ.get("HOST_XDG_CONFIG_HOME", expanduser("~/.config"))
+from addwater.model import AppPack
+from addwater.model.paths import user_config, user_home
+
+# TODO use new paths mod
 
 # FIREFOX PATHS
-# TODO replace fstring with join()
-BASE_LEGACY = expanduser("~/.mozilla/firefox/")
-BASE = expanduser(f"{config_dir}/mozilla/firefox/")
-FLATPAK_LEGACY = expanduser("~/.var/app/org.mozilla.firefox/.mozilla/firefox/")
-FLATPAK = expanduser("~/.var/app/org.mozilla.firefox/config/mozilla/firefox/")
-SNAP_LEGACY = expanduser("~/snap/firefox/common/.mozilla/firefox/")
-SNAP = expanduser("~/snap/firefox/common/.config/mozilla/firefox/")
+BASE_LEGACY              = user_home() / ".mozilla/firefox/"
+BASE                     = user_config() / "mozilla/firefox/"
+FLATPAK_LEGACY           = user_home() / ".var/app/org.mozilla.firefox/.mozilla/firefox/"
+FLATPAK                  = user_home() / ".var/app/org.mozilla.firefox/config/mozilla/firefox/"
 
-LIBREWOLF_BASE_LEGACY = expanduser("~/.librewolf/")
-LIBREWOLF_BASE = expanduser(f"{config_dir}/librewolf/librewolf")
-LIBREWOLF_FLATPAK_LEGACY = expanduser(
-    "~/.var/app/io.gitlab.librewolf-community/.librewolf/"
-)
-LIBREWOLF_FLATPAK = expanduser(
-    "~/.var/app/io.gitlab.librewolf-community/config/librewolf/librewolf/"
-)
+SNAP_LEGACY              = user_home() / "snap/firefox/common/.mozilla/firefox/"
+SNAP                     = user_home() / "snap/firefox/common/.config/mozilla/firefox/"
 
-FLOORP_BASE = expanduser("~/.floorp")
-FLOORP_FLATPAK = expanduser("~/.var/app/one.ablaze.floorp/.floorp")
+LIBREWOLF_BASE_LEGACY    = user_home() / ".librewolf/"
+LIBREWOLF_BASE           = user_config() / "librewolf/librewolf"
+LIBREWOLF_FLATPAK_LEGACY = user_home() / ".var/app/io.gitlab.librewolf-community/.librewolf/"
+LIBREWOLF_FLATPAK        = user_home() / ".var/app/io.gitlab.librewolf-community/config/librewolf/librewolf/"
 
-WATERFOX_BASE = expanduser("~/.waterfox")
-WATERFOX_FLATPAK = expanduser("~/.var/app/net.waterfox.waterfox/.waterfox")
+FLOORP_BASE              = user_home() / ".floorp"
+FLOORP_FLATPAK           = user_home() / ".var/app/one.ablaze.floorp/.floorp"
 
-CACHY_BASE = expanduser("~/.cachy")
+WATERFOX_BASE            = user_home() / ".waterfox"
+WATERFOX_FLATPAK         = user_home() / ".var/app/net.waterfox.waterfox/.waterfox"
+
+CACHY_BASE               = user_home() / ".cachy"
 
 # TODO can this be a GObject so I can use it in ListModels?
 #      or must I make a wrapper?
-class FirefoxPack(Enum):
+class FirefoxPack(AppPack):
     # TODO rename these to just use the name instead of base later (Firefox / Firefox Flatpak / Librewolf / etc)
-    BASE = ("Base", BASE)
-    BASE_ALT = ("Base (Alt)", BASE_LEGACY)
-    FLATPAK = ("Flatpak", FLATPAK)
-    FLATPAK_ALT = ("Flatpak (Alt)", FLATPAK_LEGACY)
-    SNAP = ("Snap", SNAP)
-    SNAP_ALT = ("Snap (Alt)", SNAP_LEGACY)
-    LIBREWOLF = ("Librewolf", LIBREWOLF_BASE)
-    LIBREWOLF_ALT = ("Librewolf (Alt)", LIBREWOLF_BASE_LEGACY)
-    LIBREWOLF_FLATPAK = ("Librewolf Flatpak", LIBREWOLF_FLATPAK)
+    BASE                  = ("Base", BASE)
+    BASE_ALT              = ("Base (Alt)", BASE_LEGACY)
+    FLATPAK               = ("Flatpak", FLATPAK)
+    FLATPAK_ALT           = ("Flatpak (Alt)", FLATPAK_LEGACY)
+    SNAP                  = ("Snap", SNAP)
+    SNAP_ALT              = ("Snap (Alt)", SNAP_LEGACY)
+    LIBREWOLF             = ("Librewolf", LIBREWOLF_BASE)
+    LIBREWOLF_ALT         = ("Librewolf (Alt)", LIBREWOLF_BASE_LEGACY)
+    LIBREWOLF_FLATPAK     = ("Librewolf Flatpak", LIBREWOLF_FLATPAK)
     LIBREWOLF_FLATPAK_ALT = ("Librewolf Flatpak (Alt)", LIBREWOLF_FLATPAK_LEGACY)
-    FLOORP = ("Floorp", FLOORP_BASE)
-    FLOORP_FLATPAK = ("Floorp Flatpak", FLOORP_FLATPAK)
-    WATERFOX = ("Waterfox", WATERFOX_BASE)
-    WATERFOX_FLATPAK = ("Waterfox Flatpak", WATERFOX_FLATPAK)
-    CACHY = ("CachyOS Browser", CACHY_BASE)
-
-    def __init__(self, name: str, path: PathLike) -> None:
-        self.pack_name = name
-        self.path = Path(path)
+    FLOORP                = ("Floorp", FLOORP_BASE)
+    FLOORP_FLATPAK        = ("Floorp Flatpak", FLOORP_FLATPAK)
+    WATERFOX              = ("Waterfox", WATERFOX_BASE)
+    WATERFOX_FLATPAK      = ("Waterfox Flatpak", WATERFOX_FLATPAK)
+    CACHY                 = ("CachyOS Browser", CACHY_BASE)
 
     def get_profile_ini(self) -> Path:
         prof_ini = join(self.path, "profiles.ini")
@@ -64,7 +58,7 @@ class FirefoxPack(Enum):
 
 
     @staticmethod
-    def new_from_path(app_path: Path | PathLike) -> Enum | None:
+    def new_from_path(app_path: Path | PathLike) -> AppPack | None:
         app_path = Path(app_path)
         for pack in FirefoxPack:
             if app_path == pack.path:
@@ -73,7 +67,7 @@ class FirefoxPack(Enum):
         return None
 
     @staticmethod
-    def new_from_name(name: str) -> Enum | None:
+    def new_from_name(name: str) -> AppPack | None:
         for pack in FirefoxPack:
             if name == pack.pack_name:
                 return pack

@@ -31,7 +31,6 @@ from addwater.apps.firefox import FirefoxAppDetails
 from addwater.backend import Backend
 from gi.repository import Adw, Gio, GLib
 
-from .utils import paths
 from .utils.background import BackgroundUpdater
 from .utils.logs import init_logs
 from .window import Window
@@ -50,7 +49,6 @@ class Application(Adw.Application):
             resource_base_path=info.PREFIX,
         )
 
-        paths.init_paths()
         init_logs()
 
         self.init_actions()
@@ -127,14 +125,12 @@ class Application(Adw.Application):
         settings = Gio.Settings(info.APP_ID)
         settings.reset("background-update")
 
+        # TODO delete theme files. Maybe add a method to tell
+        #      AppTheme to clean up its data? Or make its dir
+        #      public
+
         for each in self.backends:
             each.reset_app()
-
-        try:
-            shutil.rmtree(paths.DOWNLOAD_DIR)
-        except FileNotFoundError:
-            pass
-        log.info("deleted download folder")
 
         log.info("app has been reset and will now exit")
         self.quit()
