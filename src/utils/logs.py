@@ -21,27 +21,30 @@
 
 import logging
 import os
-import os.path
 import sys
+
 from datetime import datetime, timezone
+from os.path import join
 
 from addwater.info import PROFILE, VERSION
+from addwater.model.paths import aw_cache_dir
 from gi.repository import Adw, Gtk
-
-from . import paths
 
 
 def init_logs() -> None:
     """Set up logging system"""
-    LOG_DIR = paths.LOG_DIR
+    LOG_DIR = aw_cache_dir() / "logs"
+    LOG_DIR.mkdir(exist_ok=True, parents=False)
+
     try:
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        CURRENT_LOGFILE = os.path.join(LOG_DIR, f"addwater_{now}.log")
+        CURRENT_LOGFILE = str(join(LOG_DIR, f"addwater_{now}.log"))
 
         file_handler = logging.FileHandler(CURRENT_LOGFILE)
         console_handler = logging.StreamHandler(sys.stdout)
 
         file_handler.setLevel(logging.DEBUG)
+        # TODO tie this an env var instead
         if PROFILE == "development":
             console_handler.setLevel(logging.DEBUG)
         elif PROFILE == "default":
@@ -67,7 +70,7 @@ def init_logs() -> None:
 
             difference = datetime.now(timezone.utc) - time
             if difference.days > 7:
-                os.remove(os.path.join(LOG_DIR, each.name))
+                os.remove(join(LOG_DIR, each.name))
 
     info = f"""
 	------------------------------------------------------------------------
