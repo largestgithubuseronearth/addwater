@@ -25,6 +25,8 @@ from gi.repository.GObject import ParamFlags
 from . import AppPack
 
 
+# FIXME also check for profiles in new FF profile system.
+#       that's the default now
 class AppProfile(GObject.Object):
     __gtype_name__ = "WaterProfile"
 
