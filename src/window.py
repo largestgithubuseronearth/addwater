@@ -23,11 +23,10 @@ from datetime import datetime, timezone
 from os.path import join
 
 from addwater import info
+from addwater.utils.logs import log_dir
 from addwater.gui import Preferences
 from addwater.page import Page
 from gi.repository import Adw, Gio, Gtk
-
-from .utils.paths import LOG_DIR
 
 log = logging.getLogger("window")
 
@@ -108,7 +107,7 @@ class Window(Adw.ApplicationWindow):
         """Callback for the app.about action."""
         # Grab log info for debug info page
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        CURRENT_LOGFILE = join(LOG_DIR, f"addwater_{now}.log")
+        CURRENT_LOGFILE = join(log_dir(), f"addwater_{now}.log")
         with open(file=CURRENT_LOGFILE, mode="r", encoding="utf-8") as f:
             db_info = f.read()
 

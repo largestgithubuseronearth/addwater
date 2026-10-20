@@ -17,7 +17,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# TODO standardize all logs to make info logs more meaningful. Debug should include the tech details and info should only communicate the actual purpose and action that's being done and whether it was successful or not.
+# TODO standardize all logs to make info logs more meaningful.
+#      Debug should include the tech details and info should only communicate
+#      the actual purpose and action that's being done and whether it was
+#      successful or not.
 
 import logging
 import os
@@ -25,20 +28,21 @@ import sys
 
 from datetime import datetime, timezone
 from os.path import join
+from pathlib import Path
 
 from addwater.info import PROFILE, VERSION
-from addwater.model.paths import aw_cache_dir
+from addwater.model.paths import aw_cache_dir, ensure_exists
 from gi.repository import Adw, Gtk
+
+def log_dir() -> Path:
+    return ensure_exists (aw_cache_dir() / "logs")
 
 
 def init_logs() -> None:
     """Set up logging system"""
-    LOG_DIR = aw_cache_dir() / "logs"
-    LOG_DIR.mkdir(exist_ok=True, parents=False)
-
     try:
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        CURRENT_LOGFILE = str(join(LOG_DIR, f"addwater_{now}.log"))
+        CURRENT_LOGFILE = log_dir() / f"addwater_{now}.log"
 
         file_handler = logging.FileHandler(CURRENT_LOGFILE)
         console_handler = logging.StreamHandler(sys.stdout)
@@ -61,7 +65,7 @@ def init_logs() -> None:
         print("Couldn't initialize log file: ", err)
 
     # Delete logs that are over two weeks old
-    with os.scandir(path=LOG_DIR) as scan:
+    with os.scandir(path=log_dir()) as scan:
         for each in scan:
             time = datetime.strptime(
                 each.name,
@@ -70,7 +74,7 @@ def init_logs() -> None:
 
             difference = datetime.now(timezone.utc) - time
             if difference.days > 7:
-                os.remove(join(LOG_DIR, each.name))
+                os.remove(log_dir() / each.name)
 
     info = f"""
 	------------------------------------------------------------------------

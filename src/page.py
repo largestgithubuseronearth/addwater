@@ -162,9 +162,7 @@ class Page(Adw.Bin):
     def init_gui(self, options: list[dict]) -> None:
         """Create and bind all SwitchRows according to their respective GSettings keys
 
-        Args:
-            options: a json-style list of dictionaries which include all option groups
-                    and options that the theme supports.
+        :options: a json-style list of dictionaries which include all option groups and options that the theme supports.
         """
         # Theme options
         for group_definition in options:
