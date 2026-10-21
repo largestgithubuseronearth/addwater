@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: addwater main\n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2026-06-21 20:18+0000\n"
-"PO-Revision-Date: 2026-09-02 18:27+0100\n"
+"POT-Creation-Date: 2026-10-15 22:45+0000\n"
+"PO-Revision-Date: 2026-10-22 00:46+0100\n"
 "Last-Translator: Flynn Peck <cirilla@tuta.io>\n"
-"Language-Team: kw\n"
+"Language-Team: Cornish\n"
 "Language: kw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-DL-Domain: po\n"
 "X-DL-State: Translating\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 50.0\n"
+"X-Generator: Gtranslator 51.0\n"
 
 #: data/dev.qwery.AddWater.desktop.in:2
 msgid "Add Water"
@@ -42,7 +42,7 @@ msgstr "thema;adwaita;firefox;"
 
 #: data/dev.qwery.AddWater.gschema.xml.in:21
 msgid "Send notifications for background updates"
-msgstr "Danvon gwarnyansow rag nowedhyansow yn kilva"
+msgstr "Danvon gwarnyansow rag nowedhyansow kilva"
 
 #: data/dev.qwery.AddWater.gschema.xml.in:35
 msgid "Automatically Discover the installed Firefox package format"
@@ -52,7 +52,7 @@ msgstr "Trovya yn Awtomatek an furvas fardel leys Firefox"
 msgid ""
 "Most recently installed version of the firefox gnome theme "
 "(Major.Minor.Micro)"
-msgstr "Versyon leys diwettha a'n thema firefox gnome (Brassa.Le.Korr)"
+msgstr "Dyllans leys diwettha a'n thema firefox gnome (Brassa.Le.Korr)"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:13
 msgid ""
@@ -61,18 +61,18 @@ msgid ""
 "GNOME design ecosystem, and provides many helpful features to customize the "
 "interface to make browsing even more pleasant:"
 msgstr ""
-"App les rag lea yn es an Thema Firefox GNOME* hag y nowedhi yn awtomatek yn "
-"kilva. An thema ma a with Firefox kelvydh y'n ekokevreyth desin GNOME, hag a "
-"brovi meur a nasyow gweresek rag personelhe an ynterfas:"
+"App les rag lea yn es an Thema Firefox GNOME* hag y nowedhi yn awtomatek y'n "
+"gilva. An thema ma a with Firefox kelvydh y'n ekokevreyth desin GNOME, hag a "
+"brovi lies nas gweresek rag personelhe an ynterfas:"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:16
 msgid "Supports light and dark style, as well as accent colors"
-msgstr "Skoodhya gis gwynn ha du, keffrys ha liwyow chif"
+msgstr "Y skoodhir gis gwynn ha du, ha liwyow chif"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:17
 #: src/apps/firefox/firefox_options.py:12
 msgid "Hide Tab Bar when only one tab is open"
-msgstr "Kudha Barr Tabb pan eus mar unn tabb ygor"
+msgstr "Kudha Barr Tabb mars usi mar unn tabb ygor"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:18
 msgid "Use an OLED-friendly pitch black for the interface"
@@ -88,7 +88,7 @@ msgstr "Kudha arwodhigow anarvethys korrgewsell, kamera, skrin-kevrenna"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:21
 msgid "Supports Flatpak, Snap, Librewolf, and Floorp variants of Firefox"
-msgstr "Skoodhya variennow Firefox Flatpak, Snap, Librewolf, ha Floorp"
+msgstr "Y skoodhir variennow Firefox Flatpak, Snap, Librewolf, ha Floorp"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:23
 msgid ""
@@ -104,9 +104,9 @@ msgid ""
 "project is not affiliated or endorsed by the Mozilla Foundation. Firefox is "
 "a trademark of the Mozilla Foundation in the U.S. and other countries."
 msgstr ""
-"Nyns yw an peurell Firefox komprehendys ha res yw bos iskargys yn tiblans. "
-"Nyns yw an ragdres ma omgelmys po keynskrifys gans an Fondyans Mozilla. "
-"Firefox yw merk-trad a'n Fondyans Mozilla y'n S.U. ha powyow erel."
+"Nyns yw an peurell Firefox komprehendys ha res yw dhywgh hy iskarga yn "
+"tiblans. Nyns yw an ragdres ma omgelmys po keynskrifys gans an Fondyans "
+"Mozilla. Firefox yw merk-trad a'n Fondyans Mozilla y'n S.U. ha powyow erel."
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:35
 msgid "Add Water makes it easy to tweak the Firefox GNOME Theme"
@@ -114,12 +114,12 @@ msgstr "Dowrhe a esha handlans a'n Thema Firefox GNOME"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:39
 msgid "The interface is clean, beautiful, and stays out of the way"
-msgstr "An ynterfas yw glan, teg, hag a drig mes a'n fordh"
+msgstr "An ynterfas yw glan, teg, hag y trig yn-mes a'n fordh"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:43
 msgid "Supports a pure black Top Bar, perfect for OLED screens and dark rooms"
 msgstr ""
-"Skoodhya Barr Gwartha pur dhu, perfydh rag skrinyow OLED ha stevellow du"
+"Y skoodhir Barr Gwartha pur dhu, perfydh rag skrinyow OLED ha stevellow du"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:47
 msgid "Supports Accent Colors and multiple positions for Tab and Bookmark Bars"
@@ -164,7 +164,7 @@ msgstr "Furvas Fardel"
 
 #: data/gtk/pack-selector.ui:5
 msgid "Profile data not found at selected location"
-msgstr "Nyns o data profil kevys yn tyller dewisys"
+msgstr "Nyns eus data profil kevys y'n tyller dewisys"
 
 #: data/gtk/preferences.ui:14
 msgid "Update in Background"
@@ -177,7 +177,7 @@ msgstr "Checkya yn awtomatek rag nowedhyansow yn omgelmyans"
 #. Translators: This refers to options that could be unsafe.
 #: data/gtk/preferences.ui:30
 msgid "Danger Zone"
-msgstr "Parth Peryl"
+msgstr "Parth Beryl"
 
 #: data/gtk/preferences.ui:31
 msgid ""
@@ -246,8 +246,8 @@ msgid ""
 "Consider placing the New Tab button near the Search Bar. Otherwise it may "
 "get lost when only one tab is open."
 msgstr ""
-"Prederewgh ow lea an boton Tabb Nowydh ryb an Barr Hwithrans. Poken y a yll "
-"bydh kellys pan eus tabb unnik ygor."
+"Prederewgh lea an boton Tabb Nowydh ryb an Barr Hwithrans. Poken y hyll dos "
+"ha bos kellys mars eus unn tabb ygor hepken."
 
 #: src/apps/firefox/firefox_options.py:21
 msgid "Standard Tab Width"
@@ -263,7 +263,7 @@ msgstr "Keschanjya Boton Degea Tabb"
 
 #: src/apps/firefox/firefox_options.py:31
 msgid "Place Close Tab button on opposite side from window controls"
-msgstr "Lea boton Degea Tabb war worthenep r votonyow fenester"
+msgstr "Lea boton Degea Tabb war worthenep a votonyow fenester"
 
 #: src/apps/firefox/firefox_options.py:39
 msgid "Bookmarks Toolbar Under Tabs"
@@ -286,8 +286,8 @@ msgid ""
 "Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
 "open"
 msgstr ""
-"Ow pywhe gans \"Kudha Tabb Unnik\" a wra diskwedhes Barr Titel pan eus tabb "
-"unnik yw ygor"
+"Mar pywhowgh dre \"Kudha Tabb Unnik\" a wra diskwedhes Barr Titel mars eus "
+"unn tabb ygor hepken"
 
 #: src/apps/firefox/firefox_options.py:57
 msgid "Left-Aligned Titles"
@@ -303,11 +303,11 @@ msgstr "Fara Tabb"
 
 #: src/apps/firefox/firefox_options.py:70
 msgid "Active Tab Contrast"
-msgstr "Gorthwedh Tabb Byw"
+msgstr "Gorthwedh Dabb Byw"
 
 #: src/apps/firefox/firefox_options.py:71
 msgid "Add more visual contrast to the active tab"
-msgstr "Keworra moy gorthwedh gwelesek dhe'n tabb byw"
+msgstr "Keworra moy gorthwedh welesek dhe'n tabb byw"
 
 #: src/apps/firefox/firefox_options.py:78
 msgid "Close Only Selected Tabs"
@@ -323,7 +323,7 @@ msgstr "Arwodhigow Arwodhek Tabb"
 
 #: src/apps/firefox/firefox_options.py:87
 msgid "Make all tab icons appear similar to symbolic icons"
-msgstr "Gul oll arwodhigow tabb apperya haval dhe arwodhigow arwodhek"
+msgstr "Gul oll arwodhigow tabb haval dhe arwodhigow arwodhek"
 
 #: src/apps/firefox/firefox_options.py:94
 msgid "List of Tabs"
@@ -335,11 +335,11 @@ msgstr "Diskwedhes prest boton Oll Tabbow"
 
 #: src/apps/firefox/firefox_options.py:102
 msgid "List of Tabs on Overflow"
-msgstr "Rol Dabbow ow Fenna"
+msgstr "Rol Dabbow usi ow Fenna"
 
 #: src/apps/firefox/firefox_options.py:103
 msgid "Only show All Tabs button when many tabs are open"
-msgstr "Diskwedhes hepken boton Oll Tabbow pan eus lies tabbow ygor"
+msgstr "Diskwedhes hepken boton Oll Tabbow mars eus lies tabb ygor"
 
 #: src/apps/firefox/firefox_options.py:115
 msgid "Hide Privacy Indicators"
@@ -351,7 +351,7 @@ msgstr "Kudha gwarnyansow kellgowsell, skrin-kevrenna, ha kamera"
 
 #: src/apps/firefox/firefox_options.py:118
 msgid "GNOME will still show these privacy indicators in the Top Bar"
-msgstr "GNOME a wra diskwedhes hwath an arwodhigow privetter ma y'n Penn-Barr"
+msgstr "GNOME a wra diskwedhes hwath an arwodhigow privetter ma y'n Pennbarr"
 
 #: src/apps/firefox/firefox_options.py:125
 msgid "True Black Dark Theme"
@@ -359,7 +359,7 @@ msgstr "Thema Pur Dhu"
 
 #: src/apps/firefox/firefox_options.py:127
 msgid "Use an OLED-friendly, deep black when dark theme is enabled"
-msgstr "Devnydhya thema pur dhu OLED-kowethek pan usi an thema du byw"
+msgstr "Devnydhya thema pur dhu OLED-kowethek mars usi an thema du byw"
 
 #: src/apps/firefox/firefox_options.py:135
 msgid "No Themed Icons"
@@ -377,105 +377,109 @@ msgstr "Lyververkys Skrin-Leun"
 msgid "Show Bookmarks bar while in fullscreen"
 msgstr "Diskwedhes barr Lyververkys yn skrin-leun"
 
-#: src/gui/option_factory.py:87
+#: src/gui/option_factory.py:89
 msgid "More Information"
-msgstr "Moy Kedhlow"
+msgstr "Kedhlow Pella"
 
-#: src/gui/preferences.py:83
+#: src/gui/preferences.py:75
 msgid "Checking for theme updates"
 msgstr "Ow checkya rag nowedhyansow thema"
 
-#: src/utils/background.py:98
+#: src/utils/background.py:97
 msgid "Theme updated"
 msgstr "Thema nowedhys"
 
-#: src/utils/background.py:99
+#: src/utils/background.py:98
 msgid "Firefox GNOME Theme Updated"
 msgstr "Thema Firefox GNOME Nowedhys"
 
-#: src/utils/background.py:101
+#: src/utils/background.py:100
 msgid "Theme Update Failed"
-msgstr "Nowedhyans Thema Fyllis"
+msgstr "Nowedhyans Thema Fyllys"
 
-#: src/utils/background.py:102
+#: src/utils/background.py:101
 msgid "Could not check for theme updates due to a network issue"
 msgstr "Ny yllir checkya rag nowedhyansow thema awos kudyn rosweyth"
 
-#: src/utils/background.py:104
+#: src/utils/background.py:103
 msgid "Theme Installation failed"
-msgstr "Leyans Thema fyllis"
+msgstr "Leyans Thema fyllys"
 
-#: src/utils/background.py:105
+#: src/utils/background.py:104
 msgid "A theme update was downloaded but installation failed"
-msgstr "Nowedhyans thema o iskargys mes leyans re fyllis"
+msgstr "Yth esa nowedhyans thema iskargys mes leyans re fyllis"
 
-#: src/page.py:78
+#: src/page.py:76
 msgid "Checking for updates..."
 msgstr "Ow checkya rag nowedhyansow..."
 
 #. Translators: {} will be replaced by a version number (example: "v126.5.65")
-#: src/page.py:93
+#: src/page.py:91
+#, python-brace-format
 msgid "Updated theme to {}"
 msgstr "Nowedhys thema dhe {}"
 
-#: src/page.py:95
+#: src/page.py:93
 msgid "Failed to check for updates due to a network issue"
 msgstr "Ny yllir checkya rag nowedhyansow awos kudyn rosweyth"
 
-#: src/page.py:97
+#: src/page.py:95
 msgid "Failed to check for updates. Please try again later."
-msgstr "Ny yllir checkya rag nowedhyansow. Assayewgh arta wosa henna mar pleg."
+msgstr "Ny yllir checkya rag nowedhyansow. Assayewgh arta diwettha mar pleg."
 
-#: src/page.py:99
+#: src/page.py:97
 msgid "Unknown error has occurred. Please report this to developer."
 msgstr "Yth esa gwall ankoth. Derivewgh an kudyn ma dhe'n displegyer mar pleg."
 
-#: src/page.py:117
+#: src/page.py:115
 msgid "Installed Theme. Restart Firefox to see changes."
 msgstr "Thema Leys. Dastallethewgh Firefox rag gweles chanjyow."
 
-#: src/page.py:123
+#: src/page.py:121
 msgid "Removed Theme. Restart Firefox to see changes."
 msgstr "Thema Removys. Dastallethewgh Firefox rag gweles chanjyow."
 
-#: src/page.py:126
+#: src/page.py:124
 msgid "Installation failed"
-msgstr "Leyans fyllis"
+msgstr "Leyans fyllys"
 
-#: src/page.py:132
+#: src/page.py:130
 msgid "Changes reverted"
 msgstr "Chanjyow kildreylys"
 
 #. Translators: {} will be replaced with a version number (example: v132) or a status message
-#: src/page.py:238
+#: src/page.py:236
+#, python-brace-format
 msgid "Firefox GNOME Theme — {}"
 msgstr "Thema Firefox GNOME — {}"
 
-#: src/page.py:242
+#: src/page.py:240
 msgid "Not installed"
 msgstr "Anleys"
 
 #. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
-#: src/window.py:129
+#: src/window.py:127
 msgid "translator-credits"
 msgstr "Flynn"
 
 #. Translator: This is followed by a list of names
-#: src/window.py:132
+#: src/window.py:130
 msgid "Theme Created and Maintained by"
 msgstr "Thema Gwrys ha Gwithys gans"
 
 #. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
-#: src/window.py:150
+#: src/window.py:148
+#, python-brace-format
 msgid "{} Profile Data Not Found"
-msgstr "Nyns yw Data Profil {} Kevys"
+msgstr "Nyns usi Data Profil {} Kevys"
 
-#: src/window.py:153
+#: src/window.py:151
+#, python-brace-format
 msgid ""
 "Please ensure {} is installed and Add Water has permission to access your "
 "profiles"
 msgstr ""
-"Surhewgh {} yw leys ha Dowrhe a's jeves kummyas dhe dhrehedhes agas profilys "
+"Surhewgh yma {} leys ha yma kummyas dhe Dhowrhe a dhrehedhes agas profilys "
 "mar pleg"
 
 #~ msgid "Automatically Discover"
