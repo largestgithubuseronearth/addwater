@@ -1,7 +1,7 @@
 {
     "id" : "dev.qwery.AddWater.Devel",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "50",
+    "runtime-version" : "51",
     "sdk" : "org.gnome.Sdk",
     "command" : "addwater",
     "finish-args" : [
@@ -10,6 +10,7 @@
         "--socket=fallback-x11",
         "--device=dri",
         "--socket=wayland",
+
         "--filesystem=~/.mozilla/firefox/:rw",
         "--filesystem=xdg-config/mozilla/firefox/:rw",
         "--filesystem=~/.var/app/org.mozilla.firefox/.mozilla/firefox/:rw",
@@ -39,28 +40,6 @@
     "modules" : [
         "python3-requirements.json",
         {
-            "name" : "libportal",
-            "buildsystem" : "meson",
-            "config-opts" : [
-                "-Dbackend-gtk4=enabled",
-
-                "-Dbackend-gtk3=disabled",
-                "-Dbackend-qt5=disabled",
-                "-Dbackend-qt6=disabled",
-                "-Dvapi=false",
-                "-Dtests=false",
-                "-Ddocs=true"
-            ],
-            "sources" : [
-                {
-                    "type" : "git",
-                    "url" : "https://github.com/flatpak/libportal",
-                    "tag" : "0.9.1",
-                    "commit" : "8f5dc8d192f6e31dafe69e35219e3b707bde71ce"
-                }
-            ]
-        },
-        {
             "name" : "addwater",
             "buildsystem" : "meson",
             "config-opts" : [
@@ -77,8 +56,5 @@
             ],
             "builddir" : true
         }
-    ],
-    "build-options" : {
-        "env" : {        }
-    }
+    ]
 }
