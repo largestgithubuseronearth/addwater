@@ -1,7 +1,6 @@
-#TODO Make a class of Widgets that holds all this info as props, then define
-#     these options in the UI Builder files instead
+from addwater.model import ThemePrefGroup
 
-FIREFOX_OPTIONS = [
+FIREFOX_OPTIONS: list[ThemePrefGroup] = [
     {
         "group_name": _("Tab Position"),
         "prefs": [
