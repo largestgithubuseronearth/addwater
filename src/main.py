@@ -71,7 +71,7 @@ class Application(Adw.Application):
         options = command_line.get_options_dict()
         options = options.end().unpack()
 
-        if options or info.FORCE_BG == "True":
+        if options:
             try:
                 self.handle_background_update(options)
             except CommandMisuseException as err:
@@ -91,9 +91,6 @@ class Application(Adw.Application):
         win.present()
 
     def handle_background_update(self, options) -> None:
-        if info.FORCE_BG == "True":
-            options = {"quick-update": True}
-
         # TODO add flag to reset app from CLI
         # TODO handle the option better and handle the error better
         if options.get("quick-update"):

@@ -4,18 +4,8 @@ option('profile',
 	value : 'development'
 )
 
-# Testing options (developer profile only)
 option('tests',
 	type: 'boolean',
 	value: false
 )
 
-option('online-mock',
-	type: 'boolean',
-	value: false
-)
-
-option('force-background',
-	type: 'boolean',
-	value: false
-)

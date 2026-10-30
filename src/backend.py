@@ -22,7 +22,6 @@ from enum import Enum
 from os.path import join
 from typing import Any
 
-from addwater import info
 from addwater.apps.firefox import FirefoxAppDetails, FirefoxPack
 from addwater.components import InstallManager, InstallStatus, OnlineManager
 from addwater.model import AppProfile
@@ -62,13 +61,8 @@ class Backend:
             installer=install_method,
         )
 
-        if info.MOCK_API == "True":
-            online_manager = mock_online.MockOnlineManager()
-        else:
-            theme_url = app_details.get_info_url()
-            online_manager = OnlineManager(
-                theme_url=theme_url,
-            )
+        theme_url = app_details.get_info_url()
+        online_manager = OnlineManager(theme_url)
 
         firefox_backend = Backend(
             app_details=app_details,

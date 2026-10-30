@@ -16,30 +16,21 @@ python = import('python').find_installation('python3',
 
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 
-# Get profile and if user release, disable ALL testing options
-profile = get_option('profile')
-if profile == 'default'
-	app_id = 'dev.qwery.AddWater'
-	mock_api = false
-	force_bg = false
-elif profile =='development'
-	app_id = 'dev.qwery.AddWater.Devel'
-	mock_api = get_option('online-mock')
-	force_bg = get_option('force-background')
+app_id = 'dev.qwery.AddWater'
+if get_option('profile') == 'development'
+	app_id = app_id + '.Devel'
 endif
 
 
 conf = configuration_data({
-	'PYTHON' : python.full_path(),
-	'VERSION' : meson.project_version(),
-	'APP_ID' : app_id,
-	'PREFIX' : '/dev/qwery/AddWater',
-	'PROFILE': profile,
+	'PYTHON'    : python.full_path(),
+	'VERSION'   : meson.project_version(),
+	'APP_ID'    : app_id,
+	'PREFIX'    : '/dev/qwery/AddWater',
+	'PROFILE'   : get_option('profile'),
 	'localedir' : get_option('prefix') / get_option('localedir'),
 	'pkgdatadir': pkgdatadir
 })
-conf.set('MOCK_API', mock_api)
-conf.set('FORCE_BG', force_bg)
 
 dependency('gtk4',           version: '>=4.22')
 dependency('libadwaita-1',   version: '>=1.9.0')

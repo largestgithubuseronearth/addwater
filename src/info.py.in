@@ -23,11 +23,6 @@ VERSION = '@VERSION@'
 PROFILE = '@PROFILE@'
 PREFIX = '@PREFIX@'
 
-# NOTE: Meson booleans are strings! Not native python bools. Could convert them here if that makes sense.
-FORCE_BG = '@FORCE_BG@'
-MOCK_API = '@MOCK_API@'
-
-
 
 # About Menu
 ISSUE_TRACKER = 'https://github.com/largestgithubuseronearth/addwater/issues/'
