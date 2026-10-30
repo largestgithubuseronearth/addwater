@@ -20,5 +20,5 @@ foreach testfile: test_src
   configure_file(input: testfile, output: testfile, copy: true)
 endforeach
 
-test('pytest', find_program('pytest'),
+test('pytest', find_program('pytest', disabler: true),
      args: [meson.current_build_dir(), '--quiet'])
