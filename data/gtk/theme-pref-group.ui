@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="WaterThemePrefGroup" parent="AdwPreferencesGroup">
+    <property name="margin-start">20</property>
+    <property name="margin-end">20</property>
+    <binding name="title">
+      <lookup name="group-name">WaterThemePrefGroup</lookup>
+    </binding>
+  </template>
+</interface>
+

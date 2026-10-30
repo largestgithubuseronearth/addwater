@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="WaterThemePrefSwitch" parent="AdwActionRow">
+    <property name="activatable-widget">switch</property>
+   <!-- Styling borrowed from GNOME settings > Mouse Acceleration -->
+    <child type="suffix">
+      <object class="GtkMenuButton" id="tooltip_button">
+        <!-- TODO bind this to whether or not tooltip text exists -->
+        <binding name="visible">
+          <lookup name="has-disclaimer">WaterThemePrefSwitch</lookup>
+        </binding>
+        <property name="has-frame">false</property>
+        <property name="icon-name">info-outline-symbolic</property>
+        <property name="valign">center</property>
+        <property name="vexpand">false</property>
+        <property name="tooltip-text" translatable="yes">More Information</property>
+        <property name="popover">
+          <object class="GtkPopover">
+            <property name="autohide">true</property>
+            <property name="hexpand">false</property>
+            <property name="child">
+              <object class="GtkLabel" id="tooltip_label">
+                <binding name="label">
+                  <lookup name="disclaimer-text">WaterThemePrefSwitch</lookup>
+                </binding>
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
+                <property name="max-width-chars">50</property>
+                <property name="wrap">true</property>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </child>
+
+    <child type="suffix">
+      <object class="GtkSwitch" id="switch">
+        <property name="valign">center</property>
+        <property name="vexpand">false</property>
+      </object>
+    </child>
+  </template>
+
+</interface>
+

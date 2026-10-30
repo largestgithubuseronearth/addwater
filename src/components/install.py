@@ -40,12 +40,11 @@ class InstallManager:
     can be overridden by injecting your own functions. This leaves the door open
     for supporting different apps or themes in the future.
 
-    args:
-        installer: method that writes theme files into the app
-        preference_handler: method to, if necessary, handle optional settings
-            that may need to be written to a file somewhere.
-        uninstaller: method to remove theme files from app. For now, this must
-            handle removing those settings from pref_handler on its own.
+    :installer: method that writes theme files into the app
+    :preference_handler: method to, if necessary, handle optional settings
+        that may need to be written to a file somewhere.
+    :uninstaller: method to remove theme files from app. For now, this must
+        handle removing those settings from pref_handler on its own.
     """
 
     def __init__(

@@ -22,10 +22,9 @@ import logging
 
 from addwater import Backend, info
 from addwater.gui import PackSelector
-from addwater.gui.option_factory import (
-    create_option_group,
-    create_option_switch,
-)
+from addwater.model import ThemePref
+from addwater.gui import ThemePrefGrouping
+
 from gi.repository import Adw, Gio, GObject, Gtk
 from packaging.version import Version
 
@@ -134,18 +133,13 @@ class Page(Adw.Bin):
     ) -> None:
         """Convenience method to send an AdwToast quickly.
 
-        Args:
-            msg: Toast message as string. If none, it will still withdraw the
-                 currently displayed toast.
-            timeout_seconds: Default is 2 seconds.
-            priority: default is Normal Priority (0). Use 1 to skip the toast queue
-                and immediately present this toast.
-
-        """
-        if self.current_toast:
-            self.current_toast.dismiss()
-
+        :msg: Toast message as string. If None, it will still withdraw the
+        currently displayed toast.
+        :timeout_seconds: Default is 2 seconds.
+        :priority: default is Normal Priority (0). Use 1 to skip the toast
+        queue and immediately present this toast."""
         if not msg:
+            self.current_toast.dismiss()
             return
 
         self.current_toast = Adw.Toast(
@@ -158,25 +152,21 @@ class Page(Adw.Bin):
         # details: https://gitlab.gnome.org/GNOME/libadwaita/-/issues/440
         self.enable_button.grab_focus()
 
-    # TODO reduce all of this as much as possible using props and constructors
-    def init_gui(self, options: list[dict]) -> None:
-        """Create and bind all SwitchRows according to their respective GSettings keys
+    def init_gui(self, pref_groups: list[ThemePref]) -> None:
+        """Create and bind all SwitchRows according to their respective
+        GSettings keys
 
-        :options: a json-style list of dictionaries which include all option groups and options that the theme supports.
-        """
-        # Theme options
-        for group_definition in options:
-            group = create_option_group(
-                group_schematic=group_definition,
-                gui_switch_factory=create_option_switch,
-                settings=self.settings,
-            )
+        :options: a json-style list of dictionaries which include all
+        option groups and options that the theme supports. """
+
+        for group in pref_groups:
+            section = ThemePrefGrouping(group["group_name"], group, self.settings)
             self.bind_property(
                 "theme-enabled",
-                group, "sensitive",
+                section, "sensitive",
                 GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE
             )
-            self.preferences_page.add(group)
+            self.preferences_page.add(section)
 
         pack = self.backend.get_package()
         self.package_combobox.setup_list(pack, self.backend)
