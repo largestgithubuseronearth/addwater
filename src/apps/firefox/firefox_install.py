@@ -36,9 +36,8 @@ def install_for_firefox(profile: AppProfile, theme_path: PathLike) -> None:
     InstallManager at runtime. If it isn't obvious, this should not be reused for
     installing other app themes.
 
-    Args:
-        theme_path: path to the extracted theme folder. Likely inside `[app_path]/cache/add-water/downloads/`
-        profile_path: path to the profile folder in which the theme will be installed.
+    :theme_path: path to the extracted theme folder. Likely inside `[app_path]/cache/add-water/downloads/`
+    :profile_path: path to the profile folder in which the theme will be installed.
 
     """
     # Check paths to ensure they exist
