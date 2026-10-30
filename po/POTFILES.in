@@ -7,13 +7,11 @@ data/gtk/pack-selector.ui
 data/gtk/preferences.ui
 data/gtk/profile-selector.ui
 data/gtk/shortcuts-dialog.ui
-data/gtk/theme-pref-group.ui
 data/gtk/theme-pref-switch.ui
 data/gtk/window.ui
 
 src/apps/firefox/firefox_options.py
 src/gui/preferences.py
-src/main.py
 src/page.py
 src/utils/background.py
 src/window.py
