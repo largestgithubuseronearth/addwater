@@ -39,6 +39,7 @@
     ],
     "modules" : [
         "python3-requirements.json",
+        "python3-requirements.dev.json",
         {
             "name" : "addwater",
             "buildsystem" : "meson",
