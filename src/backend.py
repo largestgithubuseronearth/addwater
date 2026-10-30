@@ -20,13 +20,10 @@
 import logging
 from enum import Enum
 from os.path import join
-from typing import Any
 
 from addwater.apps.firefox import FirefoxAppDetails, FirefoxPack
 from addwater.components import InstallManager, InstallStatus, OnlineManager
-from addwater.model import AppProfile
-from addwater.model import ThemePref, ThemePrefGroup
-from addwater.utils.mocks import mock_online
+from addwater.model import AppProfile, ThemePrefGroup
 from gi.repository import Gio
 from packaging.version import Version
 

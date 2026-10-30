@@ -24,7 +24,7 @@ from os.path import join
 from pathlib import Path
 
 from addwater import info
-from addwater.model import AppProfile, ThemePref, ThemePrefGroup
+from addwater.model import AppProfile, ThemePrefGroup
 from addwater.model.paths import aw_cache_dir
 from gi.repository import Gio
 from packaging.version import Version

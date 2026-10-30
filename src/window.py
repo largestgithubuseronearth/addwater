@@ -23,9 +23,9 @@ from datetime import datetime, timezone
 from os.path import join
 
 from addwater import info
-from addwater.utils.logs import log_dir
 from addwater.gui import Preferences
 from addwater.page import Page
+from addwater.utils.logs import log_dir
 from gi.repository import Adw, Gio, Gtk
 
 log = logging.getLogger("window")

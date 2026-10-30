@@ -1,4 +1,4 @@
-from typing import ReadOnly, TypedDict, NotRequired
+from typing import ReadOnly, TypedDict
 
 
 # TODO pass this into the PrefSwitch GUI class

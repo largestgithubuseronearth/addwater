@@ -21,10 +21,8 @@
 import logging
 
 from addwater import Backend, info
-from addwater.gui import PackSelector
+from addwater.gui import PackSelector, ThemePrefGrouping
 from addwater.model import ThemePref
-from addwater.gui import ThemePrefGrouping
-
 from gi.repository import Adw, Gio, GObject, Gtk
 from packaging.version import Version
 

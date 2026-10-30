@@ -4,6 +4,10 @@ builtins = ["_"]
 line-length = 79
 
 [lint]
+ignore = [
+  "TRY003",
+]
+
 extend-select = [
 	"A",
 	"INT",

@@ -25,14 +25,13 @@
 import logging
 import os
 import sys
-
 from datetime import datetime, timezone
-from os.path import join
 from pathlib import Path
 
 from addwater.info import PROFILE, VERSION
 from addwater.model.paths import aw_cache_dir, ensure_exists
 from gi.repository import Adw, Gtk
+
 
 def log_dir() -> Path:
     return ensure_exists (aw_cache_dir() / "logs")

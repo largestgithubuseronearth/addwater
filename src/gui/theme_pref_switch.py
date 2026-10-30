@@ -1,9 +1,9 @@
 import logging
 
-from gi.repository import Gtk, Adw, GObject, Gio
-from gi.repository.GObject import ParamFlags as GParamFlags
 from addwater import info
 from addwater.model import ThemePref, ThemePrefGroup
+from gi.repository import Adw, Gio, GObject, Gtk
+from gi.repository.GObject import ParamFlags as GParamFlags
 
 log = logging.getLogger("theme-pref-switch")
 
