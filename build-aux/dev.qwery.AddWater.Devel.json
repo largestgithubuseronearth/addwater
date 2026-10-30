@@ -46,7 +46,6 @@
             "config-opts" : [
                 "-Dprofile=development",
                 "-Dtests=true",
-                "-Donline-mock=false",
                 "--libdir=lib"
             ],
             "sources" : [
