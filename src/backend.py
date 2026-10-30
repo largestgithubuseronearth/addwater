@@ -26,6 +26,7 @@ from addwater import info
 from addwater.apps.firefox import FirefoxAppDetails, FirefoxPack
 from addwater.components import InstallManager, InstallStatus, OnlineManager
 from addwater.model import AppProfile
+from addwater.model import ThemePref, ThemePrefGroup
 from addwater.utils.mocks import mock_online
 from gi.repository import Gio
 from packaging.version import Version
@@ -112,9 +113,8 @@ class Backend:
             gset = self.app_details.get_new_gsettings()
             options = self.app_details.get_options()
 
-            # TODO redo the options entirely into structs
             for group in options:
-                for option in group["options"]:
+                for option in group["prefs"]:
                     js_key = option["js_key"]
                     # TODO shouldn't need to check gsettings at this point.
                     #      associate the value to the option directly.
@@ -158,7 +158,7 @@ class Backend:
     def get_app_settings(self) -> Gio.Settings:
         return self.app_details.get_new_gsettings()
 
-    def get_app_options(self) -> list[dict[str, Any]]:
+    def get_app_options(self) -> list[ThemePrefGroup]:
         return self.app_details.get_options()
 
     def get_package(self) -> FirefoxPack:
@@ -200,7 +200,7 @@ class Backend:
 class InterfaceMisuseError(Exception):
     pass
 
-
+# TODO removed; unused
 class FatalInterfaceError(Exception):
     pass
 

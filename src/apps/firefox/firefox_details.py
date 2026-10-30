@@ -24,7 +24,7 @@ from os.path import join
 from pathlib import Path
 
 from addwater import info
-from addwater.model import AppProfile
+from addwater.model import AppProfile, ThemePref, ThemePrefGroup
 from addwater.model.paths import aw_cache_dir
 from gi.repository import Gio
 from packaging.version import Version
@@ -47,7 +47,7 @@ class FirefoxAppDetails:
 
     # install
     installer: Callable = install_for_firefox
-    options: list[dict] = FIREFOX_OPTIONS
+    options: list[ThemePrefGroup] = FIREFOX_OPTIONS
     package: FirefoxPack
 
     # online
@@ -97,7 +97,7 @@ class FirefoxAppDetails:
         self.settings.reset("profile-selected")
 
         for group in self.options:
-            for option in group["options"]:
+            for option in group["prefs"]:
                 gset_key = option["key"]
                 self.settings.reset(gset_key)
         log.info("done. gsettings reset")
@@ -135,9 +135,7 @@ class FirefoxAppDetails:
     def get_installed_version(self) -> Version:
         return self.installed_version
 
-    def get_options(self) -> list[dict]:
-        # TODO grab only the details the consumer would need.
-        #      Multiple methods or add a flag?
+    def get_options(self) -> list[ThemePrefGroup]:
         return self.options
 
     def get_profiles(self) -> list[AppProfile]:

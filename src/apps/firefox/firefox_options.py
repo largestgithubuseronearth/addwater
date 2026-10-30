@@ -4,7 +4,7 @@
 FIREFOX_OPTIONS = [
     {
         "group_name": _("Tab Position"),
-        "options": [
+        "prefs": [
             {
                 "key": "hide-single-tab",
                 "js_key": "hideSingleTab",
@@ -63,7 +63,7 @@ FIREFOX_OPTIONS = [
     },
     {
         "group_name": _("Tab Behavior"),
-        "options": [
+        "prefs": [
             {
                 "key": "active-tab-contrast",
                 "js_key": "activeTabContrast",
@@ -107,8 +107,8 @@ FIREFOX_OPTIONS = [
         ],
     },
     {
-        "group_name": "Style",
-        "options": [
+        "group_name": _("Style"),
+        "prefs": [
             {
                 "key": "hide-webrtc-indicator",
                 "js_key": "hideWebrtcIndicator",
