@@ -4,6 +4,8 @@
 		<file preprocess="xml-stripblanks">gtk/window.ui</file>
 		<file preprocess="xml-stripblanks" alias="shortcuts-dialog.ui">gtk/shortcuts-dialog.ui</file>
 		<file preprocess="xml-stripblanks">gtk/preferences.ui</file>
+		<file preprocess="xml-stripblanks">gtk/theme-pref-switch.ui</file>
+		<file preprocess="xml-stripblanks">gtk/theme-pref-group.ui</file>
 		<file preprocess="xml-stripblanks">gtk/pack-selector.ui</file>
 		<file preprocess="xml-stripblanks">gtk/profile-selector.ui</file>
 		<file preprocess="xml-stripblanks">gtk/addwater-page.ui</file>
