@@ -3,21 +3,20 @@
 # This file is distributed under the same license as the addwater package.
 # Anders Jonsson <anders.jonsson@norsjovallen.se>, 2025, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/largestgithubuseronearth/addwater/"
 "issues/\n"
-"POT-Creation-Date: 2026-06-21 20:18+0000\n"
-"PO-Revision-Date: 2026-07-23 22:39+0200\n"
+"POT-Creation-Date: 2026-10-30 22:38+0000\n"
+"PO-Revision-Date: 2026-11-03 22:31+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 
 #: data/dev.qwery.AddWater.desktop.in:2
 msgid "Add Water"
@@ -65,7 +64,7 @@ msgid "Supports light and dark style, as well as accent colors"
 msgstr "Stöder ljus och mörk stil, såväl som accentfärger"
 
 #: data/dev.qwery.AddWater.metainfo.xml.in:17
-#: src/apps/firefox/firefox_options.py:12
+#: src/apps/firefox/firefox_options.py:11
 msgid "Hide Tab Bar when only one tab is open"
 msgstr "Dölj flikraden när endast en flik är öppen"
 
@@ -212,6 +211,10 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Avsluta"
 
+#: data/gtk/theme-pref-switch.ui:16
+msgid "More Information"
+msgstr "Mer information"
+
 #: data/gtk/window.ui:39
 msgid "Main Menu"
 msgstr "Huvudmeny"
@@ -228,15 +231,15 @@ msgstr "_Tangentbordsgenvägar"
 msgid "_About Add Water"
 msgstr "_Om Add Water"
 
-#: src/apps/firefox/firefox_options.py:6
+#: src/apps/firefox/firefox_options.py:5
 msgid "Tab Position"
 msgstr "Flikposition"
 
-#: src/apps/firefox/firefox_options.py:11
+#: src/apps/firefox/firefox_options.py:10
 msgid "Hide Single Tab"
 msgstr "Dölj ensam flik"
 
-#: src/apps/firefox/firefox_options.py:14
+#: src/apps/firefox/firefox_options.py:13
 msgid ""
 "Consider placing the New Tab button near the Search Bar. Otherwise it may "
 "get lost when only one tab is open."
@@ -244,39 +247,39 @@ msgstr ""
 "Överväg att placera Ny flik-knappen nära sökraden. Annars kan den tappas "
 "bort då endast en flik är öppen."
 
-#: src/apps/firefox/firefox_options.py:21
+#: src/apps/firefox/firefox_options.py:20
 msgid "Standard Tab Width"
 msgstr "Standardflikbredd"
 
-#: src/apps/firefox/firefox_options.py:22
+#: src/apps/firefox/firefox_options.py:21
 msgid "Use same tab width as standard Firefox"
 msgstr "Använd samma flikbredd som standard-Firefox"
 
-#: src/apps/firefox/firefox_options.py:29
+#: src/apps/firefox/firefox_options.py:28
 msgid "Swap Tab Close Button"
 msgstr "Växla flikstängningsknapp"
 
-#: src/apps/firefox/firefox_options.py:31
+#: src/apps/firefox/firefox_options.py:30
 msgid "Place Close Tab button on opposite side from window controls"
 msgstr "Placera Stäng flik-knapp på motsatt sida från fönsterkontroller"
 
-#: src/apps/firefox/firefox_options.py:39
+#: src/apps/firefox/firefox_options.py:38
 msgid "Bookmarks Toolbar Under Tabs"
 msgstr "Verktygsfält för bokmärken under flikar"
 
-#: src/apps/firefox/firefox_options.py:40
+#: src/apps/firefox/firefox_options.py:39
 msgid "Place Bookmarks Bar underneath Tab Bar"
 msgstr "Placera bokmärkesrad under flikrad"
 
-#: src/apps/firefox/firefox_options.py:47
+#: src/apps/firefox/firefox_options.py:46
 msgid "Tabs as Headerbar"
 msgstr "Flikar som rubrikrad"
 
-#: src/apps/firefox/firefox_options.py:48
+#: src/apps/firefox/firefox_options.py:47
 msgid "Place Tab Bar at top of window"
 msgstr "Placera flikrad högst upp i fönstret"
 
-#: src/apps/firefox/firefox_options.py:50
+#: src/apps/firefox/firefox_options.py:49
 msgid ""
 "Enabling with \"Hide Single Tab\" will show a Title Bar when only one tab is "
 "open"
@@ -284,200 +287,198 @@ msgstr ""
 "Aktivering med ”Dölj ensam flik” kommer visa en namnlist då endast en flik "
 "är öppen"
 
-#: src/apps/firefox/firefox_options.py:57
+#: src/apps/firefox/firefox_options.py:56
 msgid "Left-Aligned Titles"
 msgstr "Vänsterjusterade titlar"
 
-#: src/apps/firefox/firefox_options.py:58
+#: src/apps/firefox/firefox_options.py:57
 msgid "Align tab title to left"
 msgstr "Justera fliktitel till vänster"
 
-#: src/apps/firefox/firefox_options.py:65
+#: src/apps/firefox/firefox_options.py:64
 msgid "Tab Behavior"
 msgstr "Flikbeteende"
 
-#: src/apps/firefox/firefox_options.py:70
+#: src/apps/firefox/firefox_options.py:69
 msgid "Active Tab Contrast"
 msgstr "Aktiv flikkontrast"
 
-#: src/apps/firefox/firefox_options.py:71
+#: src/apps/firefox/firefox_options.py:70
 msgid "Add more visual contrast to the active tab"
 msgstr "Lägg till mer visuell kontrast till den aktiva fliken"
 
-#: src/apps/firefox/firefox_options.py:78
+#: src/apps/firefox/firefox_options.py:77
 msgid "Close Only Selected Tabs"
 msgstr "Stäng endast valda flikar"
 
-#: src/apps/firefox/firefox_options.py:79
+#: src/apps/firefox/firefox_options.py:78
 msgid "Only show the Close Tab button on the active tab"
 msgstr "Visa endast stängningsknappen på den aktiva fliken"
 
-#: src/apps/firefox/firefox_options.py:86
+#: src/apps/firefox/firefox_options.py:85
 msgid "Symbolic Tab Icons"
 msgstr "Symboliska flikikoner"
 
-#: src/apps/firefox/firefox_options.py:87
+#: src/apps/firefox/firefox_options.py:86
 msgid "Make all tab icons appear similar to symbolic icons"
 msgstr "Få alla flikikoner att likna symboliska ikoner"
 
-#: src/apps/firefox/firefox_options.py:94
+#: src/apps/firefox/firefox_options.py:93
 msgid "List of Tabs"
 msgstr "Fliklista"
 
-#: src/apps/firefox/firefox_options.py:95
+#: src/apps/firefox/firefox_options.py:94
 msgid "Always show All Tabs button"
 msgstr "Visa alltid Alla flikar-knapp"
 
-#: src/apps/firefox/firefox_options.py:102
+#: src/apps/firefox/firefox_options.py:101
 msgid "List of Tabs on Overflow"
 msgstr "Fliklista vid överspill"
 
-#: src/apps/firefox/firefox_options.py:103
+#: src/apps/firefox/firefox_options.py:102
 msgid "Only show All Tabs button when many tabs are open"
 msgstr "Visa endast Alla flikar-knapp då många flikar är öppna"
 
-#: src/apps/firefox/firefox_options.py:115
+#: src/apps/firefox/firefox_options.py:109
+msgid "Style"
+msgstr "Stil"
+
+#: src/apps/firefox/firefox_options.py:114
 msgid "Hide Privacy Indicators"
 msgstr "Dölj sekretessindikatorer"
 
-#: src/apps/firefox/firefox_options.py:116
+#: src/apps/firefox/firefox_options.py:115
 msgid "Hide microphone, screen share, and camera warnings"
 msgstr "Dölj varningar för mikrofon, skärmdelning och kamera"
 
-#: src/apps/firefox/firefox_options.py:118
+#: src/apps/firefox/firefox_options.py:117
 msgid "GNOME will still show these privacy indicators in the Top Bar"
 msgstr "GNOME kommer fortfarande visa dessa sekretessindikatorer i systemraden"
 
-#: src/apps/firefox/firefox_options.py:125
+#: src/apps/firefox/firefox_options.py:124
 msgid "True Black Dark Theme"
 msgstr "Kolsvart mörkt tema"
 
-#: src/apps/firefox/firefox_options.py:127
+#: src/apps/firefox/firefox_options.py:126
 msgid "Use an OLED-friendly, deep black when dark theme is enabled"
 msgstr "Använd ett OLED-vänlig kolsvart färg när mörkt tema är aktiverat"
 
-#: src/apps/firefox/firefox_options.py:135
+#: src/apps/firefox/firefox_options.py:134
 msgid "No Themed Icons"
 msgstr "Inga temaikoner"
 
-#: src/apps/firefox/firefox_options.py:137
+#: src/apps/firefox/firefox_options.py:136
 msgid "Use standard Firefox icons instead of Adwaita-styled icons"
 msgstr "Använd Firefox-standardikoner i stället för ikoner med Adwaita-stil"
 
-#: src/apps/firefox/firefox_options.py:145
+#: src/apps/firefox/firefox_options.py:144
 msgid "Fullscreen Bookmarks"
 msgstr "Helskärmsbokmärken"
 
-#: src/apps/firefox/firefox_options.py:146
+#: src/apps/firefox/firefox_options.py:145
 msgid "Show Bookmarks bar while in fullscreen"
 msgstr "Visa bokmärkesraden i helskärmsläge"
 
-#: src/gui/option_factory.py:87
-msgid "More Information"
-msgstr "Mer information"
-
-#: src/gui/preferences.py:83
+#: src/gui/preferences.py:75
 msgid "Checking for theme updates"
 msgstr "Letar efter temauppdateringar"
 
-#: src/utils/background.py:98
-msgid "Theme updated"
-msgstr "Tema uppdaterat"
-
-#: src/utils/background.py:99
-msgid "Firefox GNOME Theme Updated"
-msgstr "GNOME-tema för Firefox uppdaterat"
-
-#: src/utils/background.py:101
-msgid "Theme Update Failed"
-msgstr "Temauppdatering misslyckades"
-
-#: src/utils/background.py:102
-msgid "Could not check for theme updates due to a network issue"
-msgstr ""
-"Kunde inte leta efter temauppdateringar på grund av ett nätverksproblem"
-
-#: src/utils/background.py:104
-msgid "Theme Installation failed"
-msgstr "Temainstallation misslyckades"
-
-#: src/utils/background.py:105
-msgid "A theme update was downloaded but installation failed"
-msgstr "En temauppdatering hämtades men installationen misslyckades"
-
-#: src/page.py:78
+#: src/page.py:73
 msgid "Checking for updates..."
 msgstr "Letar efter uppdateringar…"
 
 #. Translators: {} will be replaced by a version number (example: "v126.5.65")
-#: src/page.py:93
+#: src/page.py:88
+#, python-brace-format
 msgid "Updated theme to {}"
 msgstr "Uppdaterade tema till {}"
 
-#: src/page.py:95
+#: src/page.py:90
 msgid "Failed to check for updates due to a network issue"
 msgstr ""
 "Misslyckades med att leta efter temauppdateringar på grund av ett "
 "nätverksproblem"
 
-#: src/page.py:97
+#: src/page.py:92
 msgid "Failed to check for updates. Please try again later."
 msgstr "Misslyckades med att leta efter temauppdateringar. Försök igen senare."
 
-#: src/page.py:99
+#: src/page.py:94
 msgid "Unknown error has occurred. Please report this to developer."
 msgstr "Ett okänt fel har inträffat. Rapportera detta till utvecklaren."
 
-#: src/page.py:117
+#: src/page.py:112
 msgid "Installed Theme. Restart Firefox to see changes."
 msgstr "Installerade tema. Starta om Firefox för att se ändringar."
 
-#: src/page.py:123
+#: src/page.py:118
 msgid "Removed Theme. Restart Firefox to see changes."
 msgstr "Tog bort tema. Starta om Firefox för att se ändringar."
 
-#: src/page.py:126
+#: src/page.py:121
 msgid "Installation failed"
 msgstr "Installationen misslyckades"
 
-#: src/page.py:132
+#: src/page.py:127
 msgid "Changes reverted"
 msgstr "Ändringar återställda"
 
 #. Translators: {} will be replaced with a version number (example: v132) or a status message
-#: src/page.py:238
+#: src/page.py:222
+#, python-brace-format
 msgid "Firefox GNOME Theme — {}"
 msgstr "GNOME-tema för Firefox — {}"
 
-#: src/page.py:242
+#: src/page.py:226
 msgid "Not installed"
 msgstr "Inte installerat"
 
+#: src/utils/background.py:97
+msgid "Theme updated"
+msgstr "Tema uppdaterat"
+
+#: src/utils/background.py:98
+msgid "Firefox GNOME Theme Updated"
+msgstr "GNOME-tema för Firefox uppdaterat"
+
+#: src/utils/background.py:100
+msgid "Theme Update Failed"
+msgstr "Temauppdatering misslyckades"
+
+#: src/utils/background.py:101
+msgid "Could not check for theme updates due to a network issue"
+msgstr ""
+"Kunde inte leta efter temauppdateringar på grund av ett nätverksproblem"
+
+#: src/utils/background.py:103
+msgid "Theme Installation failed"
+msgstr "Temainstallation misslyckades"
+
+#: src/utils/background.py:104
+msgid "A theme update was downloaded but installation failed"
+msgstr "En temauppdatering hämtades men installationen misslyckades"
+
 #. Translators: Replace this with "Your Name https://www.your-website.com" or "Your Name <your-email@example.com>"
-#: src/window.py:129
+#: src/window.py:126
 msgid "translator-credits"
 msgstr "Anders Jonsson <anders.jonsson@norsjovallen.se>"
 
 #. Translator: This is followed by a list of names
-#: src/window.py:132
+#: src/window.py:129
 msgid "Theme Created and Maintained by"
 msgstr "Tema skapat och underhålls av"
 
 #. Translators: {} will be replaced with the app name ("Firefox" or "Thunderbird")
-#: src/window.py:150
+#: src/window.py:147
+#, python-brace-format
 msgid "{} Profile Data Not Found"
 msgstr "{}-profildata hittades inte"
 
-#: src/window.py:153
+#: src/window.py:150
+#, python-brace-format
 msgid ""
 "Please ensure {} is installed and Add Water has permission to access your "
 "profiles"
 msgstr ""
 "Säkerställ att {} är installerat och att Add Water har rättighet att komma "
 "åt dina profiler"
-
-#~ msgid "Automatically Discover"
-#~ msgstr "Upptäck automatiskt"
-
-#~ msgid "Open Help Page"
-#~ msgstr "Öppna hjälpsida"
